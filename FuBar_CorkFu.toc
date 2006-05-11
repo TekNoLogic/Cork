@@ -1,0 +1,11 @@
+## Interface: 11000
+## Title: FuBar - |cffffffffCork|cff00ff00Fu|r
+## Notes: Track needed buffs, debuffs and more
+## Author: Tekkub Stoutwrithe
+## Version: $Revision: 1192 $
+## LastUpdate: $Date: 2006-04-30 00:29:13 -0500 (Sun, 30 Apr 2006) $
+## RequiredDeps: Ace, FuBar, SpecialEvents
+
+Core.lua
+
+Priest\PWFort.lua
