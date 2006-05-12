@@ -1,6 +1,6 @@
 
 local _, c = UnitClass("player")
-if c ~= "PRIEST" then return end
+if c ~= "DRUID" then return end
 
 local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
 
