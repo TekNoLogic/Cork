@@ -92,8 +92,10 @@ end
 
 function FuBar_CorkFu:GetTopItem()
 	for i in pairs(self.var.modules) do
-		for unit,val in pairs(i.tagged) do
-			if (GetNumRaidMembers() == 0 or not partyunits[unit]) and val == true then return i, unit end
+		if tektech:SpellKnown(i.loc.spell) then
+			for unit,val in pairs(i.tagged) do
+				if (GetNumRaidMembers() == 0 or not partyunits[unit]) and val == true then return i, unit end
+			end
 		end
 	end
 end
