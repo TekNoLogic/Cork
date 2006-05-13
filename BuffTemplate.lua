@@ -8,6 +8,7 @@ CorkFu_BuffTemplate = {}
 function CorkFu_BuffTemplate:New(info)
 	local bt = AceAddon:new(info)
 	for i,v in pairs(template) do bt[i] = v end
+	bt.tagged = {}
 	bt:RegisterForLoad()
 	return bt
 end
@@ -71,7 +72,7 @@ end
 ------------------------------
 
 function template:SPECIAL_UNIT_BUFF_GAINED(unit, buff)
-	if buff ~= self.loc.buff and (not self.loc.multibuff or buff ~= self.loc.multibuff) then return end
+	if buff ~= self.loc.spell and (not self.loc.multispell or buff ~= self.loc.multispell) then return end
 
 	self.tagged[unit] = buff
 	self:TriggerEvent("CORKFU_UPDATE")
@@ -79,7 +80,7 @@ end
 
 
 function template:SPECIAL_UNIT_BUFF_LOST(unit, buff)
-	if buff ~= self.loc.buff and (not self.loc.multibuff or buff ~= self.loc.multibuff) then return end
+	if buff ~= self.loc.spell and (not self.loc.multispell or buff ~= self.loc.multispell) then return end
 
 	if self.tagged[unit] == buff then
 		self.tagged[unit] = true
@@ -95,8 +96,8 @@ function template:SPECIAL_AURA_TARGETCHANGED()
 		return
 	end
 
-	local sb = seaura:UnitHasBuff("target", self.loc.buff)
-	local mb = self.loc.multibuff and seaura:UnitHasBuff("target", self.loc.multibuff)
+	local sb = seaura:UnitHasBuff("target", self.loc.spell)
+	local mb = self.loc.multispell and seaura:UnitHasBuff("target", self.loc.multispell)
 	self.tagged.target = sb or mb or true
 	self:TriggerEvent("CORKFU_UPDATE")
 end
@@ -108,14 +109,14 @@ end
 
 function template:TestUnit(unit)
 	if not UnitExists(unit) then return end
-	local sb = seaura:UnitHasBuff(unit, self.loc.buff)
-	local mb = self.loc.multibuff and seaura:UnitHasBuff(unit, self.loc.multibuff)
+	local sb = seaura:UnitHasBuff(unit, self.loc.spell)
+	local mb = self.loc.multispell and seaura:UnitHasBuff(unit, self.loc.multispell)
 	self.tagged[unit] = sb or mb or true
 end
 
 
 function template:GetRank(unit)
-	if self.k.scalerank then
+	if self.k.ranklevels then
 		local plvl, ulvl = UnitLevel("player"), UnitLevel(unit)
 		for i,v in ipairs(self.k.ranklevels) do
 			local nextr = self.k.ranklevels[i+1]

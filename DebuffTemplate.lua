@@ -8,6 +8,7 @@ CorkFu_DebuffTemplate = {}
 function CorkFu_DebuffTemplate:New(info)
 	local bt = AceAddon:new(info)
 	for i,v in pairs(template) do bt[i] = v end
+	bt.tagged = {}
 	bt:RegisterForLoad()
 	return bt
 end
