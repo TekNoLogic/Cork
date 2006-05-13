@@ -56,12 +56,11 @@ function FuBar_CorkFu:CorkFirst()
 end
 
 
-local partyunits = {player = true, party1 = true, party2 = true, party3 = true, party4 = true}
 function FuBar_CorkFu:GetTopItem()
 	for i in pairs(self.var.modules) do
 		if i:ItemValid() then
 			for unit,val in pairs(i.tagged) do
-				if (GetNumRaidMembers() == 0 or not partyunits[unit]) and val == true then return i, unit end
+				if val == true and i:UnitValid(unit) then return i, unit end
 			end
 		end
 	end
@@ -71,19 +70,20 @@ end
 local iconpath = "Interface\\Icons\\"
 function FuBar_CorkFu:UpdateText()
 	local module, unit = self:GetTopItem()
-	self:SetText(unit and UnitName(unit) or "Cork")
+	self:SetText(unit and UnitName(unit) or "CorkFu")
 	self:SetIcon(module and (iconpath.. module.k.icon) or defaulticon)
 end
 
 
 local classcolors = {PALADIN = "|cFFF48CBA", WARRIOR = "|cFFC69B6D", WARLOCK = "|cFF9382C9", PRIEST = "|cFFFFFFFF", DRUID = "|cFFFF7C0A", MAGE = "|cFF68CCEF", ROGUE = "|cFFFFF468", SHAMAN = "|cFFF48CBA", HUNTER = "|cFFAAD372"}
 function FuBar_CorkFu:UpdateTooltip()
+	tablet:SetTitle("CorkFu")
 	for i in pairs(self.var.modules) do
 		if i:ItemValid() then
 			local cat = tablet:AddCategory("hideBlankLine", true)
 
 			for unit,val in pairs(i.tagged) do
-				if (GetNumRaidMembers() == 0 or not partyunits[unit]) and val == true and UnitExists(unit) then
+				if val == true and i:UnitValid(unit) then
 					local _, class = UnitClass(unit)
 					local name = ((UnitInParty(unit) or UnitInRaid(unit)) and classcolors[class] or "|cff00ff00").. UnitName(unit)
 					cat:AddLine("text", name, "func", i.PutACorkInIt, "arg1", i, "arg2", unit, "arg3", i, "hasCheck", true, "checked", true, "checkIcon", iconpath.. i.k.icon)

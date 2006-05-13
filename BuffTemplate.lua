@@ -47,6 +47,13 @@ function template:ItemValid()
 end
 
 
+local partyunits = {player = true, party1 = true, party2 = true, party3 = true, party4 = true}
+function template:UnitValid(unit)
+	return (GetNumRaidMembers() == 0 or not partyunits[unit])
+	and UnitExists(unit) and (not self.k.selfonly or UnitIsUnit(unit, "player"))
+end
+
+
 function template:PutACorkInIt(unit)
 	local spell, rank, retarget
 
