@@ -7,9 +7,12 @@
 ## RequiredDeps: Ace, FuBar
 
 SEAura\SEEmbedAura.lua
+TekTech\TekTechEmbed.lua
 
 Core.lua
+BuffTemplate.lua
 
-Priest\PWFort.lua
+Priest\Buffs.lua
 
+Druid\Buffs.lua
 Druid\Poison.lua

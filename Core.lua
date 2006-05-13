@@ -1,8 +1,10 @@
 
 local dewdrop = DewdropLib:GetInstance("1.0")
 local tablet = TabletLib:GetInstance('1.0')
+local tektech = TekTechEmbed:GetInstance("1")
 
 local defaulticon = "Interface\\Icons\\INV_Drink_11"
+
 FuBar_CorkFu = FuBarPlugin:GetInstance("1.2"):new({
 	name          = "FuBar - CorkFu",
 	version       = tonumber(string.sub("$Revision$", 12, -3)),
@@ -56,15 +58,19 @@ end
 
 
 function FuBar_CorkFu:PutACorkInIt(unit, module)
-	local rank, retarget = self:GetRank(unit, module)
+	if IsShiftKeyDown() then print("SHIFT") end
+	local spell, rank, retarget
+
+	if IsShiftKeyDown() and tektech:SpellKnown(module.loc.multispell) then spell = module.loc.multispell
+	else spell, rank = module.loc.spell, self:GetRank(unit, module) end
 
 	if UnitExists("target") and UnitIsFriend("player", "target") and not UnitIsUnit("target", unit) then
 		TargetUnit(unit)
 		retarget = true
 	end
 
-	if rank then CastSpellByName(module.loc.spell.."(Rank "..rank..")")
-	else CastSpellByName(module.loc.spell) end
+	if rank and tektech:SpellRankKnown(spell, rank) then CastSpellByName(string.format("%s(Rank %s)", spell, rank))
+	else CastSpellByName(spell) end
 
 	if SpellIsTargeting() then SpellTargetUnit(unit) end
 	if SpellIsTargeting() then SpellStopTargeting() end
@@ -77,7 +83,7 @@ function FuBar_CorkFu:GetRank(unit, module)
 		local plvl, ulvl = UnitLevel("player"), UnitLevel(unit)
 		for i,v in ipairs(module.k.ranklevels) do
 			local nextr = module.k.ranklevels[i+1]
-			if not nextr or nextr > plvl then return
+			if not nextr then return
 			elseif ulvl + 10 < nextr then return i end
 		end
 	end
@@ -101,17 +107,25 @@ function FuBar_CorkFu:UpdateText()
 end
 
 
+local classcolors = {
+	PALADIN = "|cFFF48CBA", WARRIOR = "|cFFC69B6D", WARLOCK = "|cFF9382C9", PRIEST = "|cFFFFFFFF",
+	DRUID = "|cFFFF7C0A", MAGE = "|cFF68CCEF", ROGUE = "|cFFFFF468", SHAMAN = "|cFFF48CBA", HUNTER = "|cFFAAD372",
+}
 local partyunits = {player = true, party1 = true, party2 = true, party3 = true, party4 = true}
 function FuBar_CorkFu:UpdateTooltip()
 	for i in pairs(self.var.modules) do
-		local cat = tablet:AddCategory()
+		if tektech:SpellKnown(i.loc.spell) then
+			local cat = tablet:AddCategory("hideBlankLine", true)
 
-		for unit,val in pairs(i.tagged) do
-			if (GetNumRaidMembers() == 0 or not partyunits[unit]) and val == true then
-				local normcast = i.k.usenormalcasting
-				local func = normcast and self.PutACorkInIt or i.PutACorkInIt
-				local a1 = normcast and self or i
-				cat:AddLine("text", UnitName(unit), "func", func, "arg1", a1, "arg2", unit, "arg3", i, "hasCheck", true, "checked", true, "checkIcon", iconpath.. i.k.icon)
+			for unit,val in pairs(i.tagged) do
+				if (GetNumRaidMembers() == 0 or not partyunits[unit]) and val == true and UnitExists(unit) then
+					local normcast = i.k.usenormalcasting
+					local func = normcast and self.PutACorkInIt or i.PutACorkInIt
+					local a1 = normcast and self or i
+					local _, class = UnitClass(unit)
+					local name = ((UnitInParty(unit) or UnitInRaid(unit)) and classcolors[class] or "|cff00ff00").. UnitName(unit)
+					cat:AddLine("text", name, "func", func, "arg1", a1, "arg2", unit, "arg3", i, "hasCheck", true, "checked", true, "checkIcon", iconpath.. i.k.icon)
+				end
 			end
 		end
 	end
