@@ -3,9 +3,9 @@ local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
 local tektech = TekTechEmbed:GetInstance("1")
 
 local template = {}
-CorkFu_BuffTemplate = {}
+CorkFu_DebuffTemplate = {}
 
-function CorkFu_BuffTemplate:New(info)
+function CorkFu_DebuffTemplate:New(info)
 	local bt = AceAddon:new(info)
 	for i,v in pairs(template) do bt[i] = v end
 	bt:RegisterForLoad()
@@ -25,8 +25,8 @@ function template:Enable()
 		for i=1,GetNumRaidMembers() do self:TestUnit("raid"..i) end
 	end
 
-	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_LOST")
-	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_GAINED")
+	seaura:RegisterEvent(self, "SPECIAL_UNIT_DEBUFF_GAINED")
+	seaura:RegisterEvent(self, "SPECIAL_UNIT_DEBUFF_LOST")
 	if not self.k.selfonly then seaura:RegisterEvent(self, "SPECIAL_AURA_TARGETCHANGED") end
 	self:TriggerEvent("CORKFU_UPDATE")
 end
@@ -47,18 +47,14 @@ end
 
 
 function template:PutACorkInIt(unit)
-	local spell, rank, retarget
-
-	if self.loc.multispell and IsShiftKeyDown() and tektech:SpellKnown(self.loc.multispell) then spell = self.loc.multispell
-	else spell, rank = self.loc.spell, self:GetRank(unit) end
+	local retarget
 
 	if UnitExists("target") and UnitIsFriend("player", "target") and not UnitIsUnit("target", unit) then
 		TargetUnit(unit)
 		retarget = true
 	end
-
-	if rank and tektech:SpellRankKnown(spell, rank) then CastSpellByName(string.format("%s(Rank %s)", spell, rank))
-	else CastSpellByName(spell) end
+	print(self.loc.betterspell and tektech:SpellKnown(self.loc.betterspell) or self.loc.spell)
+	CastSpellByName(self.loc.betterspell and tektech:SpellKnown(self.loc.betterspell) and self.loc.betterspell or self.loc.spell)
 
 	if SpellIsTargeting() then SpellTargetUnit(unit) end
 	if SpellIsTargeting() then SpellStopTargeting() end
@@ -70,21 +66,19 @@ end
 --      Event Handlers      --
 ------------------------------
 
-function template:SPECIAL_UNIT_BUFF_GAINED(unit, buff)
-	if buff ~= self.loc.buff and (not self.loc.multibuff or buff ~= self.loc.multibuff) then return end
+function template:SPECIAL_UNIT_DEBUFF_LOST(unit, debuff, apps, dbtype)
+	if dbtype ~= self.loc.debufftype then return end
 
-	self.tagged[unit] = buff
+	self.tagged[unit] = nil
 	self:TriggerEvent("CORKFU_UPDATE")
 end
 
 
-function template:SPECIAL_UNIT_BUFF_LOST(unit, buff)
-	if buff ~= self.loc.buff and (not self.loc.multibuff or buff ~= self.loc.multibuff) then return end
+function template:SPECIAL_UNIT_DEBUFF_GAINED(unit, debuff, apps, dbtype)
+	if dbtype ~= self.loc.debufftype then return end
 
-	if self.tagged[unit] == buff then
-		self.tagged[unit] = true
-		self:TriggerEvent("CORKFU_UPDATE")
-	end
+	self.tagged[unit] = true
+	self:TriggerEvent("CORKFU_UPDATE")
 end
 
 
@@ -95,9 +89,7 @@ function template:SPECIAL_AURA_TARGETCHANGED()
 		return
 	end
 
-	local sb = seaura:UnitHasBuff("target", self.loc.buff)
-	local mb = self.loc.multibuff and seaura:UnitHasBuff("target", self.loc.multibuff)
-	self.tagged.target = sb or mb or true
+	self.tagged.target = seaura:UnitHasDebuffType("target", self.loc.debufftype) and true
 	self:TriggerEvent("CORKFU_UPDATE")
 end
 
@@ -108,21 +100,7 @@ end
 
 function template:TestUnit(unit)
 	if not UnitExists(unit) then return end
-	local sb = seaura:UnitHasBuff(unit, self.loc.buff)
-	local mb = self.loc.multibuff and seaura:UnitHasBuff(unit, self.loc.multibuff)
-	self.tagged[unit] = sb or mb or true
-end
-
-
-function template:GetRank(unit)
-	if self.k.scalerank then
-		local plvl, ulvl = UnitLevel("player"), UnitLevel(unit)
-		for i,v in ipairs(self.k.ranklevels) do
-			local nextr = self.k.ranklevels[i+1]
-			if not nextr then return
-			elseif (ulvl + 10) < nextr then return i end
-		end
-	end
+	self.tagged[unit] = seaura:UnitHasDebuffType(unit, self.loc.debufftype) and true
 end
 
 

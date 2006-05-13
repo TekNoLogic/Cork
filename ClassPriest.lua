@@ -13,7 +13,6 @@ CorkFu_PWFort = CorkFu_BuffTemplate:New({
 	},
 	k = {
 		icon = "Spell_Holy_WordFortitude",
-		usenormalcasting = true,
 		scalerank = true,
 		ranklevels = {1,12,24,36,48,60},
 	},

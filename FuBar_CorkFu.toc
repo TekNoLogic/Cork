@@ -11,8 +11,7 @@ TekTech\TekTechEmbed.lua
 
 Core.lua
 BuffTemplate.lua
+DebuffTemplate.lua
 
-Priest\Buffs.lua
-
-Druid\Buffs.lua
-Druid\Poison.lua
+ClassDruid.lua
+ClassPriest.lua

@@ -3,8 +3,8 @@ local _, c = UnitClass("player")
 if c ~= "DRUID" then return end
 
 
-CorkFu_MotW = CorkFu_BuffTemplate:New({
-	name = "CorkFu_MotW",
+CorkFu_Druid_Mark = CorkFu_BuffTemplate:New({
+	name = "CorkFu_Druid_Mark",
 
 	loc = {
 		buff = "Mark of the Wild",
@@ -14,7 +14,6 @@ CorkFu_MotW = CorkFu_BuffTemplate:New({
 	},
 	k = {
 		icon = "Spell_Nature_Regeneration",
-		usenormalcasting = true,
 		scalerank = true,
 		ranklevels = {1,10,20,30,40,50,60},
 	},
@@ -22,8 +21,8 @@ CorkFu_MotW = CorkFu_BuffTemplate:New({
 })
 
 
-CorkFu_Thorns = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Thorns",
+CorkFu_Druid_Thorns = CorkFu_BuffTemplate:New({
+	name = "CorkFu_Druid_Thorns",
 
 	loc = {
 		buff = "Thorns",
@@ -31,7 +30,6 @@ CorkFu_Thorns = CorkFu_BuffTemplate:New({
 	},
 	k = {
 		icon = "Spell_Nature_Thorns",
-		usenormalcasting = true,
 		scalerank = true,
 		ranklevels = {6,14,24,34,44,54},
 	},
@@ -39,8 +37,8 @@ CorkFu_Thorns = CorkFu_BuffTemplate:New({
 })
 
 
-CorkFu_Omen = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Omen",
+CorkFu_Druid_Omen = CorkFu_BuffTemplate:New({
+	name = "CorkFu_Druid_Omen",
 
 	loc = {
 		buff = "Omen of Clarity",
@@ -49,7 +47,21 @@ CorkFu_Omen = CorkFu_BuffTemplate:New({
 	k = {
 		selfonly = true,
 		icon = "Spell_Nature_CrystalBall",
-		usenormalcasting = true,
+	},
+	tagged = {},
+})
+
+CorkFu_Druid_Poison = CorkFu_DebuffTemplate:New({
+	name          = "CorkFu_Druid_Poison",
+	cmd           = AceChatCmd:new({}, {}),
+
+	loc = {
+		debufftype = "Poison",
+		spell = "Cure Poison",
+		betterspell = "Abolish Poison",
+	},
+	k = {
+		icon = "Spell_Nature_NullifyPoison",
 	},
 	tagged = {},
 })
