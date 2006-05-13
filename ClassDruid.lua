@@ -6,11 +6,9 @@ if c ~= "DRUID" then return end
 CorkFu_Druid_Mark = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Druid_Mark",
 
-	loc = {
+	k = {
 		spell = "Mark of the Wild",
 		multispell = "Gift of the Wild",
-	},
-	k = {
 		icon = "Spell_Nature_Regeneration",
 		ranklevels = {1,10,20,30,40,50,60},
 	},
@@ -20,10 +18,8 @@ CorkFu_Druid_Mark = CorkFu_BuffTemplate:New({
 CorkFu_Druid_Thorns = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Druid_Thorns",
 
-	loc = {
-		spell = "Thorns",
-	},
 	k = {
+		spell = "Thorns",
 		icon = "Spell_Nature_Thorns",
 		ranklevels = {6,14,24,34,44,54},
 	},
@@ -33,10 +29,8 @@ CorkFu_Druid_Thorns = CorkFu_BuffTemplate:New({
 CorkFu_Druid_Omen = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Druid_Omen",
 
-	loc = {
-		spell = "Omen of Clarity",
-	},
 	k = {
+		spell = "Omen of Clarity",
 		selfonly = true,
 		icon = "Spell_Nature_CrystalBall",
 	},
@@ -46,12 +40,10 @@ CorkFu_Druid_Poison = CorkFu_DebuffTemplate:New({
 	name          = "CorkFu_Druid_Poison",
 	cmd           = AceChatCmd:new({}, {}),
 
-	loc = {
+	k = {
 		debufftype = "Poison",
 		spell = "Cure Poison",
 		betterspell = "Abolish Poison",
-	},
-	k = {
 		icon = "Spell_Nature_NullifyPoison",
 	},
 })

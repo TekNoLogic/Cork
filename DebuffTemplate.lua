@@ -43,7 +43,7 @@ end
 ----------------------------
 
 function template:ItemValid()
-	return tektech:SpellKnown(self.loc.spell)
+	return tektech:SpellKnown(self.k.spell)
 end
 
 
@@ -60,8 +60,8 @@ function template:PutACorkInIt(unit)
 		TargetUnit(unit)
 		retarget = true
 	end
-	print(self.loc.betterspell and tektech:SpellKnown(self.loc.betterspell) or self.loc.spell)
-	CastSpellByName(self.loc.betterspell and tektech:SpellKnown(self.loc.betterspell) and self.loc.betterspell or self.loc.spell)
+	print(self.k.betterspell and tektech:SpellKnown(self.k.betterspell) or self.k.spell)
+	CastSpellByName(self.k.betterspell and tektech:SpellKnown(self.k.betterspell) and self.k.betterspell or self.k.spell)
 
 	if SpellIsTargeting() then SpellTargetUnit(unit) end
 	if SpellIsTargeting() then SpellStopTargeting() end
@@ -74,7 +74,7 @@ end
 ------------------------------
 
 function template:SPECIAL_UNIT_DEBUFF_LOST(unit, debuff, apps, dbtype)
-	if dbtype ~= self.loc.debufftype then return end
+	if dbtype ~= self.k.debufftype then return end
 
 	self.tagged[unit] = nil
 	self:TriggerEvent("CORKFU_UPDATE")
@@ -82,7 +82,7 @@ end
 
 
 function template:SPECIAL_UNIT_DEBUFF_GAINED(unit, debuff, apps, dbtype)
-	if dbtype ~= self.loc.debufftype then return end
+	if dbtype ~= self.k.debufftype then return end
 
 	self.tagged[unit] = true
 	self:TriggerEvent("CORKFU_UPDATE")
@@ -96,7 +96,7 @@ function template:SPECIAL_AURA_TARGETCHANGED()
 		return
 	end
 
-	self.tagged.target = seaura:UnitHasDebuffType("target", self.loc.debufftype) and true
+	self.tagged.target = seaura:UnitHasDebuffType("target", self.k.debufftype) and true
 	self:TriggerEvent("CORKFU_UPDATE")
 end
 
@@ -107,7 +107,7 @@ end
 
 function template:TestUnit(unit)
 	if not UnitExists(unit) then return end
-	self.tagged[unit] = seaura:UnitHasDebuffType(unit, self.loc.debufftype) and true
+	self.tagged[unit] = seaura:UnitHasDebuffType(unit, self.k.debufftype) and true
 end
 
 

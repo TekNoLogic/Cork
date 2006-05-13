@@ -43,9 +43,9 @@ end
 ----------------------------
 
 function template:ItemValid()
-	if self.loc.spell then return tektech:SpellKnown(self.loc.spell) end
-	if self.loc.spells then
-		for i in pairs(self.loc.spells) do
+	if self.k.spell then return tektech:SpellKnown(self.k.spell) end
+	if self.k.spells then
+		for i in pairs(self.k.spells) do
 			if tektech:SpellKnown(i) then return true end
 		end
 	end
@@ -81,9 +81,9 @@ end
 ------------------------------
 
 function template:SPECIAL_UNIT_BUFF_GAINED(unit, buff)
-	if (not self.loc.spell or buff ~= self.loc.spell)
-	and (not self.loc.spells or not self.loc.spells[buff])
-	and (not self.loc.multispell or buff ~= self.loc.multispell) then return end
+	if (not self.k.spell or buff ~= self.k.spell)
+	and (not self.k.spells or not self.k.spells[buff])
+	and (not self.k.multispell or buff ~= self.k.multispell) then return end
 
 	self.tagged[unit] = buff
 	self:TriggerEvent("CORKFU_UPDATE")
@@ -91,9 +91,9 @@ end
 
 
 function template:SPECIAL_UNIT_BUFF_LOST(unit, buff)
-	if (not self.loc.spell or buff ~= self.loc.spell)
-	and (not self.loc.spells or not self.loc.spells[buff])
-	and (not self.loc.multispell or buff ~= self.loc.multispell) then return end
+	if (not self.k.spell or buff ~= self.k.spell)
+	and (not self.k.spells or not self.k.spells[buff])
+	and (not self.k.multispell or buff ~= self.k.multispell) then return end
 
 	if self.tagged[unit] == buff then
 		self.tagged[unit] = true
@@ -109,10 +109,10 @@ function template:SPECIAL_AURA_TARGETCHANGED()
 		return
 	end
 
-	local sb = self.loc.spell and seaura:UnitHasBuff("target", self.loc.spell)
-	local mb = self.loc.multispell and seaura:UnitHasBuff("target", self.loc.multispell)
-	if self.loc.spells then
-		for i in pairs(self.loc.spells) do
+	local sb = self.k.spell and seaura:UnitHasBuff("target", self.k.spell)
+	local mb = self.k.multispell and seaura:UnitHasBuff("target", self.k.multispell)
+	if self.k.spells then
+		for i in pairs(self.k.spells) do
 			if seaura:UnitHasBuff("target", i) then sb = i end
 		end
 	end
@@ -128,10 +128,10 @@ end
 function template:TestUnit(unit)
 	if not UnitExists(unit) then return end
 
-	local sb = self.loc.spell and seaura:UnitHasBuff("target", self.loc.spell)
-	local mb = self.loc.multispell and seaura:UnitHasBuff("target", self.loc.multispell)
-	if self.loc.spells then
-		for i in pairs(self.loc.spells) do
+	local sb = self.k.spell and seaura:UnitHasBuff("target", self.k.spell)
+	local mb = self.k.multispell and seaura:UnitHasBuff("target", self.k.multispell)
+	if self.k.spells then
+		for i in pairs(self.k.spells) do
 			if seaura:UnitHasBuff("target", i) then sb = i end
 		end
 	end
@@ -140,9 +140,9 @@ end
 
 
 function template:GetSpell(unit)
-	if self.loc.multispell and IsShiftKeyDown() and tektech:SpellKnown(self.loc.multispell) then return self.loc.multispell
-	elseif self.loc.spell then return self.loc.spell, self:GetRank(unit)
-	elseif self.loc.spells then return self.loc.defaultspell end
+	if self.k.multispell and IsShiftKeyDown() and tektech:SpellKnown(self.k.multispell) then return self.k.multispell
+	elseif self.k.spell then return self.k.spell, self:GetRank(unit)
+	elseif self.k.spells then return self.k.defaultspell end
 end
 
 

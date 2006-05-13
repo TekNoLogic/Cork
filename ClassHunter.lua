@@ -5,10 +5,8 @@ if c ~= "HUNTER" then return end
 CorkFu_Huntert_True = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Huntert_True",
 
-	loc = {
-		spell = "Trueshot Aura",
-	},
 	k = {
+		spell = "Trueshot Aura",
 		selfonly = true,
 		icon = "Ability_Trueshot",
 	},
@@ -18,7 +16,7 @@ CorkFu_Huntert_True = CorkFu_BuffTemplate:New({
 CorkFu_Huntert_Hawk = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Huntert_Hawk",
 
-	loc = {
+	k = {
 		spells = {
 			["Aspect of the Hawk"] = true,
 			["Aspect of the Beast"] = true,
@@ -28,8 +26,6 @@ CorkFu_Huntert_Hawk = CorkFu_BuffTemplate:New({
 			["Aspect of the Wild"] = true,
 		},
 		defaultspell = "Aspect of the Hawk",
-	},
-	k = {
 		selfonly = true,
 		icon = "Ability_Physical_Taunt",
 	},
