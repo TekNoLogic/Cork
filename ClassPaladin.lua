@@ -73,3 +73,40 @@ CorkFu_Paladin_Blessing = CorkFu_BuffTemplate:New({
 	},
 })
 
+
+CorkFu_Paladin_Magic = CorkFu_DebuffTemplate:New({
+	name = "CorkFu_Paladin_Magic",
+	nicename = "Remove Magic",
+
+	k = {
+		debufftype = "Magic",
+		spell = "Cleanse",
+		icon = "Spell_Holy_DispelMagic",
+	},
+})
+
+
+CorkFu_Paladin_Poison = CorkFu_DebuffTemplate:New({
+	name = "CorkFu_Paladin_Poison",
+	nicename = "Remove Poison",
+
+	k = {
+		debufftype = "Poison",
+		spell = "Purify",
+		betterspell = "Cleanse",
+		icon = "Spell_Nature_NullifyPoison",
+	},
+})
+
+
+CorkFu_Paladin_Disease = CorkFu_DebuffTemplate:New({
+	name = "CorkFu_Paladin_Disease",
+	nicename = "Remove Disease",
+
+	k = {
+		debufftype = "Disease",
+		spell = "Purify",
+		betterspell = "Cleanse",
+		icon = "Spell_Nature_NullifyDisease",
+	},
+})

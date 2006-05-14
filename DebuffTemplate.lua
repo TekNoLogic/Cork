@@ -67,7 +67,6 @@ function template:PutACorkInIt(unit)
 		TargetUnit(unit)
 		retarget = true
 	end
-	print(self.k.betterspell and tektech:SpellKnown(self.k.betterspell) or self.k.spell)
 	CastSpellByName(self.k.betterspell and tektech:SpellKnown(self.k.betterspell) and self.k.betterspell or self.k.spell)
 
 	if SpellIsTargeting() then SpellTargetUnit(unit) end
