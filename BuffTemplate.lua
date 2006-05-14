@@ -64,7 +64,6 @@ end
 
 
 function template:PutACorkInIt(unit)
-	print(unit or "nil")
 	local spell, rank, retarget = self:GetSpell(unit)
 
 	if UnitExists("target") and UnitIsFriend("player", "target") and not UnitIsUnit("target", unit) then
