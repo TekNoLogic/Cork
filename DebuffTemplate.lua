@@ -63,11 +63,11 @@ end
 function template:PutACorkInIt(unit)
 	local retarget
 
-	if UnitExists("target") and UnitIsFriend("player", "target") and not UnitIsUnit("target", unit) then
+	if UnitExists("target") and (UnitIsFriend("player", "target") or self.k.cantargetenemy) and not UnitIsUnit("target", unit) then
 		TargetUnit(unit)
 		retarget = true
 	end
-	CastSpellByName(self.k.betterspell and tektech:SpellKnown(self.k.betterspell) and self.k.betterspell or self.k.spell)
+	CastSpellByName(self:GetSpell(unit))
 
 	if SpellIsTargeting() then SpellTargetUnit(unit) end
 	if SpellIsTargeting() then SpellStopTargeting() end
@@ -128,4 +128,13 @@ function template:TestUnit(unit)
 	self.tagged[unit] = seaura:UnitHasDebuffType(unit, self.k.debufftype) and true
 end
 
+
+function template:GetSpell(unit)
+	if self.k.betterspell and tektech:SpellKnown(self.k.betterspell)
+	and (self.k.diffcost and IsShiftKeyDown() or not self.k.diffcost) then
+		return self.k.betterspell
+	end
+
+	return self.k.spell
+end
 

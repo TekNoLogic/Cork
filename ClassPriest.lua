@@ -97,3 +97,30 @@ CorkFu_Priest_ShadProt = CorkFu_BuffTemplate:New({
 		ranklevels = {30,42,56},
 	},
 })
+
+
+CorkFu_Priest_Disease = CorkFu_DebuffTemplate:New({
+	name = "CorkFu_Priest_Disease",
+	nicename = "Cure Disease",
+
+	k = {
+		debufftype = "Curse",
+		spell = "Cure Disease",
+		betterspell = "Abolish Disease",
+		diffcost = true,
+		icon = "Spell_Holy_NullifyDisease",
+	},
+})
+
+
+CorkFu_Priest_Magic = CorkFu_DebuffTemplate:New({
+	name = "CorkFu_Priest_Magic",
+	nicename = "Dispel Magic",
+
+	k = {
+		debufftype = "Curse",
+		spell = "Dispel Magic",
+		icon = "Spell_Holy_DispelMagic",
+		cantargetenemy = true,
+	},
+})

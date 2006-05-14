@@ -16,7 +16,12 @@ DebuffTemplate.lua
 
 ClassDruid.lua
 ClassHunter.lua
+ClassMage.lua
 ClassPaladin.lua
 ClassPriest.lua
+ClassRogue.lua
+ClassShaman.lua
+ClassWarrior.lua
+ClassWarlock.lua
 
 ClassHunterPetHappy.lua
