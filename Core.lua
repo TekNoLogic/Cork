@@ -184,6 +184,9 @@ function FuBar_CorkFu:Menu3Unit(value)
 			local pet = string.format("party%dpet", i)
 			if UnitExists(pet) then table.insert(sortlist, UnitName(pet)) end
 		end
+	else
+		table.insert(sortlist, UnitName("player"))
+		if UnitExists("pet") then table.insert(sortlist, UnitName("pet")) end
 	end
 
 	table.sort(sortlist, sortfunc2)

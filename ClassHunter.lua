@@ -2,8 +2,8 @@
 local _, c = UnitClass("player")
 if c ~= "HUNTER" then return end
 
-CorkFu_Huntert_True = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Huntert_True",
+CorkFu_Hunter_True = CorkFu_BuffTemplate:New({
+	name = "CorkFu_Hunter_True",
 	nicename = "Trueshot Aura",
 
 	k = {
@@ -14,8 +14,8 @@ CorkFu_Huntert_True = CorkFu_BuffTemplate:New({
 })
 
 
-CorkFu_Huntert_Hawk = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Huntert_Hawk",
+CorkFu_Hunter_Hawk = CorkFu_BuffTemplate:New({
+	name = "CorkFu_Hunter_Hawk",
 	nicename = "Aspects",
 
 	k = {
@@ -32,5 +32,4 @@ CorkFu_Huntert_Hawk = CorkFu_BuffTemplate:New({
 		icon = "Ability_Physical_Taunt",
 	},
 })
-
 

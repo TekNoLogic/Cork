@@ -68,8 +68,9 @@ CorkFu_Priest_Spirit = CorkFu_BuffTemplate:New({
 
 	k = {
 		spell = "Divine Spirit",
+		multispell = "Prayer of Spirit",
 		icon = "Spell_Holy_HolyProtection",
-		ranklevels = {40,42,54},
+		ranklevels = {30,40,50,60},
 	},
 })
 

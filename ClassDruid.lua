@@ -39,6 +39,7 @@ CorkFu_Druid_Omen = CorkFu_BuffTemplate:New({
 	},
 })
 
+
 CorkFu_Druid_Poison = CorkFu_DebuffTemplate:New({
 	name = "CorkFu_Druid_Poison",
 	nicename = "Cure Poison",
@@ -48,5 +49,17 @@ CorkFu_Druid_Poison = CorkFu_DebuffTemplate:New({
 		spell = "Cure Poison",
 		betterspell = "Abolish Poison",
 		icon = "Spell_Nature_NullifyPoison",
+	},
+})
+
+
+CorkFu_Druid_Curse = CorkFu_DebuffTemplate:New({
+	name = "CorkFu_Druid_Curse",
+	nicename = "Remove Curse",
+
+	k = {
+		debufftype = "Curse",
+		spell = "Remove Curse",
+		icon = "Spell_Nature_RemoveCurse",
 	},
 })
