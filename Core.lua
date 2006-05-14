@@ -261,9 +261,6 @@ end
 
 
 function FuBar_CorkFu:Menu4(level, value, inTooltip, value1, value2, value3, value4)
-	-- value == unit
-	-- value1 == set
-	-- value2 == module
 	self:MenuSpells(value2, value)
 end
 
@@ -346,7 +343,7 @@ function FuBar_CorkFu:UnitIsFiltered(module, unit)
 	if byname then return byname == -1 end
 
 	local _,class = UnitClass(unit)
-	local byclass = tektech:TableGetVal(self.data, module.name, "Filters", "Class: ".. class)
+	local byclass = class and tektech:TableGetVal(self.data, module.name, "Filters", "Class: ".. class)
 	if byclass then return byclass == -1 end
 
 	local i, g, byparty

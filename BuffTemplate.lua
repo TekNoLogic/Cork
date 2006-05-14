@@ -189,7 +189,7 @@ function template:GetSpell(unit)
 			if byname then return byname ~= -1 and byname or def end
 
 			local _,class = UnitClass(unit)
-			local byclass = tektech:TableGetVal(core.data, self.name, "Filters", "Class: ".. class)
+			local byclass = class and tektech:TableGetVal(core.data, self.name, "Filters", "Class: ".. class)
 			if byclass then return byclass ~= -1 and byclass or def end
 
 			local i, g, byparty
