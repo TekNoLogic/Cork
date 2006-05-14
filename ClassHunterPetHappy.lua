@@ -5,14 +5,13 @@ if c ~= "HUNTER" then return end
 local tektech = TekTechEmbed:GetInstance("1")
 
 local feedpet = "Feed Pet"
+local icon = "Ability_Hunter_BeastTraining"
 
 CorkFu_Hunter_PetHappy = AceAddon:new({
 	name = "CorkFu_Hunter_PetHappy",
 	nicename = "Pet Happiness",
 
-	k = {
-		icon = "Ability_Hunter_BeastTraining",
-	},
+	k = {},
 	tagged = {},
 })
 
@@ -50,6 +49,11 @@ end
 
 function CorkFu_Hunter_PetHappy:UnitValid(unit)
 	return unit == "pet" and UnitExists(unit) and not UnitIsDeadOrGhost(unit)
+end
+
+
+function CorkFu_Hunter_PetHappy:GetIcon()
+	return icon
 end
 
 

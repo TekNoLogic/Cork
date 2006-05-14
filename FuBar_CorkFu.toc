@@ -16,6 +16,7 @@ DebuffTemplate.lua
 
 ClassDruid.lua
 ClassHunter.lua
+ClassPaladin.lua
 ClassPriest.lua
 
 ClassHunterPetHappy.lua

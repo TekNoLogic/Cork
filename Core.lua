@@ -28,9 +28,18 @@ FuBar_CorkFu = FuBarPlugin:GetInstance("1.2"):new({
 --      Ace Methods      --
 ---------------------------
 
+local menus, menus3
 function FuBar_CorkFu:Initialize()
 	self.var.modules = {}
-	self.var.menus = {self.Menu1, self.Menu2, self.Menu3}
+	menus = {self.Menu1, self.Menu2, self.Menu3, self.Menu4}
+	menus3 = {
+		Everyone          = self.Menu3Everyone,
+		Unit              = self.Menu3Unit,
+		Class             = self.Menu3Class,
+		Party             = self.Menu3Party,
+		["Target Player"] = self.Menu3Everyone,
+		["Target NPC"]    = self.Menu3Everyone,
+	}
 end
 
 
@@ -70,8 +79,9 @@ function FuBar_CorkFu:UpdateText()
 	local module, unit, class = self:GetTopItem()
 	if unit then _, class = UnitClass(unit) end
 	local name = class and (((UnitInParty(unit) or UnitInRaid(unit)) and classcolors[class] or "|cff00ff00").. UnitName(unit))
+	local icon = module and module.GetIcon and (iconpath.. module:GetIcon(unit)) or defaulticon
 	self:SetText(name or "CorkFu")
-	self:SetIcon(module and (iconpath.. module.k.icon) or defaulticon)
+	self:SetIcon(icon)
 end
 
 
@@ -85,7 +95,8 @@ function FuBar_CorkFu:UpdateTooltip()
 				if val == true and i:UnitValid(unit) and not self:UnitIsFiltered(i, unit) then
 					local _, class = UnitClass(unit)
 					local name = ((UnitInParty(unit) or UnitInRaid(unit)) and classcolors[class] or "|cff00ff00").. UnitName(unit)
-					cat:AddLine("text", name, "func", i.PutACorkInIt, "arg1", i, "arg2", unit, "arg3", i, "hasCheck", true, "checked", true, "checkIcon", iconpath.. i.k.icon)
+					local icon = i and i.GetIcon and (iconpath.. i:GetIcon(unit)) or defaulticon
+					cat:AddLine("text", name, "func", i.PutACorkInIt, "arg1", i, "arg2", unit, "arg3", i, "hasCheck", true, "checked", true, "checkIcon", icon)
 				end
 			end
 		end
@@ -96,8 +107,8 @@ end
 function FuBar_CorkFu:MenuSettings(level, value, inTooltip, value1, value2, value3, value4)
 	if inTooltip then return end
 
-	local m = self.var.menus[level]
-	if m then m(self, value, inTooltip, value1, value2, value3, value4) end
+	local m = menus[level]
+	if m then m(self, level, value, inTooltip, value1, value2, value3, value4) end
 end
 
 
@@ -107,16 +118,15 @@ end
 
 local xpath = "Interface\\AddOns\\FuBar_CorkFu\\X.tga"
 local sortfunc1 = function(a,b) return a and b and a.nicename < b.nicename end
-function FuBar_CorkFu:Menu1()
+function FuBar_CorkFu:Menu1(level, value, inTooltip, value1, value2, value3, value4)
 	local sortlist = compost:Acquire()
-	for i in pairs(self.var.modules) do
-		table.insert(sortlist, i)
-	end
+	for i in pairs(self.var.modules) do table.insert(sortlist, i) end
 	table.sort(sortlist, sortfunc1)
 
 	for _,v in ipairs(sortlist) do
-		if v:ItemValid() then
-			if v.k.selfonly then
+		if v.Menu then v:Menu(level, value, inTooltip, value1, value2, value3, value4)
+		elseif v:ItemValid() then
+			if v.k.selfonly and not v.k.spells then
 				local val = tektech:TableGetVal(self.data, v.name, "Filters", "Everyone")
 				local x
 				if val == nil then x = -1 end
@@ -130,44 +140,73 @@ function FuBar_CorkFu:Menu1()
 end
 
 
-function FuBar_CorkFu:Menu2(value)
+function FuBar_CorkFu:Menu2(level, value, inTooltip, value1, value2, value3, value4)
 	assert(self.var.modules[value], "Invalid Module")
+	if value.Menu then
+		value:Menu(level, value, inTooltip, value1, value2, value3, value4)
+		return
+	end
 
-	local everyone = tektech:TableGetVal(self.data, value.name, "Filters", "Everyone")
-	local pc = tektech:TableGetVal(self.data, value.name, "Filters", "Target Player")
-	local npc = tektech:TableGetVal(self.data, value.name, "Filters", "Target NPC")
+	if value.k.spells and value.k.selfonly then
+		self:MenuSpells(value, "Everyone")
+	elseif value.k.spells then
+		local everyone = tektech:TableGetVal(self.data, value.name, "Filters", "Everyone")
+		local pc = tektech:TableGetVal(self.data, value.name, "Filters", "Target Player")
+		local npc = tektech:TableGetVal(self.data, value.name, "Filters", "Target NPC")
 
-	dewdrop:AddLine("text", "Target Player", "func", self.ToggleFilter, "arg1", self, "arg2", value,
-		"arg3", "Target Player", "checked", pc, pc == -1 and "checkIcon", pc == -1 and xpath)
-	dewdrop:AddLine("text", "Target NPC", "func", self.ToggleFilter, "arg1", self, "arg2", value,
-		"arg3", "Target NPC", "checked", npc, npc == -1 and "checkIcon", npc == -1 and xpath)
-	dewdrop:AddLine("text", "Unit", "value", "Unit", "hasArrow", true)
-	dewdrop:AddLine("text", "Class", "value", "Class", "hasArrow", true)
-	dewdrop:AddLine("text", "Party", "value", "Party", "hasArrow", true)
-	dewdrop:AddLine("text", "Everyone", "func", self.ToggleFilter, "arg1", self, "arg2", value,
-		"arg3", "Everyone", "checked", everyone, everyone == -1 and "checkIcon", everyone == -1 and xpath)
+		dewdrop:AddLine("text", "Target Player", "value", "Target Player", "hasArrow", true)
+		dewdrop:AddLine("text", "Target NPC", "value", "Target NPC", "hasArrow", true)
+		dewdrop:AddLine("text", "Unit", "value", "Unit", "hasArrow", true)
+		dewdrop:AddLine("text", "Class", "value", "Class", "hasArrow", true)
+		dewdrop:AddLine("text", "Party", "value", "Party", "hasArrow", true)
+		dewdrop:AddLine("text", "Everyone", "value", "Everyone", "hasArrow", true)
+	else
+		local everyone = tektech:TableGetVal(self.data, value.name, "Filters", "Everyone")
+		local pc = tektech:TableGetVal(self.data, value.name, "Filters", "Target Player")
+		local npc = tektech:TableGetVal(self.data, value.name, "Filters", "Target NPC")
+
+		dewdrop:AddLine("text", "Target Player", "func", self.ToggleFilter, "arg1", self, "arg2", value,
+			"arg3", "Target Player", "checked", pc, pc == -1 and "checkIcon", pc == -1 and xpath)
+		dewdrop:AddLine("text", "Target NPC", "func", self.ToggleFilter, "arg1", self, "arg2", value,
+			"arg3", "Target NPC", "checked", npc, npc == -1 and "checkIcon", npc == -1 and xpath)
+		dewdrop:AddLine("text", "Unit", "value", "Unit", "hasArrow", true)
+		dewdrop:AddLine("text", "Class", "value", "Class", "hasArrow", true)
+		dewdrop:AddLine("text", "Party", "value", "Party", "hasArrow", true)
+		dewdrop:AddLine("text", "Everyone", "func", self.ToggleFilter, "arg1", self, "arg2", value,
+			"arg3", "Everyone", "checked", everyone, everyone == -1 and "checkIcon", everyone == -1 and xpath)
+	end
 end
 
 
-function FuBar_CorkFu:Menu3(value, inTooltip, value1)
-	if value == "Unit" then self:Menu3Unit(value1)
-	elseif value == "Class" then self:Menu3Class(value1)
-	elseif value == "Party" then self:Menu3Party(value1) end
+function FuBar_CorkFu:Menu3(level, value, inTooltip, value1, value2, value3, value4)
+	if value1.Menu then
+		value1:Menu(level, value, inTooltip, value1, value2, value3, value4)
+		return
+	elseif menus3[value] then menus3[value](self, level, value, inTooltip, value1, value2, value3, value4) end
 end
 
 
-function FuBar_CorkFu:Menu3Party(value)
+function FuBar_CorkFu:Menu3Everyone(level, value, inTooltip, value1, value2, value3, value4)
+	self:MenuSpells(value1, value)
+end
+
+
+function FuBar_CorkFu:Menu3Party(level, value, inTooltip, value1, value2, value3, value4)
 	for i=1,8 do
-		local p = tektech:TableGetVal(self.data, value.name, "Filters", "Party: "..i)
+		if value1.k.spells then
+			dewdrop:AddLine("text", "Party: "..i, "value", "Party: "..i, "hasArrow", true)
+		else
+			local p = tektech:TableGetVal(self.data, value1.name, "Filters", "Party: "..i)
 
-		dewdrop:AddLine("text", "Party "..i, "func", self.ToggleFilter, "arg1", self, "arg2", value,
-			"arg3", "Party: "..i, "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
+			dewdrop:AddLine("text", "Party "..i, "func", self.ToggleFilter, "arg1", self, "arg2", value1,
+				"arg3", "Party: "..i, "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
+		end
 	end
 end
 
 
 local sortfunc2 = function(a,b) return a<b end
-function FuBar_CorkFu:Menu3Unit(value)
+function FuBar_CorkFu:Menu3Unit(level, value, inTooltip, value1, value2, value3, value4)
 	local sortlist = compost:Acquire()
 	local pmem, rmem = GetNumPartyMembers(), GetNumRaidMembers()
 	if rmem > 0 then
@@ -192,10 +231,14 @@ function FuBar_CorkFu:Menu3Unit(value)
 	table.sort(sortlist, sortfunc2)
 
 	for i,v in ipairs(sortlist) do
-		local p = tektech:TableGetVal(self.data, value.name, "Filters", "Unit: "..v)
+		if value1.k.spells then
+			dewdrop:AddLine("text", "Unit: "..v, "value", "Unit: "..v, "hasArrow", true)
+		else
+			local p = tektech:TableGetVal(self.data, value1.name, "Filters", "Unit: "..v)
 
-		dewdrop:AddLine("text", v, "func", self.ToggleFilter, "arg1", self, "arg2", value,
-			"arg3", "Unit: "..v, "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
+			dewdrop:AddLine("text", v, "func", self.ToggleFilter, "arg1", self, "arg2", value1,
+				"arg3", "Unit: "..v, "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
+		end
 	end
 
 	compost:Reclaim(sortlist)
@@ -203,15 +246,54 @@ end
 
 
 local classes = {{"DRUID", "Druid"}, {"HUNTER", "Hunter"}, {"MAGE", "Mage"}, {"PALADIN", "Paladin"}, {"PRIEST", "Priest"}, {"ROGUE", "Rogue"}, {"SHAMAN", "Shaman"}, {"WARLOCK", "Warlock"}, {"WARRIOR", "Warrior"}}
-function FuBar_CorkFu:Menu3Class(value)
+function FuBar_CorkFu:Menu3Class(level, value, inTooltip, value1, value2, value3, value4)
 	for _,v in pairs (classes) do
-		local p = tektech:TableGetVal(self.data, value.name, "Filters", "Class: "..v[1])
+		if value1.k.spells then
+			dewdrop:AddLine("text", classcolors[v[1]]..v[2], "value", "Class: "..v[1], "hasArrow", true)
+		else
+			local p = tektech:TableGetVal(self.data, value1.name, "Filters", "Class: "..v[1])
 
-		dewdrop:AddLine("text", classcolors[v[1]]..v[2], "func", self.ToggleFilter, "arg1", self, "arg2", value,
-			"arg3", "Class: "..v[1], "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
+			dewdrop:AddLine("text", classcolors[v[1]]..v[2], "func", self.ToggleFilter, "arg1", self, "arg2", value1,
+				"arg3", "Class: "..v[1], "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
+		end
 	end
 end
 
+
+function FuBar_CorkFu:Menu4(level, value, inTooltip, value1, value2, value3, value4)
+	-- value == unit
+	-- value1 == set
+	-- value2 == module
+	self:MenuSpells(value2, value)
+end
+
+
+function FuBar_CorkFu:MenuSpells(module, unit)
+	assert(module, "No module passed")
+	assert(unit, "No unit passed")
+
+	local def = module.k.defaultspell
+	local val = tektech:TableGetVal(self.data, module.name, "Filters", unit) or (module.k.selfonly and def)
+	local sortlist = compost:Acquire()
+	for i in pairs(module.k.spells) do
+		if tektech:SpellKnown(i) then table.insert(sortlist, i) end
+	end
+	table.sort(sortlist)
+
+	if not module.k.selfonly then
+		dewdrop:AddLine("text", "No Filter", "func", self.SetFilter, "isRadio", true, "checked", not val, "arg1", self,
+			"arg2", module, "arg3", unit)
+	end
+	dewdrop:AddLine("text", "Disabled", "func", self.SetFilter, "isRadio", true, "checked", val == -1, "arg1", self,
+		"arg2", module, "arg3", unit, "arg4", -1)
+	for _,v in ipairs(sortlist) do
+		local setval = module.k.selfonly and v ~= def and v or not module.k.selfonly and v
+		dewdrop:AddLine("text", v, "func", self.SetFilter, "isRadio", true, "checked", val == v,
+			"arg1", self, "arg2", module, "arg3", unit, setval and "arg4", setval)
+	end
+
+	compost:Reclaim(sortlist)
+end
 
 ------------------------------
 --      Filter Methods      --

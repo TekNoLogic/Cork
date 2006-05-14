@@ -1,6 +1,7 @@
 
 local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
 local tektech = TekTechEmbed:GetInstance("1")
+local core = FuBar_CorkFu
 
 local template = {}
 CorkFu_BuffTemplate = {}
@@ -60,6 +61,15 @@ function template:UnitValid(unit)
 	return (self.k.selfonly and unit == "player")
 	or not self.k.selfonly and (GetNumRaidMembers() == 0 or (not partyunits[unit]))
 	and UnitExists(unit) and not UnitIsDeadOrGhost(unit) and UnitIsConnected(unit)
+end
+
+
+function template:GetIcon(unit)
+	if self.k.icons then
+		local spell = self:GetSpell(unit)
+		if spell and self.k.icons[spell] then return self.k.icons[spell]
+		else return self.k.icon end
+	else return self.k.icon end
 end
 
 
@@ -156,9 +166,44 @@ end
 
 
 function template:GetSpell(unit)
+	assert(unit, "No unit passed")
+	assert(UnitExists(unit), "Unit does not exist")
+
 	if self.k.multispell and IsShiftKeyDown() and tektech:SpellKnown(self.k.multispell) then return self.k.multispell
 	elseif self.k.spell then return self.k.spell, self:GetRank(unit)
-	elseif self.k.spells then return self.k.defaultspell end
+	elseif self.k.spells then
+		if self.k.selfonly then
+			return tektech:TableGetVal(core.data, self.name, "Filters", "Everyone") or self.k.defaultspell
+		else
+			local def = self.k.defaultspell
+			local istarget = unit == "target"
+			local ispc = UnitIsPlayer(unit) and not UnitInParty(unit) and not UnitInRaid(unit)
+
+			local pc = istarget and ispc and tektech:TableGetVal(core.data, self.name, "Filters", "Target Player")
+			if pc then return pc ~= -1 and pc or def end
+
+			local npc = istarget and not ispc and tektech:TableGetVal(core.data, self.name, "Filters", "Target NPC")
+			if npc then return npc ~= -1 and npc or def end
+
+			local byname = tektech:TableGetVal(core.data, self.name, "Filters", "Unit: "..UnitName(unit))
+			if byname then return byname ~= -1 and byname or def end
+
+			local _,class = UnitClass(unit)
+			local byclass = tektech:TableGetVal(core.data, self.name, "Filters", "Class: ".. class)
+			if byclass then return byclass ~= -1 and byclass or def end
+
+			local i, g, byparty
+			if GetNumRaidMembers() > 0 then _, _, i = string.find(unit, "raid(%d+)") end
+			if i then _, _, g = GetRaidRosterInfo(tonumber(i)) end
+			if g then byparty = tektech:TableGetVal(core.data, self.name, "Filters", "Party: "..g) end
+			if byparty then return byparty ~= -1 and byparty or def end
+
+			local everyone = tektech:TableGetVal(core.data, self.name, "Filters", "Everyone")
+			if everyone then return everyone ~= -1 and everyone or def end
+
+			return def
+		end
+	end
 end
 
 

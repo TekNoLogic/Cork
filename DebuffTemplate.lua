@@ -55,6 +55,11 @@ function template:UnitValid(unit)
 end
 
 
+function template:GetIcon(unit)
+	return self.k.icon
+end
+
+
 function template:PutACorkInIt(unit)
 	local retarget
 
