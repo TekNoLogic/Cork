@@ -4,6 +4,7 @@ if c ~= "HUNTER" then return end
 
 CorkFu_Huntert_True = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Huntert_True",
+	nicename = "Trueshot Aura",
 
 	k = {
 		spell = "Trueshot Aura",
@@ -15,6 +16,7 @@ CorkFu_Huntert_True = CorkFu_BuffTemplate:New({
 
 CorkFu_Huntert_Hawk = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Huntert_Hawk",
+	nicename = "Aspects",
 
 	k = {
 		spells = {

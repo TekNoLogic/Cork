@@ -20,15 +20,18 @@ end
 
 
 function template:Enable()
+	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_LOST")
+	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_GAINED")
+	if not self.k.selfonly then seaura:RegisterEvent(self, "SPECIAL_AURA_RAID_ROSTER_UPDATE") end
+	if not self.k.selfonly then seaura:RegisterEvent(self, "SPECIAL_AURA_PARTY_MEMBERS_CHANGED") end
+	if not self.k.selfonly then seaura:RegisterEvent(self, "SPECIAL_AURA_TARGETCHANGED") end
+
 	self:TestUnit("player")
 	if not self.k.selfonly then
 		for i=1,GetNumPartyMembers() do self:TestUnit("party"..i) end
 		for i=1,GetNumRaidMembers() do self:TestUnit("raid"..i) end
 	end
 
-	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_LOST")
-	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_GAINED")
-	if not self.k.selfonly then seaura:RegisterEvent(self, "SPECIAL_AURA_TARGETCHANGED") end
 	self:TriggerEvent("CORKFU_UPDATE")
 end
 
@@ -54,12 +57,14 @@ end
 
 local partyunits = {player = true, party1 = true, party2 = true, party3 = true, party4 = true}
 function template:UnitValid(unit)
-	return (GetNumRaidMembers() == 0 or not partyunits[unit])
-	and UnitExists(unit) and (not self.k.selfonly or UnitIsUnit(unit, "player"))
+	return (self.k.selfonly and unit == "player")
+	or not self.k.selfonly and (GetNumRaidMembers() == 0 or (not partyunits[unit]))
+	and UnitExists(unit) and not UnitIsDeadOrGhost(unit) and UnitIsConnected(unit)
 end
 
 
 function template:PutACorkInIt(unit)
+	print(unit or "nil")
 	local spell, rank, retarget = self:GetSpell(unit)
 
 	if UnitExists("target") and UnitIsFriend("player", "target") and not UnitIsUnit("target", unit) then
@@ -102,6 +107,18 @@ function template:SPECIAL_UNIT_BUFF_LOST(unit, buff)
 end
 
 
+function template:SPECIAL_AURA_RAID_ROSTER_UPDATE()
+	for i=1,GetNumRaidMembers() do self:TestUnit("raid"..i) end
+	self:TriggerEvent("CORKFU_UPDATE")
+end
+
+
+function template:SPECIAL_AURA_PARTY_MEMBERS_CHANGED()
+	for i=1,GetNumPartyMembers() do self:TestUnit("party"..i) end
+	self:TriggerEvent("CORKFU_UPDATE")
+end
+
+
 function template:SPECIAL_AURA_TARGETCHANGED()
 	if not UnitIsFriend("target", "player") then
 		self.tagged.target = nil
@@ -128,8 +145,8 @@ end
 function template:TestUnit(unit)
 	if not UnitExists(unit) then return end
 
-	local sb = self.k.spell and seaura:UnitHasBuff("target", self.k.spell)
-	local mb = self.k.multispell and seaura:UnitHasBuff("target", self.k.multispell)
+	local sb = self.k.spell and seaura:UnitHasBuff(unit, self.k.spell)
+	local mb = self.k.multispell and seaura:UnitHasBuff(unit, self.k.multispell)
 	if self.k.spells then
 		for i in pairs(self.k.spells) do
 			if seaura:UnitHasBuff("target", i) then sb = i end

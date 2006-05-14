@@ -28,6 +28,8 @@ function template:Enable()
 
 	seaura:RegisterEvent(self, "SPECIAL_UNIT_DEBUFF_GAINED")
 	seaura:RegisterEvent(self, "SPECIAL_UNIT_DEBUFF_LOST")
+	if not self.k.selfonly then seaura:RegisterEvent(self, "SPECIAL_AURA_RAID_ROSTER_UPDATE") end
+	if not self.k.selfonly then seaura:RegisterEvent(self, "SPECIAL_AURA_PARTY_MEMBERS_CHANGED") end
 	if not self.k.selfonly then seaura:RegisterEvent(self, "SPECIAL_AURA_TARGETCHANGED") end
 	self:TriggerEvent("CORKFU_UPDATE")
 end
@@ -85,6 +87,18 @@ function template:SPECIAL_UNIT_DEBUFF_GAINED(unit, debuff, apps, dbtype)
 	if dbtype ~= self.k.debufftype then return end
 
 	self.tagged[unit] = true
+	self:TriggerEvent("CORKFU_UPDATE")
+end
+
+
+function template:SPECIAL_AURA_RAID_ROSTER_UPDATE()
+	for i=1,GetNumRaidMembers() do self:TestUnit("raid"..i) end
+	self:TriggerEvent("CORKFU_UPDATE")
+end
+
+
+function template:SPECIAL_AURA_PARTY_MEMBERS_CHANGED()
+	for i=1,GetNumPartyMembers() do self:TestUnit("party"..i) end
 	self:TriggerEvent("CORKFU_UPDATE")
 end
 

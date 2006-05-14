@@ -5,6 +5,7 @@
 ## Version: $Revision$
 ## LastUpdate: $Date$
 ## RequiredDeps: Ace, FuBar
+## SavedVariables: CorkFuDB
 
 SEAura\SEEmbedAura.lua
 TekTech\TekTechEmbed.lua

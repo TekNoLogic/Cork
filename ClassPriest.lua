@@ -4,6 +4,7 @@ if c ~= "PRIEST" then return end
 
 CorkFu_Priest_PWFort = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Priest_PWFort",
+	nicename = "Power Word: Fortitude",
 
 	k = {
 		spell = "Power Word: Fortitude",
@@ -16,6 +17,7 @@ CorkFu_Priest_PWFort = CorkFu_BuffTemplate:New({
 
 CorkFu_Priest_TouchofWeak = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Priest_TouchofWeak",
+	nicename = "Touch of Weakness",
 
 	k = {
 		spell = "Touch of Weakness",
@@ -27,6 +29,7 @@ CorkFu_Priest_TouchofWeak = CorkFu_BuffTemplate:New({
 
 CorkFu_Priest_Feedback = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Priest_Feedback",
+	nicename = "Feedback",
 
 	k = {
 		spell = "Feedback",
@@ -38,6 +41,7 @@ CorkFu_Priest_Feedback = CorkFu_BuffTemplate:New({
 
 CorkFu_Priest_InnerFire = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Priest_InnerFire",
+	nicename = "Inner Fire",
 
 	k = {
 		spell = "Inner Fire",
@@ -49,6 +53,7 @@ CorkFu_Priest_InnerFire = CorkFu_BuffTemplate:New({
 
 CorkFu_Priest_FearWard = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Priest_FearWard",
+	nicename = "Fear Ward",
 
 	k = {
 		spell = "Fear Ward",
@@ -59,6 +64,7 @@ CorkFu_Priest_FearWard = CorkFu_BuffTemplate:New({
 
 CorkFu_Priest_Spirit = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Priest_Spirit",
+	nicename = "Divine Spirit",
 
 	k = {
 		spell = "Divine Spirit",
@@ -70,6 +76,7 @@ CorkFu_Priest_Spirit = CorkFu_BuffTemplate:New({
 
 CorkFu_Priest_PWShield = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Priest_PWShield",
+	nicename = "Power Word: Shield",
 
 	k = {
 		spell = "Power Word: Shield",
@@ -81,6 +88,7 @@ CorkFu_Priest_PWShield = CorkFu_BuffTemplate:New({
 
 CorkFu_Priest_ShadProt = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Priest_ShadProt",
+	nicename = "Shadow Protection",
 
 	k = {
 		spell = "Shadow Protection",
