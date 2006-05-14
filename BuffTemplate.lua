@@ -175,43 +175,58 @@ function template:GetSpell(unit)
 		if self.k.selfonly then
 			return tektech:TableGetVal(core.data, self.name, "Filters", "Everyone") or self.k.defaultspell
 		else
-			local def = self.k.defaultspell
-			local istarget = unit == "target"
-			local ispc = UnitIsPlayer(unit) and not UnitInParty(unit) and not UnitInRaid(unit)
+			local spell = self:GetSpellFilter(unit)
 
-			local pc = istarget and ispc and tektech:TableGetVal(core.data, self.name, "Filters", "Target Player")
-			if pc then return pc ~= -1 and pc or def end
+			local ms = self.k.multispells and self.k.multispells[spell]
+			if IsShiftKeyDown() and ms then return ms end
 
-			local npc = istarget and not ispc and tektech:TableGetVal(core.data, self.name, "Filters", "Target NPC")
-			if npc then return npc ~= -1 and npc or def end
-
-			local byname = tektech:TableGetVal(core.data, self.name, "Filters", "Unit: "..UnitName(unit))
-			if byname then return byname ~= -1 and byname or def end
-
-			local _,class = UnitClass(unit)
-			local byclass = class and tektech:TableGetVal(core.data, self.name, "Filters", "Class: ".. class)
-			if byclass then return byclass ~= -1 and byclass or def end
-
-			local i, g, byparty
-			if GetNumRaidMembers() > 0 then _, _, i = string.find(unit, "raid(%d+)") end
-			if i then _, _, g = GetRaidRosterInfo(tonumber(i)) end
-			if g then byparty = tektech:TableGetVal(core.data, self.name, "Filters", "Party: "..g) end
-			if byparty then return byparty ~= -1 and byparty or def end
-
-			local everyone = tektech:TableGetVal(core.data, self.name, "Filters", "Everyone")
-			if everyone then return everyone ~= -1 and everyone or def end
-
-			return def
+			local rank = self:GetRank(unit, self.k.spells[spell])
+			return spell, rank
 		end
 	end
 end
 
 
-function template:GetRank(unit)
-	if self.k.ranklevels then
+function template:GetSpellFilter(unit)
+	assert(unit, "No unit passed")
+	assert(UnitExists(unit), "Unit does not exist")
+
+	local def = self.k.defaultspell
+	local istarget = unit == "target"
+	local ispc = UnitIsPlayer(unit) and not UnitInParty(unit) and not UnitInRaid(unit)
+
+	local pc = istarget and ispc and tektech:TableGetVal(core.data, self.name, "Filters", "Target Player")
+	if pc then return pc ~= -1 and pc or def end
+
+	local npc = istarget and not ispc and tektech:TableGetVal(core.data, self.name, "Filters", "Target NPC")
+	if npc then return npc ~= -1 and npc or def end
+
+	local byname = tektech:TableGetVal(core.data, self.name, "Filters", "Unit: "..UnitName(unit))
+	if byname then return byname ~= -1 and byname or def end
+
+	local _,class = UnitClass(unit)
+	local byclass = class and tektech:TableGetVal(core.data, self.name, "Filters", "Class: ".. class)
+	if byclass then return byclass ~= -1 and byclass or def end
+
+	local i, g, byparty
+	if GetNumRaidMembers() > 0 then _, _, i = string.find(unit, "raid(%d+)") end
+	if i then _, _, g = GetRaidRosterInfo(tonumber(i)) end
+	if g then byparty = tektech:TableGetVal(core.data, self.name, "Filters", "Party: "..g) end
+	if byparty then return byparty ~= -1 and byparty or def end
+
+	local everyone = tektech:TableGetVal(core.data, self.name, "Filters", "Everyone")
+	if everyone then return everyone ~= -1 and everyone or def end
+
+	return def
+end
+
+
+function template:GetRank(unit, ranks)
+	local ranklevels = type(ranks) == "table" and ranks or self.k.ranklevels
+	if ranklevels then
 		local plvl, ulvl = UnitLevel("player"), UnitLevel(unit)
-		for i,v in ipairs(self.k.ranklevels) do
-			local nextr = self.k.ranklevels[i+1]
+		for i,v in ipairs(ranklevels) do
+			local nextr = ranklevels[i+1]
 			if not nextr then return
 			elseif (ulvl + 10) < nextr then return i end
 		end
