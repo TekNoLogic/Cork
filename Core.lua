@@ -98,15 +98,6 @@ function FuBar_CorkFu:MenuSettings(level, value, inTooltip, value1, value2, valu
 
 	local m = self.var.menus[level]
 	if m then m(self, value, inTooltip, value1, value2, value3, value4) end
-
---	local set = self.var.useset
---	local display = self.var.display
---	dewdrop:AddLine("text", "Metrognome", "isRadio", true, "checked", not set, "func", self.SetMode, "arg1", self, "arg2", nil)
---	dewdrop:AddLine("text", "OnUpdate Frames", "isRadio", true, "checked", set == 1, "func", self.SetMode, "arg1", self, "arg2", 1)
---	dewdrop:AddLine("text", "OnEvent Frames", "isRadio", true, "checked", set == 3, "func", self.SetMode, "arg1", self, "arg2", 3)
---	dewdrop:AddLine()
---	dewdrop:AddLine("text", "Time", "isRadio", true, "checked", not display, "func", self.SetDisplay, "arg1", self, "arg2", nil)
---	dewdrop:AddLine("text", "Memory", "isRadio", true, "checked", display == 1, "func", self.SetDisplay, "arg1", self, "arg2", 1)
 end
 
 
