@@ -323,7 +323,7 @@ function FuBar_CorkFu:UnitIsFiltered(module, unit)
 	assert(module, "No module passed")
 	assert(module.name, "Module does not have a name")
 	assert(unit, "No unit passed")
-	assert(UnitExists(unit), "Unit does not exist")
+	assert(UnitExists(unit), module.name.." - ".. unit.." does not exist")
 
 	if module.k.selfonly then
 		local v = tektech:TableGetVal(self.data, module.name, "Filters", "Everyone")
