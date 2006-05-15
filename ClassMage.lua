@@ -10,7 +10,7 @@ CorkFu_Mage_Intellect = CorkFu_BuffTemplate:New({
 	k = {
 		spell = "Arcane Intellect",
 		multispell = "Arcane Brilliance",
-		icon = "Spell_Holy_ArcaneIntellect",
+		icon = "Spell_Holy_MagicalSentry",
 		ranklevels = {1,14,28,42,56},
 	},
 })
