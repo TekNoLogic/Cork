@@ -190,6 +190,7 @@ end
 function template:GetSpellFilter(unit)
 	assert(unit, "No unit passed")
 	assert(UnitExists(unit), "Unit does not exist")
+	assert(self.k.defaultspell, "No default spell")
 
 	local def = self.k.defaultspell
 	local istarget = unit == "target"
