@@ -9,6 +9,7 @@
 
 SEAura\SEEmbedAura.lua
 TekTech\TekTechEmbed.lua
+DewdropLib\DewdropLib.lua
 
 Core.lua
 BuffTemplate.lua
