@@ -16,18 +16,6 @@ CorkFu_Mage_Intellect = CorkFu_BuffTemplate:New({
 })
 
 
-CorkFu_Mage_MageArmor = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Mage_MageArmor",
-	nicename = "Mage Armor",
-
-	k = {
-		spell = "Mage Armor",
-		icon = "Spell_MageArmor",
-		selfonly = true,
-	},
-})
-
-
 CorkFu_Mage_ManaShield = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Mage_ManaShield",
 	nicename = "Mana Shield",
@@ -42,12 +30,18 @@ CorkFu_Mage_ManaShield = CorkFu_BuffTemplate:New({
 
 CorkFu_Mage_IceArmor = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Mage_IceArmor",
-	nicename = "Frost/Ice Armor",
+	nicename = "Armor",
 
 	k = {
 		spells = {
-			["Ice Armor"] = true,
+			["Ice Armor"]   = true,
 			["Frost Armor"] = true,
+			["Mage Armor"]  = true,
+		},
+		icons = {
+			["Ice Armor"]   = "Spell_Frost_FrostArmor02",
+			["Frost Armor"] = "Spell_Frost_FrostArmor02",
+			["Mage Armor"]  = "Spell_MageArmor",
 		},
 		defaultspell = "Frost Armor",
 		selfonly = true,
