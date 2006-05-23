@@ -1,0 +1,5 @@
+<Bindings>
+  <Binding name="CORKFU_CORKFIRST" description="Put a cork in it!" header="FuBar - CorkFu">
+	FuBar_CorkFu:CorkFirst()
+  </Binding>
+</Bindings>

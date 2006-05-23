@@ -8,6 +8,7 @@
 ## SavedVariables: CorkFuDB
 
 SEAura\SEEmbedAura.lua
+SELearnSpell\SEEmbedLearnSpell.lua
 TekTech\TekTechEmbed.lua
 DewdropLib\DewdropLib.lua
 

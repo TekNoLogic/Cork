@@ -1,10 +1,28 @@
 
+BINDING_NAME_CORKFU_CORKFIRST = "Put a cork in it"
+
+------------------------------
+--      Are you local?      --
+------------------------------
+
+local selern = SpecialEventsEmbed:GetInstance("Learn Spell 1")
 local compost = CompostLib:GetInstance("compost-1")
 local dewdrop = DewdropLib:GetInstance("1.0")
 local tablet = TabletLib:GetInstance('1.0')
 local tektech = TekTechEmbed:GetInstance("1")
+local metro = Metrognome:GetInstance("1")
 
+local menus, menus3, classes
 local defaulticon = "Interface\\Icons\\INV_Drink_11"
+local iconpath = "Interface\\Icons\\"
+local xpath = "Interface\\AddOns\\FuBar_CorkFu\\X.tga"
+local classcolors = {PALADIN = "|cFFF48CBA", WARRIOR = "|cFFC69B6D", WARLOCK = "|cFF9382C9", PRIEST = "|cFFFFFFFF", DRUID = "|cFFFF7C0A", MAGE = "|cFF68CCEF", ROGUE = "|cFFFFF468", SHAMAN = "|cFFF48CBA", HUNTER = "|cFFAAD372"}
+local sortbyname = function(a,b) return a and b and a.nicename < b.nicename end
+
+
+-------------------------------------
+--      Namespace Declaration      --
+-------------------------------------
 
 FuBar_CorkFu = FuBarPlugin:GetInstance("1.2"):new({
 	name          = "FuBar - CorkFu",
@@ -28,8 +46,9 @@ FuBar_CorkFu = FuBarPlugin:GetInstance("1.2"):new({
 --      Ace Methods      --
 ---------------------------
 
-local menus, menus3
 function FuBar_CorkFu:Initialize()
+	classes = {"Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior"}
+
 	self.var.modules = {}
 	menus = {self.Menu1, self.Menu2, self.Menu3, self.Menu4}
 	menus3 = {
@@ -44,6 +63,7 @@ end
 
 
 function FuBar_CorkFu:Enable()
+	selern:RegisterEvent(self, "SPECIAL_LEARNED_SPELL")
 	self:RegisterEvent("CORKFU_REGISTER_MODULE")
 	self:RegisterEvent("CORKFU_UPDATE", "Update")
 end
@@ -51,6 +71,7 @@ end
 
 function FuBar_CorkFu:Disable()
 	self:UnregisterAllEvents()
+	selern:UnregisterAllEvents(self)
 end
 
 
@@ -64,6 +85,12 @@ function FuBar_CorkFu:CORKFU_REGISTER_MODULE(module)
 end
 
 
+function FuBar_CorkFu:SPECIAL_LEARNED_SPELL(spell, rank)
+	self:TriggerEvent("CORKFU_RESCAN", spell)
+	self:Update()
+end
+
+
 -----------------------------
 --      FuBar Methods      --
 -----------------------------
@@ -73,8 +100,6 @@ function FuBar_CorkFu:OnClick()
 end
 
 
-local iconpath = "Interface\\Icons\\"
-local classcolors = {PALADIN = "|cFFF48CBA", WARRIOR = "|cFFC69B6D", WARLOCK = "|cFF9382C9", PRIEST = "|cFFFFFFFF", DRUID = "|cFFFF7C0A", MAGE = "|cFF68CCEF", ROGUE = "|cFFFFF468", SHAMAN = "|cFFF48CBA", HUNTER = "|cFFAAD372"}
 function FuBar_CorkFu:UpdateText()
 	local module, unit, class = self:GetTopItem()
 	if unit then _, class = UnitClass(unit) end
@@ -116,12 +141,10 @@ end
 --      Menu Methods      --
 ----------------------------
 
-local xpath = "Interface\\AddOns\\FuBar_CorkFu\\X.tga"
-local sortfunc1 = function(a,b) return a and b and a.nicename < b.nicename end
 function FuBar_CorkFu:Menu1(level, value, inTooltip, value1, value2, value3, value4)
 	local sortlist = compost:Acquire()
 	for i in pairs(self.var.modules) do table.insert(sortlist, i) end
-	table.sort(sortlist, sortfunc1)
+	table.sort(sortlist, sortbyname)
 
 	for _,v in ipairs(sortlist) do
 		if v.Menu then v:Menu(level, value, inTooltip, value1, value2, value3, value4)
@@ -135,6 +158,9 @@ function FuBar_CorkFu:Menu1(level, value, inTooltip, value1, value2, value3, val
 			else dewdrop:AddLine("text", v.nicename or "No name???", "hasArrow", true, "value", v) end
 		end
 	end
+
+	dewdrop:AddLine()
+	dewdrop:AddLine("text", "Rescan all", "func", self.RescanAll, "arg1", self)
 
 	compost:Reclaim(sortlist)
 end
@@ -205,7 +231,6 @@ function FuBar_CorkFu:Menu3Party(level, value, inTooltip, value1, value2, value3
 end
 
 
-local sortfunc2 = function(a,b) return a<b end
 function FuBar_CorkFu:Menu3Unit(level, value, inTooltip, value1, value2, value3, value4)
 	local sortlist = compost:Acquire()
 	local pmem, rmem = GetNumPartyMembers(), GetNumRaidMembers()
@@ -228,7 +253,7 @@ function FuBar_CorkFu:Menu3Unit(level, value, inTooltip, value1, value2, value3,
 		if UnitExists("pet") then table.insert(sortlist, UnitName("pet")) end
 	end
 
-	table.sort(sortlist, sortfunc2)
+	table.sort(sortlist)
 
 	for i,v in ipairs(sortlist) do
 		if value1.k.spells then
@@ -245,16 +270,16 @@ function FuBar_CorkFu:Menu3Unit(level, value, inTooltip, value1, value2, value3,
 end
 
 
-local classes = {{"DRUID", "Druid"}, {"HUNTER", "Hunter"}, {"MAGE", "Mage"}, {"PALADIN", "Paladin"}, {"PRIEST", "Priest"}, {"ROGUE", "Rogue"}, {"SHAMAN", "Shaman"}, {"WARLOCK", "Warlock"}, {"WARRIOR", "Warrior"}}
 function FuBar_CorkFu:Menu3Class(level, value, inTooltip, value1, value2, value3, value4)
-	for _,v in pairs (classes) do
+	for _,v in pairs(classes) do
+		local classcaps = string.upper(v)
 		if value1.k.spells then
-			dewdrop:AddLine("text", classcolors[v[1]]..v[2], "value", "Class: "..v[1], "hasArrow", true)
+			dewdrop:AddLine("text", classcolors[classcaps]..v, "value", "Class: "..classcaps, "hasArrow", true)
 		else
-			local p = tektech:TableGetVal(self.data, value1.name, "Filters", "Class: "..v[1])
+			local p = tektech:TableGetVal(self.data, value1.name, "Filters", "Class: "..classcaps)
 
-			dewdrop:AddLine("text", classcolors[v[1]]..v[2], "func", self.ToggleFilter, "arg1", self, "arg2", value1,
-				"arg3", "Class: "..v[1], "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
+			dewdrop:AddLine("text", classcolors[classcaps]..v, "func", self.ToggleFilter, "arg1", self, "arg2", value1,
+				"arg3", "Class: "..classcaps, "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
 		end
 	end
 end
@@ -376,6 +401,12 @@ function FuBar_CorkFu:GetTopItem()
 			end
 		end
 	end
+end
+
+
+function FuBar_CorkFu:RescanAll()
+	self:TriggerEvent("CORKFU_RESCAN", "All")
+	self:Update()
 end
 
 

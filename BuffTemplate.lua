@@ -21,24 +21,23 @@ end
 
 
 function template:Enable()
+	self:RegisterEvent("CORKFU_RESCAN")
+
 	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_LOST")
 	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_GAINED")
 	if not self.k.selfonly then seaura:RegisterEvent(self, "SPECIAL_AURA_RAID_ROSTER_UPDATE") end
 	if not self.k.selfonly then seaura:RegisterEvent(self, "SPECIAL_AURA_PARTY_MEMBERS_CHANGED") end
 	if not self.k.selfonly then seaura:RegisterEvent(self, "SPECIAL_AURA_TARGETCHANGED") end
 
-	self:TestUnit("player")
-	if not self.k.selfonly then
-		for i=1,GetNumPartyMembers() do self:TestUnit("party"..i) end
-		for i=1,GetNumRaidMembers() do self:TestUnit("raid"..i) end
-	end
+	self:ScanUnits()
 
 	self:TriggerEvent("CORKFU_UPDATE")
 end
 
 
 function template:Disable()
-	seaura:UnregisterAllEvents()
+	self:UnregisterAllEvents()
+	seaura:UnregisterAllEvents(self)
 end
 
 
@@ -93,6 +92,14 @@ end
 ------------------------------
 --      Event Handlers      --
 ------------------------------
+
+
+function template:CORKFU_RESCAN(spell)
+	if spell == self.k.spell or self.k.spells and self.k.spells[spell] or spell == self.k.multispell or spell == "All" then
+		self:ScanUnits()
+	end
+end
+
 
 function template:SPECIAL_UNIT_BUFF_GAINED(unit, buff)
 	if (not self.k.spell or buff ~= self.k.spell)
@@ -150,6 +157,15 @@ end
 ------------------------------
 --      Helper Methods      --
 ------------------------------
+
+function template:ScanUnits()
+	self:TestUnit("player")
+	if not self.k.selfonly then
+		for i=1,GetNumPartyMembers() do self:TestUnit("party"..i) end
+		for i=1,GetNumRaidMembers() do self:TestUnit("raid"..i) end
+	end
+end
+
 
 function template:TestUnit(unit)
 	if not UnitExists(unit) then return end
