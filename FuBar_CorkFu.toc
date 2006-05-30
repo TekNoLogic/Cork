@@ -27,3 +27,5 @@ ClassWarrior.lua
 ClassWarlock.lua
 
 ClassHunterPetHappy.lua
+
+Tracking.lua

@@ -121,7 +121,8 @@ function FuBar_CorkFu:UpdateTooltip()
 					local _, class = UnitClass(unit)
 					local name = ((UnitInParty(unit) or UnitInRaid(unit)) and classcolors[class] or "|cff00ff00").. UnitName(unit)
 					local icon = i and i.GetIcon and (iconpath.. i:GetIcon(unit)) or defaulticon
-					cat:AddLine("text", name, "func", i.PutACorkInIt, "arg1", i, "arg2", unit, "arg3", i, "hasCheck", true, "checked", true, "checkIcon", icon)
+					cat:AddLine("text", name, "hasCheck", true, "checked", true, "checkIcon", icon,
+						"func", i.PutACorkInIt, "arg1", i, "arg2", unit, "arg3", i)
 				end
 			end
 		end
