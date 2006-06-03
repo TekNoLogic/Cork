@@ -7,7 +7,7 @@ local iconpath = "Interface\\Icons\\"
 
 
 CorkFu_Tracking = AceAddon:new({
-	name = "CorkFu_Hunter_Hawk",
+	name = "CorkFu_Tracking",
 	nicename = "Tracking",
 
 	k = {
@@ -27,6 +27,7 @@ CorkFu_Tracking = AceAddon:new({
 			["Sense Demons"]     = "Spell_Shadow_Metamorphosis",
 		},
 		icons = {},
+		selfonly = true,
 		defaultspell = "Find Herbs",
 		icon = "INV_Misc_Head_Dragon_01",
 	},

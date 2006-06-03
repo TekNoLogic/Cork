@@ -5,12 +5,15 @@
 ## Version: $Revision$
 ## LastUpdate: $Date$
 ## RequiredDeps: Ace, FuBar
+## OptionalDeps: PeriodicTable, TekTechEmbed
 ## SavedVariables: CorkFuDB
 
 SEAura\SEEmbedAura.lua
 SELearnSpell\SEEmbedLearnSpell.lua
 TekTech\TekTechEmbed.lua
 DewdropLib\DewdropLib.lua
+PTCore\PTEmbed.lua
+PTMisc\PTEmbedElemMisc.lua
 
 Core.lua
 BuffTemplate.lua
@@ -28,4 +31,5 @@ ClassWarlock.lua
 
 ClassHunterPetHappy.lua
 
+ADCommission.lua
 Tracking.lua
