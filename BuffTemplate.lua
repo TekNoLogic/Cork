@@ -1,6 +1,7 @@
 
 local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
 local tektech = TekTechEmbed:GetInstance("1")
+local babble = BabbleLib:GetInstance("Spell 1.1")
 local core = FuBar_CorkFu
 
 local template = {}
@@ -65,7 +66,7 @@ end
 
 function template:GetIcon(unit)
 	if self.k.icons then
-		local spell = self:GetSpell(unit)
+	local spell = self:GetSpell(unit)
 		if spell and self.k.icons[spell] then return self.k.icons[spell]
 		else return self.k.icon end
 	else return self.k.icon end
@@ -192,6 +193,7 @@ function template:GetSpell(unit)
 			return tektech:TableGetVal(core.data, self.name, "Filters", "Everyone") or self.k.defaultspell
 		else
 			local spell = self:GetSpellFilter(unit)
+			if not spell then return end
 
 			local ms = self.k.multispells and self.k.multispells[spell]
 			if IsShiftKeyDown() and ms then return ms end
