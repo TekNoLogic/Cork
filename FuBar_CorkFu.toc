@@ -4,16 +4,22 @@
 ## Author: Tekkub Stoutwrithe
 ## Version: $Revision$
 ## LastUpdate: $Date$
-## RequiredDeps: Ace, FuBar
-## OptionalDeps: PeriodicTable, TekTechEmbed
+## RequiredDeps: Ace
+## OptionalDeps: PeriodicTable, TekTechEmbed, FuBar
 ## SavedVariables: CorkFuDB
 
+GratuityLib\GratuityLib.lua
+CompostLib\CompostLib.lua
+TabletLib\TabletLib.lua
+Metrognome\MetrognomeLib.lua
+BabbleLib-Spell\BabbleLib-Spell.lua
 SEAura\SEEmbedAura.lua
 SELearnSpell\SEEmbedLearnSpell.lua
 TekTech\TekTechEmbed.lua
 DewdropLib\DewdropLib.lua
 PTCore\PTEmbed.lua
 PTMisc\PTEmbedElemMisc.lua
+FuBarPlugin-1.2\FuBarPlugin-1.2.lua
 
 Core.lua
 BuffTemplate.lua
