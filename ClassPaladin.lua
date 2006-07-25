@@ -2,6 +2,8 @@
 local _, c = UnitClass("player")
 if c ~= "PALADIN" then return end
 
+local B = AceLibrary("Babble-Spell-2.0")
+
 
 CorkFu_Paladin_Aura = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Paladin_Aura",
@@ -9,26 +11,16 @@ CorkFu_Paladin_Aura = CorkFu_BuffTemplate:New({
 
 	k = {
 		spells = {
-			["Concentration Aura"]     = true,
-			["Devotion Aura"]          = true,
-			["Fire Resistance Aura"]   = true,
-			["Frost Resistance Aura"]  = true,
-			["Retribution Aura"]       = true,
-			["Shadow Resistance Aura"] = true,
-			["Sanctity Aura"]          = true,
+			[B"Concentration Aura"]     = true,
+			[B"Devotion Aura"]          = true,
+			[B"Fire Resistance Aura"]   = true,
+			[B"Frost Resistance Aura"]  = true,
+			[B"Retribution Aura"]       = true,
+			[B"Shadow Resistance Aura"] = true,
+			[B"Sanctity Aura"]          = true,
 		},
-		defaultspell = "Devotion Aura",
+		defaultspell = B"Devotion Aura",
 		selfonly = true,
-		icon = "Spell_Holy_DevotionAura",
-		icons = {
-			["Concentration Aura"]     = "Spell_Holy_MindSooth",
-			["Devotion Aura"]          = "Spell_Holy_DevotionAura",
-			["Fire Resistance Aura"]   = "Spell_Fire_SealOfFire",
-			["Frost Resistance Aura"]  = "Spell_Frost_WizardMark",
-			["Retribution Aura"]       = "Spell_Holy_AuraOfLight",
-			["Shadow Resistance Aura"] = "Spell_Shadow_SealOfKings",
-			["Sanctity Aura"]          = "Spell_Holy_MindVision",
-		},
 	},
 })
 
@@ -39,37 +31,25 @@ CorkFu_Paladin_Blessing = CorkFu_BuffTemplate:New({
 
 	k = {
 		spells = {
-			["Blessing of Might"]      = {4,12,22,32,42,52,60},
-			["Blessing of Freedom"]    = true,
-			["Blessing of Kings"]      = true,
-			["Blessing of Light"]      = {40,50,60},
-			["Blessing of Protection"] = {10,24,38},
-			["Blessing of Sacrifice"]  = {46,54},
-			["Blessing of Salvation"]  = true,
-			["Blessing of Sanctuary"]  = {30,40,50,60},
-			["Blessing of Wisdom"]     = {14,24,34,44,54,60},
+			[B"Blessing of Might"]      = {4,12,22,32,42,52,60},
+			[B"Blessing of Freedom"]    = true,
+			[B"Blessing of Kings"]      = true,
+			[B"Blessing of Light"]      = {40,50,60},
+			[B"Blessing of Protection"] = {10,24,38},
+			[B"Blessing of Sacrifice"]  = {46,54},
+			[B"Blessing of Salvation"]  = true,
+			[B"Blessing of Sanctuary"]  = {30,40,50,60},
+			[B"Blessing of Wisdom"]     = {14,24,34,44,54,60},
 		},
 		multispells = {
-			["Blessing of Might"]      = "Greater Blessing of Might",
-			["Blessing of Kings"]      = "Greater Blessing of Kings",
-			["Blessing of Light"]      = "Greater Blessing of Light",
-			["Blessing of Salvation"]  = "Greater Blessing of Salvation",
-			["Blessing of Sanctuary"]  = "Greater Blessing of Sanctuary",
-			["Blessing of Wisdom"]     = "Greater Blessing of Wisdom",
+			[B"Blessing of Might"]      = B"Greater Blessing of Might",
+			[B"Blessing of Kings"]      = B"Greater Blessing of Kings",
+			[B"Blessing of Light"]      = B"Greater Blessing of Light",
+			[B"Blessing of Salvation"]  = B"Greater Blessing of Salvation",
+			[B"Blessing of Sanctuary"]  = B"Greater Blessing of Sanctuary",
+			[B"Blessing of Wisdom"]     = B"Greater Blessing of Wisdom",
 		},
-		defaultspell = "Blessing of Might",
-		icon = "Spell_Holy_SealOfWisdom",
-		icons = {
-			["Blessing of Might"]      = "Spell_Holy_FistOfJustice",
-			["Blessing of Freedom"]    = "Spell_Holy_SealOfValor",
-			["Blessing of Kings"]      = "Spell_Magic_MageArmor",
-			["Blessing of Light"]      = "Spell_Holy_PrayerOfHealing02",
-			["Blessing of Protection"] = "Spell_Holy_SealOfProtection",
-			["Blessing of Sacrifice"]  = "Spell_Holy_SealOfSacrifice",
-			["Blessing of Salvation"]  = "Spell_Holy_SealOfSalvation",
-			["Blessing of Sanctuary"]  = "Spell_Nature_LightningShield",
-			["Blessing of Wisdom"]     = "Spell_Holy_SealOfWisdom",
-		},
+		defaultspell = B"Blessing of Might",
 	},
 })
 
@@ -80,8 +60,7 @@ CorkFu_Paladin_Magic = CorkFu_DebuffTemplate:New({
 
 	k = {
 		debufftype = "Magic",
-		spell = "Cleanse",
-		icon = "Spell_Holy_DispelMagic",
+		spell = B"Cleanse",
 	},
 })
 
@@ -92,9 +71,8 @@ CorkFu_Paladin_Poison = CorkFu_DebuffTemplate:New({
 
 	k = {
 		debufftype = "Poison",
-		spell = "Purify",
-		betterspell = "Cleanse",
-		icon = "Spell_Nature_NullifyPoison",
+		spell = B"Purify",
+		betterspell = B"Cleanse",
 	},
 })
 
@@ -105,8 +83,7 @@ CorkFu_Paladin_Disease = CorkFu_DebuffTemplate:New({
 
 	k = {
 		debufftype = "Disease",
-		spell = "Purify",
-		betterspell = "Cleanse",
-		icon = "Spell_Nature_NullifyDisease",
+		spell = B"Purify",
+		betterspell = B"Cleanse",
 	},
 })

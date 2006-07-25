@@ -11,13 +11,26 @@ local dewdrop = DewdropLib:GetInstance("1.0")
 local tablet = TabletLib:GetInstance('1.0')
 local tektech = TekTechEmbed:GetInstance("1")
 local metro = Metrognome:GetInstance("1")
+local babble = BabbleLib:GetInstance("Class 1.1")
 
-local menus, menus3, classes
-local defaulticon = "Interface\\Icons\\INV_Drink_11"
-local iconpath = "Interface\\Icons\\"
+local menus, menus3, dirty
+local defaulticon, questionmark = "Interface\\Icons\\INV_Drink_11", "Interface\\Icons\\INV_Misc_QuestionMark"
 local xpath = "Interface\\AddOns\\FuBar_CorkFu\\X.tga"
-local classcolors = {PALADIN = "|cFFF48CBA", WARRIOR = "|cFFC69B6D", WARLOCK = "|cFF9382C9", PRIEST = "|cFFFFFFFF", DRUID = "|cFFFF7C0A", MAGE = "|cFF68CCEF", ROGUE = "|cFFFFF468", SHAMAN = "|cFFF48CBA", HUNTER = "|cFFAAD372"}
 local sortbyname = function(a,b) return a and b and a.nicename < b.nicename end
+local classes = {"DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "ROGUE", "SHAMAN", "WARLOCK", "WARRIOR"}
+local loc = {
+	nofilter = "No Filter",
+	disabled = "Disabled",
+	headerunit = "Unit: ",
+	headerparty = "Party: ",
+	targetplayer = "Target Player",
+	targetnpc = "Target NPC",
+	unit = "Unit",
+	class = "Class",
+	party = "Party",
+	everyone = "Everyone",
+	rescanall = "Rescan All",
+}
 
 
 -------------------------------------
@@ -37,6 +50,7 @@ FuBar_CorkFu = FuBarPlugin:GetInstance("1.2"):new({
 	cmd           = AceChatCmd:new({}, {}),
 
 	hasIcon = defaulticon,
+	clickableTooltip = true,
 
 	var = {},
 })
@@ -47,8 +61,6 @@ FuBar_CorkFu = FuBarPlugin:GetInstance("1.2"):new({
 ---------------------------
 
 function FuBar_CorkFu:Initialize()
-	classes = {"Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior"}
-
 	self.var.modules = {}
 	menus = {self.Menu1, self.Menu2, self.Menu3, self.Menu4}
 	menus3 = {
@@ -59,19 +71,22 @@ function FuBar_CorkFu:Initialize()
 		["Target Player"] = self.Menu3Everyone,
 		["Target NPC"]    = self.Menu3Everyone,
 	}
+	metro:Register("CorkFu Refresh", self.OnTick, 0.5, self)
 end
 
 
 function FuBar_CorkFu:Enable()
 	selern:RegisterEvent(self, "SPECIAL_LEARNED_SPELL")
 	self:RegisterEvent("CORKFU_REGISTER_MODULE")
-	self:RegisterEvent("CORKFU_UPDATE", "Update")
+	self:RegisterEvent("CORKFU_UPDATE")
+	metro:Start("CorkFu Refresh")
 end
 
 
 function FuBar_CorkFu:Disable()
 	self:UnregisterAllEvents()
 	selern:UnregisterAllEvents(self)
+	metro:Stop("CorkFu Refresh")
 end
 
 
@@ -91,6 +106,18 @@ function FuBar_CorkFu:SPECIAL_LEARNED_SPELL(spell, rank)
 end
 
 
+function FuBar_CorkFu:CORKFU_UPDATE()
+	dirty = true
+end
+
+
+function FuBar_CorkFu:OnTick()
+	if not dirty then return end
+	dirty = false
+	self:Update()
+end
+
+
 -----------------------------
 --      FuBar Methods      --
 -----------------------------
@@ -103,8 +130,10 @@ end
 function FuBar_CorkFu:UpdateText()
 	local module, unit, class = self:GetTopItem()
 	if unit then _, class = UnitClass(unit) end
-	local name = class and (((UnitInParty(unit) or UnitInRaid(unit)) and classcolors[class] or "|cff00ff00").. UnitName(unit))
-	local icon = module and module.GetIcon and (iconpath.. module:GetIcon(unit)) or defaulticon
+
+	local color = unit and (GetNumPartyMembers() > 0 and UnitInParty(unit) or GetNumRaidMembers() > 0 and UnitInRaid(unit)) and string.format("|cff%s", babble:GetHexColor(UnitClass(unit))) or "|cff00ff00"
+	local name = unit and (color.. UnitName(unit))
+	local icon = module and module.GetIcon and module:GetIcon(unit) or module and questionmark or defaulticon
 	self:SetText(name or "CorkFu")
 	self:SetIcon(icon)
 end
@@ -118,9 +147,9 @@ function FuBar_CorkFu:UpdateTooltip()
 
 			for unit,val in pairs(i.tagged) do
 				if val == true and i:UnitValid(unit) and not self:UnitIsFiltered(i, unit) then
-					local _, class = UnitClass(unit)
-					local name = ((UnitInParty(unit) or UnitInRaid(unit)) and classcolors[class] or "|cff00ff00").. UnitName(unit)
-					local icon = i and i.GetIcon and (iconpath.. i:GetIcon(unit)) or defaulticon
+					local color = (UnitInParty(unit) or UnitInRaid(unit)) and string.format("|cff%s", babble:GetHexColor(UnitClass(unit))) or "|cff00ff00"
+					local name = unit and (color.. UnitName(unit))
+					local icon = i and i.GetIcon and i:GetIcon(unit) or questionmark
 					cat:AddLine("text", name, "hasCheck", true, "checked", true, "checkIcon", icon,
 						"func", i.PutACorkInIt, "arg1", i, "arg2", unit, "arg3", i)
 				end
@@ -161,7 +190,7 @@ function FuBar_CorkFu:Menu1(level, value, inTooltip, value1, value2, value3, val
 	end
 
 	dewdrop:AddLine()
-	dewdrop:AddLine("text", "Rescan all", "func", self.RescanAll, "arg1", self)
+	dewdrop:AddLine("text", loc.rescanall, "func", self.RescanAll, "arg1", self)
 
 	compost:Reclaim(sortlist)
 end
@@ -181,25 +210,25 @@ function FuBar_CorkFu:Menu2(level, value, inTooltip, value1, value2, value3, val
 		local pc = tektech:TableGetVal(self.data, value.name, "Filters", "Target Player")
 		local npc = tektech:TableGetVal(self.data, value.name, "Filters", "Target NPC")
 
-		dewdrop:AddLine("text", "Target Player", "value", "Target Player", "hasArrow", true)
-		dewdrop:AddLine("text", "Target NPC", "value", "Target NPC", "hasArrow", true)
-		dewdrop:AddLine("text", "Unit", "value", "Unit", "hasArrow", true)
-		dewdrop:AddLine("text", "Class", "value", "Class", "hasArrow", true)
-		dewdrop:AddLine("text", "Party", "value", "Party", "hasArrow", true)
-		dewdrop:AddLine("text", "Everyone", "value", "Everyone", "hasArrow", true)
+		dewdrop:AddLine("text", loc.targetplayer, "value", "Target Player", "hasArrow", true)
+		dewdrop:AddLine("text", loc.targetnpc, "value", "Target NPC", "hasArrow", true)
+		dewdrop:AddLine("text", loc.unit, "value", "Unit", "hasArrow", true)
+		dewdrop:AddLine("text", loc.class, "value", "Class", "hasArrow", true)
+		dewdrop:AddLine("text", loc.party, "value", "Party", "hasArrow", true)
+		dewdrop:AddLine("text", loc.everyone, "value", "Everyone", "hasArrow", true)
 	else
 		local everyone = tektech:TableGetVal(self.data, value.name, "Filters", "Everyone")
 		local pc = tektech:TableGetVal(self.data, value.name, "Filters", "Target Player")
 		local npc = tektech:TableGetVal(self.data, value.name, "Filters", "Target NPC")
 
-		dewdrop:AddLine("text", "Target Player", "func", self.ToggleFilter, "arg1", self, "arg2", value,
+		dewdrop:AddLine("text", loc.targetplayer, "func", self.ToggleFilter, "arg1", self, "arg2", value,
 			"arg3", "Target Player", "checked", pc, pc == -1 and "checkIcon", pc == -1 and xpath)
-		dewdrop:AddLine("text", "Target NPC", "func", self.ToggleFilter, "arg1", self, "arg2", value,
+		dewdrop:AddLine("text", loc.targetnpc, "func", self.ToggleFilter, "arg1", self, "arg2", value,
 			"arg3", "Target NPC", "checked", npc, npc == -1 and "checkIcon", npc == -1 and xpath)
-		dewdrop:AddLine("text", "Unit", "value", "Unit", "hasArrow", true)
-		dewdrop:AddLine("text", "Class", "value", "Class", "hasArrow", true)
-		dewdrop:AddLine("text", "Party", "value", "Party", "hasArrow", true)
-		dewdrop:AddLine("text", "Everyone", "func", self.ToggleFilter, "arg1", self, "arg2", value,
+		dewdrop:AddLine("text", loc.unit, "value", "Unit", "hasArrow", true)
+		dewdrop:AddLine("text", loc.class, "value", "Class", "hasArrow", true)
+		dewdrop:AddLine("text", loc.party, "value", "Party", "hasArrow", true)
+		dewdrop:AddLine("text", loc.everyone, "func", self.ToggleFilter, "arg1", self, "arg2", value,
 			"arg3", "Everyone", "checked", everyone, everyone == -1 and "checkIcon", everyone == -1 and xpath)
 	end
 end
@@ -221,11 +250,11 @@ end
 function FuBar_CorkFu:Menu3Party(level, value, inTooltip, value1, value2, value3, value4)
 	for i=1,8 do
 		if value1.k.spells then
-			dewdrop:AddLine("text", "Party: "..i, "value", "Party: "..i, "hasArrow", true)
+			dewdrop:AddLine("text", loc.headerparty..i, "value", "Party: "..i, "hasArrow", true)
 		else
 			local p = tektech:TableGetVal(self.data, value1.name, "Filters", "Party: "..i)
 
-			dewdrop:AddLine("text", "Party "..i, "func", self.ToggleFilter, "arg1", self, "arg2", value1,
+			dewdrop:AddLine("text", loc.headerparty..i, "func", self.ToggleFilter, "arg1", self, "arg2", value1,
 				"arg3", "Party: "..i, "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
 		end
 	end
@@ -258,7 +287,7 @@ function FuBar_CorkFu:Menu3Unit(level, value, inTooltip, value1, value2, value3,
 
 	for i,v in ipairs(sortlist) do
 		if value1.k.spells then
-			dewdrop:AddLine("text", "Unit: "..v, "value", "Unit: "..v, "hasArrow", true)
+			dewdrop:AddLine("text", loc.headerunit.. v, "value", "Unit: "..v, "hasArrow", true)
 		else
 			local p = tektech:TableGetVal(self.data, value1.name, "Filters", "Unit: "..v)
 
@@ -273,14 +302,15 @@ end
 
 function FuBar_CorkFu:Menu3Class(level, value, inTooltip, value1, value2, value3, value4)
 	for _,v in pairs(classes) do
-		local classcaps = string.upper(v)
+		local class = babble:GetLocalized(v)
+		local clstxt = string.format("|cff%s%s|r", babble:GetHexColor(class), class)
 		if value1.k.spells then
-			dewdrop:AddLine("text", classcolors[classcaps]..v, "value", "Class: "..classcaps, "hasArrow", true)
+			dewdrop:AddLine("text", clstxt, "value", "Class: "..v, "hasArrow", true)
 		else
-			local p = tektech:TableGetVal(self.data, value1.name, "Filters", "Class: "..classcaps)
+			local p = tektech:TableGetVal(self.data, value1.name, "Filters", "Class: "..v)
 
-			dewdrop:AddLine("text", classcolors[classcaps]..v, "func", self.ToggleFilter, "arg1", self, "arg2", value1,
-				"arg3", "Class: "..classcaps, "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
+			dewdrop:AddLine("text", clstxt, "func", self.ToggleFilter, "arg1", self, "arg2", value1,
+				"arg3", "Class: "..v, "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
 		end
 	end
 end
@@ -304,10 +334,10 @@ function FuBar_CorkFu:MenuSpells(module, unit)
 	table.sort(sortlist)
 
 	if not module.k.selfonly then
-		dewdrop:AddLine("text", "No Filter", "func", self.SetFilter, "isRadio", true, "checked", not val, "arg1", self,
+		dewdrop:AddLine("text", loc.nofilter, "func", self.SetFilter, "isRadio", true, "checked", not val, "arg1", self,
 			"arg2", module, "arg3", unit)
 	end
-	dewdrop:AddLine("text", "Disabled", "func", self.SetFilter, "isRadio", true, "checked", val == -1, "arg1", self,
+	dewdrop:AddLine("text", loc.disabled, "func", self.SetFilter, "isRadio", true, "checked", val == -1, "arg1", self,
 		"arg2", module, "arg3", unit, "arg4", -1)
 	for _,v in ipairs(sortlist) do
 		local setval = module.k.selfonly and v ~= def and v or not module.k.selfonly and v
@@ -349,7 +379,7 @@ function FuBar_CorkFu:UnitIsFiltered(module, unit)
 	assert(module, "No module passed")
 	assert(module.name, "Module does not have a name")
 	assert(unit, "No unit passed")
-	assert(UnitExists(unit), module.name.." - ".. unit.." does not exist")
+	assert(unit == "player" or UnitExists(unit), module.name.." - ".. unit.." does not exist")
 
 	if module.k.selfonly then
 		local v = tektech:TableGetVal(self.data, module.name, "Filters", "Everyone")
@@ -381,6 +411,7 @@ function FuBar_CorkFu:UnitIsFiltered(module, unit)
 	local everyone = tektech:TableGetVal(self.data, module.name, "Filters", "Everyone")
 	if everyone then return everyone == -1 end
 end
+
 
 ------------------------------
 --      Helper Methods      --

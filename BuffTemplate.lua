@@ -65,11 +65,8 @@ end
 
 
 function template:GetIcon(unit)
-	if self.k.icons then
 	local spell = self:GetSpell(unit)
-		if spell and self.k.icons[spell] then return self.k.icons[spell]
-		else return self.k.icon end
-	else return self.k.icon end
+	return spell and babble:GetSpellIcon(spell) or self.k.icon
 end
 
 
@@ -137,20 +134,19 @@ end
 
 
 function template:SPECIAL_AURA_TARGETCHANGED()
-	if not UnitIsFriend("target", "player") then
-		self.tagged.target = nil
-		self:TriggerEvent("CORKFU_UPDATE")
-		return
+	self.tagged.target = nil
+
+	if UnitExists("target") and UnitIsFriend("target", "player") then
+		local sb = self.k.spell and seaura:UnitHasBuff("target", self.k.spell)
+		local mb = self.k.multispell and seaura:UnitHasBuff("target", self.k.multispell)
+		if self.k.spells then
+			for i in pairs(self.k.spells) do
+				if seaura:UnitHasBuff("target", i) then sb = i end
+			end
+		end
+		self.tagged.target = sb or mb or true
 	end
 
-	local sb = self.k.spell and seaura:UnitHasBuff("target", self.k.spell)
-	local mb = self.k.multispell and seaura:UnitHasBuff("target", self.k.multispell)
-	if self.k.spells then
-		for i in pairs(self.k.spells) do
-			if seaura:UnitHasBuff("target", i) then sb = i end
-		end
-	end
-	self.tagged.target = sb or mb or true
 	self:TriggerEvent("CORKFU_UPDATE")
 end
 
@@ -169,7 +165,10 @@ end
 
 
 function template:TestUnit(unit)
-	if not UnitExists(unit) then return end
+	if not UnitExists(unit) then
+		self.tagged[unit] = nil
+		return
+	end
 
 	local sb = self.k.spell and seaura:UnitHasBuff(unit, self.k.spell)
 	local mb = self.k.multispell and seaura:UnitHasBuff(unit, self.k.multispell)

@@ -3,6 +3,12 @@ local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
 local pt = PeriodicTableEmbed:GetInstance("1")
 local core = FuBar_CorkFu
 
+local loc = {
+	nicename = "Argent Dawn Commission",
+	buff = "Argent Dawn Commission",
+}
+
+-- Add localized zone names directly into this table!
 local zones = {
 	["Western Plaguelands"] = true,
 	["Eastern Plaguelands"] = true,
@@ -13,10 +19,10 @@ local zones = {
 
 CorkFu_ADCommission = AceAddon:new({
 	name = "CorkFu_ADCommission",
-	nicename = "Argent Dawn Commission",
+	nicename = loc.nicename,
 
 	k = {
-		buff = "Argent Dawn Commission",
+		buff = loc.buff,
 		icon = "INV_Jewelry_Talisman_07",
 		selfonly = true,
 	},
@@ -24,6 +30,10 @@ CorkFu_ADCommission = AceAddon:new({
 	tagged = {},
 })
 
+
+---------------------------
+--      Ace Methods      --
+---------------------------
 
 function CorkFu_ADCommission:Initialize()
 	self:TriggerEvent("CORKFU_REGISTER_MODULE", self)

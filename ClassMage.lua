@@ -2,15 +2,16 @@
 local _, c = UnitClass("player")
 if c ~= "MAGE" then return end
 
+local B = AceLibrary("Babble-Spell-2.0")
+
 
 CorkFu_Mage_Intellect = CorkFu_BuffTemplate:New({
 	name = "Spell_Holy_MagicalSentry",
-	nicename = "Arcane Intellect",
+	nicename = B"Arcane Intellect",
 
 	k = {
-		spell = "Arcane Intellect",
-		multispell = "Arcane Brilliance",
-		icon = "Spell_Holy_MagicalSentry",
+		spell = B"Arcane Intellect",
+		multispell = B"Arcane Brilliance",
 		ranklevels = {1,14,28,42,56},
 	},
 })
@@ -18,11 +19,10 @@ CorkFu_Mage_Intellect = CorkFu_BuffTemplate:New({
 
 CorkFu_Mage_ManaShield = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Mage_ManaShield",
-	nicename = "Mana Shield",
+	nicename = B"Mana Shield",
 
 	k = {
-		spell = "Mana Shield",
-		icon = "Spell_Shadow_DetectLesserInvisibility",
+		spell = B"Mana Shield",
 		selfonly = true,
 	},
 })
@@ -34,18 +34,12 @@ CorkFu_Mage_IceArmor = CorkFu_BuffTemplate:New({
 
 	k = {
 		spells = {
-			["Ice Armor"]   = true,
-			["Frost Armor"] = true,
-			["Mage Armor"]  = true,
+			[B"Ice Armor"]   = true,
+			[B"Frost Armor"] = true,
+			[B"Mage Armor"]  = true,
 		},
-		icons = {
-			["Ice Armor"]   = "Spell_Frost_FrostArmor02",
-			["Frost Armor"] = "Spell_Frost_FrostArmor02",
-			["Mage Armor"]  = "Spell_MageArmor",
-		},
-		defaultspell = "Frost Armor",
+		defaultspell = B"Frost Armor",
 		selfonly = true,
-		icon = "Spell_Frost_FrostArmor02",
 	},
 })
 
@@ -56,26 +50,20 @@ CorkFu_Mage_DampenMagic = CorkFu_BuffTemplate:New({
 
 	k = {
 		spells = {
-			["Amplify Magic"] = {18,30,42,54},
-			["Dampen Magic"] = {12,24,36,48,60},
+			[B"Amplify Magic"] = {18,30,42,54},
+			[B"Dampen Magic"] = {12,24,36,48,60},
 		},
-		defaultspell = "Dampen Magic",
-		icon = "Spell_Nature_AbolishMagic",
-		icons = {
-			["Dampen Magic"]  = "Spell_Nature_AbolishMagic",
-			["Amplify Magic"] = "Spell_Holy_FlashHeal",
-		},
+		defaultspell = B"Dampen Magic",
 	},
 })
 
 
 CorkFu_Mage_Curse = CorkFu_DebuffTemplate:New({
 	name = "CorkFu_Mage_Curse",
-	nicename = "Remove Lesser Curse",
+	nicename = B"Remove Lesser Curse",
 
 	k = {
 		debufftype = "Curse",
-		spell = "Remove Lesser Curse",
-		icon = "Spell_Nature_RemoveCurse",
+		spell = B"Remove Lesser Curse",
 	},
 })

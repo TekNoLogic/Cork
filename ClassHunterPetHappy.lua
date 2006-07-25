@@ -5,7 +5,7 @@ if c ~= "HUNTER" then return end
 local tektech = TekTechEmbed:GetInstance("1")
 
 local feedpet = "Feed Pet"
-local icon = "Ability_Hunter_BeastTraining"
+local icon = "Interface\\Icons\\Ability_Hunter_BeastTraining"
 
 CorkFu_Hunter_PetHappy = AceAddon:new({
 	name = "CorkFu_Hunter_PetHappy",

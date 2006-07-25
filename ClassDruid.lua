@@ -2,15 +2,16 @@
 local _, c = UnitClass("player")
 if c ~= "DRUID" then return end
 
+local B = AceLibrary("Babble-Spell-2.0")
+
 
 CorkFu_Druid_Mark = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Druid_Mark",
-	nicename = "Mark of the Wild",
+	nicename = B"Mark of the Wild",
 
 	k = {
-		spell = "Mark of the Wild",
-		multispell = "Gift of the Wild",
-		icon = "Spell_Nature_Regeneration",
+		spell = B"Mark of the Wild",
+		multispell = B"Gift of the Wild",
 		ranklevels = {1,10,20,30,40,50,60},
 	},
 })
@@ -18,11 +19,10 @@ CorkFu_Druid_Mark = CorkFu_BuffTemplate:New({
 
 CorkFu_Druid_Thorns = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Druid_Thorns",
-	nicename = "Thorns",
+	nicename = B"Thorns",
 
 	k = {
-		spell = "Thorns",
-		icon = "Spell_Nature_Thorns",
+		spell = B"Thorns",
 		ranklevels = {6,14,24,34,44,54},
 	},
 })
@@ -30,36 +30,33 @@ CorkFu_Druid_Thorns = CorkFu_BuffTemplate:New({
 
 CorkFu_Druid_Omen = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Druid_Omen",
-	nicename = "Omen of Clarity",
+	nicename = B"Omen of Clarity",
 
 	k = {
-		spell = "Omen of Clarity",
+		spell = B"Omen of Clarity",
 		selfonly = true,
-		icon = "Spell_Nature_CrystalBall",
 	},
 })
 
 
 CorkFu_Druid_Poison = CorkFu_DebuffTemplate:New({
 	name = "CorkFu_Druid_Poison",
-	nicename = "Cure Poison",
+	nicename = B"Cure Poison",
 
 	k = {
 		debufftype = "Poison",
-		spell = "Cure Poison",
-		betterspell = "Abolish Poison",
-		icon = "Spell_Nature_NullifyPoison",
+		spell = B"Cure Poison",
+		betterspell = B"Abolish Poison",
 	},
 })
 
 
 CorkFu_Druid_Curse = CorkFu_DebuffTemplate:New({
 	name = "CorkFu_Druid_Curse",
-	nicename = "Remove Curse",
+	nicename = B"Remove Curse",
 
 	k = {
 		debufftype = "Curse",
-		spell = "Remove Curse",
-		icon = "Spell_Nature_RemoveCurse",
+		spell = B"Remove Curse",
 	},
 })
