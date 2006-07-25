@@ -18,7 +18,7 @@ CorkFu_Hunter_True = CorkFu_BuffTemplate:New({
 
 CorkFu_Hunter_Hawk = CorkFu_BuffTemplate:New({
 	name = "CorkFu_Hunter_Hawk",
-	nicename = B"Aspects",
+	nicename = "Aspects",
 
 	k = {
 		spells = {
