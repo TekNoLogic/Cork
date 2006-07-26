@@ -1,7 +1,7 @@
 
 local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
 local tektech = TekTechEmbed:GetInstance("1")
-local babble = BabbleLib:GetInstance("Spell 1.1")
+local babble = AceLibrary("Babble-Spell-2.0")
 
 local template = {}
 CorkFu_DebuffTemplate = {}
@@ -57,7 +57,7 @@ end
 
 
 function template:GetIcon(unit)
-	return babble:GetIcon(self:GetSpell(unit))
+	return babble:GetSpellIcon(self:GetSpell(unit))
 end
 
 
