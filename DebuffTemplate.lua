@@ -81,7 +81,7 @@ end
 ------------------------------
 
 function template:SPECIAL_UNIT_DEBUFF_LOST(unit, debuff, apps, dbtype)
-	if dbtype ~= self.k.debufftype then return end
+	if unit == "mouseover" or dbtype ~= self.k.debufftype then return end
 
 	self.tagged[unit] = nil
 	self:TriggerEvent("CORKFU_UPDATE")
@@ -89,7 +89,7 @@ end
 
 
 function template:SPECIAL_UNIT_DEBUFF_GAINED(unit, debuff, apps, dbtype)
-	if dbtype ~= self.k.debufftype then return end
+	if unit == "mouseover" or dbtype ~= self.k.debufftype then return end
 
 	self.tagged[unit] = true
 	self:TriggerEvent("CORKFU_UPDATE")

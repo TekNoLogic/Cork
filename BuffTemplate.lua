@@ -100,6 +100,7 @@ end
 
 
 function template:SPECIAL_UNIT_BUFF_GAINED(unit, buff)
+	if unit == "mouseover" then return end
 	if (not self.k.spell or buff ~= self.k.spell)
 	and (not self.k.spells or not self.k.spells[buff])
 	and (not self.k.multispell or buff ~= self.k.multispell) then return end
@@ -110,6 +111,7 @@ end
 
 
 function template:SPECIAL_UNIT_BUFF_LOST(unit, buff)
+	if unit == "mouseover" then return end
 	if (not self.k.spell or buff ~= self.k.spell)
 	and (not self.k.spells or not self.k.spells[buff])
 	and (not self.k.multispell or buff ~= self.k.multispell) then return end
