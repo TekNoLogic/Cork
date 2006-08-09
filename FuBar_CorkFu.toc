@@ -12,6 +12,7 @@ Libs\AceLibrary\AceLibrary.lua
 Libs\AceLocale-2.0\AceLocale-2.0.lua
 Libs\Babble-Spell-2.0\Babble-Spell-2.0.lua
 Libs\AceLibrary\AceLibrary.lua
+Libs\Compost-2.0\Compost-2.0.lua
 Libs\Gratuity-2.0\Gratuity-2.0.lua
 
 Libs\GratuityLib\GratuityLib.lua

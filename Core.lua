@@ -13,7 +13,8 @@ local tektech = TekTechEmbed:GetInstance("1")
 local metro = Metrognome:GetInstance("1")
 local babble = BabbleLib:GetInstance("Class 1.1")
 
-local raidunitnum, partyids, menus, menus3, dirty = {}, {player = "Self", pet = "Pet"}
+local groupthresh = 3
+local menus, menus3, dirty
 local defaulticon, questionmark = "Interface\\Icons\\INV_Drink_11", "Interface\\Icons\\INV_Misc_QuestionMark"
 local xpath = "Interface\\AddOns\\FuBar_CorkFu\\X.tga"
 local sortbyname = function(a,b) return a and b and a.nicename < b.nicename end
@@ -31,6 +32,12 @@ local loc = {
 	everyone = "Everyone",
 	rescanall = "Rescan All",
 }
+local raidunitnum, partyids = {}, {player = "Self", pet = "Pet"}
+for i=1,40 do raidunitnum["raid"..i] = i end
+for i=1,4 do
+	partyids["party"..i] = "Party"
+	partyids["party"..i.."pet"] = "Party Pet"
+end
 
 
 -------------------------------------
@@ -61,11 +68,6 @@ FuBar_CorkFu = FuBarPlugin:GetInstance("1.2"):new({
 ---------------------------
 
 function FuBar_CorkFu:Initialize()
-	for i=1,40 do raidunitnum["raid"..i] = i end
-	for i=1,4 do
-		partyids["party"..i] = "Party"
-		partyids["party"..i.."pet"] = "Party Pet"
-	end
 	self.var.modules = {}
 	menus = {self.Menu1, self.Menu2, self.Menu3, self.Menu4}
 	menus3 = {
@@ -149,9 +151,20 @@ function FuBar_CorkFu:UpdateTooltip()
 	for i in pairs(self.var.modules) do
 		if i:ItemValid() then
 			local cat = tablet:AddCategory("columns", 2, "hideBlankLine", true)
+			local groupneeds = {}
+			if i.MultiValid and i:MultiValid() then self:GetGroupNeeds(i, groupneeds) end
+
+			for group,num in pairs(groupneeds) do
+				if num >= groupthresh then
+					local icon = i and i.GetIcon and i:GetIcon("group"..group) or questionmark
+					cat:AddLine("text", "Group "..group, "hasCheck", true, "checked", true, "checkIcon", icon, "text2", num.." units",
+						"func", i.PutACorkInIt, "arg1", i, "arg2", "group"..group, "arg3", i)
+				end
+			end
 
 			for unit,val in pairs(i.tagged) do
 				if val == true and i:UnitValid(unit) and not self:UnitIsFiltered(i, unit) then
+					local hidden
 					local color = (UnitInParty(unit) or UnitInRaid(unit)) and string.format("|cff%s", babble:GetHexColor(UnitClass(unit))) or "|cff00ff00"
 					local name = unit and (color.. UnitName(unit))
 					local icon = i and i.GetIcon and i:GetIcon(unit) or questionmark
@@ -159,12 +172,26 @@ function FuBar_CorkFu:UpdateTooltip()
 					if partyids[unit] then group = partyids[unit]
 					elseif GetNumRaidMembers() > 0 and raidunitnum[unit] then
 						_,_,group = GetRaidRosterInfo(raidunitnum[unit])
+						hidden = groupneeds[group] and groupneeds[group] >= groupthresh
 						group = "Group "..group
 					end
-					cat:AddLine("text", name, "hasCheck", true, "checked", true, "checkIcon", icon,
-						"func", i.PutACorkInIt, "arg1", i, "arg2", unit, "arg3", i, "text2", group)
+					if not hidden then
+						cat:AddLine("text", name, "hasCheck", true, "checked", true, "checkIcon", icon,
+							"func", i.PutACorkInIt, "arg1", i, "arg2", unit, "arg3", i, "text2", group)
+					end
 				end
 			end
+		end
+	end
+end
+
+
+function FuBar_CorkFu:GetGroupNeeds(module, t)
+	if GetNumRaidMembers() == 0 then return end
+	for unit,val in pairs(module.tagged) do
+		if raidunitnum[unit] and val == true and module:UnitValid(unit) and not self:UnitIsFiltered(module, unit) then
+			local _,_,group = GetRaidRosterInfo(raidunitnum[unit])
+			t[group] = (t[group] or 0) + 1
 		end
 	end
 end

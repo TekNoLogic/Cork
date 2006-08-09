@@ -3,6 +3,10 @@ local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
 local tektech = TekTechEmbed:GetInstance("1")
 local babble = BabbleLib:GetInstance("Spell 1.1")
 local core = FuBar_CorkFu
+local raidgroups = {}
+for i=1,8 do raidgroups["group"..i] = true end
+local raidunitnum = {}
+for i=1,40 do raidunitnum["raid"..i] = i end
 
 local template = {}
 CorkFu_BuffTemplate = {}
@@ -56,6 +60,16 @@ function template:ItemValid()
 end
 
 
+function template:MultiValid()
+	if self.k.multispell then return tektech:SpellKnown(self.k.multispell) end
+	if self.k.multispells then
+		for i in pairs(self.k.multispells) do
+			if tektech:SpellKnown(i) then return true end
+		end
+	end
+end
+
+
 local partyunits = {player = true, party1 = true, party2 = true, party3 = true, party4 = true}
 function template:UnitValid(unit)
 	return (self.k.selfonly and unit == "player")
@@ -65,12 +79,15 @@ end
 
 
 function template:GetIcon(unit)
+	if raidgroups[unit] then return self.k.multispell and babble:GetSpellIcon(self.k.multispell) or self.k.icon end
 	local spell = self:GetSpell(unit)
 	return spell and babble:GetSpellIcon(spell) or self.k.icon
 end
 
 
 function template:PutACorkInIt(unit)
+	if raidgroups[unit] then return self:PutACorkInItMulti(unit) end
+
 	local spell, rank, retarget = self:GetSpell(unit)
 
 	if UnitExists("target") and UnitIsFriend("player", "target") and not UnitIsUnit("target", unit) then
@@ -84,6 +101,33 @@ function template:PutACorkInIt(unit)
 	if SpellIsTargeting() then SpellTargetUnit(unit) end
 	if SpellIsTargeting() then SpellStopTargeting() end
 	if retarget then TargetLastTarget() end
+end
+
+
+function template:PutACorkInItMulti(group)
+	local spell, retarget = self.k.multispell
+	local unit = self:GetUnitInGroup(tonumber(string.sub(group, 6)))
+
+	if UnitExists("target") and UnitIsFriend("player", "target") and not UnitIsUnit("target", unit) then
+		TargetUnit(unit)
+		retarget = true
+	end
+
+	CastSpellByName(spell)
+
+	if SpellIsTargeting() then SpellTargetUnit(unit) end
+	if SpellIsTargeting() then SpellStopTargeting() end
+	if retarget then TargetLastTarget() end
+end
+
+
+function template:GetUnitInGroup(group)
+	for unit in pairs(self.tagged) do
+		if raidunitnum[unit] then
+			local _, _, g = GetRaidRosterInfo(raidunitnum[unit])
+			if group == g then return unit end
+		end
+	end
 end
 
 
