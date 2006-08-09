@@ -3,8 +3,6 @@ local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
 local tektech = TekTechEmbed:GetInstance("1")
 local core = FuBar_CorkFu
 
-local iconpath = "Interface\\Icons\\"
-
 
 CorkFu_Tracking = AceAddon:new({
 	name = "CorkFu_Tracking",
@@ -12,31 +10,31 @@ CorkFu_Tracking = AceAddon:new({
 
 	k = {
 		spells = {
-			["Find Herbs"]       = "INV_Misc_Flower_02",
-			["Find Minerals"]    = "Spell_Nature_Earthquake",
-			["Find Treasure"]    = "Racial_Dwarf_FindTreasure",
-			["Track Beasts"]     = "Ability_Tracking",
-			["Track Humanoids"]  = "Spell_Holy_PrayerOfHealing",
-			["Track Hidden"]     = "Ability_Stealth",
-			["Track Elementals"] = "Spell_Frost_SummonWaterElemental",
-			["Track Undead"]     = "Spell_Shadow_DarkSummoning",
-			["Track Demons"]     = "Spell_Shadow_SummonFelHunter",
-			["Track Giants"]     = "Ability_Racial_Avatar",
-			["Track Dragonkin"]  = "INV_Misc_Head_Dragon_01",
-			["Sense Undead"]     = "Spell_Holy_SenseUndead",
-			["Sense Demons"]     = "Spell_Shadow_Metamorphosis",
+			["Find Herbs"]       = "Interface\\Icons\\INV_Misc_Flower_02",
+			["Find Minerals"]    = "Interface\\Icons\\Spell_Nature_Earthquake",
+			["Find Treasure"]    = "Interface\\Icons\\Racial_Dwarf_FindTreasure",
+			["Track Beasts"]     = "Interface\\Icons\\Ability_Tracking",
+			["Track Humanoids"]  = "Interface\\Icons\\Spell_Holy_PrayerOfHealing",
+			["Track Hidden"]     = "Interface\\Icons\\Ability_Stealth",
+			["Track Elementals"] = "Interface\\Icons\\Spell_Frost_SummonWaterElemental",
+			["Track Undead"]     = "Interface\\Icons\\Spell_Shadow_DarkSummoning",
+			["Track Demons"]     = "Interface\\Icons\\Spell_Shadow_SummonFelHunter",
+			["Track Giants"]     = "Interface\\Icons\\Ability_Racial_Avatar",
+			["Track Dragonkin"]  = "Interface\\Icons\\INV_Misc_Head_Dragon_01",
+			["Sense Undead"]     = "Interface\\Icons\\Spell_Holy_SenseUndead",
+			["Sense Demons"]     = "Interface\\Icons\\Spell_Shadow_Metamorphosis",
 		},
 		icons = {},
 		selfonly = true,
 		defaultspell = "Find Herbs",
-		icon = "INV_Misc_Head_Dragon_01",
+		icon = "Interface\\Icons\\INV_Misc_Head_Dragon_01",
 	},
 	tagged = {player = true},
 })
 
 
 function CorkFu_Tracking:Initialize()
-	for i,v in pairs(self.k.spells) do self.k.icons[iconpath..v] = i end
+	for i,v in pairs(self.k.spells) do self.k.icons[v] = i end
 	for i in pairs(self.k.spells) do if tektech:SpellKnown(i) then self.k.defaultspell = i end end
 	self:TriggerEvent("CORKFU_REGISTER_MODULE", self)
 end
