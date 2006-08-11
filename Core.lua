@@ -1,5 +1,6 @@
 
-BINDING_NAME_CORKFU_CORKFIRST = "Put a cork in it"
+BINDING_HEADER_CORKFU = "FuBar - CorkFu"
+BINDING_NAME_CORKFU_CORKFIRST = "Put a cork in it!"
 
 ------------------------------
 --      Are you local?      --
