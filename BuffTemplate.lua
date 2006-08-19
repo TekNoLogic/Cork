@@ -183,8 +183,8 @@ function template:SPECIAL_AURA_TARGETCHANGED()
 	self.tagged.target = nil
 
 	if UnitExists("target") and UnitIsFriend("target", "player") then
-		local sb = self.k.spell and seaura:UnitHasBuff("target", self.k.spell)
-		local mb = self.k.multispell and seaura:UnitHasBuff("target", self.k.multispell)
+		local sb = seaura:UnitHasBuff("target", self.k.spell) and self.k.spell
+		local mb = seaura:UnitHasBuff("target", self.k.multispell) and self.k.multispell
 		if self.k.spells then
 			for i in pairs(self.k.spells) do
 				if seaura:UnitHasBuff("target", i) then sb = i end
@@ -216,8 +216,8 @@ function template:TestUnit(unit)
 		return
 	end
 
-	local sb = self.k.spell and seaura:UnitHasBuff(unit, self.k.spell)
-	local mb = self.k.multispell and seaura:UnitHasBuff(unit, self.k.multispell)
+	local sb = seaura:UnitHasBuff(unit, self.k.spell) and self.k.spell
+	local mb = seaura:UnitHasBuff(unit, self.k.multispell) and self.k.multispell
 	if self.k.spells then
 		for i in pairs(self.k.spells) do
 			if seaura:UnitHasBuff(unit, i) then sb = i end
