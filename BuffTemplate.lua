@@ -220,7 +220,7 @@ function template:TestUnit(unit)
 	local mb = self.k.multispell and seaura:UnitHasBuff(unit, self.k.multispell)
 	if self.k.spells then
 		for i in pairs(self.k.spells) do
-			if seaura:UnitHasBuff("target", i) then sb = i end
+			if seaura:UnitHasBuff(unit, i) then sb = i end
 		end
 	end
 	self.tagged[unit] = sb or mb or true
