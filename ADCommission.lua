@@ -23,7 +23,7 @@ CorkFu_ADCommission = AceAddon:new({
 
 	k = {
 		buff = loc.buff,
-		icon = "INV_Jewelry_Talisman_07",
+		icon = "Interface\\Icons\\INV_Jewelry_Talisman_07",
 		selfonly = true,
 	},
 
