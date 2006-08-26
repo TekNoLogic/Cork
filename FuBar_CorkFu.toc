@@ -1,4 +1,4 @@
-## Interface: 11100
+## Interface: 11200
 ## Title: FuBar - |cffffffffCork|cff00ff00Fu|r
 ## Notes: Track needed buffs, debuffs and more
 ## Author: Tekkub Stoutwrithe
