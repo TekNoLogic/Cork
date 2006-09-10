@@ -36,7 +36,7 @@ core:RegisterTemplate("Debuffs", template)
 
 
 function template:OnEnable()
-	if not self.tagged the self.tagged = {} end
+	if not self.tagged then self.tagged = {} end
 
 	self:TestUnit("player")
 	if self.target ~= "Self" then

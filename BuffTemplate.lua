@@ -60,7 +60,7 @@ core:RegisterTemplate("Buffs", template)
 
 
 function template:OnEnable()
-	if not self.tagged the self.tagged = {} end
+	if not self.tagged then self.tagged = {} end
 	self:RegisterEvent("CorkFu_Rescan")
 
 	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_LOST")
