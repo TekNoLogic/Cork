@@ -8,7 +8,7 @@ BINDING_NAME_CORKFU_CORKFIRST = "Put a cork in it!"
 
 local AceOO = AceLibrary("AceOO-2.0")
 local selern = SpecialEventsEmbed:GetInstance("Learn Spell 1")
-local compost = CompostLib:GetInstance("compost-1")
+local compost = AceLibrary("Compost-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
 local tablet = AceLibrary("Tablet-2.0")
 local tektech = TekTechEmbed:GetInstance("1")
@@ -73,7 +73,6 @@ function FuBar_CorkFu:OnInitialize()
 		ItemValid = "function",
 		UnitValid = "function",
 		PutACorkInIt = "function",
-		tagged = "table",
 		target = "string",
 		OnTooltipUpdate = "function",
 		GetTopItem = "function",
@@ -132,7 +131,7 @@ end
 ------------------------------
 
 function FuBar_CorkFu:SPECIAL_LEARNED_SPELL(spell, rank)
-	self:TriggerEvent("CORKFU_RESCAN", spell)
+	self:TriggerEvent("CorkFu_Rescan", spell)
 	self:Update()
 end
 
@@ -155,17 +154,6 @@ end
 
 function FuBar_CorkFu:OnTooltipUpdate()
 	for _,i in self:IterateModules() do i:OnTooltipUpdate() end
-end
-
-
-function FuBar_CorkFu:GetGroupNeeds(module, t)
-	if GetNumRaidMembers() == 0 then return end
-	for unit,val in pairs(module.tagged) do
-		if raidunitnum[unit] and val == true and module:UnitValid(unit) and not self:UnitIsFiltered(module, unit) then
-			local _,_,group = GetRaidRosterInfo(raidunitnum[unit])
-			t[group] = (t[group] or 0) + 1
-		end
-	end
 end
 
 
@@ -445,6 +433,6 @@ end
 
 
 function FuBar_CorkFu:RescanAll()
-	self:TriggerEvent("CORKFU_RESCAN", "All")
+	self:TriggerEvent("CorkFu_Rescan", "All")
 	self:Update()
 end

@@ -40,6 +40,7 @@ local template = AceOO.Mixin {
 	"GetSpell",
 	"GetSpellFilter",
 	"GetRank",
+	"GetGroupNeeds",
 	"OnTooltipUpdate",
 	"GetTopItem",
 }
@@ -59,6 +60,7 @@ core:RegisterTemplate("Buffs", template)
 
 
 function template:OnEnable()
+	if not self.tagged the self.tagged = {} end
 	self:RegisterEvent("CorkFu_Rescan")
 
 	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_LOST")
@@ -120,7 +122,7 @@ function template:GetTopItem()
 	if not self:ItemValid() then return end
 
 	local groupneeds = {}
-	if self.MultiValid and self:MultiValid() then self:GetGroupNeeds(i, groupneeds) end
+	if self.MultiValid and self:MultiValid() then self:GetGroupNeeds(groupneeds) end
 
 	for group,num in pairs(groupneeds) do
 		if num >= groupthresh then
@@ -361,7 +363,7 @@ function template:OnTooltipUpdate()
 
 	local cat = tablet:AddCategory("columns", 2, "hideBlankLine", true)
 	local groupneeds = {}
-	if self.MultiValid and self:MultiValid() then self:GetGroupNeeds(i, groupneeds) end
+	if self.MultiValid and self:MultiValid() then self:GetGroupNeeds(groupneeds) end
 
 	for group,num in pairs(groupneeds) do
 		if num >= groupthresh then
@@ -388,6 +390,17 @@ function template:OnTooltipUpdate()
 				cat:AddLine("text", name, "hasCheck", true, "checked", true, "checkIcon", icon,
 					"func", self.PutACorkInIt, "arg1", self, "arg2", unit, "arg3", self, "text2", group)
 			end
+		end
+	end
+end
+
+
+function template:GetGroupNeeds(t)
+	if GetNumRaidMembers() == 0 then return end
+	for unit,val in pairs(self.tagged) do
+		if raidunitnum[unit] and val == true and self:UnitValid(unit) and not core:UnitIsFiltered(self, unit) then
+			local _,_,group = GetRaidRosterInfo(raidunitnum[unit])
+			t[group] = (t[group] or 0) + 1
 		end
 	end
 end

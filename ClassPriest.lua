@@ -41,12 +41,6 @@ i.multispell = B"Prayer of Spirit"
 i.ranklevels = {30,40,50,60}
 
 
-i = core:NewModule(B"Power Word: Shield", buffs)
-i.target = "Party"
-i.spell = B"Power Word: Shield"
-i.ranklevels = {6,12,18,24,30,36,42,48,54,60}
-
-
 i = core:NewModule(B"Shadow Protection", buffs)
 i.target = "Friendly"
 i.spell = B"Shadow Protection"

@@ -10,7 +10,6 @@
 ## X-AceForum: 1459
 ## X-WoWIPortal: tekkub
 
-## RequiredDeps: Ace
 ## OptionalDeps: Ace2, BabbleLib, FuBar, PeriodicTable, SpecialEventsEmbed, TekTechEmbed
 ## X-Embeds: Ace2, BabbleLib, PeriodicTable, SpecialEventsEmbed, TekTechEmbed
 

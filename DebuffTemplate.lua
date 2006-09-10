@@ -6,6 +6,7 @@ local tablet = AceLibrary("Tablet-2.0")
 local BS = AceLibrary("Babble-Spell-2.0")
 local BC = BabbleLib:GetInstance("Class 1.1")
 local core = FuBar_CorkFu
+
 local raidunitnum, partyids = {}, {player = "Self", pet = "Pet"}
 for i=1,40 do raidunitnum["raid"..i] = i end
 for i=1,4 do
@@ -35,6 +36,8 @@ core:RegisterTemplate("Debuffs", template)
 
 
 function template:OnEnable()
+	if not self.tagged the self.tagged = {} end
+
 	self:TestUnit("player")
 	if self.target ~= "Self" then
 		for i=1,GetNumPartyMembers() do self:TestUnit("party"..i) end

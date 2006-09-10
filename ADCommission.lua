@@ -8,7 +8,7 @@ local loc = {
 	nicename = "Argent Dawn Commission",
 	buff = "Argent Dawn Commission",
 }
-local buff, icon = loc.buff, "Interface\\Icons\\INV_Jewelry_Talisman_07"
+local buff, icon, buffed = loc.buff, "Interface\\Icons\\INV_Jewelry_Talisman_07"
 
 -- Add localized zone names directly into this table!
 local zones = {
@@ -59,7 +59,7 @@ end
 
 
 function adc:PutACorkInIt()
-	if not self:ItemValid() or self.tagged.player ~= true or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile.player == -1 then return end
 
 	local bag, slot = pt:GetBest("argentdawncommission")
 	if bag and slot then
@@ -71,13 +71,13 @@ end
 
 
 function adc:GetTopItem()
-	if not self:ItemValid() or self.tagged.player ~= true or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile.player == -1 then return end
 	return icon, loc.nicename
 end
 
 
 function adc:OnTooltipUpdate()
-	if not self:ItemValid() or self.tagged.player ~= true or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile.player == -1 then return end
 
 	local cat = tablet:AddCategory("hideBlankLine", true)
 	cat:AddLine("text", loc.nicename, "hasCheck", true, "checked", true, "checkIcon", icon,
@@ -116,7 +116,7 @@ end
 function adc:SPECIAL_PLAYER_BUFF_GAINED(newbuff)
 	if newbuff ~= buff then return end
 
-	self.tagged.player = buff
+	buffed = true
 	self:TriggerEvent("CorkFu_Update")
 end
 
@@ -124,8 +124,8 @@ end
 function adc:SPECIAL_PLAYER_BUFF_LOST(lostbuff)
 	if lostbuff ~= buff then return end
 
-	if self.tagged.player == buff then
-		self.tagged.player = true
+	if buffed then
+		buffed = nil
 		self:TriggerEvent("CorkFu_Update")
 	end
 end
@@ -136,7 +136,7 @@ end
 ------------------------------
 
 function adc:Scan()
-	self.tagged.player = seaura:UnitHasBuff("player", buff) or true
+	buffed = seaura:UnitHasBuff("player", buff)
 end
 
 
