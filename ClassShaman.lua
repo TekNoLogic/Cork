@@ -3,36 +3,22 @@ local _, c = UnitClass("player")
 if c ~= "SHAMAN" then return end
 
 local B = AceLibrary("Babble-Spell-2.0")
+local core, i = FuBar_CorkFu
+local buffs, debuffs = core:GetTemplate("Buffs"), core:GetTemplate("Debuffs")
 
 
-CorkFu_Shaman_LightningShield = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Shaman_LightningShield",
-	nicename = B"Lightning Shield",
-
-	k = {
-		spell = B"Lightning Shield",
-		selfonly = true,
-	},
-})
+i = core:NewModule(B"Lightning Shield", buffs)
+i.spell = B"Lightning Shield"
+i.target = "Self"
 
 
-CorkFu_Shaman_Poison = CorkFu_DebuffTemplate:New({
-	name = "CorkFu_Shaman_Poison",
-	nicename = B"Cure Poison",
-
-	k = {
-		debufftype = "Poison",
-		spell = B"Cure Poison",
-	},
-})
+i = core:NewModule(B"Cure Poison", debuffs)
+i.debufftype = "Poison"
+i.spell = B"Cure Poison"
+i.target = "Friendly"
 
 
-CorkFu_Shaman_Disease = CorkFu_DebuffTemplate:New({
-	name = "CorkFu_Shaman_Disease",
-	nicename = B"Cure Disease",
-
-	k = {
-		debufftype = "Disease",
-		spell = B"Cure Disease",
-	},
-})
+i = core:NewModule(B"Cure Disease", debuffs)
+i.debufftype = "Disease"
+i.spell = B"Cure Disease"
+i.target = "Friendly"

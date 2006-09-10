@@ -3,118 +3,67 @@ local _, c = UnitClass("player")
 if c ~= "PRIEST" then return end
 
 local B = AceLibrary("Babble-Spell-2.0")
+local core, i = FuBar_CorkFu
+local buffs, debuffs = core:GetTemplate("Buffs"), core:GetTemplate("Debuffs")
 
 
-CorkFu_Priest_PWFort = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Priest_PWFort",
-	nicename = B"Power Word: Fortitude",
-
-	k = {
-		spell = B"Power Word: Fortitude",
-		multispell = B"Prayer of Fortitude",
-		ranklevels = {1,12,24,36,48,60},
-	},
-})
+i = core:NewModule(B"Power Word: Fortitude", buffs)
+i.target = "Friendly"
+i.spell = B"Power Word: Fortitude"
+i.multispell = B"Prayer of Fortitude"
+i.ranklevels = {1,12,24,36,48,60}
 
 
-CorkFu_Priest_TouchofWeak = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Priest_TouchofWeak",
-	nicename = B"Touch of Weakness",
-
-	k = {
-		spell = B"Touch of Weakness",
-		selfonly = true,
-	},
-})
+i = core:NewModule(B"Touch of Weakness", buffs)
+i.target = "Self"
+i.spell = B"Touch of Weakness"
 
 
-CorkFu_Priest_Feedback = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Priest_Feedback",
-	nicename = B"Feedback",
-
-	k = {
-		spell = B"Feedback",
-		selfonly = true,
-	},
-})
+i = core:NewModule(B"Feedback", buffs)
+i.spell = B"Feedback"
+i.target = "Self"
 
 
-CorkFu_Priest_InnerFire = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Priest_InnerFire",
-	nicename = B"Inner Fire",
-
-	k = {
-		spell = B"Inner Fire",
-		selfonly = true,
-	},
-})
+i = core:NewModule(B"Inner Fire", buffs)
+i.spell = B"Inner Fire"
+i.target = "Self"
 
 
-CorkFu_Priest_FearWard = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Priest_FearWard",
-	nicename = B"Fear Ward",
-
-	k = {
-		spell = B"Fear Ward",
-	},
-})
+i = core:NewModule(B"Fear Ward", buffs)
+i.spell = B"Fear Ward"
+i.target = "Friendly"
 
 
-CorkFu_Priest_Spirit = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Priest_Spirit",
-	nicename = B"Divine Spirit",
-
-	k = {
-		spell = B"Divine Spirit",
-		multispell = B"Prayer of Spirit",
-		ranklevels = {30,40,50,60},
-	},
-})
+i = core:NewModule(B"Divine Spirit", buffs)
+i.target = "Friendly"
+i.spell = B"Divine Spirit"
+i.multispell = B"Prayer of Spirit"
+i.ranklevels = {30,40,50,60}
 
 
-CorkFu_Priest_PWShield = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Priest_PWShield",
-	nicename = B"Power Word: Shield",
-
-	k = {
-		spell = B"Power Word: Shield",
-		ranklevels = {6,12,18,24,30,36,42,48,54,60},
-	},
-})
+i = core:NewModule(B"Power Word: Shield", buffs)
+i.target = "Party"
+i.spell = B"Power Word: Shield"
+i.ranklevels = {6,12,18,24,30,36,42,48,54,60}
 
 
-CorkFu_Priest_ShadProt = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Priest_ShadProt",
-	nicename = B"Shadow Protection",
-
-	k = {
-		spell = B"Shadow Protection",
-		multispell = B"Prayer of Shadow Protection",
-		ranklevels = {30,42,56},
-	},
-})
+i = core:NewModule(B"Shadow Protection", buffs)
+i.target = "Friendly"
+i.spell = B"Shadow Protection"
+i.multispell = B"Prayer of Shadow Protection"
+i.ranklevels = {30,42,56}
 
 
-CorkFu_Priest_Disease = CorkFu_DebuffTemplate:New({
-	name = "CorkFu_Priest_Disease",
-	nicename = "Cure Disease",
-
-	k = {
-		debufftype = "Curse",
-		spell = B"Cure Disease",
-		betterspell = B"Abolish Disease",
-		diffcost = true,
-	},
-})
+i = core:NewModule(B"Cure Disease", debuffs)
+i.target = "Friendly"
+i.debufftype = "Curse"
+i.spell = B"Cure Disease"
+i.betterspell = B"Abolish Disease"
+i.diffcost = true
 
 
-CorkFu_Priest_Magic = CorkFu_DebuffTemplate:New({
-	name = "CorkFu_Priest_Magic",
-	nicename = "Dispel Magic",
-
-	k = {
-		debufftype = "Curse",
-		spell = B"Dispel Magic",
-		cantargetenemy = true,
-	},
-})
+i = core:NewModule(B"Dispel Magic", debuffs)
+i.target = "Any"
+i.debufftype = "Curse"
+i.spell = B"Dispel Magic"
+i.cantargetenemy = true

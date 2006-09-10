@@ -1,56 +1,41 @@
 
 local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
 local tektech = TekTechEmbed:GetInstance("1")
+local tablet = AceLibrary("Tablet-2.0")
+local BS = AceLibrary("Babble-Spell-2.0")
+
 local core = FuBar_CorkFu
+local defaultspell = BS"Find Herbs"
+local icons, spells = {}, {
+	[BS["Find Herbs"]]       = "Interface\\Icons\\INV_Misc_Flower_02",
+	[BS["Find Minerals"]]    = "Interface\\Icons\\Spell_Nature_Earthquake",
+	[BS["Find Treasure"]]    = "Interface\\Icons\\Racial_Dwarf_FindTreasure",
+	[BS["Track Beasts"]]     = "Interface\\Icons\\Ability_Tracking",
+	[BS["Track Humanoids"]]  = "Interface\\Icons\\Spell_Holy_PrayerOfHealing",
+	[BS["Track Hidden"]]     = "Interface\\Icons\\Ability_Stealth",
+	[BS["Track Elementals"]] = "Interface\\Icons\\Spell_Frost_SummonWaterElemental",
+	[BS["Track Undead"]]     = "Interface\\Icons\\Spell_Shadow_DarkSummoning",
+	[BS["Track Demons"]]     = "Interface\\Icons\\Spell_Shadow_SummonFelHunter",
+	[BS["Track Giants"]]     = "Interface\\Icons\\Ability_Racial_Avatar",
+	[BS["Track Dragonkin"]]  = "Interface\\Icons\\INV_Misc_Head_Dragon_01",
+	[BS["Sense Undead"]]     = "Interface\\Icons\\Spell_Holy_SenseUndead",
+	[BS["Sense Demons"]]     = "Interface\\Icons\\Spell_Shadow_Metamorphosis",
+}
+for i,v in pairs(spells) do icons[v] = i end
 
 
-CorkFu_Tracking = AceAddon:new({
-	name = "CorkFu_Tracking",
-	nicename = "Tracking",
-
-	k = {
-		spells = {
-			["Find Herbs"]       = "Interface\\Icons\\INV_Misc_Flower_02",
-			["Find Minerals"]    = "Interface\\Icons\\Spell_Nature_Earthquake",
-			["Find Treasure"]    = "Interface\\Icons\\Racial_Dwarf_FindTreasure",
-			["Track Beasts"]     = "Interface\\Icons\\Ability_Tracking",
-			["Track Humanoids"]  = "Interface\\Icons\\Spell_Holy_PrayerOfHealing",
-			["Track Hidden"]     = "Interface\\Icons\\Ability_Stealth",
-			["Track Elementals"] = "Interface\\Icons\\Spell_Frost_SummonWaterElemental",
-			["Track Undead"]     = "Interface\\Icons\\Spell_Shadow_DarkSummoning",
-			["Track Demons"]     = "Interface\\Icons\\Spell_Shadow_SummonFelHunter",
-			["Track Giants"]     = "Interface\\Icons\\Ability_Racial_Avatar",
-			["Track Dragonkin"]  = "Interface\\Icons\\INV_Misc_Head_Dragon_01",
-			["Sense Undead"]     = "Interface\\Icons\\Spell_Holy_SenseUndead",
-			["Sense Demons"]     = "Interface\\Icons\\Spell_Shadow_Metamorphosis",
-		},
-		icons = {},
-		selfonly = true,
-		defaultspell = "Find Herbs",
-		icon = "Interface\\Icons\\INV_Misc_Head_Dragon_01",
-	},
-	tagged = {player = true},
-})
+local track = core:NewModule("Tracking")
+track.target = "Self"
+track.tagged = {player = true}
+track.spells = spells
 
 
-function CorkFu_Tracking:Initialize()
-	for i,v in pairs(self.k.spells) do self.k.icons[v] = i end
-	for i in pairs(self.k.spells) do if tektech:SpellKnown(i) then self.k.defaultspell = i end end
-	self:TriggerEvent("CORKFU_REGISTER_MODULE", self)
-end
+function track:OnEnable()
+	for i in pairs(spells) do if tektech:SpellKnown(i) then defaultspell = i end end
 
-
-function CorkFu_Tracking:Enable()
-	self:RegisterEvent("CORKFU_RESCAN")
+	self:RegisterEvent("CorkFu_Rescan")
 	self:RegisterEvent("PLAYER_AURAS_CHANGED")
 	self:PLAYER_AURAS_CHANGED()
-
-	self:TriggerEvent("CORKFU_UPDATE")
-end
-
-
-function CorkFu_Tracking:Disable()
-	self:UnregisterAllEvents()
 end
 
 
@@ -58,26 +43,45 @@ end
 --      Cork Methods      --
 ----------------------------
 
-function CorkFu_Tracking:ItemValid()
-	for i in pairs(self.k.spells) do
+function track:ItemValid()
+	for i in pairs(spells) do
 		if tektech:SpellKnown(i) then return true end
 	end
 end
 
 
-function CorkFu_Tracking:UnitValid(unit)
+function track:UnitValid(unit)
 	return unit == "player"
 end
 
 
-function CorkFu_Tracking:GetIcon()
-	local filter = tektech:TableGetVal(core.data, self.name, "Filters", "Everyone")
-	return filter and self.k.spells[filter] or self.k.defaultspell and self.k.spells[self.k.defaultspell] or self.k.icon
+function track:GetIcon()
+	local filter = self.db.profile["Filter Everyone"]
+	return filter and BS:GetSpellIcon(filter) or defaultspell and BS:GetSpellIcon(defaultspell)
 end
 
 
-function CorkFu_Tracking:PutACorkInIt(unit)
-	CastSpellByName(tektech:TableGetVal(core.data, self.name, "Filters", "Everyone") or self.k.defaultspell)
+function track:GetTopItem()
+	if not self:ItemValid() or self.tagged.player ~= true or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+
+	local spell = self.db.profile["Filter Everyone"] or defaultspell
+	return BS:GetSpellIcon(spell), spell
+end
+
+
+function track:PutACorkInIt()
+	CastSpellByName(self.db.profile["Filter Everyone"] or defaultspell)
+	return true
+end
+
+
+function track:OnTooltipUpdate()
+	if not self:ItemValid() or self.tagged.player ~= true or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+
+	local spell = self.db.profile["Filter Everyone"] or defaultspell
+	local cat = tablet:AddCategory("hideBlankLine", true)
+	cat:AddLine("text", spell, "hasCheck", true, "checked", true, "checkIcon", BS:GetSpellIcon(spell),
+		"func", self.PutACorkInIt, "arg1", self)
 end
 
 
@@ -86,22 +90,18 @@ end
 ------------------------------
 
 
-function CorkFu_Tracking:CORKFU_RESCAN(spell)
-	if self.k.spells[spell] or spell == "All" then self:PLAYER_AURAS_CHANGED() end
+function track:CorkFu_Rescan(spell)
+	if spells[spell] or spell == "All" then self:PLAYER_AURAS_CHANGED() end
 end
 
 
-function CorkFu_Tracking:PLAYER_AURAS_CHANGED()
+function track:PLAYER_AURAS_CHANGED()
 	local x = GetTrackingTexture()
-	local tex = x and self.k.icons[x]
+	local tex = x and icons[x]
 	if tex == self.tagged.player then return end
 
 	self.tagged.player = tex or true
-	self:TriggerEvent("CORKFU_UPDATE")
+	self:TriggerEvent("CorkFu_Update")
 end
 
 
---------------------------------
---      Load this bitch!      --
---------------------------------
-CorkFu_Tracking:RegisterForLoad()

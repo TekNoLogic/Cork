@@ -4,40 +4,32 @@ if c ~= "HUNTER" then return end
 
 local tektech = TekTechEmbed:GetInstance("1")
 local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
+local tablet = AceLibrary("Tablet-2.0")
 
 local feedpet = "Feed Pet"
 local icon = "Interface\\Icons\\Ability_Hunter_BeastTraining"
+local core, happyness = FuBar_CorkFu
 
-CorkFu_Hunter_PetHappy = AceAddon:new({
-	name = "CorkFu_Hunter_PetHappy",
-	nicename = "Pet Happiness",
-
-	k = {},
-	tagged = {},
-})
+local happy = core:NewModule("Pet Happiness")
+happy.target = "Self"
 
 
 ---------------------------
 --      Ace Methods      --
 ---------------------------
 
-function CorkFu_Hunter_PetHappy:Initialize()
-	self:TriggerEvent("CORKFU_REGISTER_MODULE", self)
-end
-
-
-function CorkFu_Hunter_PetHappy:Enable()
+function happy:OnEnable()
 	self:UNIT_HAPPINESS()
 	self:RegisterEvent("UNIT_PET")
 	self:RegisterEvent("UNIT_HAPPINESS")
-	self:TriggerEvent("CORKFU_UPDATE")
+	self:TriggerEvent("CorkFu_Update")
+
 	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_LOST")
 	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_GAINED")
 end
 
 
-function CorkFu_Hunter_PetHappy:Disable()
-	self:UnregisterAllEvents()
+function happy:OnDisable()
 	seaura:UnregisterAllEvents(self)
 end
 
@@ -46,23 +38,42 @@ end
 --      Cork Methods      --
 ----------------------------
 
-function CorkFu_Hunter_PetHappy:ItemValid()
+function happy:ItemValid()
 	return tektech:SpellKnown(feedpet)
 end
 
 
-function CorkFu_Hunter_PetHappy:UnitValid(unit)
+function happy:UnitValid(unit)
 	return unit == "pet" and UnitExists(unit) and not UnitIsDeadOrGhost(unit)
 end
 
 
-function CorkFu_Hunter_PetHappy:GetIcon()
+function happy:GetIcon()
 	return icon
 end
 
 
-function CorkFu_Hunter_PetHappy:PutACorkInIt()
-	if FOM_Feed then FOM_Feed() end
+function happy:PutACorkInIt()
+	if FOM_Feed then
+		FOM_Feed()
+		return true
+	end
+end
+
+
+function happy:OnTooltipUpdate()
+	if not self:ItemValid() or happyness ~= true or not self:UnitValid("pet") or self.db.profile.player == -1 then return end
+
+	local cat = tablet:AddCategory("hideBlankLine", true)
+	cat:AddLine("text", UnitName("pet").." is hungry", "hasCheck", true, "checked", true, "checkIcon", icon,
+		"func", self.PutACorkInIt, "arg1", self)
+end
+
+
+function happy:GetTopItem()
+	if not self:ItemValid() or happyness ~= true or not self:UnitValid("pet") or core:UnitIsFiltered(self, "pet") then return end
+
+	return icon, UnitName("pet")
 end
 
 
@@ -70,34 +81,31 @@ end
 --      Event Handlers      --
 ------------------------------
 
-function CorkFu_Hunter_PetHappy:UNIT_HAPPINESS()
+function happy:UNIT_HAPPINESS()
 	if seaura:UnitHasBuff("pet", "Feed Pet Effect") then return end
 
-	local happy = GetPetHappiness()
-	self.tagged.pet = happy ~= 3
-	self:TriggerEvent("CORKFU_UPDATE")
+	local h = GetPetHappiness()
+	happyness = h ~= 3
+	self:TriggerEvent("CorkFu_Update")
 end
 
 
-function CorkFu_Hunter_PetHappy:UNIT_PET()
+function happy:UNIT_PET()
 	if arg1 == "player" then self:UNIT_HAPPINESS() end
 end
 
 
-function CorkFu_Hunter_PetHappy:SPECIAL_UNIT_BUFF_GAINED(unit, buff)
+function happy:SPECIAL_UNIT_BUFF_GAINED(unit, buff)
 	if unit == "pet" and buff == "Feed Pet Effect" then
-		self.tagged.pet = "Feeding"
-		self:TriggerEvent("CORKFU_UPDATE")
+		happyness = "Feeding"
+		self:TriggerEvent("CorkFu_Update")
 	end
 end
 
 
-function CorkFu_Hunter_PetHappy:SPECIAL_UNIT_BUFF_LOST(unit, buff)
+function happy:SPECIAL_UNIT_BUFF_LOST(unit, buff)
 	if unit == "pet" and buff == "Feed Pet Effect" then self:UNIT_HAPPINESS() end
 end
 
 
---------------------------------
---      Load this bitch!      --
---------------------------------
-CorkFu_Hunter_PetHappy:RegisterForLoad()
+

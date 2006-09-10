@@ -3,67 +3,42 @@ local _, c = UnitClass("player")
 if c ~= "MAGE" then return end
 
 local B = AceLibrary("Babble-Spell-2.0")
+local core, i = FuBar_CorkFu
+local buffs, debuffs = core:GetTemplate("Buffs"), core:GetTemplate("Debuffs")
 
 
-CorkFu_Mage_Intellect = CorkFu_BuffTemplate:New({
-	name = "Spell_Holy_MagicalSentry",
-	nicename = B"Arcane Intellect",
-
-	k = {
-		spell = B"Arcane Intellect",
-		multispell = B"Arcane Brilliance",
-		ranklevels = {1,14,28,42,56},
-	},
-})
+i = core:NewModule(B"Arcane Intellect", buffs)
+i.target = "Friendly"
+i.spell = B"Arcane Intellect"
+i.multispell = B"Arcane Brilliance"
+i.ranklevels = {1,14,28,42,56}
 
 
-CorkFu_Mage_ManaShield = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Mage_ManaShield",
-	nicename = B"Mana Shield",
-
-	k = {
-		spell = B"Mana Shield",
-		selfonly = true,
-	},
-})
+i = core:NewModule(B"Mana Shield", buffs)
+i.spell = B"Mana Shield"
+i.target = "Self"
 
 
-CorkFu_Mage_IceArmor = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Mage_IceArmor",
-	nicename = "Armor",
-
-	k = {
-		spells = {
-			[B"Ice Armor"]   = true,
-			[B"Frost Armor"] = true,
-			[B"Mage Armor"]  = true,
-		},
-		defaultspell = B"Frost Armor",
-		selfonly = true,
-	},
-})
+i = core:NewModule("Armor", buffs)
+i.target = "Self"
+i.defaultspell = B"Frost Armor"
+i.spells = {
+	[B"Ice Armor"]   = true,
+	[B"Frost Armor"] = true,
+	[B"Mage Armor"]  = true,
+}
 
 
-CorkFu_Mage_DampenMagic = CorkFu_BuffTemplate:New({
-	name = "CorkFu_Mage_DampenMagic",
-	nicename = "Amplify/Dampen Magic",
-
-	k = {
-		spells = {
-			[B"Amplify Magic"] = {18,30,42,54},
-			[B"Dampen Magic"] = {12,24,36,48,60},
-		},
-		defaultspell = B"Dampen Magic",
-	},
-})
+i = core:NewModule("Amplify/Dampen Magic", buffs)
+i.target = "Raid"
+i.defaultspell = B"Dampen Magic"
+i.spells = {
+	[B"Amplify Magic"] = {18,30,42,54},
+	[B"Dampen Magic"] = {12,24,36,48,60},
+}
 
 
-CorkFu_Mage_Curse = CorkFu_DebuffTemplate:New({
-	name = "CorkFu_Mage_Curse",
-	nicename = B"Remove Lesser Curse",
-
-	k = {
-		debufftype = "Curse",
-		spell = B"Remove Lesser Curse",
-	},
-})
+i = core:NewModule(B"Remove Lesser Curse", debuffs)
+i.target = "Friendly"
+i.debufftype = "Curse"
+i.spell = B"Remove Lesser Curse"

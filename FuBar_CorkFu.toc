@@ -2,10 +2,18 @@
 ## Title: FuBar - |cffffffffCork|cff00ff00Fu|r
 ## Notes: Track needed buffs, debuffs and more
 ## Author: Tekkub Stoutwrithe
-## Version: $Revision$
+## Version: 2.0
 ## LastUpdate: $Date$
+## X-Category: Buffs
+## X-Wiki-Discussion: {{Ace Forum|1459|Ace Forum}}
+## X-Wiki-BugTracker: {{WoWI Portal|tekkub|WoWI Portal}}
+## X-AceForum: 1459
+## X-WoWIPortal: tekkub
+
 ## RequiredDeps: Ace
-## OptionalDeps: PeriodicTable, TekTechEmbed, FuBar, BabbleLib, Ace2, SpecialEventsEmbed
+## OptionalDeps: Ace2, BabbleLib, FuBar, PeriodicTable, SpecialEventsEmbed, TekTechEmbed
+## X-Embeds: Ace2, BabbleLib, PeriodicTable, SpecialEventsEmbed, TekTechEmbed
+
 ## SavedVariables: CorkFuDB
 
 Libs\AceLibrary\AceLibrary.lua
