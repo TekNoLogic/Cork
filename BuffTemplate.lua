@@ -369,7 +369,7 @@ function template:OnTooltipUpdate()
 		if num >= groupthresh then
 			local icon = self:GetIcon("group"..group) or questionmark
 			cat:AddLine("text", "Group "..group, "hasCheck", true, "checked", true, "checkIcon", icon, "text2", num.." units",
-				"func", self.PutACorkInIt, "arg1", i, "arg2", "group"..group, "arg3", i)
+				"func", self.PutACorkInIt, "arg1", self, "arg2", "group"..group)
 		end
 	end
 
@@ -388,7 +388,7 @@ function template:OnTooltipUpdate()
 			end
 			if not hidden then
 				cat:AddLine("text", name, "hasCheck", true, "checked", true, "checkIcon", icon,
-					"func", self.PutACorkInIt, "arg1", self, "arg2", unit, "arg3", self, "text2", group)
+					"func", self.PutACorkInIt, "arg1", self, "arg2", unit, "text2", group)
 			end
 		end
 	end
