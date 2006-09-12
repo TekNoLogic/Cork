@@ -4,8 +4,8 @@ local tektech = TekTechEmbed:GetInstance("1")
 local tablet = AceLibrary("Tablet-2.0")
 local BS = AceLibrary("Babble-Spell-2.0")
 
-local core = FuBar_CorkFu
-local defaultspell = BS"Find Herbs"
+local core, mybuff = FuBar_CorkFu
+local defaultspell = BS["Find Herbs"]
 local icons, spells = {}, {
 	[BS["Find Herbs"]]       = "Interface\\Icons\\INV_Misc_Flower_02",
 	[BS["Find Minerals"]]    = "Interface\\Icons\\Spell_Nature_Earthquake",
@@ -26,7 +26,6 @@ for i,v in pairs(spells) do icons[v] = i end
 
 local track = core:NewModule("Tracking")
 track.target = "Self"
-track.tagged = {player = true}
 track.spells = spells
 
 
@@ -57,15 +56,15 @@ end
 
 function track:GetIcon()
 	local filter = self.db.profile["Filter Everyone"]
-	return filter and BS:GetSpellIcon(filter) or defaultspell and BS:GetSpellIcon(defaultspell)
+	return filter and spells[filter] or defaultspell and spells[defaultspell]
 end
 
 
 function track:GetTopItem()
-	if not self:ItemValid() or self.tagged.player ~= true or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or mybuff ~= true or not self:UnitValid("player") or self.db.profile.player == -1 then return end
 
 	local spell = self.db.profile["Filter Everyone"] or defaultspell
-	return BS:GetSpellIcon(spell), spell
+	return spells[spell], spell
 end
 
 
@@ -76,11 +75,11 @@ end
 
 
 function track:OnTooltipUpdate()
-	if not self:ItemValid() or self.tagged.player ~= true or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or mybuff ~= true or not self:UnitValid("player") or self.db.profile.player == -1 then return end
 
 	local spell = self.db.profile["Filter Everyone"] or defaultspell
 	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", spell, "hasCheck", true, "checked", true, "checkIcon", BS:GetSpellIcon(spell),
+	cat:AddLine("text", spell, "hasCheck", true, "checked", true, "checkIcon", spells[spell],
 		"func", self.PutACorkInIt, "arg1", self)
 end
 
@@ -98,9 +97,9 @@ end
 function track:PLAYER_AURAS_CHANGED()
 	local x = GetTrackingTexture()
 	local tex = x and icons[x]
-	if tex == self.tagged.player then return end
+	if tex == mybuff then return end
 
-	self.tagged.player = tex or true
+	mybuff = tex or true
 	self:TriggerEvent("CorkFu_Update")
 end
 

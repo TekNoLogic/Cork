@@ -190,7 +190,7 @@ function template:OnTooltipUpdate()
 				group = "Group "..group
 			end
 			cat:AddLine("text", name, "hasCheck", true, "checked", true, "checkIcon", icon,
-				"func", self.PutACorkInIt, "arg1", self, "arg2", unit, "arg3", self, "text2", group)
+				"func", self.PutACorkInIt, "arg1", self, "arg2", unit, "text2", group)
 		end
 	end
 end
