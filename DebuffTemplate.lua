@@ -81,8 +81,7 @@ end
 function template:PutACorkInIt(unit)
 	if not unit then
 		local _,_,unit = self:GetTopItem()
-		if unit then return self:PutACorkInIt(unit) end
-		return
+		return unit and self:PutACorkInIt(unit)
 	end
 	local retarget
 
@@ -95,6 +94,7 @@ function template:PutACorkInIt(unit)
 	if SpellIsTargeting() then SpellTargetUnit(unit) end
 	if SpellIsTargeting() then SpellStopTargeting() end
 	if retarget then TargetLastTarget() end
+	return true
 end
 
 

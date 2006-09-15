@@ -2,9 +2,10 @@
 local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
 local tektech = TekTechEmbed:GetInstance("1")
 local tablet = AceLibrary("Tablet-2.0")
+local dewdrop = AceLibrary("Dewdrop-2.0")
 local BS = AceLibrary("Babble-Spell-2.0")
 
-local core, mybuff = FuBar_CorkFu
+local core, mybuff = FuBar_CorkFu, -1
 local defaultspell = BS["Find Herbs"]
 local icons, spells = {}, {
 	[BS["Find Herbs"]]       = "Interface\\Icons\\INV_Misc_Flower_02",
@@ -25,8 +26,7 @@ for i,v in pairs(spells) do icons[v] = i end
 
 
 local track = core:NewModule("Tracking")
-track.target = "Self"
-track.spells = spells
+track.target = "Custom"
 
 
 function track:OnEnable()
@@ -55,32 +55,48 @@ end
 
 
 function track:GetIcon()
-	local filter = self.db.profile["Filter Everyone"]
+	local filter = self.db.char["Filter Everyone"]
 	return filter and spells[filter] or defaultspell and spells[defaultspell]
 end
 
 
 function track:GetTopItem()
-	if not self:ItemValid() or mybuff ~= true or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or mybuff or self.db.char["Filter Everyone"] == -1 then return end
 
-	local spell = self.db.profile["Filter Everyone"] or defaultspell
+	local spell = self.db.char["Filter Everyone"] or defaultspell
 	return spells[spell], spell
 end
 
 
 function track:PutACorkInIt()
-	CastSpellByName(self.db.profile["Filter Everyone"] or defaultspell)
+	local _, spell = self:GetTopItem()
+	if not spell then return end
+	CastSpellByName(spell)
 	return true
 end
 
 
 function track:OnTooltipUpdate()
-	if not self:ItemValid() or mybuff ~= true or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or mybuff or self.db.char["Filter Everyone"] == -1 then return end
 
-	local spell = self.db.profile["Filter Everyone"] or defaultspell
+	local spell = self.db.char["Filter Everyone"] or defaultspell
 	local cat = tablet:AddCategory("hideBlankLine", true)
 	cat:AddLine("text", spell, "hasCheck", true, "checked", true, "checkIcon", spells[spell],
 		"func", self.PutACorkInIt, "arg1", self)
+end
+
+
+function track:OnMenuRequest()
+	local val = self.db.char["Filter Everyone"] or defaultspell
+
+	dewdrop:AddLine("text", core.loc.disabled, "func", self.SetFilter, "isRadio", true, "checked", val == -1, "arg1", self,
+		"arg2", "Everyone", "arg3", -1, "arg4", "char")
+	for v in pairs(spells) do
+		if tektech:SpellKnown(v) then
+			dewdrop:AddLine("text", v, "func", self.SetFilter, "isRadio", true, "checked", val == v,
+				"arg1", self, "arg2", "Everyone", "arg3", v, "arg4", "char")
+		end
+	end
 end
 
 
@@ -99,7 +115,7 @@ function track:PLAYER_AURAS_CHANGED()
 	local tex = x and icons[x]
 	if tex == mybuff then return end
 
-	mybuff = tex or true
+	mybuff = tex
 	self:TriggerEvent("CorkFu_Update")
 end
 

@@ -131,7 +131,7 @@ function template:GetTopItem()
 	end
 
 	for unit,val in pairs(self.tagged) do
-		if val == true and self:UnitValid(unit) and not core:UnitIsFiltered(self, unit) then
+		if val == true and self:UnitValid(unit) and not self:UnitIsFiltered(unit) then
 			local color = (UnitInParty(unit) or UnitInRaid(unit)) and string.format("|cff%s", BC:GetHexColor(UnitClass(unit))) or "|cff00ff00"
 			return self:GetIcon(unit), color.. UnitName(unit), unit
 		end
@@ -142,8 +142,7 @@ end
 function template:PutACorkInIt(unit)
 	if not unit then
 		local _, _, unit = self:GetTopItem()
-		if unit then return self:PutACorkInIt(unit) end
-		return
+		return unit and self:PutACorkInIt(unit)
 	end
 
 	if raidgroups[unit] then return self:PutACorkInItMulti(unit) end
@@ -161,6 +160,7 @@ function template:PutACorkInIt(unit)
 	if SpellIsTargeting() then SpellTargetUnit(unit) end
 	if SpellIsTargeting() then SpellStopTargeting() end
 	if retarget then TargetLastTarget() end
+	return true
 end
 
 
@@ -178,6 +178,7 @@ function template:PutACorkInItMulti(group)
 	if SpellIsTargeting() then SpellTargetUnit(unit) end
 	if SpellIsTargeting() then SpellStopTargeting() end
 	if retarget then TargetLastTarget() end
+	return true
 end
 
 
@@ -289,7 +290,7 @@ end
 
 function template:GetSpell(unit)
 	assert(unit, "No unit passed")
-	assert(UnitExists(unit), "Unit does not exist")
+	assert(raidgroups[unit] or UnitExists(unit), "Unit does not exist")
 
 	if self.multispell and IsShiftKeyDown() and tektech:SpellKnown(self.multispell) then return self.multispell
 	elseif self.spell then return self.spell, self:GetRank(unit)
@@ -374,7 +375,7 @@ function template:OnTooltipUpdate()
 	end
 
 	for unit,val in pairs(self.tagged) do
-		if val == true and self:UnitValid(unit) and not core:UnitIsFiltered(self, unit) then
+		if val == true and self:UnitValid(unit) and not self:UnitIsFiltered(unit) then
 			local hidden
 			local color = (UnitInParty(unit) or UnitInRaid(unit)) and string.format("|cff%s", BC:GetHexColor(UnitClass(unit))) or "|cff00ff00"
 			local name = unit and (color.. UnitName(unit))
@@ -398,7 +399,7 @@ end
 function template:GetGroupNeeds(t)
 	if GetNumRaidMembers() == 0 then return end
 	for unit,val in pairs(self.tagged) do
-		if raidunitnum[unit] and val == true and self:UnitValid(unit) and not core:UnitIsFiltered(self, unit) then
+		if raidunitnum[unit] and val == true and self:UnitValid(unit) and not self:UnitIsFiltered(unit) then
 			local _,_,group = GetRaidRosterInfo(raidunitnum[unit])
 			t[group] = (t[group] or 0) + 1
 		end

@@ -47,6 +47,7 @@ end
 
 FuBar_CorkFu = AceLibrary("AceAddon-2.0"):new("AceEvent-2.0", "AceConsole-2.0", "AceDB-2.0", "FuBarPlugin-2.0", "AceModuleCore-2.0")
 FuBar_CorkFu:SetModuleMixins("AceEvent-2.0")
+FuBar_CorkFu.loc = loc
 FuBar_CorkFu.hasIcon = defaulticon
 FuBar_CorkFu.clickableTooltip = true
 FuBar_CorkFu.tooltipHiddenWhenEmpty = true
@@ -110,6 +111,79 @@ function FuBar_CorkFu:OnDisable()
 end
 
 
+--------------------------------
+--      Module Prototype      --
+--------------------------------
+
+function FuBar_CorkFu.modulePrototype:ToggleFilter(unit, profile)
+	assert(unit, "No unit passed")
+
+	local v = self.db[profile or "profile"]["Filter ".. unit]
+	if v == 1 then self.db[profile or "profile"]["Filter "..unit] = -1
+	elseif v == -1 then self.db[profile or "profile"]["Filter "..unit] = nil
+	else self.db[profile or "profile"]["Filter "..unit] = 1 end
+	self:TriggerEvent("CorkFu_Update")
+end
+
+
+function FuBar_CorkFu.modulePrototype:SetFilter(unit, value, profile)
+	assert(unit, "No unit passed")
+
+	self.db[profile or "profile"]["Filter "..unit] = value
+	self:TriggerEvent("CorkFu_Update")
+end
+
+
+function FuBar_CorkFu.modulePrototype:UnitIsFiltered(unit, profile)
+	assert(unit, "No unit passed")
+	assert(unit == "player" or UnitExists(unit), self:ToString().." - ".. unit.." does not exist")
+
+	if self.target == "Self" then
+		return UnitName(unit) ~= UnitName("player") or self.db[profile or "profile"]["Filter Everyone"] == -1
+	end
+
+	local istarget = unit == "target"
+	local ispc = UnitIsPlayer(unit) and not UnitInParty(unit) and not UnitInRaid(unit)
+
+	local pc = istarget and ispc and self.db[profile or "profile"]["Filter Target Player"]
+	if pc then return pc == -1 end
+
+	local npc = istarget and not ispc and self.db[profile or "profile"]["Filter Target NPC"]
+	if npc then return npc == -1 end
+
+	local byname = self.db[profile or "profile"]["Filter Unit "..UnitName(unit)]
+	if byname then return byname == -1 end
+
+	local _,class = UnitClass(unit)
+	local byclass = class and self.db[profile or "profile"]["Filter Class ".. class]
+	if byclass then return byclass == -1 end
+
+	local i, g, byparty
+	if GetNumRaidMembers() > 0 then _, _, i = string.find(unit, "raid(%d+)") end
+	if i then _, _, g = GetRaidRosterInfo(tonumber(i)) end
+	if g then byparty = self.db[profile or "profile"]["Filter Party "..g] end
+	if byparty then return byparty == -1 end
+
+	local everyone = self.db[profile or "profile"]["Filter Everyone"]
+	if everyone then return everyone == -1 end
+end
+
+
+function FuBar_CorkFu:ToggleFilter(module, unit)
+	module:ToggleFilter(unit)
+end
+
+
+function FuBar_CorkFu:SetFilter(module, unit, value)
+	module:SetFilter(module, unit, value)
+end
+
+
+function FuBar_CorkFu:UnitIsFiltered(module, unit)
+	module:UnitIsFiltered(unit)
+end
+
+
 ---------------------------------
 --      Template Handlers      --
 ---------------------------------
@@ -160,8 +234,14 @@ end
 function FuBar_CorkFu:OnMenuRequest(level, value, inTooltip, value1, value2, value3, value4)
 	if inTooltip then return end
 
-	local m = menus[level]
-	if m then m(self, level, value, inTooltip, value1, value2, value3, value4) end
+	local m, module = menus[level]
+	if level > 1 then
+		module = level == 2 and value or level == 3 and value1 or level == 4 and value2 or level == 5 and value3 or level == 6 and value4
+	end
+
+	if self:IsModule(module) and module.OnMenuRequest then
+		module:OnMenuRequest(level, value, inTooltip, value1, value2, value3, value4)
+	elseif m then m(self, level, value, inTooltip, value1, value2, value3, value4) end
 end
 
 
@@ -347,69 +427,6 @@ function FuBar_CorkFu:MenuSpells(module, unit)
 	compost:Reclaim(sortlist)
 end
 
-------------------------------
---      Filter Methods      --
-------------------------------
-
-function FuBar_CorkFu:ToggleFilter(module, unit)
-	assert(module, "No module passed")
-	assert(module.name, "Module does not have a name")
-	assert(unit, "No unit passed")
-
-	local v = module.db.profile["Filter ".. unit]
-	if v == 1 then module.db.profile["Filter "..unit] = -1
-	elseif v == -1 then module.db.profile["Filter "..unit] = nil
-	else module.db.profile["Filter "..unit] = 1 end
-	self:TriggerEvent("CorkFu_Update")
-end
-
-
-function FuBar_CorkFu:SetFilter(module, unit, value)
-	assert(module, "No module passed")
-	assert(module.name, "Module does not have a name")
-	assert(unit, "No unit passed")
-
-	module.db.profile["Filter "..unit] = value
-	self:TriggerEvent("CorkFu_Update")
-end
-
-
-function FuBar_CorkFu:UnitIsFiltered(module, unit)
-	assert(module, "No module passed")
-	assert(module.name, "Module does not have a name")
-	assert(unit, "No unit passed")
-	assert(unit == "player" or UnitExists(unit), module.name.." - ".. unit.." does not exist")
-
-	if module.target == "Self" then
-		return UnitName(unit) ~= UnitName("player") or module.db.profile["Filter Everyone"] == -1
-	end
-
-	local istarget = unit == "target"
-	local ispc = UnitIsPlayer(unit) and not UnitInParty(unit) and not UnitInRaid(unit)
-
-	local pc = istarget and ispc and module.db.profile["Filter Target Player"]
-	if pc then return pc == -1 end
-
-	local npc = istarget and not ispc and module.db.profile["Filter Target NPC"]
-	if npc then return npc == -1 end
-
-	local byname = module.db.profile["Filter Unit "..UnitName(unit)]
-	if byname then return byname == -1 end
-
-	local _,class = UnitClass(unit)
-	local byclass = class and module.db.profile["Filter Class ".. class]
-	if byclass then return byclass == -1 end
-
-	local i, g, byparty
-	if GetNumRaidMembers() > 0 then _, _, i = string.find(unit, "raid(%d+)") end
-	if i then _, _, g = GetRaidRosterInfo(tonumber(i)) end
-	if g then byparty = module.db.profile["Filter Party "..g] end
-	if byparty then return byparty == -1 end
-
-	local everyone = module.db.profile["Filter Everyone"]
-	if everyone then return everyone == -1 end
-end
-
 
 ------------------------------
 --      Helper Methods      --
@@ -426,7 +443,7 @@ function FuBar_CorkFu:GetTopText()
 	for name,module in self:IterateModules() do
 		if module:ItemValid() then
 			local icon, text = module:GetTopItem()
-			if icon then return icon, text end
+			if icon then return module:GetTopItem() end
 		end
 	end
 end

@@ -5,8 +5,6 @@
 ## Version: 2.0
 ## LastUpdate: $Date$
 ## X-Category: Buffs
-## X-Wiki-Discussion: {{Ace Forum|1459|Ace Forum}}
-## X-Wiki-BugTracker: {{WoWI Portal|tekkub|WoWI Portal}}
 ## X-AceForum: 1459
 ## X-WoWIPortal: tekkub
 
