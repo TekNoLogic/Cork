@@ -175,7 +175,7 @@ end
 
 
 function FuBar_CorkFu:SetFilter(module, unit, value)
-	module:SetFilter(module, unit, value)
+	module:SetFilter(unit, value)
 end
 
 
