@@ -433,6 +433,8 @@ end
 ------------------------------
 
 function FuBar_CorkFu:CorkFirst()
+	if Detox and Detox:Clean() then return true end
+
 	for name,module in self:IterateModules() do
 		if module:ItemValid() and module:PutACorkInIt() then return end
 	end
