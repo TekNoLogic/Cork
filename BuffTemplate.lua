@@ -4,7 +4,7 @@ local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
 local tektech = TekTechEmbed:GetInstance("1")
 local tablet = AceLibrary("Tablet-2.0")
 local BS = AceLibrary("Babble-Spell-2.0")
-local BC = BabbleLib:GetInstance("Class 1.1")
+local BC = AceLibrary("Babble-Class-2.0")
 local core = FuBar_CorkFu
 
 local groupthresh = 3
