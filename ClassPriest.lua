@@ -4,7 +4,7 @@ if c ~= "PRIEST" then return end
 
 local B = AceLibrary("Babble-Spell-2.0")
 local core, i = FuBar_CorkFu
-local buffs, debuffs = core:GetTemplate("Buffs"), core:GetTemplate("Debuffs")
+local buffs = core:GetTemplate("Buffs")
 
 
 i = core:NewModule(B"Power Word: Fortitude", buffs)
@@ -46,18 +46,3 @@ i.target = "Friendly"
 i.spell = B"Shadow Protection"
 i.multispell = B"Prayer of Shadow Protection"
 i.ranklevels = {30,42,56}
-
-
-i = core:NewModule(B"Cure Disease", debuffs)
-i.target = "Friendly"
-i.debufftype = "Curse"
-i.spell = B"Cure Disease"
-i.betterspell = B"Abolish Disease"
-i.diffcost = true
-
-
-i = core:NewModule(B"Dispel Magic", debuffs)
-i.target = "Any"
-i.debufftype = "Curse"
-i.spell = B"Dispel Magic"
-i.cantargetenemy = true

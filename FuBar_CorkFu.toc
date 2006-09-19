@@ -35,7 +35,6 @@ Libs\FuBarPlugin-1.2\FuBarPlugin-1.2.lua
 
 Core.lua
 BuffTemplate.lua
-DebuffTemplate.lua
 
 ClassDruid.lua
 ClassHunter.lua

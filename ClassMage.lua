@@ -4,7 +4,7 @@ if c ~= "MAGE" then return end
 
 local B = AceLibrary("Babble-Spell-2.0")
 local core, i = FuBar_CorkFu
-local buffs, debuffs = core:GetTemplate("Buffs"), core:GetTemplate("Debuffs")
+local buffs = core:GetTemplate("Buffs")
 
 
 i = core:NewModule(B"Arcane Intellect", buffs)
@@ -36,9 +36,3 @@ i.spells = {
 	[B"Amplify Magic"] = {18,30,42,54},
 	[B"Dampen Magic"] = {12,24,36,48,60},
 }
-
-
-i = core:NewModule(B"Remove Lesser Curse", debuffs)
-i.target = "Friendly"
-i.debufftype = "Curse"
-i.spell = B"Remove Lesser Curse"

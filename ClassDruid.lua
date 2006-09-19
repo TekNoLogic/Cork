@@ -4,7 +4,7 @@ if c ~= "DRUID" then return end
 
 local B = AceLibrary("Babble-Spell-2.0")
 local core, i = FuBar_CorkFu
-local buffs, debuffs = core:GetTemplate("Buffs"), core:GetTemplate("Debuffs")
+local buffs = core:GetTemplate("Buffs")
 
 
 i = core:NewModule(B"Mark of the Wild", buffs)
@@ -24,15 +24,3 @@ i = core:NewModule(B"Omen of Clarity", buffs)
 i.spell = B"Omen of Clarity"
 i.target = "Self"
 
-
-i = core:NewModule(B"Cure Poison", debuffs)
-i.target = "Friendly"
-i.debufftype = "Poison"
-i.spell = B"Cure Poison"
-i.betterspell = B"Abolish Poison"
-
-
-i = core:NewModule(B"Remove Curse", debuffs)
-i.target = "Friendly"
-i.debufftype = "Curse"
-i.spell = B"Remove Curse"

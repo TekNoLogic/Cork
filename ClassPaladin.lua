@@ -4,7 +4,7 @@ if c ~= "PALADIN" then return end
 
 local B = AceLibrary("Babble-Spell-2.0")
 local core, i = FuBar_CorkFu
-local buffs, debuffs = core:GetTemplate("Buffs"), core:GetTemplate("Debuffs")
+local buffs = core:GetTemplate("Buffs")
 
 
 i = core:NewModule("Auras", buffs)
@@ -46,22 +46,3 @@ i.multispells = {
 	[B"Blessing of Wisdom"]     = B"Greater Blessing of Wisdom",
 }
 
-
-i = core:NewModule("Remove Magic", debuffs)
-i.target = "Friendly"
-i.debufftype = "Magic"
-i.spell = B"Cleanse"
-
-
-i = core:NewModule("Remove Poison", debuffs)
-i.target = "Friendly"
-i.debufftype = "Poison"
-i.spell = B"Purify"
-i.betterspell = B"Cleanse"
-
-
-i = core:NewModule("Remove Disease", debuffs)
-i.target = "Friendly"
-i.debufftype = "Disease"
-i.spell = B"Purify"
-i.betterspell = B"Cleanse"
