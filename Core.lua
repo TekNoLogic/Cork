@@ -12,14 +12,14 @@ local compost = AceLibrary("Compost-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
 local tablet = AceLibrary("Tablet-2.0")
 local tektech = TekTechEmbed:GetInstance("1")
-local babble = BabbleLib:GetInstance("Class 1.1")
+local BC = AceLibrary("Babble-Class-2.0")
 
 local groupthresh = 3
 local templates, menus, menus3 = {}
 local defaulticon, questionmark = "Interface\\Icons\\INV_Drink_11", "Interface\\Icons\\INV_Misc_QuestionMark"
 local xpath = "Interface\\AddOns\\FuBar_CorkFu\\X.tga"
 local sortbyname = function(a,b) return a and b and a:ToString() < b:ToString() end
-local classes = {"DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "ROGUE", "SHAMAN", "WARLOCK", "WARRIOR"}
+local classes = {"Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior"}
 local loc = {
 	nofilter = "No Filter",
 	disabled = "Disabled",
@@ -381,8 +381,8 @@ end
 
 function FuBar_CorkFu:Menu3Class(level, value, inTooltip, value1, value2, value3, value4)
 	for _,v in pairs(classes) do
-		local class = babble:GetLocalized(v)
-		local clstxt = string.format("|cff%s%s|r", babble:GetHexColor(class), class)
+		local class = BC[v]
+		local clstxt = "|cff".. BC:GetHexColor(class).. class.."|r"
 		if value1.spells then
 			dewdrop:AddLine("text", clstxt, "value", "Class "..v, "hasArrow", true)
 		else
