@@ -377,7 +377,7 @@ function template:OnTooltipUpdate()
 	for unit,val in pairs(self.tagged) do
 		if val == true and self:UnitValid(unit) and not self:UnitIsFiltered(unit) then
 			local hidden
-			local color = (UnitInParty(unit) or UnitInRaid(unit)) and string.format("|cff%s", BC:GetHexColor(UnitClass(unit))) or "|cff00ff00"
+			local color = (UnitInParty(unit) or UnitInRaid(unit)) and UnitClass(unit) and string.format("|cff%s", BC:GetHexColor(UnitClass(unit))) or "|cff00ff00"
 			local name = unit and (color.. UnitName(unit))
 			local icon = self:GetIcon(unit) or questionmark
 			local group
