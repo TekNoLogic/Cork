@@ -126,7 +126,7 @@ function template:GetTopItem()
 
 	for group,num in pairs(groupneeds) do
 		if num >= groupthresh then
-			return self:GetIcon("group"..group), "Group "..group, "Group "..group
+			return self:GetIcon("group"..group), "Group "..group, "group"..group
 		end
 	end
 
