@@ -46,3 +46,8 @@ i.multispells = {
 	[B"Blessing of Wisdom"]     = B"Greater Blessing of Wisdom",
 }
 
+
+i = core:NewModule("Righteous Fury", buffs)
+i.target = "Self"
+i.defaultspell = B"Righteous Fury"
+i.spell = B"Righteous Fury"
