@@ -437,6 +437,8 @@ function FuBar_CorkFu:CorkFirst()
 	for name,module in self:IterateModules() do
 		if module:ItemValid() and module:PutACorkInIt() then return end
 	end
+
+	if PoisonFu and PoisonFu:OnClick() then return end
 end
 
 
