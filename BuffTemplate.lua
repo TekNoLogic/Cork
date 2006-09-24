@@ -1,6 +1,6 @@
 
 local AceOO = AceLibrary("AceOO-2.0")
-local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
+local seaura = AceLibrary("SpecialEvents-Aura-2.0")
 local tektech = TekTechEmbed:GetInstance("1")
 local tablet = AceLibrary("Tablet-2.0")
 local BS = AceLibrary("Babble-Spell-2.0")
@@ -30,11 +30,11 @@ local template = AceOO.Mixin {
 	"PutACorkInItMulti",
 	"GetUnitInGroup",
 	"CorkFu_Rescan",
-	"SPECIAL_UNIT_BUFF_GAINED",
-	"SPECIAL_UNIT_BUFF_LOST",
-	"SPECIAL_AURA_RAID_ROSTER_UPDATE",
-	"SPECIAL_AURA_PARTY_MEMBERS_CHANGED",
-	"SPECIAL_AURA_TARGETCHANGED",
+	"SpecialEvents_UnitBuffGained",
+	"SpecialEvents_UnitBuffLost",
+	"SpecialEvents_AuraRaidRosterUpdate",
+	"SpecialEvents_AuraPartyMembersChanged",
+	"SpecialEvents_AuraTargetChanged",
 	"ScanUnits",
 	"TestUnit",
 	"GetSpell",
@@ -63,20 +63,15 @@ function template:OnEnable()
 	if not self.tagged then self.tagged = {} end
 	self:RegisterEvent("CorkFu_Rescan")
 
-	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_LOST")
-	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_GAINED")
-	if self.target ~= "Self" then seaura:RegisterEvent(self, "SPECIAL_AURA_RAID_ROSTER_UPDATE") end
-	if self.target ~= "Self" then seaura:RegisterEvent(self, "SPECIAL_AURA_PARTY_MEMBERS_CHANGED") end
-	if self.target ~= "Self" then seaura:RegisterEvent(self, "SPECIAL_AURA_TARGETCHANGED") end
+	self:RegisterEvent("SpecialEvents_UnitBuffLost")
+	self:RegisterEvent("SpecialEvents_UnitBuffGained")
+	if self.target ~= "Self" then self:RegisterEvent("SpecialEvents_AuraRaidRosterUpdate") end
+	if self.target ~= "Self" then self:RegisterEvent("SpecialEvents_AuraPartyMembersChanged") end
+	if self.target ~= "Self" then self:RegisterEvent("SpecialEvents_AuraTargetChanged") end
 
 	self:ScanUnits()
 
 	self:TriggerEvent("CorkFu_Update")
-end
-
-
-function template:OnDisable()
-	seaura:UnregisterAllEvents(self)
 end
 
 
@@ -204,7 +199,7 @@ function template:CorkFu_Rescan(spell)
 end
 
 
-function template:SPECIAL_UNIT_BUFF_GAINED(unit, buff)
+function template:SpecialEvents_UnitBuffGained(unit, buff)
 	if unit == "mouseover" then return end
 	if (not self.spell or buff ~= self.spell)
 	and (not self.spells or not self.spells[buff])
@@ -215,7 +210,7 @@ function template:SPECIAL_UNIT_BUFF_GAINED(unit, buff)
 end
 
 
-function template:SPECIAL_UNIT_BUFF_LOST(unit, buff)
+function template:SpecialEvents_UnitBuffLost(unit, buff)
 	if unit == "mouseover" then return end
 	if (not self.spell or buff ~= self.spell)
 	and (not self.spells or not self.spells[buff])
@@ -228,19 +223,19 @@ function template:SPECIAL_UNIT_BUFF_LOST(unit, buff)
 end
 
 
-function template:SPECIAL_AURA_RAID_ROSTER_UPDATE()
+function template:SpecialEvents_AuraRaidRosterUpdate()
 	for i=1,GetNumRaidMembers() do self:TestUnit("raid"..i) end
 	self:TriggerEvent("CorkFu_Update")
 end
 
 
-function template:SPECIAL_AURA_PARTY_MEMBERS_CHANGED()
+function template:SpecialEvents_AuraPartyMembersChanged()
 	for i=1,GetNumPartyMembers() do self:TestUnit("party"..i) end
 	self:TriggerEvent("CorkFu_Update")
 end
 
 
-function template:SPECIAL_AURA_TARGETCHANGED()
+function template:SpecialEvents_AuraTargetChanged()
 	self.tagged.target = nil
 
 	if UnitExists("target") and UnitIsFriend("target", "player") then

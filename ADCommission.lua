@@ -1,5 +1,5 @@
 
-local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
+local seaura = AceLibrary("SpecialEvents-Aura-2.0")
 local pt = PeriodicTableEmbed:GetInstance("1")
 local tablet = AceLibrary("Tablet-2.0")
 local core = FuBar_CorkFu
@@ -31,11 +31,6 @@ function adc:OnEnable()
 	self:RegisterEvent("CorkFu_Rescan")
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 	self:ZONE_CHANGED_NEW_AREA()
-end
-
-
-function adc:OnDisable()
-	seaura:UnregisterAllEvents(self)
 end
 
 
@@ -93,12 +88,13 @@ function adc:ZONE_CHANGED_NEW_AREA()
 	SetMapToCurrentZone()
 
 	if zones[GetRealZoneText()] then
-		seaura:RegisterEvent(self, "SPECIAL_PLAYER_BUFF_LOST")
-		seaura:RegisterEvent(self, "SPECIAL_PLAYER_BUFF_GAINED")
+		self:RegisterEvent("SpecialEvents_PlayerBuffLost")
+		self:RegisterEvent("SpecialEvents_PlayerBuffGained")
 
 		self:Scan()
-	else
-		seaura:UnregisterAllEvents(self)
+	elseif self:IsEventRegistered("SpecialEvents_PlayerBuffLost") then
+		self:UnregisterEvent("SpecialEvents_PlayerBuffLost")
+		self:UnregisterEvent("SpecialEvents_PlayerBuffGained")
 	end
 
 	self:TriggerEvent("CorkFu_Update")
@@ -113,7 +109,7 @@ function adc:CorkFu_Rescan(spell)
 end
 
 
-function adc:SPECIAL_PLAYER_BUFF_GAINED(newbuff)
+function adc:SpecialEvents_PlayerBuffGained(newbuff)
 	if newbuff ~= buff then return end
 
 	buffed = true
@@ -121,7 +117,7 @@ function adc:SPECIAL_PLAYER_BUFF_GAINED(newbuff)
 end
 
 
-function adc:SPECIAL_PLAYER_BUFF_LOST(lostbuff)
+function adc:SpecialEvents_PlayerBuffLost(lostbuff)
 	if lostbuff ~= buff then return end
 
 	if buffed then

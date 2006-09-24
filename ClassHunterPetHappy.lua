@@ -3,7 +3,7 @@ local _, c = UnitClass("player")
 if c ~= "HUNTER" then return end
 
 local tektech = TekTechEmbed:GetInstance("1")
-local seaura = SpecialEventsEmbed:GetInstance("Aura 1")
+local seaura = AceLibrary("SpecialEvents-Aura-2.0")
 local tablet = AceLibrary("Tablet-2.0")
 
 local feedpet = "Feed Pet"
@@ -22,10 +22,10 @@ function happy:OnEnable()
 	self:UNIT_HAPPINESS()
 	self:RegisterEvent("UNIT_PET")
 	self:RegisterEvent("UNIT_HAPPINESS")
-	self:TriggerEvent("CorkFu_Update")
+	self:RegisterEvent("SpecialEvents_UnitBuffLost")
+	self:RegisterEvent("SpecialEvents_UnitBuffGained")
 
-	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_LOST")
-	seaura:RegisterEvent(self, "SPECIAL_UNIT_BUFF_GAINED")
+	self:TriggerEvent("CorkFu_Update")
 end
 
 
@@ -54,7 +54,7 @@ end
 
 
 function happy:PutACorkInIt()
-	if FOM_Feed then
+	if self:ItemValid() and self:UnitValid("pet") and FOM_Feed then
 		FOM_Feed()
 		return true
 	end
@@ -90,12 +90,12 @@ function happy:UNIT_HAPPINESS()
 end
 
 
-function happy:UNIT_PET()
-	if arg1 == "player" then self:UNIT_HAPPINESS() end
+function happy:UNIT_PET(unit)
+	if unit == "player" then self:UNIT_HAPPINESS() end
 end
 
 
-function happy:SPECIAL_UNIT_BUFF_GAINED(unit, buff)
+function happy:SpecialEvents_UnitBuffGained(unit, buff)
 	if unit == "pet" and buff == "Feed Pet Effect" then
 		happyness = "Feeding"
 		self:TriggerEvent("CorkFu_Update")
@@ -103,7 +103,7 @@ function happy:SPECIAL_UNIT_BUFF_GAINED(unit, buff)
 end
 
 
-function happy:SPECIAL_UNIT_BUFF_LOST(unit, buff)
+function happy:SpecialEvents_UnitBuffLost(unit, buff)
 	if unit == "pet" and buff == "Feed Pet Effect" then self:UNIT_HAPPINESS() end
 end
 
