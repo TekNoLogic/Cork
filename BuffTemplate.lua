@@ -15,7 +15,7 @@ local raidunitnum = {}
 for i=1,40 do raidunitnum["raid"..i] = i end
 for i=1,4 do
 	partyids["party"..i] = "Party"
-	partyids["party"..i.."pet"] = "Party Pet"
+	partyids["partypet"..i] = "Party Pet"
 end
 
 
