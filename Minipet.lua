@@ -48,7 +48,6 @@ end
 
 
 function minipet:PutACorkInIt()
-	print("Minipet", needpet, self.db.profile.player)
 	if not needpet or self.db.profile.player == -1 then return end
 
 	local petbags, petslots = {}, {}
