@@ -30,6 +30,8 @@ function minipet:OnEnable()
 	self:RegisterEvent("SPELLCAST_STOP", "ActivateIfState")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ActivatePet")
 	self:RegisterEvent("PLAYER_UNGHOST", "ActivatePet")
+	self:RegisterEvent("BANKFRAME_OPENED")
+	self:RegisterEvent("BANKFRAME_CLOSED")
 end
 
 
@@ -38,7 +40,7 @@ end
 ----------------------------
 
 function minipet:ItemValid()
-	return true
+	if pt:GetBest("minipetall") then return true end
 end
 
 
@@ -48,7 +50,7 @@ end
 
 
 function minipet:PutACorkInIt()
-	if not needpet or self.db.profile.player == -1 then return end
+	if not needpet or self.db.profile["Filter Everyone"] == -1 then return end
 
 	local petbags, petslots = {}, {}
 	for bag,slot in pt:BagIter("minipetall") do
@@ -67,13 +69,13 @@ end
 
 
 function minipet:GetTopItem()
-	if not needpet or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or not needpet or self.db.profile["Filter Everyone"] == -1 then return end
 	return icon, loc.nicename
 end
 
 
 function minipet:OnTooltipUpdate()
-	if not needpet or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or not needpet or self.db.profile["Filter Everyone"] == -1 then return end
 
 	local cat = tablet:AddCategory("hideBlankLine", true)
 	cat:AddLine("text", loc.nicename, "hasCheck", true, "checked", true, "checkIcon", icon,
@@ -111,6 +113,17 @@ function minipet:SPELLCAST_FAILED(spell)
 end
 
 
+local bankstate
+function minipet:BANKFRAME_OPENED()
+	bankstate = pt:GetBest("minipetall") ~= nil
+end
+
+
+function minipet:BANKFRAME_CLOSED()
+	if (pt:GetBest("minipetall") ~= nil) ~= bankstate then self:ActivatePet() end
+end
+
+
 function minipet:ActivateIfState()
 	if state then self:ActivatePet() end
 end
@@ -121,9 +134,8 @@ end
 ------------------------------
 
 function minipet:ActivatePet()
-	if not pt:GetBest("minipetall") then return end
 	state = nil
-	needpet = true
+	needpet = pt:GetBest("minipetall") ~= nil
 	self:TriggerEvent("CorkFu_Update")
 end
 
