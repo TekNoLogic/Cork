@@ -16,24 +16,27 @@
 ## SavedVariables: CorkFuDB
 
 Libs\AceLibrary\AceLibrary.lua
+Libs\AceOO-2.0\AceOO-2.0.lua
+Libs\AceAddon-2.0\AceAddon-2.0.lua
+Libs\AceDB-2.0\AceDB-2.0.lua
+Libs\AceEvent-2.0\AceEvent-2.0.lua
+Libs\AceModuleCore-2.0\AceModuleCore-2.0.lua
+Libs\AceConsole-2.0\AceConsole-2.0.lua
 Libs\AceLocale-2.0\AceLocale-2.0.lua
 Libs\Babble-Spell-2.0\Babble-Spell-2.0.lua
-Libs\AceLibrary\AceLibrary.lua
+Libs\Babble-Class-2.0\Babble-Class-2.0.lua
 Libs\Compost-2.0\Compost-2.0.lua
 Libs\Gratuity-2.0\Gratuity-2.0.lua
+Libs\Tablet-2.0\Tablet-2.0.lua
+Libs\FuBarPlugin-2.0\FuBarPlugin-2.0.lua
+Libs\Dewdrop-2.0\Dewdrop-2.0.lua
 
-Libs\GratuityLib\GratuityLib.lua
-Libs\CompostLib\CompostLib.lua
-Libs\TabletLib\TabletLib.lua
 Libs\Metrognome\MetrognomeLib.lua
-Libs\BabbleLib-Spell\BabbleLib-Spell.lua
 Libs\SEAura\SEEmbedAura.lua
 Libs\SELearnSpell\SEEmbedLearnSpell.lua
 Libs\TekTech\TekTechEmbed.lua
-Libs\DewdropLib\DewdropLib.lua
 Libs\PTCore\PTEmbed.lua
 Libs\PTMisc\PTEmbedElemMisc.lua
-Libs\FuBarPlugin-1.2\FuBarPlugin-1.2.lua
 
 Core.lua
 BuffTemplate.lua
