@@ -1,7 +1,7 @@
 
 local AceOO = AceLibrary("AceOO-2.0")
 local seaura = AceLibrary("SpecialEvents-Aura-2.0")
-local tektech = TekTechEmbed:GetInstance("1")
+local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local tablet = AceLibrary("Tablet-2.0")
 local BS = AceLibrary("Babble-Spell-2.0")
 local BC = AceLibrary("Babble-Class-2.0")
@@ -80,20 +80,20 @@ end
 ----------------------------
 
 function template:ItemValid()
-	if self.spell then return tektech:SpellKnown(self.spell) end
+	if self.spell then return selearn:SpellKnown(self.spell) end
 	if self.spells then
 		for i in pairs(self.spells) do
-			if tektech:SpellKnown(i) then return true end
+			if selearn:SpellKnown(i) then return true end
 		end
 	end
 end
 
 
 function template:MultiValid()
-	if self.multispell then return tektech:SpellKnown(self.multispell) end
+	if self.multispell then return selearn:SpellKnown(self.multispell) end
 	if self.multispells then
 		for i in pairs(self.multispells) do
-			if tektech:SpellKnown(i) then return true end
+			if selearn:SpellKnown(i) then return true end
 		end
 	end
 end
@@ -149,7 +149,7 @@ function template:PutACorkInIt(unit)
 		retarget = true
 	end
 
-	if rank and tektech:SpellRankKnown(spell, rank) then CastSpellByName(string.format("%s(Rank %s)", spell, rank))
+	if rank and selearn:SpellKnown(spell, rank) then CastSpellByName(string.format("%s(Rank %s)", spell, rank))
 	else CastSpellByName(spell) end
 
 	if SpellIsTargeting() then SpellTargetUnit(unit) end
@@ -287,7 +287,7 @@ function template:GetSpell(unit)
 	assert(unit, "No unit passed")
 	assert(raidgroups[unit] or UnitExists(unit), "Unit does not exist")
 
-	if self.multispell and IsShiftKeyDown() and tektech:SpellKnown(self.multispell) then return self.multispell
+	if self.multispell and IsShiftKeyDown() and selearn:SpellKnown(self.multispell) then return self.multispell
 	elseif self.spell then return self.spell, self:GetRank(unit)
 	elseif self.spells then
 		if self.target == "Self" then

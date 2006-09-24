@@ -2,7 +2,7 @@
 local _, c = UnitClass("player")
 if c ~= "HUNTER" then return end
 
-local tektech = TekTechEmbed:GetInstance("1")
+local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local seaura = AceLibrary("SpecialEvents-Aura-2.0")
 local tablet = AceLibrary("Tablet-2.0")
 
@@ -39,7 +39,7 @@ end
 ----------------------------
 
 function happy:ItemValid()
-	return tektech:SpellKnown(feedpet)
+	return selearn:SpellKnown(feedpet)
 end
 
 

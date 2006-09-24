@@ -1,5 +1,5 @@
 
-local tektech = TekTechEmbed:GetInstance("1")
+local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local tablet = AceLibrary("Tablet-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
 local BS = AceLibrary("Babble-Spell-2.0")
@@ -29,7 +29,7 @@ track.target = "Custom"
 
 
 function track:OnEnable()
-	for i in pairs(spells) do if tektech:SpellKnown(i) then defaultspell = i end end
+	for i in pairs(spells) do if selearn:SpellKnown(i) then defaultspell = i end end
 
 	self:RegisterEvent("CorkFu_Rescan")
 	self:RegisterEvent("PLAYER_AURAS_CHANGED")
@@ -43,7 +43,7 @@ end
 
 function track:ItemValid()
 	for i in pairs(spells) do
-		if tektech:SpellKnown(i) then return true end
+		if selearn:SpellKnown(i) then return true end
 	end
 end
 
@@ -91,7 +91,7 @@ function track:OnMenuRequest()
 	dewdrop:AddLine("text", core.loc.disabled, "func", self.SetFilter, "isRadio", true, "checked", val == -1, "arg1", self,
 		"arg2", "Everyone", "arg3", -1, "arg4", "char")
 	for v in pairs(spells) do
-		if tektech:SpellKnown(v) then
+		if selearn:SpellKnown(v) then
 			dewdrop:AddLine("text", v, "func", self.SetFilter, "isRadio", true, "checked", val == v,
 				"arg1", self, "arg2", "Everyone", "arg3", v, "arg4", "char")
 		end

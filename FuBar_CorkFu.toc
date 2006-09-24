@@ -23,6 +23,8 @@ Libs\AceEvent-2.0\AceEvent-2.0.lua
 Libs\AceModuleCore-2.0\AceModuleCore-2.0.lua
 Libs\AceConsole-2.0\AceConsole-2.0.lua
 Libs\AceLocale-2.0\AceLocale-2.0.lua
+Libs\AceDebug-2.0\AceDebug-2.0.lua
+
 Libs\Babble-Spell-2.0\Babble-Spell-2.0.lua
 Libs\Babble-Class-2.0\Babble-Class-2.0.lua
 Libs\Compost-2.0\Compost-2.0.lua
@@ -30,11 +32,9 @@ Libs\Gratuity-2.0\Gratuity-2.0.lua
 Libs\Tablet-2.0\Tablet-2.0.lua
 Libs\FuBarPlugin-2.0\FuBarPlugin-2.0.lua
 Libs\Dewdrop-2.0\Dewdrop-2.0.lua
+Libs\SpecialEvents-LearnSpell-2.0\SpecialEvents-LearnSpell-2.0.lua
+Libs\SpecialEvents-Aura-2.0\SpecialEvents-Aura-2.0.lua
 
-Libs\Metrognome\MetrognomeLib.lua
-Libs\SEAura\SEEmbedAura.lua
-Libs\SELearnSpell\SEEmbedLearnSpell.lua
-Libs\TekTech\TekTechEmbed.lua
 Libs\PTCore\PTEmbed.lua
 Libs\PTMisc\PTEmbedElemMisc.lua
 

@@ -7,11 +7,10 @@ BINDING_NAME_CORKFU_CORKFIRST = "Put a cork in it!"
 ------------------------------
 
 local AceOO = AceLibrary("AceOO-2.0")
-local selern = SpecialEventsEmbed:GetInstance("Learn Spell 1")
+local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local compost = AceLibrary("Compost-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
 local tablet = AceLibrary("Tablet-2.0")
-local tektech = TekTechEmbed:GetInstance("1")
 local BC = AceLibrary("Babble-Class-2.0")
 
 local groupthresh = 3
@@ -99,14 +98,8 @@ end
 
 
 function FuBar_CorkFu:OnEnable()
-	selern:RegisterEvent(self, "SPECIAL_LEARNED_SPELL")
+	self:RegisterEvent("SpecialEvents_LearnSpell")
 	self:RegisterBucketEvent("CorkFu_Update", 0.25, "Update")
-end
-
-
-function FuBar_CorkFu:OnDisable()
-	self:UnregisterAllEvents()
-	selern:UnregisterAllEvents(self)
 end
 
 
@@ -203,7 +196,7 @@ end
 --      Event Handlers      --
 ------------------------------
 
-function FuBar_CorkFu:SPECIAL_LEARNED_SPELL(spell, rank)
+function FuBar_CorkFu:SpecialEvents_LearnSpell(spell, rank)
 	self:TriggerEvent("CorkFu_Rescan", spell)
 	self:Update()
 end
@@ -407,7 +400,7 @@ function FuBar_CorkFu:MenuSpells(module, unit)
 	local val = module.db.profile["Filter ".. unit] or (module.target == "Self" and def)
 	local sortlist = compost:Acquire()
 	for i in pairs(module.spells) do
-		if tektech:SpellKnown(i) then table.insert(sortlist, i) end
+		if selearn:SpellKnown(i) then table.insert(sortlist, i) end
 	end
 	table.sort(sortlist)
 
@@ -435,7 +428,10 @@ function FuBar_CorkFu:CorkFirst()
 	if Detox and Detox:Clean() then return true end
 
 	for name,module in self:IterateModules() do
-		if module:ItemValid() and module:PutACorkInIt() then return end
+		if module:ItemValid() and module:PutACorkInIt() then
+			self:Update()
+			return
+		end
 	end
 
 	if PoisonFu and PoisonFu:OnClick() then return end
