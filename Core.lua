@@ -338,7 +338,7 @@ function FuBar_CorkFu:Menu3Unit(level, value, inTooltip, value1, value2, value3,
 	if rmem > 0 then
 		for i=1,rmem do
 			table.insert(sortlist, GetName("raid"..i))
-			local pet = string.format("raid%dpet", i)
+			local pet = "raidpet".. i
 			if UnitExists(pet) then table.insert(sortlist, GetName(pet)) end
 		end
 	elseif pmem > 0 then
@@ -346,7 +346,7 @@ function FuBar_CorkFu:Menu3Unit(level, value, inTooltip, value1, value2, value3,
 		if UnitExists("pet") then table.insert(sortlist, GetName("pet")) end
 		for i=1,pmem do
 			table.insert(sortlist, GetName("party"..i))
-			local pet = string.format("party%dpet", i)
+			local pet = "partypet".. i
 			if UnitExists(pet) then table.insert(sortlist, GetName(pet)) end
 		end
 	else
