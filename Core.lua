@@ -72,7 +72,6 @@ function FuBar_CorkFu:OnInitialize()
 	local interface = AceOO.Interface{
 		GetIcon = "function",
 		ItemValid = "function",
-		UnitValid = "function",
 		PutACorkInIt = "function",
 		target = "string",
 		OnTooltipUpdate = "function",
