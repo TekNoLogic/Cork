@@ -79,7 +79,7 @@ function dura:OnTooltipUpdate()
 	self:Debug("Updating tablet")
 
 	local cat = tablet:AddCategory("hideBlankLine", true, "columns", 2)
-	cat:AddLine("text", "Your equipment needs repairs",
+	cat:AddLine("text", "Your equipment needs repaired",
 		"text2", string.format("|cff%s%d%%", crayon:GetThresholdHexColor(perc), perc * 100),
 		"hasCheck", true, "checked", true, "checkIcon", icon)
 end
