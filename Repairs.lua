@@ -33,12 +33,14 @@ local loc = {
 	nicename = "Durability",
 }
 local icon, needpet, state, perc = "Interface\\Icons\\Ability_Seal", true
+local xpath = "Interface\\AddOns\\FuBar_CorkFu\\X.tga"
 
 
 local dura = core:NewModule(loc.nicename, "AceDebug-2.0")
 dura.debugFrame = ChatFrame5
 dura.target = "Self"
 dura.uncorkable = true
+dura.defaultDB = {threshold = .85}
 
 
 ---------------------------
@@ -79,9 +81,22 @@ function dura:OnTooltipUpdate()
 	self:Debug("Updating tablet")
 
 	local cat = tablet:AddCategory("hideBlankLine", true, "columns", 2)
-	cat:AddLine("text", "Your equipment needs repaired",
+	cat:AddLine("text", "Your equipment is damaged",
 		"text2", string.format("|cff%s%d%%", crayon:GetThresholdHexColor(perc), perc * 100),
 		"hasCheck", true, "checked", true, "checkIcon", icon)
+end
+
+
+local function setslider(v)
+	dura:SetFilter("Everyone", v)
+end
+
+
+function dura:RootMenuItem()
+	dewdrop:AddLine("text", self:ToString() or "No name???", "hasArrow", true,
+		"checked", self.db.profile["Filter Everyone"] == 0, "checkIcon", xpath,
+		"hasSlider", true, "sliderIsPercent", true, "sliderValue", self.db.profile["Filter Everyone"],
+		"sliderFunc", self.SetFilter, "sliderArg1", self, "sliderArg2", "Everyone")
 end
 
 

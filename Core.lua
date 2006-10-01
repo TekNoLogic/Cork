@@ -249,12 +249,13 @@ function FuBar_CorkFu:Menu1(level, value, inTooltip, value1, value2, value3, val
 	for _,v in ipairs(sortlist) do
 		if v.Menu then v:Menu(level, value, inTooltip, value1, value2, value3, value4)
 		elseif v:ItemValid() then
-			if v.target == "Self" and not v.spells then
+			if v.RootMenuItem then v:RootMenuItem()
+			elseif v.target == "Self" and not v.spells then
 				local val = v.db.profile["Filter Everyone"]
 				local x
 				if val == nil then x = -1 end
-				dewdrop:AddLine("text", v:ToString() or "No name???", "func", self.SetFilter, "arg1", self, "arg2", v,
-					"arg3", "Everyone", "arg4", x, "checked", val, "checkIcon", xpath)
+				dewdrop:AddLine("text", v:ToString() or "No name???", "func", v.SetFilter, "arg1", v, "arg2", "Everyone",
+					"arg3", x, "checked", val, "checkIcon", xpath)
 			else dewdrop:AddLine("text", v:ToString() or "No name???", "hasArrow", true, "value", v) end
 		end
 	end
@@ -378,10 +379,10 @@ function FuBar_CorkFu:Menu3Class(level, value, inTooltip, value1, value2, value3
 		if value1.spells then
 			dewdrop:AddLine("text", clstxt, "value", "Class "..v, "hasArrow", true)
 		else
-			local p = value1.db.profile["Filter Class "..v]
+			local p = value1.db.profile["Filter Class "..string.upper(v)]
 
 			dewdrop:AddLine("text", clstxt, "func", self.ToggleFilter, "arg1", self, "arg2", value1,
-				"arg3", "Class "..v, "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
+				"arg3", "Class "..string.upper(v), "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
 		end
 	end
 end
