@@ -8,8 +8,8 @@
 ## X-Category: Buffs
 ## X-AceForum: 1459
 
-## OptionalDeps: Ace2, BabbleLib, FuBar, PeriodicTable, SpecialEventsEmbed, TekTechEmbed
-## X-Embeds: Ace2, BabbleLib, PeriodicTable, SpecialEventsEmbed, TekTechEmbed
+## OptionalDeps: AbacusLib, Ace2, BabbleLib, CompostLib, DewdropLib, FuBar, GratuityLib, PeriodicTable, SpecialEventsEmbed, TabletLib, TekTechEmbed
+## X-Embeds: AbacusLib, Ace2, BabbleLib, CompostLib, DewdropLib, GratuityLib, PeriodicTable, SpecialEventsEmbed, TabletLib, TekTechEmbed
 
 ## SavedVariables: CorkFuDB
 
