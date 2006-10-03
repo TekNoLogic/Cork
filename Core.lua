@@ -375,7 +375,7 @@ end
 function FuBar_CorkFu:Menu3Class(level, value, inTooltip, value1, value2, value3, value4)
 	for _,v in pairs(classes) do
 		local class = BC[v]
-		local clstxt = "|cff".. BC:GetHexColor(class).. class.."|r"
+		local clstxt = "|cff".. chips(v).. class.."|r"
 		if value1.spells then
 			dewdrop:AddLine("text", clstxt, "value", "Class "..v, "hasArrow", true)
 		else

@@ -4,7 +4,7 @@ local seaura = AceLibrary("SpecialEvents-Aura-2.0")
 local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local tablet = AceLibrary("Tablet-2.0")
 local BS = AceLibrary("Babble-Spell-2.0")
-local BC = AceLibrary("Babble-Class-2.0")
+local chips = AceLibrary("PaintChips-2.0")
 local core = FuBar_CorkFu
 
 local groupthresh = 3
@@ -16,6 +16,10 @@ for i=1,40 do raidunitnum["raid"..i] = i end
 for i=1,4 do
 	partyids["party"..i] = "Party"
 	partyids["partypet"..i] = "Party Pet"
+end
+local function GetClassColor(unit)
+	local _,class = UnitClass(unit)
+	return chips(class)
 end
 
 
@@ -127,7 +131,7 @@ function template:GetTopItem()
 
 	for unit,val in pairs(self.tagged) do
 		if val == true and self:UnitValid(unit) and not self:UnitIsFiltered(unit) then
-			local color = (UnitInParty(unit) or UnitInRaid(unit)) and string.format("|cff%s", BC:GetHexColor(UnitClass(unit))) or "|cff00ff00"
+			local color = (UnitInParty(unit) or UnitInRaid(unit)) and ("|cff".. GetClassColor(unit)) or "|cff00ff00"
 			return self:GetIcon(unit), color.. UnitName(unit), unit
 		end
 	end
@@ -372,7 +376,7 @@ function template:OnTooltipUpdate()
 	for unit,val in pairs(self.tagged) do
 		if val == true and self:UnitValid(unit) and not self:UnitIsFiltered(unit) then
 			local hidden
-			local color = (UnitInParty(unit) or UnitInRaid(unit)) and UnitClass(unit) and string.format("|cff%s", BC:GetHexColor(UnitClass(unit))) or "|cff00ff00"
+			local color = (UnitInParty(unit) or UnitInRaid(unit)) and UnitClass(unit) and ("|cff".. GetClassColor(unit)) or "|cff00ff00"
 			local name = unit and (color.. UnitName(unit))
 			local icon = self:GetIcon(unit) or questionmark
 			local group
