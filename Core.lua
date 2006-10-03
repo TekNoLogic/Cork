@@ -48,6 +48,8 @@ FuBar_CorkFu = AceLibrary("AceAddon-2.0"):new("AceEvent-2.0", "AceConsole-2.0", 
 FuBar_CorkFu:SetModuleMixins("AceEvent-2.0")
 FuBar_CorkFu.loc = loc
 FuBar_CorkFu.hasIcon = defaulticon
+FuBar_CorkFu.independentProfile = true
+FuBar_CorkFu.overrideMenu = true
 FuBar_CorkFu.clickableTooltip = true
 FuBar_CorkFu.tooltipHiddenWhenEmpty = true
 FuBar_CorkFu:RegisterDB("CorkFuDB")
@@ -263,11 +265,16 @@ function FuBar_CorkFu:Menu1(level, value, inTooltip, value1, value2, value3, val
 	dewdrop:AddLine()
 	dewdrop:AddLine("text", loc.rescanall, "func", self.RescanAll, "arg1", self)
 
+	dewdrop:AddLine()
+	dewdrop:AddLine("text", "FuBar options", "hasArrow", true, "value", "FuBar options")
+
 	compost:Reclaim(sortlist)
 end
 
 
 function FuBar_CorkFu:Menu2(level, value, inTooltip, value1, value2, value3, value4)
+	if value == "FuBar options" then return self:AddImpliedMenuOptions(2) end
+
 	assert(self:IsModule(value), "Invalid Module")
 	if value.Menu then
 		value:Menu(level, value, inTooltip, value1, value2, value3, value4)
@@ -306,6 +313,7 @@ end
 
 
 function FuBar_CorkFu:Menu3(level, value, inTooltip, value1, value2, value3, value4)
+	if value1 == "FuBar options" then return self:AddImpliedMenuOptions(2) end
 	if value1.Menu then
 		value1:Menu(level, value, inTooltip, value1, value2, value3, value4)
 		return
@@ -389,6 +397,7 @@ end
 
 
 function FuBar_CorkFu:Menu4(level, value, inTooltip, value1, value2, value3, value4)
+	if value2 == "FuBar options" then return self:AddImpliedMenuOptions(2) end
 	self:MenuSpells(value2, value)
 end
 
