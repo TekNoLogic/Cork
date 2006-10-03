@@ -77,7 +77,7 @@ end
 
 
 function dura:OnTooltipUpdate()
-	if not self:ItemValid() or (perc > .85) or self.db.profile["Filter Everyone"] == -1 then return end
+	if not self:ItemValid() or ((perc or 1) > .85) or self.db.profile["Filter Everyone"] == -1 then return end
 	self:Debug("Updating tablet")
 
 	local cat = tablet:AddCategory("hideBlankLine", true, "columns", 2)
