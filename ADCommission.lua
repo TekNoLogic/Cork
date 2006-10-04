@@ -54,7 +54,7 @@ end
 
 
 function adc:PutACorkInIt()
-	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile["Filter Everyone"] == -1 then return end
 
 	local bag, slot = pt:GetBest("argentdawncommission")
 	if bag and slot then
@@ -66,13 +66,13 @@ end
 
 
 function adc:GetTopItem()
-	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile["Filter Everyone"] == -1 then return end
 	return icon, loc.nicename
 end
 
 
 function adc:OnTooltipUpdate()
-	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile.player == -1 then return end
+	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile["Filter Everyone"] == -1 then return end
 
 	local cat = tablet:AddCategory("hideBlankLine", true)
 	cat:AddLine("text", loc.nicename, "hasCheck", true, "checked", true, "checkIcon", icon,
