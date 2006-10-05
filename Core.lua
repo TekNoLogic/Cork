@@ -11,6 +11,7 @@ local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local compost = AceLibrary("Compost-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
 local tablet = AceLibrary("Tablet-2.0")
+local chips = AceLibrary("PaintChips-2.0")
 local BC = AceLibrary("Babble-Class-2.0")
 
 local groupthresh = 3
