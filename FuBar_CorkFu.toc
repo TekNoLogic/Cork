@@ -1,5 +1,6 @@
 ## Interface: 11200
 
+## LoadOnDemand: 1
 ## Title: FuBar - |cffffffffCork|r|cff00ff00Fu|r
 ## Notes: Track needed buffs, debuffs and more
 ## Author: Tekkub Stoutwrithe
@@ -8,8 +9,8 @@
 ## X-Category: Buffs
 ## X-AceForum: 1459
 
-## OptionalDeps: AbacusLib, Ace2, BabbleLib, CompostLib, DewdropLib, FuBar, GratuityLib, PeriodicTable, SpecialEventsEmbed, TabletLib, TekTechEmbed
-## X-Embeds: AbacusLib, Ace2, BabbleLib, CompostLib, DewdropLib, GratuityLib, PeriodicTable, SpecialEventsEmbed, TabletLib, TekTechEmbed
+## OptionalDeps: AbacusLib, Ace2, BabbleLib, CrayonLib, CompostLib, DewdropLib, FuBar, GratuityLib, PeriodicTable, SpecialEventsEmbed, TabletLib, TekTechEmbed
+## X-Embeds: AbacusLib, Ace2, BabbleLib, CrayonLib, CompostLib, DewdropLib, GratuityLib, PeriodicTable, SpecialEventsEmbed, TabletLib, TekTechEmbed
 
 ## SavedVariables: CorkFuDB
 
