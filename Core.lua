@@ -12,7 +12,7 @@ local compost = AceLibrary("Compost-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
 local tablet = AceLibrary("Tablet-2.0")
 local chips = AceLibrary("PaintChips-2.0")
-local BC = AceLibrary("Babble-Class-2.0")
+local BC = AceLibrary("Babble-Class-2.2")
 
 local groupthresh = 3
 local templates, menus, menus3 = {}
@@ -97,6 +97,21 @@ function FuBar_CorkFu:OnInitialize()
 		["Target Player"] = self.Menu3Everyone,
 		["Target NPC"]    = self.Menu3Everyone,
 	}
+
+	self.secureframe = CreateFrame("Button", "CorkFuFrame", UIParent, "SecureActionButtonTemplate")
+
+	self.secureframe.SetManyAttributes = function(self, ...)
+		for i=1,select("#", ...),2 do
+			local att,val = select(i, ...)
+			if not att then return end
+			self:SetAttribute(att,val)
+		end
+	end
+
+	self.secureframe:EnableMouse(true)
+	self.secureframe:SetScript("PreClick", function() self:CorkFirst() end)
+	self.secureframe:SetScript("PostClick", function() self:CorkFirst() end)
+--~ 	self.secureframe:Hide()
 end
 
 
@@ -435,17 +450,21 @@ end
 --      Helper Methods      --
 ------------------------------
 
+local corked = false
 function FuBar_CorkFu:CorkFirst()
-	if Detox and Detox:Clean() then return true end
-
+	corked = false
 	for name,module in self:IterateModules() do
 		if module:ItemValid() and module:PutACorkInIt() then
-			self:Update()
+			corked = true
 			return
 		end
 	end
+end
 
-	if PoisonFu and PoisonFu:OnClick() then return end
+
+function FuBar_CorkFu.PostClick()
+	self.secureframe:SetAttribute("type1", ATTRIBUTE_NOOP)
+	if corked then FuBar_CorkFu:Update() end
 end
 
 

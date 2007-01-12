@@ -64,7 +64,8 @@ function minipet:PutACorkInIt()
 
 	local ridx = math.random(1, table.getn(petbags))
 	self:Debug("Using %s:%s", petbags[ridx], petslots[ridx])
-	UseContainerItem(petbags[ridx], petslots[ridx])
+
+	core.secureframe:SetManyAttributes("type1", "item", "bag1", petbags[ridx], "slot1", petslots[ridx])
 	needpet = nil
 	return true
 end

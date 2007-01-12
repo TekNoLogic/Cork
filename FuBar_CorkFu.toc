@@ -1,4 +1,4 @@
-## Interface: 11200
+## Interface: 20000
 
 ## Title: FuBar - |cffffffffCork|r|cff00ff00Fu|r
 ## Notes: Track needed buffs, debuffs and more

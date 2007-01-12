@@ -3,7 +3,7 @@ local AceOO = AceLibrary("AceOO-2.0")
 local seaura = AceLibrary("SpecialEvents-Aura-2.0")
 local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local tablet = AceLibrary("Tablet-2.0")
-local BS = AceLibrary("Babble-Spell-2.0")
+local BS = AceLibrary("Babble-Spell-2.2")
 local chips = AceLibrary("PaintChips-2.0")
 local core = FuBar_CorkFu
 
@@ -43,7 +43,7 @@ local template = AceOO.Mixin {
 	"TestUnit",
 	"GetSpell",
 	"GetSpellFilter",
-	"GetRank",
+--~ 	"GetRank",
 	"GetGroupNeeds",
 	"OnTooltipUpdate",
 	"GetTopItem",
@@ -146,37 +146,14 @@ function template:PutACorkInIt(unit)
 
 	if raidgroups[unit] then return self:PutACorkInItMulti(unit) end
 
-	local spell, rank, retarget = self:GetSpell(unit)
-
-	if UnitExists("target") and UnitIsFriend("player", "target") and not UnitIsUnit("target", unit) then
-		TargetUnit(unit)
-		retarget = true
-	end
-
-	if rank and selearn:SpellKnown(spell, rank) then CastSpellByName(string.format("%s(Rank %s)", spell, rank))
-	else CastSpellByName(spell) end
-
-	if SpellIsTargeting() then SpellTargetUnit(unit) end
-	if SpellIsTargeting() then SpellStopTargeting() end
-	if retarget then TargetLastTarget() end
+	core.secureframe:SetManyAttributes("type1", "spell", "spell", self:GetSpell(unit), "unit", unit)
 	return true
 end
 
 
 function template:PutACorkInItMulti(group)
-	local spell, retarget = self.multispell
-	local unit = self:GetUnitInGroup(tonumber(string.sub(group, 6)))
-
-	if UnitExists("target") and UnitIsFriend("player", "target") and not UnitIsUnit("target", unit) then
-		TargetUnit(unit)
-		retarget = true
-	end
-
-	CastSpellByName(spell)
-
-	if SpellIsTargeting() then SpellTargetUnit(unit) end
-	if SpellIsTargeting() then SpellStopTargeting() end
-	if retarget then TargetLastTarget() end
+	core.secureframe:SetManyAttributes("type1", "spell", "spell", self.multispell,
+		"unit", self:GetUnitInGroup(tonumber(string.sub(group, 6))))
 	return true
 end
 
@@ -292,7 +269,7 @@ function template:GetSpell(unit)
 	assert(raidgroups[unit] or UnitExists(unit), "Unit does not exist")
 
 	if self.multispell and IsShiftKeyDown() and selearn:SpellKnown(self.multispell) then return self.multispell
-	elseif self.spell then return self.spell, self:GetRank(unit)
+	elseif self.spell then return self.spell
 	elseif self.spells then
 		if self.target == "Self" then
 			return self.db.profile["Filter Everyone"] or self.defaultspell
@@ -303,8 +280,7 @@ function template:GetSpell(unit)
 			local ms = self.multispells and self.multispells[spell]
 			if IsShiftKeyDown() and ms then return ms end
 
-			local rank = self:GetRank(unit, self.spells[spell])
-			return spell, rank
+			return spell
 		end
 	end
 end
@@ -342,19 +318,6 @@ function template:GetSpellFilter(unit)
 	if everyone then return everyone ~= -1 and everyone or def end
 
 	return def
-end
-
-
-function template:GetRank(unit, ranks)
-	local ranklevels = type(ranks) == "table" and ranks or self.ranklevels
-	if ranklevels then
-		local plvl, ulvl = UnitLevel("player"), UnitLevel(unit)
-		for i,v in ipairs(ranklevels) do
-			local nextr = ranklevels[i+1]
-			if not nextr then return
-			elseif (ulvl + 10) < nextr then return i end
-		end
-	end
 end
 
 

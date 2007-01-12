@@ -2,7 +2,7 @@
 local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local tablet = AceLibrary("Tablet-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
-local BS = AceLibrary("Babble-Spell-2.0")
+local BS = AceLibrary("Babble-Spell-2.2")
 
 local core, mybuff = FuBar_CorkFu, -1
 local defaultspell = BS["Find Herbs"]
@@ -70,7 +70,7 @@ end
 function track:PutACorkInIt()
 	local _, spell = self:GetTopItem()
 	if not spell then return end
-	CastSpellByName(spell)
+	core.secureframe:SetManyAttributes("type1", "spell", "spell", spell)
 	return true
 end
 
