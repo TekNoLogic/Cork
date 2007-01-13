@@ -75,8 +75,7 @@ function adc:OnTooltipUpdate()
 	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile["Filter Everyone"] == -1 then return end
 
 	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", loc.nicename, "hasCheck", true, "checked", true, "checkIcon", icon,
-		"func", self.PutACorkInIt, "arg1", self)
+	cat:AddLine("text", loc.nicename, "hasCheck", true, "checked", true, "checkIcon", icon)
 end
 
 

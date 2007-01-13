@@ -53,7 +53,7 @@ end
 
 function slink:PutACorkInIt()
 	if self:ItemValid() and self:UnitValid("pet") and not gone then
-		CastSpellByName("Soul Link")
+		core.secureframe:SetManyAttributes("type1", "spell", "spell", "Soul Link")
 		return true
 	end
 end
@@ -63,8 +63,7 @@ function slink:OnTooltipUpdate()
 	if not self:ItemValid() or not self:UnitValid("pet") or gone or self.db.profile["Filter Everyone"] == -1 then return end
 
 	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", "Soul Link", "hasCheck", true, "checked", true, "checkIcon", icon,
-		"func", self.PutACorkInIt, "arg1", self)
+	cat:AddLine("text", "Soul Link", "hasCheck", true, "checked", true, "checkIcon", icon)
 end
 
 

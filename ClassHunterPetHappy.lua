@@ -54,10 +54,10 @@ end
 
 
 function happy:PutACorkInIt()
-	if self:ItemValid() and self:UnitValid("pet") and FOM_Feed then
-		FOM_Feed()
-		return true
-	end
+--~ 	if self:ItemValid() and self:UnitValid("pet") and FOM_Feed then
+--~ 		FOM_Feed()
+--~ 		return true
+--~ 	end
 end
 
 
@@ -65,8 +65,7 @@ function happy:OnTooltipUpdate()
 	if not self:ItemValid() or happyness ~= true or not self:UnitValid("pet") or self.db.profile.player == -1 then return end
 
 	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", UnitName("pet").." is hungry", "hasCheck", true, "checked", true, "checkIcon", icon,
-		"func", self.PutACorkInIt, "arg1", self)
+	cat:AddLine("text", UnitName("pet").." is hungry", "hasCheck", true, "checked", true, "checkIcon", icon)
 end
 
 
