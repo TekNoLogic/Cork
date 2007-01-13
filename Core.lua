@@ -1,6 +1,4 @@
 
-BINDING_HEADER_CORKFU = "FuBar - CorkFu"
-BINDING_NAME_CORKFU_CORKFIRST = "Put a cork in it!"
 
 ------------------------------
 --      Are you local?      --
@@ -109,8 +107,8 @@ function FuBar_CorkFu:OnInitialize()
 	end
 
 	self.secureframe:EnableMouse(true)
-	self.secureframe:SetScript("PreClick", function() self:CorkFirst() end)
-	self.secureframe:SetScript("PostClick", function() self:CorkFirst() end)
+	self.secureframe:SetScript("PreClick", function() self:PreClick() end)
+	self.secureframe:SetScript("PostClick", function() self:PostClick() end)
 --~ 	self.secureframe:Hide()
 end
 
@@ -223,11 +221,6 @@ end
 -----------------------------
 --      FuBar Methods      --
 -----------------------------
-
-function FuBar_CorkFu:OnClick()
-	self:CorkFirst()
-end
-
 
 function FuBar_CorkFu:OnTextUpdate()
 	local icon, text = self:GetTopText()
@@ -451,7 +444,7 @@ end
 ------------------------------
 
 local corked = false
-function FuBar_CorkFu:CorkFirst()
+function FuBar_CorkFu:PreClick()
 	corked = false
 	for name,module in self:IterateModules() do
 		if module:ItemValid() and module:PutACorkInIt() then
@@ -462,9 +455,9 @@ function FuBar_CorkFu:CorkFirst()
 end
 
 
-function FuBar_CorkFu.PostClick()
+function FuBar_CorkFu:PostClick()
 	self.secureframe:SetAttribute("type1", ATTRIBUTE_NOOP)
-	if corked then FuBar_CorkFu:Update() end
+	if corked then self:Update() end
 end
 
 
