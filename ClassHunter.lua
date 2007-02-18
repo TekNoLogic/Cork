@@ -23,5 +23,6 @@ i.spells = {
 	[B["Aspect of the Cheetah"]] = true,
 	[B["Aspect of the Pack"]]    = true,
 	[B["Aspect of the Wild"]]    = true,
+    [B["Aspect of the Viper"]]    = true,
 }
 
