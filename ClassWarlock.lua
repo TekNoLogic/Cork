@@ -12,17 +12,12 @@ i.defaultspell = B["Demon Armor"]
 i.spells = {
 	[B["Demon Armor"]] = true,
 	[B["Demon Skin"]] = true,
+    [B["Fel Armor"]] = true,
 }
 
 i = core:NewModule(B["Detect Invisibility"], buffs)
 i.target = "Friendly"
-i.spell = B["Detect Greater Invisibility"]
-i.defaultspell = B["Detect Greater Invisibility"]
-i.spells = {
-    [B["Detect Greater Invisibility"]] = true,
-    [B["Detect Invisibility"]] = true,
-    [B["Detect Lesser Invisibility"]] = true,
-}
+i.spell = B["Detect Invisibility"]
 
 i = core:NewModule(B["Unending Breath"], buffs)
 i.target = "Friendly"
