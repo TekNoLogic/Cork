@@ -25,6 +25,7 @@ i.spells = {
 	[B["Ice Armor"]]   = true,
 	[B["Frost Armor"]] = true,
 	[B["Mage Armor"]]  = true,
+    [B["Molten Armor"]]  = true,
 }
 
 

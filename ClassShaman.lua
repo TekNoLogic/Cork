@@ -16,6 +16,10 @@ i = core:NewModule(B["Lightning Shield"], buffs)
 i.spell = B["Lightning Shield"]
 i.target = "Self"
 
+i = core:NewModule(B["Water Shield"], buffs)
+i.spell = B["Water Shield"]
+i.target = "Self"
+
 
 i = core:NewModule(B["Water Breathing"], buffs)
 i.target = "Friendly"
