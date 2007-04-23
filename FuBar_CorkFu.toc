@@ -60,3 +60,5 @@ Tracking.lua
 Minipet.lua
 Repairs.lua
 Reagents.lua
+Shucks.lua
+CombatSpell.lua
