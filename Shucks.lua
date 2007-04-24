@@ -81,7 +81,7 @@ function shuck:BAG_UPDATE()
 	end
 
 	if count ~= lastcount then
-		lastcount = count
+		lastcount = count or 0
 		self:TriggerEvent("CorkFu_Update")
 	end
 end

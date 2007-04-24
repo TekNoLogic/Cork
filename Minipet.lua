@@ -1,5 +1,6 @@
 
-local pt = PeriodicTableEmbed:GetInstance("1")
+local pt = PeriodicTableMicro
+PeriodicTableMicro = nil
 local tablet = AceLibrary("Tablet-2.0")
 local core = FuBar_CorkFu
 
@@ -31,8 +32,6 @@ function minipet:OnEnable()
 	self:RegisterEvent("SPELLCAST_STOP", "ActivateIfState")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ActivatePet")
 	self:RegisterEvent("PLAYER_UNGHOST", "ActivatePet")
-	self:RegisterEvent("BANKFRAME_OPENED")
-	self:RegisterEvent("BANKFRAME_CLOSED")
 end
 
 
@@ -41,7 +40,7 @@ end
 ----------------------------
 
 function minipet:ItemValid()
-	if pt:GetBest("minipetall") then return true end
+	return pt:HasItem()
 end
 
 
@@ -55,14 +54,17 @@ function minipet:PutACorkInIt()
 	self:Debug("Putting out the cat")
 
 	local petbags, petslots = {}, {}
-	for bag,slot in pt:BagIter("minipetall") do
-		table.insert(petbags, bag)
-		table.insert(petslots, slot)
+	for bag=1,4 do
+		for slot=1,GetContainerNumSlots(bag) do
+			local link = GetContainerItemLink(bag,slot)
+			if link and pt(link) then
+				table.insert(petbags, bag)
+				table.insert(petslots, slot)
+			end
+		end
 	end
 
-	if not next(petbags) then return end
-
-	local ridx = math.random(1, table.getn(petbags))
+	local ridx = math.random(1, #petbags)
 	self:Debug("Using %s:%s", petbags[ridx], petslots[ridx])
 
 	core.secureframe:SetManyAttributes("type1", "item", "bag1", petbags[ridx], "slot1", petslots[ridx])
@@ -82,8 +84,7 @@ function minipet:OnTooltipUpdate()
 	self:Debug("Updating tablet")
 
 	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", loc.nicename, "hasCheck", true, "checked", true, "checkIcon", icon,
-		"func", self.PutACorkInIt, "arg1", self)
+	cat:AddLine("text", loc.nicename, "hasCheck", true, "checked", true, "checkIcon", icon)
 end
 
 
@@ -121,22 +122,6 @@ function minipet:SPELLCAST_FAILED(spell)
 end
 
 
-local bankstate, bankopen
-function minipet:BANKFRAME_OPENED()
-	self:Debug("BANKFRAME_OPENED")
-	bankopen = true
-	bankstate = pt:GetBest("minipetall") ~= nil
-end
-
-
-function minipet:BANKFRAME_CLOSED()
-	if not bankopen then return end
-	self:Debug("BANKFRAME_CLOSED", pt:GetBest("minipetall"))
-	if (pt:GetBest("minipetall") ~= nil) ~= bankstate then self:ActivatePet() end
-	bankopen = nil
-end
-
-
 function minipet:ActivateIfState()
 	self:Debug("ActivateIfState", state and "true" or "false")
 	if state then self:ActivatePet() end
@@ -150,7 +135,7 @@ end
 function minipet:ActivatePet()
 	self:Debug("ActivatePet")
 	state = nil
-	needpet = pt:GetBest("minipetall") ~= nil
+	needpet = true
 	self:TriggerEvent("CorkFu_Update")
 end
 

@@ -8,8 +8,8 @@
 ## X-Category: Buffs
 ## X-AceForum: 1459
 
-## OptionalDeps: AbacusLib, Ace2, BabbleLib, CrayonLib, CompostLib, DewdropLib, FuBar, GratuityLib, PeriodicTable, SpecialEventsEmbed, TabletLib, TekTechEmbed
-## X-Embeds: AbacusLib, Ace2, BabbleLib, CrayonLib, CompostLib, DewdropLib, GratuityLib, PeriodicTable, SpecialEventsEmbed, TabletLib, TekTechEmbed
+## OptionalDeps: AbacusLib, Ace2, BabbleLib, CrayonLib, CompostLib, DewdropLib, FuBar, GratuityLib, SpecialEventsEmbed, TabletLib, TekTechEmbed
+## X-Embeds: AbacusLib, Ace2, BabbleLib, CrayonLib, CompostLib, DewdropLib, GratuityLib, SpecialEventsEmbed, TabletLib, TekTechEmbed
 
 ## SavedVariables: CorkFuDB
 
@@ -36,9 +36,6 @@ Libs\Dewdrop-2.0\Dewdrop-2.0.lua
 Libs\SpecialEvents-LearnSpell-2.0\SpecialEvents-LearnSpell-2.0.lua
 Libs\SpecialEvents-Aura-2.0\SpecialEvents-Aura-2.0.lua
 
-Libs\PTCore\PTEmbed.lua
-Libs\PTMisc\PTEmbedElemMisc.lua
-
 Core.lua
 BuffTemplate.lua
 
@@ -57,8 +54,10 @@ ClassWarlockSoulLink.lua
 
 ADCommission.lua
 Tracking.lua
+PeriodicTableMicro.lua
 Minipet.lua
 Repairs.lua
 Reagents.lua
 Shucks.lua
 CombatSpell.lua
+Items.lua
