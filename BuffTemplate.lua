@@ -146,7 +146,9 @@ function template:PutACorkInIt(unit)
 
 	if raidgroups[unit] then return self:PutACorkInItMulti(unit) end
 
-	core.secureframe:SetManyAttributes("type1", "spell", "spell", self:GetSpell(unit), "unit", unit)
+	local spell = self:GetSpell(unit)
+	self:Debug("Casting buff", spell, "on", unit)
+	core.secureframe:SetManyAttributes("type1", "spell", "spell", spell, "unit", unit)
 	return true
 end
 

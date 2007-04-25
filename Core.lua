@@ -43,7 +43,7 @@ end
 --      Namespace Declaration      --
 -------------------------------------
 
-FuBar_CorkFu = AceLibrary("AceAddon-2.0"):new("AceEvent-2.0", "AceConsole-2.0", "AceDB-2.0", "FuBarPlugin-2.0", "AceModuleCore-2.0")
+FuBar_CorkFu = AceLibrary("AceAddon-2.0"):new("AceEvent-2.0", "AceConsole-2.0", "AceDB-2.0", "FuBarPlugin-2.0", "AceModuleCore-2.0", "AceDebug-2.0")
 FuBar_CorkFu:SetModuleMixins("AceEvent-2.0")
 FuBar_CorkFu.loc = loc
 FuBar_CorkFu.hasIcon = defaulticon
@@ -122,6 +122,11 @@ end
 --------------------------------
 --      Module Prototype      --
 --------------------------------
+
+function FuBar_CorkFu.modulePrototype:Debug(...)
+	FuBar_CorkFu:Debug("|cffcc3333", self, "|r", ...)
+end
+
 
 function FuBar_CorkFu.modulePrototype:ToggleFilter(unit, profile)
 	assert(unit, "No unit passed")
@@ -456,7 +461,7 @@ end
 
 
 function FuBar_CorkFu:PostClick()
-	self.secureframe:SetAttribute("type1", ATTRIBUTE_NOOP)
+	self.secureframe:SetManyAttributes("type1", ATTRIBUTE_NOOP, "bag1", nil, "slot1", nil, "item1", nil, "spell", nil, "unit", nil)
 	if corked then self:Update() end
 end
 

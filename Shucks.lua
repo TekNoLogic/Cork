@@ -1,5 +1,4 @@
 
-local pt = PeriodicTableEmbed:GetInstance("1")
 local tablet = AceLibrary("Tablet-2.0")
 local core = FuBar_CorkFu
 
@@ -11,7 +10,7 @@ local lastcount, needsupdate = 0
 local icon = "Interface\\Icons\\INV_Misc_Shell_03"
 
 
-local shuck = core:NewModule(loc.nicename, "AceDebug-2.0")
+local shuck = core:NewModule(loc.nicename)
 shuck.debugFrame = ChatFrame5
 shuck.target = "Self"
 
@@ -41,13 +40,13 @@ end
 
 
 function shuck:PutACorkInIt()
-	if not self:ItemValid() or lastconut == 0 or self.db.profile["Filter Everyone"] == -1 then return end
-	self:Debug("Shucking a clam")
+	if not self:ItemValid() or self.db.profile["Filter Everyone"] == -1 then return end
 
 	for _,id in pairs(items) do
-		if GetItemCount(id) then
+		if (GetItemCount(id) or 0) > 0 then
 			local name = GetItemInfo(id)
-			core.secureframe:SetManyAttributes("type1", "item", "item1", "Small Barnacled Clam")
+			self:Debug("Shucking a clam:", name)
+			core.secureframe:SetManyAttributes("type1", "item", "item1", name)
 			return true
 		end
 	end

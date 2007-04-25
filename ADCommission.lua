@@ -1,8 +1,9 @@
 
 local seaura = AceLibrary("SpecialEvents-Aura-2.0")
-local pt = PeriodicTableEmbed:GetInstance("1")
 local tablet = AceLibrary("Tablet-2.0")
 local core = FuBar_CorkFu
+local pt = PeriodicTableMicro
+PeriodicTableMicro = nil
 
 local loc = {
 	nicename = "Argent Dawn Commission",
@@ -56,7 +57,7 @@ end
 function adc:PutACorkInIt()
 	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile["Filter Everyone"] == -1 then return end
 
-	local bag, slot = pt:GetBest("argentdawncommission")
+	local bag, slot = pt()
 	if bag and slot then
 		PickupContainerItem(bag, slot)
 		AutoEquipCursorItem()

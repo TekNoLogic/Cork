@@ -67,6 +67,7 @@ end
 ------------------------------
 
 function combat:PLAYER_REGEN_DISABLED()
+	if self.db.profile.spell == "" then return end
 	core.secureframe:SetManyAttributes("type1", "spell", "spell1", self.db.profile.spell)
 end
 

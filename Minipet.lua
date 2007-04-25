@@ -13,7 +13,7 @@ local loc = {
 local icon, needpet, state = "Interface\\Icons\\Ability_Seal", true
 
 
-local minipet = core:NewModule(loc.nicename, "AceDebug-2.0")
+local minipet = core:NewModule(loc.nicename)
 minipet.debugFrame = ChatFrame5
 minipet.target = "Self"
 
@@ -40,7 +40,7 @@ end
 ----------------------------
 
 function minipet:ItemValid()
-	return pt:HasItem()
+	return pt:HasItem() and needpet
 end
 
 
