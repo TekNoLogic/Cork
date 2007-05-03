@@ -18,6 +18,18 @@ minipet.debugFrame = ChatFrame5
 minipet.target = "Self"
 
 
+-- Movement tracker
+local ismoving, lx, ly = false, 0, 0
+local f = CreateFrame("Frame")
+f:SetScript("OnUpdate", function()
+	local x, y = GetPlayerMapPosition("player")
+	if lx == x and ly == y then ismoving = false
+	else ismoving, lx, ly = true, x, y end
+end)
+f:SetScript("OnEvent", SetMapToCurrentZone)
+f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+
+
 ---------------------------
 --      Ace Methods      --
 ---------------------------
@@ -50,7 +62,7 @@ end
 
 
 function minipet:PutACorkInIt()
-	if not self:ItemValid() or not needpet or self.db.profile["Filter Everyone"] == -1 then return end
+	if not self:ItemValid() or not needpet or self.db.profile["Filter Everyone"] == -1 or ismoving then return end
 	self:Debug("Putting out the cat")
 
 	local petbags, petslots = {}, {}
