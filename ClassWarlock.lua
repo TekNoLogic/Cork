@@ -6,7 +6,6 @@ local core, i = FuBar_CorkFu
 local buffs = core:GetTemplate("Buffs")
 
 i = core:NewModule(B["Demon Armor"], buffs)
-i.spell = B["Demon Armor"]
 i.target = "Self"
 i.defaultspell = B["Demon Armor"]
 i.spells = {
