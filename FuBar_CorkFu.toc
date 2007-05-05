@@ -51,6 +51,7 @@ ClassWarlock.lua
 
 ClassHunterPetHappy.lua
 ClassWarlockSoulLink.lua
+ClassWarlockPets.lua
 
 PeriodicTableMicroAD.lua
 ADCommission.lua
