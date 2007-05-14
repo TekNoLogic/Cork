@@ -399,7 +399,7 @@ function FuBar_CorkFu:Menu3Class(level, value, inTooltip, value1, value2, value3
 		local class = BC[v]
 		local clstxt = "|cff".. chips(v).. class.."|r"
 		if value1.spells then
-			dewdrop:AddLine("text", clstxt, "value", "Class "..v, "hasArrow", true)
+			dewdrop:AddLine("text", clstxt, "value", "Class "..string.upper(v), "hasArrow", true)
 		else
 			local p = value1.db.profile["Filter Class "..string.upper(v)]
 
