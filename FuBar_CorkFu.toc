@@ -61,5 +61,4 @@ Minipet.lua
 Repairs.lua
 Reagents.lua
 Shucks.lua
-CombatSpell.lua
 Items.lua
