@@ -46,3 +46,7 @@ i.target = "Friendly"
 i.spell = B["Shadow Protection"]
 i.multispell = B["Prayer of Shadow Protection"]
 i.ranklevels = {30,42,56}
+
+i = core:NewModule(B["Shadowform"], buffs)
+i.target = "Self"
+i.spell = B["Shadowform"]

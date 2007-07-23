@@ -287,9 +287,10 @@ end
 
 
 function FuBar_CorkFu:Menu2(level, value, inTooltip, value1, value2, value3, value4)
+	if value == nil then return false end
 	if value == "FuBar options" then return self:AddImpliedMenuOptions(2) end
 
-	assert(self:IsModule(value), "Invalid Module")
+	assert(self:IsModule(value), "Invalid Module : " .. value.name)
 	if value.Menu then
 		value:Menu(level, value, inTooltip, value1, value2, value3, value4)
 		return
