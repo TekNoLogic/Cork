@@ -7,4 +7,8 @@ local buffs = core:GetTemplate("Buffs")
 
 i = core:NewModule(B["Battle Shout"], buffs)
 i.target = "Friendly"
-i.spell = B["Battle Shout"]
+i.defaultspell = B["Battle Shout"]
+i.spells = {
+	[B["Battle Shout"]] = true,
+	[B["Commanding Shout"]] = true,
+}
