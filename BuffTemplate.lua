@@ -7,7 +7,7 @@ local BS = AceLibrary("Babble-Spell-2.2")
 local chips = AceLibrary("PaintChips-2.0")
 local core = FuBar_CorkFu
 
-local groupthresh = 3
+local groupthresh = 2
 local partyids = {player = "Self", pet = "Pet"}
 local raidunitnum, raidgroups = {}, {}
 for i=1,8 do raidgroups["group"..i] = true end

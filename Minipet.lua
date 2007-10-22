@@ -10,7 +10,7 @@ local loc = {
 	astral = "Astral Recall",
 	teleport = "Teleport"
 }
-local icon, needpet, state = "Interface\\Icons\\Ability_Seal", true
+local icon, needpet, state, rlstate = "Interface\\Icons\\Ability_Seal", true
 
 
 local minipet = core:NewModule(loc.nicename)
@@ -30,11 +30,26 @@ f:SetScript("OnEvent", SetMapToCurrentZone)
 f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
 
+--Reload watcher
+local orig = ReloadUI
+ReloadUI = function(...)
+	if not needpet then minipet.db.profile.reloading = true end
+	return orig(...)
+end
+
 ---------------------------
 --      Ace Methods      --
 ---------------------------
 
+function minipet:OnInitialize()
+end
+
+
 function minipet:OnEnable()
+	if self.db.profile.reloading then rlstate, needpet = true, nil end
+	self:Debug("Reloaded: ", self.db.profile.reloading)
+	self.db.profile.reloading = nil
+
 	self:RegisterEvent("UNIT_FLAGS")
 	self:RegisterEvent("CONFIRM_SUMMON")
 	self:RegisterEvent("SPELLCAST_START")
@@ -44,6 +59,8 @@ function minipet:OnEnable()
 	self:RegisterEvent("SPELLCAST_STOP", "ActivateIfState")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ActivatePet")
 	self:RegisterEvent("PLAYER_UNGHOST", "ActivatePet")
+
+	self:TriggerEvent("CorkFu_Update")
 end
 
 
@@ -52,6 +69,7 @@ end
 ----------------------------
 
 function minipet:ItemValid()
+	self:Debug("ItemValid", needpet)
 	return pt:HasItem() and needpet
 end
 
@@ -146,6 +164,11 @@ end
 
 function minipet:ActivatePet()
 	self:Debug("ActivatePet")
+	if rlstate then
+		rlstate = nil
+		return
+	end
+
 	state = nil
 	needpet = true
 	self:TriggerEvent("CorkFu_Update")
