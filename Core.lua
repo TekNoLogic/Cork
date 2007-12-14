@@ -6,7 +6,6 @@
 
 local AceOO = AceLibrary("AceOO-2.0")
 local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
-local compost = AceLibrary("Compost-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
 local tablet = AceLibrary("Tablet-2.0")
 local chips = AceLibrary("PaintChips-2.0")
@@ -258,7 +257,7 @@ end
 ----------------------------
 
 function FuBar_CorkFu:Menu1(level, value, inTooltip, value1, value2, value3, value4)
-	local sortlist = compost:Acquire()
+	local sortlist = {}
 	for _,i in self:IterateModules() do table.insert(sortlist, i) end
 	table.sort(sortlist, sortbyname)
 
@@ -281,8 +280,6 @@ function FuBar_CorkFu:Menu1(level, value, inTooltip, value1, value2, value3, val
 
 	dewdrop:AddLine()
 	dewdrop:AddLine("text", "FuBar options", "hasArrow", true, "value", "FuBar options")
-
-	compost:Reclaim(sortlist)
 end
 
 
@@ -357,7 +354,7 @@ end
 
 local function GetName(unit) local n,r = UnitName(unit) return n..((r and "of "..r) or "") end
 function FuBar_CorkFu:Menu3Unit(level, value, inTooltip, value1, value2, value3, value4)
-	local sortlist = compost:Acquire()
+	local sortlist = {}
 	local pmem, rmem = GetNumPartyMembers(), GetNumRaidMembers()
 	if rmem > 0 then
 		for i=1,rmem do
@@ -390,8 +387,6 @@ function FuBar_CorkFu:Menu3Unit(level, value, inTooltip, value1, value2, value3,
 				"arg3", "Unit "..v, "checked", p, p == -1 and "checkIcon", p == -1 and xpath)
 		end
 	end
-
-	compost:Reclaim(sortlist)
 end
 
 
@@ -423,7 +418,7 @@ function FuBar_CorkFu:MenuSpells(module, unit)
 
 	local def = module.defaultspell
 	local val = module.db.profile["Filter ".. unit] or (module.target == "Self" and def)
-	local sortlist = compost:Acquire()
+	local sortlist = {}
 	for i in pairs(module.spells) do
 		if selearn:SpellKnown(i) then table.insert(sortlist, i) end
 	end
@@ -440,8 +435,6 @@ function FuBar_CorkFu:MenuSpells(module, unit)
 		dewdrop:AddLine("text", v, "func", self.SetFilter, "isRadio", true, "checked", val == v,
 			"arg1", self, "arg2", module, "arg3", unit, setval and "arg4", setval)
 	end
-
-	compost:Reclaim(sortlist)
 end
 
 
