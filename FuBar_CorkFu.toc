@@ -8,8 +8,8 @@
 ## X-Category: Buffs
 ## X-AceForum: 1459
 
-## OptionalDeps: AbacusLib, Ace2, BabbleLib, CrayonLib, CompostLib, DewdropLib, FuBar, GratuityLib, SpecialEventsEmbed, TabletLib, TekTechEmbed
-## X-Embeds: AbacusLib, Ace2, BabbleLib, CrayonLib, CompostLib, DewdropLib, GratuityLib, SpecialEventsEmbed, TabletLib, TekTechEmbed
+## OptionalDeps: AbacusLib, Ace2, BabbleLib, CrayonLib, DewdropLib, FuBar, GratuityLib, SpecialEventsEmbed, TabletLib, TekTechEmbed
+## X-Embeds: AbacusLib, Ace2, BabbleLib, CrayonLib, DewdropLib, GratuityLib, SpecialEventsEmbed, TabletLib, TekTechEmbed
 
 ## SavedVariables: CorkFuDB
 
@@ -28,7 +28,6 @@ Libs\Babble-Class-2.2\Babble-Class-2.2.lua
 Libs\PaintChips-2.0\PaintChips-2.0.lua
 Libs\Crayon-2.0\Crayon-2.0.lua
 Libs\Abacus-2.0\Abacus-2.0.lua
-Libs\Compost-2.0\Compost-2.0.lua
 Libs\Gratuity-2.0\Gratuity-2.0.lua
 Libs\Tablet-2.0\Tablet-2.0.lua
 Libs\FuBarPlugin-2.0\FuBarPlugin-2.0.lua
