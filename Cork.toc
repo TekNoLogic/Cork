@@ -1,12 +1,11 @@
 ## Interface: 20000
 
-## Title: FuBar - |cffffffffCork|r|cff00ff00Fu|r
+## Title: Cork
 ## Notes: Track needed buffs, debuffs and more
 ## Author: Tekkub Stoutwrithe
 ## X-Credits: Thiana (Warlock modules), Gnancy (Soullink module)
 ## Version: 2.0
 ## X-Category: Buffs
-## X-AceForum: 1459
 
 ## OptionalDeps: AbacusLib, Ace2, BabbleLib, CrayonLib, DewdropLib, FuBar, GratuityLib, SpecialEventsEmbed, TabletLib, TekTechEmbed
 ## X-Embeds: AbacusLib, Ace2, BabbleLib, CrayonLib, DewdropLib, GratuityLib, SpecialEventsEmbed, TabletLib, TekTechEmbed
