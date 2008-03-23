@@ -1,0 +1,16 @@
+﻿## Interface: 20300
+## LoadOnDemand: 1
+## Title: Lib: Babble [|cffeda55fClass|r]
+## Notes: A library to help with localization.
+## Notes-deDE: BabbleLib ist eine Bibliothek, die bei der Lokalisierung helfen soll.
+## Notes-frFR: Une bibliothèque d'aide à la localisation.
+## Notes-esES: Una biblioteca para ayudar con las localizaciones.
+## Author: ckknight
+## X-eMail: ckknight@gmail.com
+## Version: 2.2.$Revision: 54514 $
+## X-Category: Library
+## OptionalDeps: Ace2
+## X-AceLibrary-Babble-Class-2.2: true
+## X-License: MIT
+
+Babble-Class-2.2.lua
