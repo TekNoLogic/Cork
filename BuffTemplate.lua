@@ -176,7 +176,7 @@ end
 
 
 function template:CorkFu_Rescan(spell)
-	if spell == self.spell or self.spells and self.spells[spell] or spell == self.multispell or spell == "All" then
+	if spell == self.spell or self.spells and self.spells[spell] or spell == self.multispell or self.multispells and self.multispells[spell] or spell == "All" then
 		self:ScanUnits()
 	end
 end
@@ -186,7 +186,8 @@ function template:SpecialEvents_UnitBuffGained(unit, buff)
 	if unit == "mouseover" then return end
 	if (not self.spell or buff ~= self.spell)
 	and (not self.spells or not self.spells[buff])
-	and (not self.multispell or buff ~= self.multispell) then return end
+	and (not self.multispell or buff ~= self.multispell)
+	and (not self.multispells or not self.multispells[buff]) then return end
 
 	self.tagged[unit] = buff
 	self:TriggerEvent("CorkFu_Update")
@@ -197,7 +198,8 @@ function template:SpecialEvents_UnitBuffLost(unit, buff)
 	if unit == "mouseover" then return end
 	if (not self.spell or buff ~= self.spell)
 	and (not self.spells or not self.spells[buff])
-	and (not self.multispell or buff ~= self.multispell) then return end
+	and (not self.multispell or buff ~= self.multispell)
+	and (not self.multispells or not self.multispells[buff]) then return end
 
 	if self.tagged[unit] == buff then
 		self.tagged[unit] = true
@@ -257,6 +259,13 @@ function template:TestUnit(unit)
 
 	local sb = seaura:UnitHasBuff(unit, self.spell) and self.spell
 	local mb = seaura:UnitHasBuff(unit, self.multispell) and self.multispell
+
+	if self.multispells then
+		for i in pairs(self.multispells) do
+			if seaura:UnitHasBuff(unit, i) then mb = i end
+		end
+	end
+
 	if self.spells then
 		for i in pairs(self.spells) do
 			if seaura:UnitHasBuff(unit, i) then sb = i end

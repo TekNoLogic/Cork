@@ -38,12 +38,12 @@ i.spells = {
 	[B["Blessing of Wisdom"]]     = true,
 }
 i.multispells = {
-	[B["Blessing of Might"]]      = B["Greater Blessing of Might"],
-	[B["Blessing of Kings"]]      = B["Greater Blessing of Kings"],
-	[B["Blessing of Light"]]      = B["Greater Blessing of Light"],
-	[B["Blessing of Salvation"]]  = B["Greater Blessing of Salvation"],
-	[B["Blessing of Sanctuary"]]  = B["Greater Blessing of Sanctuary"],
-	[B["Blessing of Wisdom"]]     = B["Greater Blessing of Wisdom"],
+	[B["Greater Blessing of Might"]] = true,
+	[B["Greater Blessing of Kings"]] = true,
+	[B["Greater Blessing of Light"]] = true,
+	[B["Greater Blessing of Salvation"]] = true,
+	[B["Greater Blessing of Sanctuary"]] = true,
+	[B["Greater Blessing of Wisdom"]] = true,
 }
 
 
