@@ -240,7 +240,7 @@ function FuBar_CorkFu:OnTextUpdate()
 end
 
 
-function FuBar_CorkFu:OnTooltipUpdate()
+function FuBar_CorkFu:OnDataUpdate()
 	tooltip:ClearLines()
 	tooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
 	tooltip:SetPoint("TOP", WorldFrame, "TOP", 0, -100)
