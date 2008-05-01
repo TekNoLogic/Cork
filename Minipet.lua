@@ -1,7 +1,6 @@
 
 local pt = PeriodicTableMicro
 PeriodicTableMicro = nil
-local tablet = AceLibrary("Tablet-2.0")
 local core = FuBar_CorkFu
 
 local loc = {
@@ -109,12 +108,9 @@ function minipet:GetTopItem()
 end
 
 
-function minipet:OnTooltipUpdate()
+function minipet:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() or not needpet or self.db.profile["Filter Everyone"] == -1 then return end
-	self:Debug("Updating tablet")
-
-	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", loc.nicename, "hasCheck", true, "checked", true, "checkIcon", icon)
+	tooltip:AddIconLine(icon, loc.nicename)
 end
 
 

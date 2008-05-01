@@ -3,7 +3,6 @@ if c ~= "WARLOCK" then return end
 
 local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local seaura = AceLibrary("SpecialEvents-Aura-2.0")
-local tablet = AceLibrary("Tablet-2.0")
 
 local gone = true
 
@@ -59,11 +58,9 @@ function slink:PutACorkInIt()
 end
 
 
-function slink:OnTooltipUpdate()
+function slink:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() or not self:UnitValid("pet") or gone or self.db.profile["Filter Everyone"] == -1 then return end
-
-	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", "Soul Link", "hasCheck", true, "checked", true, "checkIcon", icon)
+	tooltip:AddLine(icon, "Soul Link")
 end
 
 

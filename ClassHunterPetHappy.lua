@@ -61,11 +61,9 @@ function happy:PutACorkInIt()
 end
 
 
-function happy:OnTooltipUpdate()
+function happy:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() or happyness ~= true or not self:UnitValid("pet") or self.db.profile.player == -1 then return end
-
-	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", UnitName("pet").." is hungry", "hasCheck", true, "checked", true, "checkIcon", icon)
+	tooltip:AddIconLine(icon, UnitName("pet").." is hungry")
 end
 
 

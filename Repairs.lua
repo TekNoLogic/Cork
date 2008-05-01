@@ -4,7 +4,6 @@ local gratuity = AceLibrary("Gratuity-2.0")
 local findstr = string.gsub(DURABILITY_TEMPLATE, "%%[^%s]+", "(.+)")
 local abacus = AceLibrary("Abacus-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
-local tablet = AceLibrary("Tablet-2.0")
 local crayon = AceLibrary("Crayon-2.0")
 local core = FuBar_CorkFu
 
@@ -76,14 +75,9 @@ function dura:GetTopItem()
 end
 
 
-function dura:OnTooltipUpdate()
+function dura:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() or ((perc or 1) > self.db.profile.threshold) or self.db.profile["Filter Everyone"] == -1 then return end
-	self:Debug("Updating tablet")
-
-	local cat = tablet:AddCategory("hideBlankLine", true, "columns", 2)
-	cat:AddLine("text", "Your equipment is damaged",
-		"text2", string.format("|cff%s%d%%", crayon:GetThresholdHexColor(perc), perc * 100),
-		"hasCheck", true, "checked", true, "checkIcon", icon)
+	tooltip:AddLine(icon, string.format("Your equipment is damaged - |cff%s%d%%", crayon:GetThresholdHexColor(perc), perc * 100))
 end
 
 

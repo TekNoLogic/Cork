@@ -1,5 +1,4 @@
 
-local tablet = AceLibrary("Tablet-2.0")
 local core = FuBar_CorkFu
 
 local loc = {
@@ -59,13 +58,9 @@ function shuck:GetTopItem()
 end
 
 
-function shuck:OnTooltipUpdate()
+function shuck:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() or self.db.profile["Filter Everyone"] == -1 then return end
-	self:Debug("Updating tablet")
-
-	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", loc.nicename.." - ".. lastcount, "hasCheck", true, "checked", true, "checkIcon", icon,
-		"func", self.PutACorkInIt, "arg1", self)
+	cat:AddLine(icon, loc.nicename.." - ".. lastcount)
 end
 
 

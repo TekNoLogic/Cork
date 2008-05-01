@@ -2,7 +2,6 @@ local _, c = UnitClass("player")
 if c ~= "WARLOCK" then return end
 
 local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
-local tablet = AceLibrary("Tablet-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
 local BS = AceLibrary("Babble-Spell-2.2")
 
@@ -69,13 +68,11 @@ function lockpets:PutACorkInIt()
 end
 
 
-function lockpets:OnTooltipUpdate()
+function lockpets:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() or UnitExists("pet") or self.db.char["Filter Everyone"] == -1 then return end
 
 	local spell = self.db.char["Filter Everyone"] or defaultspell
-	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", spell, "hasCheck", true, "checked", true, "checkIcon", spells[spell],
-		"func", self.PutACorkInIt, "arg1", self)
+	tooltip:AddIconLine(spells[spell], spell)
 end
 
 
@@ -105,7 +102,7 @@ end
 
 function lockpets:PLAYER_PET_CHANGED()
 	if UnitExists("pet") then return end
-	
+
 	self:TriggerEvent("CorkFu_Update")
 end
 

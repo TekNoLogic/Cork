@@ -1,6 +1,5 @@
 
 local seaura = AceLibrary("SpecialEvents-Aura-2.0")
-local tablet = AceLibrary("Tablet-2.0")
 local core = FuBar_CorkFu
 local pt = PeriodicTableMicro
 PeriodicTableMicro = nil
@@ -72,11 +71,9 @@ function adc:GetTopItem()
 end
 
 
-function adc:OnTooltipUpdate()
+function adc:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile["Filter Everyone"] == -1 then return end
-
-	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", loc.nicename, "hasCheck", true, "checked", true, "checkIcon", icon)
+	tooltip:AddLine(icon, loc.nicename)
 end
 
 

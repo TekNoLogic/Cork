@@ -7,7 +7,6 @@
 local AceOO = AceLibrary("AceOO-2.0")
 local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
-local tablet = AceLibrary("Tablet-2.0")
 local chips = AceLibrary("PaintChips-2.0")
 local BC = AceLibrary("Babble-Class-2.2")
 
@@ -59,6 +58,14 @@ FuBar_CorkFu:RegisterDefaults("profile", {
 	showtext = true,
 	showcount = true,
 })
+
+
+-----------------------
+--      Tooltip      --
+-----------------------
+
+local tooltip = CreateFrame("GameTooltip", "Corkboard", UIParent, "GameTooltipTemplate")
+function tooltip:AddIconLine(icon, text) return self:AddLine("|T"..icon..":14|t "..text) end
 
 
 ---------------------------
@@ -234,7 +241,14 @@ end
 
 
 function FuBar_CorkFu:OnTooltipUpdate()
-	for _,i in self:IterateModules() do i:OnTooltipUpdate() end
+	tooltip:ClearLines()
+	tooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
+	tooltip:SetPoint("TOP", WorldFrame, "TOP", 0, -100)
+	tooltip:AddLine("Cork")
+
+	for _,i in self:IterateModules() do i:OnTooltipUpdate(tooltip) end
+
+	if tooltip:NumLines() > 1 then tooltip:Show() end
 end
 
 

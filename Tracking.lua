@@ -1,6 +1,5 @@
 
 local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
-local tablet = AceLibrary("Tablet-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
 local BS = AceLibrary("Babble-Spell-2.2")
 
@@ -75,13 +74,11 @@ function track:PutACorkInIt()
 end
 
 
-function track:OnTooltipUpdate()
+function track:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() or mybuff or self.db.char["Filter Everyone"] == -1 then return end
 
 	local spell = self.db.char["Filter Everyone"] or defaultspell
-	local cat = tablet:AddCategory("hideBlankLine", true)
-	cat:AddLine("text", spell, "hasCheck", true, "checked", true, "checkIcon", spells[spell],
-		"func", self.PutACorkInIt, "arg1", self)
+	tooltip:AddLine(spells[spell], spell)
 end
 
 

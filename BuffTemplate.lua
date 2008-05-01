@@ -2,7 +2,6 @@
 local AceOO = AceLibrary("AceOO-2.0")
 local seaura = AceLibrary("SpecialEvents-Aura-2.0")
 local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
-local tablet = AceLibrary("Tablet-2.0")
 local BS = AceLibrary("Babble-Spell-2.2")
 local chips = AceLibrary("PaintChips-2.0")
 local core = FuBar_CorkFu
@@ -332,17 +331,16 @@ function template:GetSpellFilter(unit)
 end
 
 
-function template:OnTooltipUpdate()
+function template:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() then return end
 
-	local cat = tablet:AddCategory("columns", 2, "hideBlankLine", true)
 	local groupneeds = {}
 	if self.MultiValid and self:MultiValid() then self:GetGroupNeeds(groupneeds) end
 
 	for group,num in pairs(groupneeds) do
 		if num >= groupthresh then
 			local icon = self:GetIcon("group"..group) or questionmark
-			cat:AddLine("text", "Group "..group, "hasCheck", true, "checked", true, "checkIcon", icon, "text2", num.." units")
+			tooltip:AddIconLine(icon, "Group "..group)
 		end
 	end
 
@@ -360,7 +358,7 @@ function template:OnTooltipUpdate()
 				group = "Group "..group
 			end
 			if not hidden then
-				cat:AddLine("text", name, "hasCheck", true, "checked", true, "checkIcon", icon, "text2", group)
+				tooltip:AddIconLine(icon, name)
 			end
 		end
 	end
