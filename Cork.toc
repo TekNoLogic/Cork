@@ -34,7 +34,8 @@ Libs\SpecialEvents-LearnSpell-2.0\SpecialEvents-LearnSpell-2.0.lua
 Libs\SpecialEvents-Aura-2.0\SpecialEvents-Aura-2.0.lua
 
 Core.lua
-BuffTemplate.lua
+Templates\BuffTemplate.lua
+Templates\SelfBuffTemplate.lua
 
 ClassDruid.lua
 ClassHunter.lua
