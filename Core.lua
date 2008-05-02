@@ -66,6 +66,8 @@ FuBar_CorkFu:RegisterDefaults("profile", {
 
 local tooltip = CreateFrame("GameTooltip", "Corkboard", UIParent, "GameTooltipTemplate")
 function tooltip:AddIconLine(icon, text) return self:AddLine("|T"..icon..":14|t "..text) end
+CorkboardTextLeft1:SetFontObject(GameTooltipText)
+CorkboardTextRight1:SetFontObject(GameTooltipText)
 
 
 ---------------------------
@@ -244,7 +246,6 @@ function FuBar_CorkFu:OnDataUpdate()
 	tooltip:ClearLines()
 	tooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
 	tooltip:SetPoint("TOP", WorldFrame, "TOP", 0, -100)
-	tooltip:AddLine("Cork")
 
 	for _,i in self:IterateModules() do i:OnTooltipUpdate(tooltip) end
 
