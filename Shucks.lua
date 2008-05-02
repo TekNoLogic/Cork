@@ -4,7 +4,7 @@ local core = FuBar_CorkFu
 local loc = {
 	nicename = "Shuck Clams",
 }
-local items = {7973, 24476, 5523, 15874, 5524}
+local items = {7973, 24476, 5523, 15874, 5524, 32724}
 local lastcount, needsupdate = 0
 local icon = "Interface\\Icons\\INV_Misc_Shell_03"
 
