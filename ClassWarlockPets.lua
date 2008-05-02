@@ -1,20 +1,27 @@
 local _, c = UnitClass("player")
 if c ~= "WARLOCK" then return end
 
+local core = FuBar_CorkFu
+
 local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
-local BS = AceLibrary("Babble-Spell-2.2")
 
-local core = FuBar_CorkFu
-local defaultspell = BS["Summon Imp"]
-local icons, spells = {}, {
-	[BS["Summon Imp"]]       = "Interface\\Icons\\Spell_Shadow_SummonImp",
-	[BS["Summon Voidwalker"]]    = "Interface\\Icons\\Spell_Shadow_SummonVoidWalker",
-	[BS["Summon Succubus"]]    = "Interface\\Icons\\Spell_Shadow_SummonSuccubus",
-	[BS["Summon Felhunter"]]     = "Interface\\Icons\\Spell_Shadow_SummonFelHunter",
-	[BS["Summon Felguard"]]  = "Interface\\Icons\\Spell_Shadow_SummonFelGuard",
+
+local imp,  _, impicon  = GetSpellInfo(688)
+local void, _, voidicon = GetSpellInfo(697)
+local suc,  _, sucicon  = GetSpellInfo(713)
+local felh, _, felhicon = GetSpellInfo(691)
+local felg, _, felgicon = GetSpellInfo(30146)
+
+
+local defaultspell = imp
+local spells = {
+	[imp] = impicon,
+	[void] = voidicon,
+	[suc] = sucicon,
+	[felh] = felhicon,
+	[felg] = felgicon,
 }
-for i,v in pairs(spells) do icons[v] = i end
 
 
 local lockpets = core:NewModule("Warlock Pets")

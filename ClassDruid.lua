@@ -2,23 +2,25 @@
 local _, c = UnitClass("player")
 if c ~= "DRUID" then return end
 
-local B = AceLibrary("Babble-Spell-2.2")
 local core, i = FuBar_CorkFu
 local buffs = core:GetTemplate("Buffs")
 
 
-i = core:NewModule(B["Mark of the Wild"], buffs)
+local motw = GetSpellInfo(1126) -- Mark of the Wild
+i = core:NewModule(motw, buffs)
 i.target = "Friendly"
-i.spell = B["Mark of the Wild"]
-i.multispell = B["Gift of the Wild"]
+i.spell = motw
+i.multispell = GetSpellInfo(21849) -- Gift of the Wild
 
 
-i = core:NewModule(B["Thorns"], buffs)
+local th = GetSpellInfo(467) -- Thorns
+i = core:NewModule(th, buffs)
 i.target = "Friendly"
-i.spell = B["Thorns"]
+i.spell = th
 
 
-i = core:NewModule(B["Omen of Clarity"], buffs)
-i.spell = B["Omen of Clarity"]
+local omen = GetSpellInfo(16864) -- Omen of Clarity
+i = core:NewModule(omen, buffs)
+i.spell = omen
 i.target = "Self"
 

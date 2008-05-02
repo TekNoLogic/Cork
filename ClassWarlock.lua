@@ -1,24 +1,29 @@
 local _, c = UnitClass("player")
 if c ~= "WARLOCK" then return end
 
-local B = AceLibrary("Babble-Spell-2.2")
 local core, i = FuBar_CorkFu
 local buffs = core:GetTemplate("Buffs")
 
-i = core:NewModule(B["Demon Armor"], buffs)
+
+local ds = GetSpellInfo(687) -- Demon Skin
+i = core:NewModule(ds, buffs)
 i.target = "Self"
-i.defaultspell = B["Demon Armor"]
+i.defaultspell = ds
 i.spells = {
-	[B["Demon Armor"]] = true,
-	[B["Demon Skin"]] = true,
-    [B["Fel Armor"]] = true,
+	[GetSpellInfo(706)] = true, -- Demon Armor
+	[ds] = true,
+	[GetSpellInfo(28176)] = true, -- Fel Armor
 }
 
-i = core:NewModule(B["Detect Invisibility"], buffs)
-i.target = "Friendly"
-i.spell = B["Detect Invisibility"]
 
-i = core:NewModule(B["Unending Breath"], buffs)
+local di = GetSpellInfo(132) -- Detect Invisibility
+i = core:NewModule(di, buffs)
 i.target = "Friendly"
-i.spell = B["Unending Breath"]
+i.spell = di
+
+
+local ueb = GetSpellInfo(5697) -- Unending Breath
+i = core:NewModule(ueb, buffs)
+i.target = "Friendly"
+i.spell = ueb
 

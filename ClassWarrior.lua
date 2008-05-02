@@ -1,14 +1,13 @@
 local _, c = UnitClass("player")
 if c ~= "WARRIOR" then return end
 
-local B = AceLibrary("Babble-Spell-2.2")
 local core, i = FuBar_CorkFu
 local buffs = core:GetTemplate("Buffs")
 
 i = core:NewModule("Shout", buffs)
 i.target = "Friendly"
-i.defaultspell = B["Battle Shout"]
+i.defaultspell = GetSpellInfo(6673) -- Battle Shout
 i.spells = {
-	[B["Battle Shout"]] = true,
-	[B["Commanding Shout"]] = true,
+	[i.defaultspell] = true,
+	[GetSpellInfo(469)] = true, -- Commanding Shout
 }

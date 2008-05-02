@@ -2,51 +2,50 @@
 local _, c = UnitClass("player")
 if c ~= "PRIEST" then return end
 
-local B = AceLibrary("Babble-Spell-2.2")
 local core, i = FuBar_CorkFu
 local buffs = core:GetTemplate("Buffs")
 
 
-i = core:NewModule(B["Power Word: Fortitude"], buffs)
+local pwf = GetSpellInfo(1243) -- Power Word: Fortitude
+i = core:NewModule(pwf, buffs)
 i.target = "Friendly"
-i.spell = B["Power Word: Fortitude"]
-i.multispell = B["Prayer of Fortitude"]
-i.ranklevels = {1,12,24,36,48,60}
+i.spell = pwf
+i.multispell = GetSpellInfo(21562) -- Prayer of Fortitude
 
 
-i = core:NewModule(B["Touch of Weakness"], buffs)
+local tow = GetSpellInfo(2652) -- Touch of Weakness
+i = core:NewModule(tow, buffs)
 i.target = "Self"
-i.spell = B["Touch of Weakness"]
+i.spell = tow
 
 
-i = core:NewModule(B["Feedback"], buffs)
-i.spell = B["Feedback"]
-i.target = "Self"
-
-
-i = core:NewModule(B["Inner Fire"], buffs)
-i.spell = B["Inner Fire"]
+local ifire = GetSpellInfo(588) -- Inner Fire
+i = core:NewModule(ifire, buffs)
+i.spell = ifire
 i.target = "Self"
 
 
-i = core:NewModule(B["Fear Ward"], buffs)
-i.spell = B["Fear Ward"]
+local fw = GetSpellInfo(6346) -- Fear Ward
+i = core:NewModule(fw, buffs)
+i.spell = fw
 i.target = "Friendly"
 
 
-i = core:NewModule(B["Divine Spirit"], buffs)
+local ds = GetSpellInfo(14752) -- Divine Spirit
+i = core:NewModule(ds, buffs)
 i.target = "Friendly"
-i.spell = B["Divine Spirit"]
-i.multispell = B["Prayer of Spirit"]
-i.ranklevels = {30,40,50,60}
+i.spell = ds
+i.multispell = GetSpellInfo(27681) -- Prayer of Spirit
 
 
-i = core:NewModule(B["Shadow Protection"], buffs)
+local sp = GetSpellInfo(976) -- Shadow Protection
+i = core:NewModule(sp, buffs)
 i.target = "Friendly"
-i.spell = B["Shadow Protection"]
-i.multispell = B["Prayer of Shadow Protection"]
-i.ranklevels = {30,42,56}
+i.spell = sp
+i.multispell = GetSpellInfo(27683) -- Prayer of Shadow Protection
 
-i = core:NewModule(B["Shadowform"], buffs)
+
+local sf = GetSpellInfo(15473) -- Shadow Form
+i = core:NewModule(sf, buffs)
 i.target = "Self"
-i.spell = B["Shadowform"]
+i.spell = sf

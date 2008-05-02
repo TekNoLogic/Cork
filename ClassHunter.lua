@@ -2,27 +2,27 @@
 local _, c = UnitClass("player")
 if c ~= "HUNTER" then return end
 
-local B = AceLibrary("Babble-Spell-2.2")
 local core, i = FuBar_CorkFu
 local buffs = core:GetTemplate("Buffs")
 
 
-i = core:NewModule(B["Trueshot Aura"], buffs)
-i.spell = B["Trueshot Aura"]
+local tsa = GetSpellInfo(19506) -- Trueshot Aura
+i = core:NewModule(tsa, buffs)
+i.spell = tsa
 i.target = "Self"
 
 
 i = core:NewModule("Aspects", buffs)
 i.target = "Self"
 i.canstack = true
-i.defaultspell = B["Aspect of the Hawk"]
+i.defaultspell = GetSpellInfo(13165) -- Aspect of the Hawk
 i.spells = {
-	[B["Aspect of the Hawk"]]    = true,
-	[B["Aspect of the Beast"]]   = true,
-	[B["Aspect of the Monkey"]]  = true,
-	[B["Aspect of the Cheetah"]] = true,
-	[B["Aspect of the Pack"]]    = true,
-	[B["Aspect of the Wild"]]    = true,
-    [B["Aspect of the Viper"]]    = true,
+	[i.defaultspell]      = true, -- Aspect of the Hawk
+	[GetSpellInfo(13161)] = true, -- Aspect of the Beast
+	[GetSpellInfo(13163)] = true, -- Aspect of the Monkey
+	[GetSpellInfo(5118)]  = true, -- Aspect of the Cheetah
+	[GetSpellInfo(13159)] = true, -- Aspect of the Pack
+	[GetSpellInfo(20043)] = true, -- Aspect of the Wild
+	[GetSpellInfo(34074)] = true, -- Aspect of the Viper
 }
 

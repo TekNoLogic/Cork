@@ -1,26 +1,8 @@
 
-local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
-local BS = AceLibrary("Babble-Spell-2.2")
 
 local core, mybuff = FuBar_CorkFu, -1
-local defaultspell = BS["Find Herbs"]
-local icons, spells = {}, {
-	[BS["Find Herbs"]]       = "Interface\\Icons\\INV_Misc_Flower_02",
-	[BS["Find Minerals"]]    = "Interface\\Icons\\Spell_Nature_Earthquake",
-	[BS["Find Treasure"]]    = "Interface\\Icons\\Racial_Dwarf_FindTreasure",
-	[BS["Track Beasts"]]     = "Interface\\Icons\\Ability_Tracking",
-	[BS["Track Humanoids"]]  = "Interface\\Icons\\Spell_Holy_PrayerOfHealing",
-	[BS["Track Hidden"]]     = "Interface\\Icons\\Ability_Stealth",
-	[BS["Track Elementals"]] = "Interface\\Icons\\Spell_Frost_SummonWaterElemental",
-	[BS["Track Undead"]]     = "Interface\\Icons\\Spell_Shadow_DarkSummoning",
-	[BS["Track Demons"]]     = "Interface\\Icons\\Spell_Shadow_SummonFelHunter",
-	[BS["Track Giants"]]     = "Interface\\Icons\\Ability_Racial_Avatar",
-	[BS["Track Dragonkin"]]  = "Interface\\Icons\\INV_Misc_Head_Dragon_01",
-	[BS["Sense Undead"]]     = "Interface\\Icons\\Spell_Holy_SenseUndead",
-	[BS["Sense Demons"]]     = "Interface\\Icons\\Spell_Shadow_Metamorphosis",
-}
-for i,v in pairs(spells) do icons[v] = i end
+local spells, defaultspell = {}
 
 
 local track = core:NewModule("Tracking")
@@ -28,7 +10,12 @@ track.target = "Custom"
 
 
 function track:OnEnable()
-	for i in pairs(spells) do if selearn:SpellKnown(i) then defaultspell = i end end
+	for i=1,GetNumTrackingTypes() do
+		local name, texture, active, category = GetTrackingInfo(i)
+		spells[name] = texture
+		if active then defaultspell = name end
+	end
+	if not defaultspell then defaultspell = next(spells) end
 
 	self:RegisterEvent("CorkFu_Rescan")
 	self:RegisterEvent("PLAYER_AURAS_CHANGED")
@@ -41,9 +28,7 @@ end
 ----------------------------
 
 function track:ItemValid()
-	for i in pairs(spells) do
-		if selearn:SpellKnown(i) then return true end
-	end
+	return true
 end
 
 
@@ -88,10 +73,8 @@ function track:OnMenuRequest()
 	dewdrop:AddLine("text", core.loc.disabled, "func", self.SetFilter, "isRadio", true, "checked", val == -1, "arg1", self,
 		"arg2", "Everyone", "arg3", -1, "arg4", "char")
 	for v in pairs(spells) do
-		if selearn:SpellKnown(v) then
-			dewdrop:AddLine("text", v, "func", self.SetFilter, "isRadio", true, "checked", val == v,
-				"arg1", self, "arg2", "Everyone", "arg3", v, "arg4", "char")
-		end
+		dewdrop:AddLine("text", v, "func", self.SetFilter, "isRadio", true, "checked", val == v,
+			"arg1", self, "arg2", "Everyone", "arg3", v, "arg4", "char")
 	end
 end
 
@@ -108,10 +91,9 @@ end
 
 function track:PLAYER_AURAS_CHANGED()
 	local x = GetTrackingTexture()
-	local tex = x and icons[x]
-	if tex == mybuff then return end
+	if x == mybuff then return end
 
-	mybuff = tex
+	mybuff = x
 	self:TriggerEvent("CorkFu_Update")
 end
 

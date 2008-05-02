@@ -2,7 +2,6 @@
 local AceOO = AceLibrary("AceOO-2.0")
 local seaura = AceLibrary("SpecialEvents-Aura-2.0")
 local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
-local BS = AceLibrary("Babble-Spell-2.2")
 local chips = AceLibrary("PaintChips-2.0")
 local core = FuBar_CorkFu
 
@@ -20,6 +19,15 @@ local function GetClassColor(unit)
 	local _,class = UnitClass(unit)
 	return chips(class)
 end
+
+
+local spellicons = setmetatable({}, {
+	__index = function(t,i)
+		local _, _, icon = GetSpellInfo(i)
+		t[i] = icon
+		return icon
+	end
+})
 
 
 local template = AceOO.Mixin {
@@ -110,9 +118,9 @@ end
 
 
 function template:GetIcon(unit)
-	if raidgroups[unit] then return self.multispell and BS:GetSpellIcon(self.multispell) or self.icon end
+	if raidgroups[unit] then return self.multispell and spellicons[self.multispell] or self.icon end
 	local spell = self:GetSpell(unit)
-	return spell and BS:GetSpellIcon(spell) or self.icon
+	return spell and spellicons[spell] or self.icon
 end
 
 

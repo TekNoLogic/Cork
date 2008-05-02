@@ -2,31 +2,36 @@
 local _, c = UnitClass("player")
 if c ~= "SHAMAN" then return end
 
-local B = AceLibrary("Babble-Spell-2.2")
 local core, i = FuBar_CorkFu
 local buffs = core:GetTemplate("Buffs")
 
 
-i = core:NewModule(B["Earth Shield"], buffs)
+local es = GetSpellInfo(974) -- Earth Shield
+i = core:NewModule(es, buffs)
 i.target = "Friendly"
-i.spell = B["Earth Shield"]
+i.spell = es
 
 
-i = core:NewModule(B["Lightning Shield"], buffs)
-i.spell = B["Lightning Shield"]
+local ls = GetSpellInfo(324) -- Lightning Shield
+i = core:NewModule(ls, buffs)
+i.spell = ls
 i.target = "Self"
 
-i = core:NewModule(B["Water Shield"], buffs)
-i.spell = B["Water Shield"]
+
+local ws = GetSpellInfo(24398) -- Water Shield
+i = core:NewModule(ws, buffs)
+i.spell = ws
 i.target = "Self"
 
 
-i = core:NewModule(B["Water Breathing"], buffs)
+local wb = GetSpellInfo(131) -- Water Breathing
+i = core:NewModule(wb, buffs)
 i.target = "Friendly"
-i.spell = B["Water Breathing"]
+i.spell = wb
 
 
-i = core:NewModule(B["Water Walking"], buffs)
+local ww = GetSpellInfo(546) -- Water Walking
+i = core:NewModule(ww, buffs)
 i.target = "Friendly"
-i.spell = B["Water Walking"]
+i.spell = ww
 

@@ -2,37 +2,32 @@
 local _, c = UnitClass("player")
 if c ~= "MAGE" then return end
 
-local B = AceLibrary("Babble-Spell-2.2")
 local core, i = FuBar_CorkFu
 local buffs = core:GetTemplate("Buffs")
 
 
-i = core:NewModule(B["Arcane Intellect"], buffs)
+local ai = GetSpellInfo(1459) -- Arcane Intellect
+i = core:NewModule(ai, buffs)
 i.target = "Friendly"
-i.spell = B["Arcane Intellect"]
-i.multispell = B["Arcane Brilliance"]
-
-
-i = core:NewModule(B["Mana Shield"], buffs)
-i.spell = B["Mana Shield"]
-i.target = "Self"
+i.spell = ai
+i.multispell = GetSpellInfo(23028) -- Arcane Brilliance
 
 
 i = core:NewModule("Armor", buffs)
 i.target = "Self"
-i.defaultspell = B["Frost Armor"]
+i.defaultspell = GetSpellInfo(168) -- Frost Armor
 i.spells = {
-	[B["Ice Armor"]]   = true,
-	[B["Frost Armor"]] = true,
-	[B["Mage Armor"]]  = true,
-    [B["Molten Armor"]]  = true,
+	[GetSpellInfo(7302)]  = true, -- Ice Armor
+	[i.defaultspell]      = true,
+	[GetSpellInfo(6117)]  = true, -- Mage Armor
+	[GetSpellInfo(30482)] = true, -- Molten Armor
 }
 
 
 i = core:NewModule("Amplify/Dampen Magic", buffs)
 i.target = "Raid"
-i.defaultspell = B["Dampen Magic"]
+i.defaultspell = GetSpellInfo(604) -- Dampen Magic
 i.spells = {
-	[B["Amplify Magic"]] = true,
-	[B["Dampen Magic"]] = true,
+	[GetSpellInfo(1008)] = true, -- Amplify Magic
+	[i.defaultspell] = true,
 }
