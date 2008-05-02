@@ -459,6 +459,7 @@ end
 
 local corked = false
 function FuBar_CorkFu:PreClick()
+	if InCombatLockdown() then return end
 	corked = false
 	for name,module in self:IterateModules() do
 		if module:ItemValid() and module:PutACorkInIt() then
@@ -470,6 +471,7 @@ end
 
 
 function FuBar_CorkFu:PostClick()
+	if InCombatLockdown() then return end
 	self.secureframe:SetManyAttributes("type1", ATTRIBUTE_NOOP, "bag1", nil, "slot1", nil, "item1", nil, "spell", nil, "unit", nil)
 	if corked then self:Update() end
 end
