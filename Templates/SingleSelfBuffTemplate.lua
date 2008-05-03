@@ -1,86 +1,29 @@
 
-local AceOO = AceLibrary("AceOO-2.0")
 local seaura = AceLibrary("SpecialEvents-Aura-2.0")
-local selearn = AceLibrary("SpecialEvents-LearnSpell-2.0")
-local chips = AceLibrary("PaintChips-2.0")
 local core = FuBar_CorkFu
 
-local groupthresh = 2
-local partyids = {player = "Self", pet = "Pet"}
-local raidunitnum, raidgroups = {}, {}
-for i=1,8 do raidgroups["group"..i] = true end
-local raidunitnum = {}
-for i=1,40 do raidunitnum["raid"..i] = i end
-for i=1,4 do
-	partyids["party"..i] = "Party"
-	partyids["partypet"..i] = "Party Pet"
-end
-local function GetClassColor(unit)
-	local _,class = UnitClass(unit)
-	return chips(class)
-end
 
-
-local spellicons = setmetatable({}, {
-	__index = function(t,i)
-		local _, _, icon = GetSpellInfo(i)
-		t[i] = icon
-		return icon
-	end
-})
-
-
-local template = AceOO.Mixin {
+local template = AceLibrary("AceOO-2.0").Mixin {
 	"OnEnable",
 	"OnDisable",
 	"ItemValid",
-	"MultiValid",
-	"UnitValid",
 	"GetIcon",
 	"PutACorkInIt",
-	"PutACorkInItMulti",
-	"GetUnitInGroup",
 	"CorkFu_Rescan",
 	"SpecialEvents_UnitBuffGained",
 	"SpecialEvents_UnitBuffLost",
-	"SpecialEvents_AuraRaidRosterUpdate",
-	"SpecialEvents_AuraPartyMembersChanged",
-	"SpecialEvents_AuraTargetChanged",
-	"ScanUnits",
-	"TestUnit",
-	"GetSpell",
-	"GetSpellFilter",
---~ 	"GetRank",
-	"GetGroupNeeds",
 	"OnTooltipUpdate",
 	"GetTopItem",
 }
-core:RegisterTemplate("Buffs", template)
-
-
-
---~~ CorkFu_BuffTemplate = {}
-
---~~ function CorkFu_BuffTemplate:New(info)
---~~ 	local bt = AceAddon:new(info)
---~~ 	for i,v in pairs(template) do bt[i] = v end
---~~ 	bt.tagged = {}
---~~ 	bt:RegisterForLoad()
---~~ 	return bt
---~~ end
+core:RegisterTemplate("SimpleSelfBuff", template)
 
 
 function template:OnEnable()
-	if not self.tagged then self.tagged = {} end
 	self:RegisterEvent("CorkFu_Rescan")
-
 	self:RegisterEvent("SpecialEvents_UnitBuffLost")
 	self:RegisterEvent("SpecialEvents_UnitBuffGained")
-	if self.target ~= "Self" then self:RegisterEvent("SpecialEvents_AuraRaidRosterUpdate") end
-	if self.target ~= "Self" then self:RegisterEvent("SpecialEvents_AuraPartyMembersChanged") end
-	if self.target ~= "Self" then self:RegisterEvent("SpecialEvents_AuraTargetChanged") end
 
-	self:ScanUnits()
+	self.needbuff = not seaura:UnitHasBuff("player", self.spell)
 
 	self:TriggerEvent("CorkFu_Update")
 end
@@ -91,89 +34,23 @@ end
 ----------------------------
 
 function template:ItemValid()
-	if self.spell then return selearn:SpellKnown(self.spell) end
-	if self.spells then
-		for i in pairs(self.spells) do
-			if selearn:SpellKnown(i) then return true end
-		end
-	end
+	return GetSpellInfo(self.spell)
 end
 
 
-function template:MultiValid()
-	if self.multispell then return selearn:SpellKnown(self.multispell) end
-	if self.multispells then
-		for i in pairs(self.multispells) do
-			if selearn:SpellKnown(i) then return true end
-		end
-	end
-end
-
-
-function template:UnitValid(unit)
-	return (self.target == "Self" and unit == "player")
-	or self.target ~= "Self" and (GetNumRaidMembers() == 0 or (not partyids[unit]))
-	and UnitExists(unit) and not UnitIsDeadOrGhost(unit) and UnitIsConnected(unit)
-end
-
-
-function template:GetIcon(unit)
-	if raidgroups[unit] then return self.multispell and spellicons[self.multispell] or self.icon end
-	local spell = self:GetSpell(unit)
-	return spell and spellicons[spell] or self.icon
+function template:GetIcon()
+	return self.icon
 end
 
 
 function template:GetTopItem()
-	if not self:ItemValid() then return end
-
-	local groupneeds = {}
-	if self.MultiValid and self:MultiValid() then self:GetGroupNeeds(groupneeds) end
-
-	for group,num in pairs(groupneeds) do
-		if num >= groupthresh then
-			return self:GetIcon("group"..group), "Group "..group, "group"..group
-		end
-	end
-
-	for unit,val in pairs(self.tagged) do
-		if val == true and self:UnitValid(unit) and not self:UnitIsFiltered(unit) then
-			local color = (UnitInParty(unit) or UnitInRaid(unit)) and ("|cff".. GetClassColor(unit)) or "|cff00ff00"
-			return self:GetIcon(unit), color.. UnitName(unit), unit
-		end
-	end
+	if self:ItemValid() and self.needbuff and not self:UnitIsFiltered("player") then return self.icon, self.spell, "player" end
 end
 
 
 function template:PutACorkInIt(unit)
-	if not unit then
-		local _, _, unit = self:GetTopItem()
-		return unit and self:PutACorkInIt(unit)
-	end
-
-	if raidgroups[unit] then return self:PutACorkInItMulti(unit) end
-
-	local spell = self:GetSpell(unit)
-	self:Debug("Casting buff", spell, "on", unit)
-	core.secureframe:SetManyAttributes("type1", "spell", "spell", spell, "unit", unit)
+	core.secureframe:SetManyAttributes("type1", "spell", "spell", self.spell, "unit", "player")
 	return true
-end
-
-
-function template:PutACorkInItMulti(group)
-	core.secureframe:SetManyAttributes("type1", "spell", "spell", self.multispell,
-		"unit", self:GetUnitInGroup(tonumber(string.sub(group, 6))))
-	return true
-end
-
-
-function template:GetUnitInGroup(group)
-	for unit in pairs(self.tagged) do
-		if raidunitnum[unit] then
-			local _, _, g = GetRaidRosterInfo(raidunitnum[unit])
-			if group == g then return unit end
-		end
-	end
 end
 
 
@@ -183,64 +60,22 @@ end
 
 
 function template:CorkFu_Rescan(spell)
-	if spell == self.spell or self.spells and self.spells[spell] or spell == self.multispell or self.multispells and self.multispells[spell] or spell == "All" then
-		self:ScanUnits()
-	end
+	if spell == self.spell or spell == "All" then self.needbuff = not seaura:UnitHasBuff("player", self.spell) end
 end
 
 
 function template:SpecialEvents_UnitBuffGained(unit, buff)
-	if unit == "mouseover" then return end
-	if (not self.spell or buff ~= self.spell)
-	and (not self.spells or not self.spells[buff])
-	and (not self.multispell or buff ~= self.multispell)
-	and (not self.multispells or not self.multispells[buff]) then return end
+	if unit ~= "player" or buff ~= self.spell then return end
 
-	self.tagged[unit] = buff
+	self.needbuff = false
 	self:TriggerEvent("CorkFu_Update")
 end
 
 
 function template:SpecialEvents_UnitBuffLost(unit, buff)
-	if unit == "mouseover" then return end
-	if (not self.spell or buff ~= self.spell)
-	and (not self.spells or not self.spells[buff])
-	and (not self.multispell or buff ~= self.multispell)
-	and (not self.multispells or not self.multispells[buff]) then return end
+	if unit ~= "player" or buff ~= self.spell then return end
 
-	if self.tagged[unit] == buff then
-		self.tagged[unit] = true
-		self:TriggerEvent("CorkFu_Update")
-	end
-end
-
-
-function template:SpecialEvents_AuraRaidRosterUpdate()
-	for i=1,GetNumRaidMembers() do self:TestUnit("raid"..i) end
-	self:TriggerEvent("CorkFu_Update")
-end
-
-
-function template:SpecialEvents_AuraPartyMembersChanged()
-	for i=1,GetNumPartyMembers() do self:TestUnit("party"..i) end
-	self:TriggerEvent("CorkFu_Update")
-end
-
-
-function template:SpecialEvents_AuraTargetChanged()
-	self.tagged.target = nil
-
-	if UnitExists("target") and UnitIsFriend("target", "player") then
-		local sb = seaura:UnitHasBuff("target", self.spell) and self.spell
-		local mb = seaura:UnitHasBuff("target", self.multispell) and self.multispell
-		if self.spells then
-			for i in pairs(self.spells) do
-				if seaura:UnitHasBuff("target", i) then sb = i end
-			end
-		end
-		self.tagged.target = sb or mb or true
-	end
-
+	self.needbuff = true
 	self:TriggerEvent("CorkFu_Update")
 end
 
@@ -249,138 +84,6 @@ end
 --      Helper Methods      --
 ------------------------------
 
-function template:ScanUnits()
-	self:TestUnit("player")
-	if self.target ~= "Self" then
-		for i=1,GetNumPartyMembers() do self:TestUnit("party"..i) end
-		for i=1,GetNumRaidMembers() do self:TestUnit("raid"..i) end
-	end
-end
-
-
-function template:TestUnit(unit)
-	if not UnitExists(unit) then
-		self.tagged[unit] = nil
-		return
-	end
-
-	local sb = seaura:UnitHasBuff(unit, self.spell) and self.spell
-	local mb = seaura:UnitHasBuff(unit, self.multispell) and self.multispell
-
-	if self.multispells then
-		for i in pairs(self.multispells) do
-			if seaura:UnitHasBuff(unit, i) then mb = i end
-		end
-	end
-
-	if self.spells then
-		for i in pairs(self.spells) do
-			if seaura:UnitHasBuff(unit, i) then sb = i end
-		end
-	end
-	self.tagged[unit] = sb or mb or true
-end
-
-
-function template:GetSpell(unit)
-	assert(unit, "No unit passed")
-	assert(raidgroups[unit] or UnitExists(unit), "Unit does not exist")
-
-	if self.multispell and IsShiftKeyDown() and selearn:SpellKnown(self.multispell) then return self.multispell
-	elseif self.spell then return self.spell
-	elseif self.spells then
-		if self.target == "Self" then
-			return self.db.profile["Filter Everyone"] or self.defaultspell
-		else
-			local spell = self:GetSpellFilter(unit)
-			if not spell then return end
-
-			local ms = self.multispells and self.multispells[spell]
-			if IsShiftKeyDown() and ms then return ms end
-
-			return spell
-		end
-	end
-end
-
-
-function template:GetSpellFilter(unit)
-	assert(unit, "No unit passed")
-	assert(UnitExists(unit), "Unit does not exist")
-	assert(self.defaultspell, "No default spell")
-
-	local def = self.defaultspell
-	local istarget = unit == "target"
-	local ispc = UnitIsPlayer(unit) and not UnitInParty(unit) and not UnitInRaid(unit)
-
-	local pc = istarget and ispc and self.db.profile["Filter Target Player"]
-	if pc then return pc ~= -1 and pc or def end
-
-	local npc = istarget and not ispc and self.db.profile["Filter Target NPC"]
-	if npc then return npc ~= -1 and npc or def end
-
-	local byname = self.db.profile["Filter Unit "..UnitName(unit)]
-	if byname then return byname ~= -1 and byname or def end
-
-	local _,class = UnitClass(unit)
-	local byclass = class and self.db.profile["Filter Class ".. class]
-	if byclass then return byclass ~= -1 and byclass or def end
-
-	local i, g, byparty
-	if GetNumRaidMembers() > 0 then _, _, i = string.find(unit, "raid(%d+)") end
-	if i then _, _, g = GetRaidRosterInfo(tonumber(i)) end
-	if g then byparty = self.db.profile["Filter Party "..g] end
-	if byparty then return byparty ~= -1 and byparty or def end
-
-	local everyone = self.db.profile["Filter Everyone"]
-	if everyone then return everyone ~= -1 and everyone or def end
-
-	return def
-end
-
-
 function template:OnTooltipUpdate(tooltip)
-	if not self:ItemValid() then return end
-
-	local groupneeds = {}
-	if self.MultiValid and self:MultiValid() then self:GetGroupNeeds(groupneeds) end
-
-	for group,num in pairs(groupneeds) do
-		if num >= groupthresh then
-			local icon = self:GetIcon("group"..group) or questionmark
-			tooltip:AddIconLine(icon, "Group "..group)
-		end
-	end
-
-	for unit,val in pairs(self.tagged) do
-		if val == true and self:UnitValid(unit) and not self:UnitIsFiltered(unit) then
-			local hidden
-			local color = (UnitInParty(unit) or UnitInRaid(unit)) and UnitClass(unit) and ("|cff".. GetClassColor(unit)) or "|cff00ff00"
-			local name = unit and (color.. UnitName(unit))
-			local icon = self:GetIcon(unit) or questionmark
-			local group
-			if partyids[unit] then group = partyids[unit]
-			elseif GetNumRaidMembers() > 0 and raidunitnum[unit] then
-				_,_,group = GetRaidRosterInfo(raidunitnum[unit])
-				hidden = groupneeds[group] and groupneeds[group] >= groupthresh
-				group = "Group "..group
-			end
-			if not hidden then
-				tooltip:AddIconLine(icon, name)
-			end
-		end
-	end
+	if self:ItemValid() and self.needbuff and not self:UnitIsFiltered("player") then tooltip:AddIconLine(self.icon, self.spell) end
 end
-
-
-function template:GetGroupNeeds(t)
-	if GetNumRaidMembers() == 0 then return end
-	for unit,val in pairs(self.tagged) do
-		if raidunitnum[unit] and val == true and self:UnitValid(unit) and not self:UnitIsFiltered(unit) then
-			local _,_,group = GetRaidRosterInfo(raidunitnum[unit])
-			t[group] = (t[group] or 0) + 1
-		end
-	end
-end
-
-
