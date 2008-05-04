@@ -35,7 +35,7 @@ Libs\SpecialEvents-Aura-2.0\SpecialEvents-Aura-2.0.lua
 
 Core.lua
 Templates\BuffTemplate.lua
-Templates\SelfBuffTemplate.lua
+Templates\SingleSelfBuffTemplate.lua
 
 ClassDruid.lua
 ClassHunter.lua
