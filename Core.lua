@@ -249,7 +249,7 @@ function FuBar_CorkFu:OnDataUpdate()
 
 	for _,i in self:IterateModules() do i:OnTooltipUpdate(tooltip) end
 
-	if tooltip:NumLines() > 1 then tooltip:Show() end
+	if tooltip:NumLines() > 0 then tooltip:Show() end
 end
 
 
