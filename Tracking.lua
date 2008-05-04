@@ -3,7 +3,7 @@ local dewdrop = AceLibrary("Dewdrop-2.0")
 
 local core, mybuff = FuBar_CorkFu, -1
 local spells, defaultspell = {}
-
+local NOTRACKING = "Interface\\Minimap\\Tracking\\None"
 
 local track = core:NewModule("Tracking")
 track.target = "Custom"
@@ -44,7 +44,7 @@ end
 
 
 function track:GetTopItem()
-	if not self:ItemValid() or mybuff or self.db.char["Filter Everyone"] == -1 then return end
+	if mybuff ~= NOTRACKING or self.db.char["Filter Everyone"] == -1 then return end
 
 	local spell = self.db.char["Filter Everyone"] or defaultspell
 	return spells[spell], spell
@@ -60,10 +60,10 @@ end
 
 
 function track:OnTooltipUpdate(tooltip)
-	if not self:ItemValid() or mybuff or self.db.char["Filter Everyone"] == -1 then return end
+	if mybuff ~= NOTRACKING or self.db.char["Filter Everyone"] == -1 then return end
 
 	local spell = self.db.char["Filter Everyone"] or defaultspell
-	tooltip:AddLine(spells[spell], spell)
+	tooltip:AddIconLine(spells[spell], "Tracking")
 end
 
 
