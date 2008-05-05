@@ -1,0 +1,13 @@
+﻿## Interface: 20003
+## LoadOnDemand: 1
+
+## Author: Tekkub Stoutwrithe
+## Title: Lib: Special Events [|cffeda55fLearnSpell|r]
+## Notes: Some handy events that should exist in the default UI
+## X-Category: Library
+
+## X-AceLibrary-SpecialEvents-LearnSpell-2.0: true
+
+## OptionalDeps: Ace2, Deformat, GratuityLib, Metrognome
+
+SpecialEvents-LearnSpell-2.0.lua

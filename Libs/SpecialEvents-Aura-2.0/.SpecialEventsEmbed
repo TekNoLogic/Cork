@@ -1,0 +1,34 @@
+﻿## Interface: 20003
+## LoadOnDemand: 1
+
+## Author: Tekkub Stoutwrithe
+## Title: Lib: Special Events
+## Notes: Some handy events that should exist in the default UI
+## X-Category: Library
+
+## X-AceLibrary-SpecialEvents-Aura-2.0: true
+## X-AceLibrary-SpecialEvents-Bags-2.0: true
+## X-AceLibrary-SpecialEvents-LearnSpell-2.0: true
+## X-AceLibrary-SpecialEvents-Loot-1.0: true
+## X-AceLibrary-SpecialEvents-Mail-2.0: true
+## X-AceLibrary-SpecialEvents-Mount-2.0: true
+## X-AceLibrary-SpecialEvents-Movement-2.0: true
+
+## OptionalDeps: Ace2, Deformat, GratuityLib, Metrognome
+
+## X-Embeds: Ace2, Deformat, GratuityLib, Metrognome
+Libs\AceLibrary\AceLibrary.lua
+Libs\AceOO-2.0\AceOO-2.0.lua
+Libs\AceEvent-2.0\AceEvent-2.0.lua
+Libs\Deformat-2.0\Deformat-2.0.lua
+Libs\Gratuity-2.0\Gratuity-2.0.lua
+Libs\Metrognome-2.0\Metrognome-2.0.lua
+
+SpecialEvents-Aura-2.0\SpecialEvents-Aura-2.0.lua
+SpecialEvents-Bags-2.0\SpecialEvents-Bags-2.0.lua
+SpecialEvents-Equipped-2.0\SpecialEvents-Equipped-2.0.lua
+SpecialEvents-LearnSpell-2.0\SpecialEvents-LearnSpell-2.0.lua
+SpecialEvents-Loot-1.0\SpecialEvents-Loot-1.0.lua
+SpecialEvents-Mail-2.0\SpecialEvents-Mail-2.0.lua
+SpecialEvents-Movement-2.0\SpecialEvents-Movement-2.0.lua
+SpecialEvents-Mount-2.0\SpecialEvents-Mount-2.0.lua
