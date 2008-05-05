@@ -31,7 +31,7 @@ local items = {
 local loc = {
 	nicename = "Durability",
 }
-local icon, needpet, state, perc = "Interface\\Icons\\Ability_Seal", true
+local icon, needpet, state, perc = "Interface\\Minimap\\Tracking\\Repair", true
 local xpath = "Interface\\AddOns\\FuBar_CorkFu\\X.tga"
 
 
@@ -77,7 +77,7 @@ end
 
 function dura:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() or ((perc or 1) > self.db.profile.threshold) or self.db.profile["Filter Everyone"] == -1 then return end
-	tooltip:AddLine(icon, string.format("Your equipment is damaged - |cff%s%d%%", crayon:GetThresholdHexColor(perc), perc * 100))
+	tooltip:AddIconLine(icon, string.format("Your equipment is damaged |cff%s(%d%%)", crayon:GetThresholdHexColor(perc), perc * 100))
 end
 
 
