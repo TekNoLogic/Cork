@@ -24,3 +24,16 @@ i = core:NewModule(omen, buffs)
 i.spell = omen
 i.target = "Self"
 
+
+i = core:NewModule("Fursuit", buffs)
+i.target = "Self"
+i.defaultspell = GetSpellInfo(5487) -- Bear
+i.spells = {
+	[i.defaultspell]      = true,
+	[GetSpellInfo(768)]   = true, -- Cat
+	[GetSpellInfo(9634)]  = true, -- Dire Bear
+	[GetSpellInfo(24858)] = true, -- Moonkin
+	[GetSpellInfo(33891)] = true, -- Tree
+}
+
+
