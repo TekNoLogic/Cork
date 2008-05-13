@@ -2,7 +2,6 @@
 
 local gratuity = AceLibrary("Gratuity-2.0")
 local findstr = string.gsub(DURABILITY_TEMPLATE, "%%[^%s]+", "(.+)")
-local abacus = AceLibrary("Abacus-2.0")
 local dewdrop = AceLibrary("Dewdrop-2.0")
 local crayon = AceLibrary("Crayon-2.0")
 local core = FuBar_CorkFu
