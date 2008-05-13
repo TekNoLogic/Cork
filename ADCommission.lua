@@ -73,7 +73,7 @@ end
 
 function adc:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() or buffed or not self:UnitValid("player") or self.db.profile["Filter Everyone"] == -1 then return end
-	tooltip:AddLine(icon, loc.nicename)
+	tooltip:AddIconLine(icon, loc.nicename)
 end
 
 
