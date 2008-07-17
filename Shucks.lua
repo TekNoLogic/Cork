@@ -60,7 +60,7 @@ end
 
 function shuck:OnTooltipUpdate(tooltip)
 	if not self:ItemValid() or self.db.profile["Filter Everyone"] == -1 then return end
-	cat:AddLine(icon, loc.nicename.." - ".. lastcount)
+	tooltip:AddIconLine(icon, loc.nicename.." - ".. lastcount)
 end
 
 
