@@ -10,18 +10,22 @@ track.target = "Custom"
 
 
 function track:OnEnable()
+	self:RegisterEvent("CorkFu_Rescan")
+	self:RegisterEvent("PLAYER_AURAS_CHANGED")
+	self:RegisterEvent("SPELLS_CHANGED")
+	self:SPELLS_CHANGED()
+	self:PLAYER_AURAS_CHANGED()
+end
+
+
+function track:SPELLS_CHANGED()
 	for i=1,GetNumTrackingTypes() do
 		local name, texture, active, category = GetTrackingInfo(i)
 		spells[name] = texture
 		if active then defaultspell = name end
 	end
 	if not defaultspell then defaultspell = next(spells) end
-
-	self:RegisterEvent("CorkFu_Rescan")
-	self:RegisterEvent("PLAYER_AURAS_CHANGED")
-	self:PLAYER_AURAS_CHANGED()
 end
-
 
 ----------------------------
 --      Cork Methods      --
