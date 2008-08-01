@@ -45,7 +45,7 @@ function dataobj:CorkIt(frame)
 		if GetNumRaidMembers() > 0 then for i in pairs(raidneeds) do raidneeds[i] = nil end end
 		for i=1,GetNumRaidMembers() do
 			local _, _, subgroup, _, _, _, zone, online, dead = GetRaidRosterInfo(i)
-			raidneeds[subgroup] = (raidneeds[subgroup] or 0) + (zone and online and not dead 1 or 0)
+			raidneeds[subgroup] = (raidneeds[subgroup] or 0) + (zone and online and not dead and 1 or 0)
 			if raidneeds[subgroup] >= thresh then
 				frame:SetManyAttributes("type1", "spell", "spell", multispell, "unit", "raid"..i)
 				return true
