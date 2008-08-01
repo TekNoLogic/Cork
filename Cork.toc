@@ -9,7 +9,7 @@
 
 ## SavedVariables: CorkDB
 
-LibStub.lua
+tekKonfig\tekKonfig.xml
 CallbackHandler-1.0.lua
 LibDataBroker-1.1\LibDataBroker-1.1.lua
 AceEvent-3.0\AceEvent-3.0.xml
