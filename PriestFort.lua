@@ -13,11 +13,18 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 local dataobj = ldb:NewDataObject("Cork_Fort", {type = "cork"})
 
 
-local function Test(unit) if UnitExists(unit) and not (UnitAura(unit, spellname) or multispell and UnitAura(unit, multispell)) then return IconLine(icon, UnitName(unit)) end end
+local function Test(unit)
+	if not UnitExists(unit)
+		or (unit == "target" and (not UnitIsPlayer(unit) or UnitIsEnemy("player", unit)))
+		or (unit == "focus" and not UnitCanAssist("player", unit)) then return end
+
+	if not (UnitAura(unit, spellname) or multispell and UnitAura(unit, multispell)) then return IconLine(icon, UnitName(unit)) end
+end
 ae.RegisterEvent("Cork_Fort", "UNIT_AURA", function(event, unit) dataobj[unit] = Test(unit) end)
 ae.RegisterEvent("Cork_Fort", "PARTY_MEMBERS_CHANGED", function() for i=1,4 do dataobj["party"..i], dataobj["partypet"..i] = Test("party"..i), Test("partypet"..i) end end)
 ae.RegisterEvent("Cork_Fort", "RAID_ROSTER_UPDATE", function() for i=1,40 do dataobj["raid"..i], dataobj["radipet"..i] = Test("raid"..i), Test("raidpet"..i) end end)
-
+ae.RegisterEvent("Cork_Fort", "PLAYER_TARGET_CHANGED", function() dataobj.target = Test("target") end)
+ae.RegisterEvent("Cork_Fort", "PLAYER_FOCUS_CHANGED", function() dataobj.focus = Test("focus") end)
 
 dataobj.player = Test("player")
 for i=1,GetNumPartyMembers() do
