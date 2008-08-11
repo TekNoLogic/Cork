@@ -1,10 +1,10 @@
 
-local lib, oldminor = LibStub:NewLibrary("tekKonfig-Button", 3)
+local lib, oldminor = LibStub:NewLibrary("tekKonfig-Button", 4)
 if not lib then return end
 oldminor = oldminor or 0
 
 
-if oldminor < 3 then
+if oldminor < 4 then
 	local GameTooltip = GameTooltip
 	local function HideTooltip() GameTooltip:Hide() end
 	local function ShowTooltip(self)
@@ -25,7 +25,7 @@ if oldminor < 3 then
 		-- Fonts --
 		butt:SetDisabledFontObject(GameFontDisable)
 		butt:SetHighlightFontObject(GameFontHighlight)
-		butt:SetTextFontObject(GameFontNormal)
+		butt:SetNormalFontObject(GameFontNormal)
 
 		-- Textures --
 		butt:SetNormalTexture("Interface\\Buttons\\UI-Panel-Button-Up")
@@ -44,14 +44,12 @@ if oldminor < 3 then
 
 		return butt
 	end
-end
 
 
-if oldminor < 2 then
 	function lib.new_small(parent, ...)
 		local butt = lib.new(parent, ...)
 		butt:SetHighlightFontObject(GameFontHighlightSmall)
-		butt:SetTextFontObject(GameFontNormalSmall)
+		butt:SetNormalFontObject(GameFontNormalSmall)
 		return butt
 	end
 end
