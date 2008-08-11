@@ -14,7 +14,7 @@ local dataobj = ldb:NewDataObject("Cork_Fort", {type = "cork"})
 
 
 local function Test(unit)
-	if not UnitExists(unit)
+	if not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
 		or (unit == "target" and (not UnitIsPlayer(unit) or UnitIsEnemy("player", unit)))
 		or (unit == "focus" and not UnitCanAssist("player", unit)) then return end
 
