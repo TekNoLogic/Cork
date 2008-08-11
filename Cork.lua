@@ -123,6 +123,7 @@ secureframe.SetManyAttributes = function(self, ...)
 		if not att then return end
 		self:SetAttribute(att,val)
 	end
+	return true
 end
 
 

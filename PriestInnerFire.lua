@@ -14,8 +14,5 @@ dataobj.player = Test()
 
 
 function dataobj:CorkIt(frame)
-	if dataobj.player then
-		frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", unit)
-		return true
-	end
+	if self.player then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "player") end
 end
