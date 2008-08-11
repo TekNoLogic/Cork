@@ -27,14 +27,8 @@ ae.RegisterEvent("Cork_Fort", "PLAYER_TARGET_CHANGED", function() dataobj.target
 ae.RegisterEvent("Cork_Fort", "PLAYER_FOCUS_CHANGED", function() dataobj.focus = Test("focus") end)
 
 dataobj.player = Test("player")
-for i=1,GetNumPartyMembers() do
-	dataobj["party"..i] = Test("party"..i)
-	dataobj["partypet"..i] = Test("partypet"..i)
-end
-for i=1,GetNumRaidMembers() do
-	dataobj["raid"..i] = Test("raid"..i)
-	dataobj["raidpet"..i] = Test("raidpet"..i)
-end
+for i=1,GetNumPartyMembers() do dataobj["party"..i], dataobj["partypet"..i] = Test("party"..i), Test("partypet"..i) end
+for i=1,GetNumRaidMembers() do dataobj["raid"..i], dataobj["raidpet"..i] = Test("raid"..i), Test("raidpet"..i) end
 
 
 local raidneeds = {}
