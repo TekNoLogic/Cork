@@ -16,5 +16,7 @@ AceEvent-3.0\AceEvent-3.0.xml
 
 Cork.lua
 
-PriestFort.lua
-PriestInnerFire.lua
+TemplateSelfBuffer.lua
+TemplateRaidBuffer.lua
+
+ClassPriest.lua
