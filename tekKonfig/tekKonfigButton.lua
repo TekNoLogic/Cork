@@ -1,10 +1,11 @@
+if IS_WRATH_BUILD == nil then IS_WRATH_BUILD = (select(4, GetBuildInfo()) >= 30000) end
 
-local lib, oldminor = LibStub:NewLibrary("tekKonfig-Button", 4)
+local lib, oldminor = LibStub:NewLibrary("tekKonfig-Button", 5)
 if not lib then return end
 oldminor = oldminor or 0
 
 
-if oldminor < 4 then
+if oldminor < 5 then
 	local GameTooltip = GameTooltip
 	local function HideTooltip() GameTooltip:Hide() end
 	local function ShowTooltip(self)
@@ -25,7 +26,7 @@ if oldminor < 4 then
 		-- Fonts --
 		butt:SetDisabledFontObject(GameFontDisable)
 		butt:SetHighlightFontObject(GameFontHighlight)
-		butt:SetNormalFontObject(GameFontNormal)
+		if IS_WRATH_BUILD then butt:SetNormalFontObject(GameFontNormal) else butt:SetTextFontObject(GameFontNormal) end
 
 		-- Textures --
 		butt:SetNormalTexture("Interface\\Buttons\\UI-Panel-Button-Up")
@@ -49,7 +50,7 @@ if oldminor < 4 then
 	function lib.new_small(parent, ...)
 		local butt = lib.new(parent, ...)
 		butt:SetHighlightFontObject(GameFontHighlightSmall)
-		butt:SetNormalFontObject(GameFontNormalSmall)
+		if IS_WRATH_BUILD then butt:SetNormalFontObject(GameFontNormalSmall) else butt:SetTextFontObject(GameFontNormalSmall) end
 		return butt
 	end
 end
