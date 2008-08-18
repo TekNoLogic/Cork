@@ -92,7 +92,7 @@ function Update(event, name, attr, value, dataobj)
 	for name,dataobj in pairs(corks) do
 		for i,v in ldb:pairs(dataobj) do
 			if not blist[i] then
-				tooltip:AddLine(v)
+				tooltip:AddDoubleLine(v, i)
 			end
 		end
 	end
