@@ -20,3 +20,4 @@ TemplateSelfBuffer.lua
 TemplateRaidBuffer.lua
 
 ClassPriest.lua
+ClassDeathKnight.lua
