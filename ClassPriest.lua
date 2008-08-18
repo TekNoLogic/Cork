@@ -11,3 +11,8 @@ Cork:GenerateRaidBuffer(spellname, multispell, icon)
 -- Inner Fire
 local spellname, _, icon = GetSpellInfo(588)
 Cork:GenerateSelfBuffer(spellname, icon)
+
+
+-- Shadowform
+local spellname, _, icon = GetSpellInfo(15473)
+Cork:GenerateSelfBuffer(spellname, icon)
