@@ -22,6 +22,7 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) dataobj[unit] = Test(unit) end)
 	ae.RegisterEvent("Cork "..spellname, "PARTY_MEMBERS_CHANGED", function() for i=1,4 do dataobj["party"..i], dataobj["partypet"..i] = Test("party"..i), Test("partypet"..i) end end)
 	ae.RegisterEvent("Cork "..spellname, "RAID_ROSTER_UPDATE", function() for i=1,40 do dataobj["raid"..i], dataobj["radipet"..i] = Test("raid"..i), Test("raidpet"..i) end end)
+	ae.RegisterEvent("Cork "..spellname, "UNIT_PET", function(event, unit) dataobj[Cork.petmappings[unit]] = Test(Cork.petmappings[unit]) end)
 	ae.RegisterEvent("Cork "..spellname, "PLAYER_TARGET_CHANGED", function() dataobj.target = Test("target") end)
 	ae.RegisterEvent("Cork "..spellname, "PLAYER_FOCUS_CHANGED", function() dataobj.focus = Test("focus") end)
 

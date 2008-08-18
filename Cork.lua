@@ -1,10 +1,13 @@
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-Cork = {}
+Cork = {petmappings = {player = "pet"}}
 local corks, blist = {}, {CorkIt = true, type = true}
 local defaults, db = {point = "TOP", x = 0, y = -100, showanchor = true}
 local tooltip, anchor, Update
+
+for i=1,4 do Cork.petmappings["party"..i] = "partypet"..i end
+for i=1,40 do Cork.petmappings["raid"..i] = "raidpet"..i end
 
 
 ------------------------------
