@@ -97,7 +97,12 @@ function Update(event, name, attr, value, dataobj)
 		end
 	end
 
-	if tooltip:NumLines() > 0 then tooltip:Show() end
+	if tooltip:NumLines() > 0 then
+		tooltip:Show()
+		anchor:Show()
+	else
+		anchor:Hide()
+	end
 end
 
 
