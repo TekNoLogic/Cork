@@ -1,4 +1,5 @@
 
+local Cork = Cork
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
@@ -8,11 +9,19 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 	local SpellCastableOnUnit, IconLine = self.SpellCastableOnUnit, self.IconLine
 	local thresh = 2
 
+	local defaults = Cork.defaultspc
+	defaults[spellname.."-enabled"] = true
+	defaults[spellname.."-castonpets"] = false
+	defaults[spellname.."-multithreshold"] = 2
+
+
 	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork"})
 
 
 	local function Test(unit)
-		if not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
+		if not Cork.dbpc[spellname.."-enabled"] or
+			not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
+			or (Cork.petunits[unit] and not Cork.dbpc[spellname.."-castonpets"])
 			or (unit ~= "player" and UnitIsUnit(unit, "player"))
 			or (unit == "target" and (not UnitIsPlayer(unit) or UnitIsEnemy("player", unit)))
 			or (unit == "focus" and not UnitCanAssist("player", unit)) then return end
@@ -26,9 +35,12 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 	ae.RegisterEvent("Cork "..spellname, "PLAYER_TARGET_CHANGED", function() dataobj.target = Test("target") end)
 	ae.RegisterEvent("Cork "..spellname, "PLAYER_FOCUS_CHANGED", function() dataobj.focus = Test("focus") end)
 
-	dataobj.player = Test("player")
-	for i=1,GetNumPartyMembers() do dataobj["party"..i], dataobj["partypet"..i] = Test("party"..i), Test("partypet"..i) end
-	for i=1,GetNumRaidMembers() do dataobj["raid"..i], dataobj["raidpet"..i] = Test("raid"..i), Test("raidpet"..i) end
+
+	function dataobj:Scan()
+		self.player, self.pet = Test("player"), Test("pet")
+		for i=1,GetNumPartyMembers() do self["party"..i], self["partypet"..i] = Test("party"..i), Test("partypet"..i) end
+		for i=1,GetNumRaidMembers() do self["raid"..i], self["raidpet"..i] = Test("raid"..i), Test("raidpet"..i) end
+	end
 
 
 	local raidneeds = {}
@@ -50,4 +62,49 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 
 		for unit in ldb:pairs(self) do if SpellCastableOnUnit(spellname, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", unit) end end
 	end
+
+
+	----------------------
+	--      Config      --
+	----------------------
+
+	local GAP = 8
+	local tekcheck = LibStub("tekKonfig-Checkbox")
+
+	local frame = CreateFrame("Frame", nil, UIParent)
+	frame.name = spellname
+	frame.parent = "Cork"
+	frame:Hide()
+
+	frame:SetScript("OnShow", function()
+		local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork - "..spellname, "These settings are saved on a per-char basis.")
+
+		local enabled = tekcheck.new(frame, nil, "Enabled", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
+		enabled.tiptext = "Toggle this module."
+		local checksound = enabled:GetScript("OnClick")
+		enabled:SetScript("OnClick", function(self)
+			checksound(self)
+			Cork.dbpc[spellname.."-enabled"] = not Cork.dbpc[spellname.."-enabled"]
+			dataobj:Scan()
+		end)
+
+		local castonpets = tekcheck.new(frame, nil, "Cast on pets", "TOPLEFT", enabled, "BOTTOMLEFT", 0, -GAP)
+		castonpets.tiptext = "Pets need buffs too!"
+		castonpets:SetScript("OnClick", function(self)
+			checksound(self)
+			Cork.dbpc[spellname.."-castonpets"] = not Cork.dbpc[spellname.."-castonpets"]
+			dataobj:Scan()
+		end)
+
+		local function Update(self)
+			enabled:SetChecked(Cork.dbpc[spellname.."-enabled"])
+			castonpets:SetChecked(Cork.dbpc[spellname.."-castonpets"])
+		end
+
+		frame:SetScript("OnShow", Update)
+		Update(frame)
+	end)
+
+	InterfaceOptions_AddCategory(frame)
+
 end

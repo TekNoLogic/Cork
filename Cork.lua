@@ -1,13 +1,13 @@
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-Cork = {petmappings = {player = "pet"}}
-local corks, blist = {}, {CorkIt = true, type = true}
+Cork = {petmappings = {player = "pet"}, defaultspc = {}, corks = {}, petunits = {pet = true}}
+local corks, blist = Cork.corks, {CorkIt = true, type = true, Scan = true}
 local defaults, db = {point = "TOP", x = 0, y = -100, showanchor = true}
 local tooltip, anchor, Update
 
-for i=1,4 do Cork.petmappings["party"..i] = "partypet"..i end
-for i=1,40 do Cork.petmappings["raid"..i] = "raidpet"..i end
+for i=1,4 do Cork.petmappings["party"..i], Cork.petunits["partypet"..i] = "partypet"..i, true end
+for i=1,40 do Cork.petmappings["raid"..i], Cork.petunits["raidpet"..i] = "raidpet"..i, true end
 
 
 ------------------------------
@@ -17,18 +17,22 @@ for i=1,40 do Cork.petmappings["raid"..i] = "raidpet"..i end
 ae.RegisterEvent("Cork", "ADDON_LOADED", function(event, addon)
 	if addon:lower() ~= "cork" then return end
 
-	CorkDB = setmetatable(CorkDB or {}, {__index = defaults})
-	db = CorkDB
+	CorkDB, CorkDBPC = setmetatable(CorkDB or {}, {__index = defaults}), setmetatable(CorkDBPC or {}, {__index = Cork.defaultspc})
+	db, Cork.dbpc = CorkDB, CorkDBPC
 
 	anchor:SetPoint(db.point, db.x, db.y)
 	if not db.showanchor then anchor:Hide() end
-	Update()
+
+	for name,dataobj in pairs(corks) do dataobj:Scan() end
 
 	ae.UnregisterEvent("Cork", "ADDON_LOADED")
 end)
 
 
-ae.RegisterEvent("Cork", "PLAYER_LOGOUT", function() for i,v in pairs(defaults) do if db[i] == v then db[i] = nil end end end)
+ae.RegisterEvent("Cork", "PLAYER_LOGOUT", function()
+	for i,v in pairs(defaults) do if db[i] == v then db[i] = nil end end
+	for i,v in pairs(Cork.defaultspc) do if Cork.dbpc[i] == v then Cork.dbpc[i] = nil end end
+end)
 
 
 ------------------------------
