@@ -37,13 +37,13 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 
 		if multispell then
 			local num = dataobj.player and 1 or 0
-			for i=1,GetNumPartyMembers() do num = num + (dataobj["party"..i] and 1 or 0) end
+			for i=1,GetNumPartyMembers() do num = num + (dataobj["party"..i] and IsSpellInRange(multispell, "party"..i) and 1 or 0) end
 			if num >= thresh then return frame:SetManyAttributes("type1", "spell", "spell", multispell, "unit", "player") end
 
 			if GetNumRaidMembers() > 0 then for i in pairs(raidneeds) do raidneeds[i] = nil end end
 			for i=1,GetNumRaidMembers() do
 				local _, _, subgroup, _, _, _, zone, online, dead = GetRaidRosterInfo(i)
-				raidneeds[subgroup] = (raidneeds[subgroup] or 0) + (zone and online and not dead and 1 or 0)
+				raidneeds[subgroup] = (raidneeds[subgroup] or 0) + (zone and online and not dead and IsSpellInRange(multispell, "raid"..i) and 1 or 0)
 				if raidneeds[subgroup] >= thresh then return frame:SetManyAttributes("type1", "spell", "spell", multispell, "unit", "raid"..i) end
 			end
 		end
