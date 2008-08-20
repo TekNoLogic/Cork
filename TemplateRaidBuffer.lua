@@ -19,7 +19,7 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 
 
 	local function Test(unit)
-		if not Cork.dbpc[spellname.."-enabled"] or
+		if not Cork.dbpc[spellname.."-enabled"] or unit == "npc" or
 			not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
 			or (Cork.petunits[unit] and not Cork.dbpc[spellname.."-castonpets"])
 			or (unit ~= "player" and UnitIsUnit(unit, "player"))
