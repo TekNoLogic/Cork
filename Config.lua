@@ -17,7 +17,6 @@ frame:SetScript("OnShow", function()
 	local showanchor = tekcheck.new(frame, nil, "Show anchor", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
 	showanchor.tiptext = "Toggle the tooltip anchor."
 	local checksound = showanchor:GetScript("OnClick")
-	showanchor:SetScript("OnClick", function(self) checksound(self); TourGuide.db.char.trackquests = not TourGuide.db.char.trackquests end)
 	showanchor:SetScript("OnClick", function(self)
 		checksound(self)
 		Cork.db.showanchor = not Cork.db.showanchor
