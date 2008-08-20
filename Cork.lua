@@ -3,7 +3,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 Cork = {petmappings = {player = "pet"}, defaultspc = {}, corks = {}, petunits = {pet = true}}
 local corks, blist = Cork.corks, {CorkIt = true, type = true, Scan = true}
-local defaults, db = {point = "TOP", x = 0, y = -100, showanchor = true}
+local defaults = {point = "TOP", x = 0, y = -100, showanchor = true}
 local tooltip, anchor, Update
 
 for i=1,4 do Cork.petmappings["party"..i], Cork.petunits["partypet"..i] = "partypet"..i, true end
@@ -18,10 +18,10 @@ ae.RegisterEvent("Cork", "ADDON_LOADED", function(event, addon)
 	if addon:lower() ~= "cork" then return end
 
 	CorkDB, CorkDBPC = setmetatable(CorkDB or {}, {__index = defaults}), setmetatable(CorkDBPC or {}, {__index = Cork.defaultspc})
-	db, Cork.dbpc = CorkDB, CorkDBPC
+	Cork.db, Cork.dbpc = CorkDB, CorkDBPC
 
-	anchor:SetPoint(db.point, db.x, db.y)
-	if not db.showanchor then anchor:Hide() end
+	anchor:SetPoint(Cork.db.point, Cork.db.x, Cork.db.y)
+	if not Cork.db.showanchor then anchor:Hide() end
 
 	for name,dataobj in pairs(corks) do dataobj:Scan() end
 
@@ -30,7 +30,7 @@ end)
 
 
 ae.RegisterEvent("Cork", "PLAYER_LOGOUT", function()
-	for i,v in pairs(defaults) do if db[i] == v then db[i] = nil end end
+	for i,v in pairs(defaults) do if Cork.db[i] == v then Cork.db[i] = nil end end
 	for i,v in pairs(Cork.defaultspc) do if Cork.dbpc[i] == v then Cork.dbpc[i] = nil end end
 end)
 
@@ -41,6 +41,7 @@ end)
 
 anchor = CreateFrame("Button", nil, UIParent)
 anchor:SetHeight(24)
+Cork.anchor = anchor
 
 anchor:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16, insets = {left = 5, right = 5, top = 5, bottom = 5}, tile = true, tileSize = 16})
 anchor:SetBackdropColor(0.09, 0.09, 0.19, 0.5)
@@ -55,6 +56,9 @@ anchor:SetWidth(text:GetStringWidth() + 8)
 anchor:SetMovable(true)
 anchor:RegisterForDrag("LeftButton")
 
+anchor:SetScript("OnClick", function(self) InterfaceOptionsFrame_OpenToFrame(Cork.config) end)
+
+
 anchor:SetScript("OnDragStart", function(self)
 	tooltip:Hide()
 	self:StartMoving()
@@ -63,7 +67,7 @@ end)
 
 anchor:SetScript("OnDragStop", function(self)
 	self:StopMovingOrSizing()
-	db.point, db.x, db.y = "BOTTOMLEFT", self:GetCenter()
+	Cork.db.point, Cork.db.x, Cork.db.y = "BOTTOMLEFT", self:GetCenter()
 	Update()
 end)
 
@@ -101,12 +105,7 @@ function Update(event, name, attr, value, dataobj)
 		end
 	end
 
-	if tooltip:NumLines() > 0 then
-		tooltip:Show()
-		anchor:Show()
-	else
-		anchor:Hide()
-	end
+	if tooltip:NumLines() > 0 then tooltip:Show() end
 end
 
 
