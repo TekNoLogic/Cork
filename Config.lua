@@ -24,8 +24,17 @@ frame:SetScript("OnShow", function()
 	end)
 
 
+	local showunit = tekcheck.new(frame, nil, "Show unitID", "TOPLEFT", showanchor, "BOTTOMLEFT", 0, -GAP)
+	showunit.tiptext = "Show unitID (target, party1, raidpet5) in tooltip."
+	showunit:SetScript("OnClick", function(self)
+		checksound(self)
+		Cork.db.showunit = not Cork.db.showunit
+		Cork.Update()
+	end)
+
 	local function Update(self)
 		showanchor:SetChecked(Cork.db.showanchor)
+		showunit:SetChecked(Cork.db.showunit)
 	end
 
 	frame:SetScript("OnShow", Update)

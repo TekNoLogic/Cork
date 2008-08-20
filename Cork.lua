@@ -3,8 +3,8 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 Cork = {petmappings = {player = "pet"}, defaultspc = {}, corks = {}, petunits = {pet = true}}
 local corks, blist = Cork.corks, {CorkIt = true, type = true, Scan = true}
-local defaults = {point = "TOP", x = 0, y = -100, showanchor = true}
-local tooltip, anchor, Update
+local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false}
+local tooltip, anchor
 
 for i=1,4 do Cork.petmappings["party"..i], Cork.petunits["partypet"..i] = "partypet"..i, true end
 for i=1,40 do Cork.petmappings["raid"..i], Cork.petunits["raidpet"..i] = "raidpet"..i, true end
@@ -68,7 +68,7 @@ end)
 anchor:SetScript("OnDragStop", function(self)
 	self:StopMovingOrSizing()
 	Cork.db.point, Cork.db.x, Cork.db.y = "BOTTOMLEFT", self:GetCenter()
-	Update()
+	Cork.Update()
 end)
 
 
@@ -90,7 +90,7 @@ local function GetTipAnchor(frame)
 end
 
 
-function Update(event, name, attr, value, dataobj)
+function Cork.Update(event, name, attr, value, dataobj)
 	if blist[attr] then return end
 
 	tooltip:ClearLines()
@@ -100,7 +100,7 @@ function Update(event, name, attr, value, dataobj)
 	for name,dataobj in pairs(corks) do
 		for i,v in ldb:pairs(dataobj) do
 			if not blist[i] then
-				tooltip:AddDoubleLine(v, i)
+				if Cork.db.showunit then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
 			end
 		end
 	end
@@ -116,7 +116,7 @@ end
 local function NewDataobject(event, name, dataobj)
 	if dataobj.type ~= "cork" then return end
 	corks[name] = dataobj
-	ldb.RegisterCallback("Corker", "LibDataBroker_AttributeChanged_"..name, Update)
+	ldb.RegisterCallback("Corker", "LibDataBroker_AttributeChanged_"..name, Cork.Update)
 end
 
 ldb.RegisterCallback("Corker", "LibDataBroker_DataObjectCreated", NewDataobject)
