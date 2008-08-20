@@ -16,3 +16,13 @@ Cork:GenerateSelfBuffer(spellname, icon)
 -- Shadowform
 local spellname, _, icon = GetSpellInfo(15473)
 Cork:GenerateSelfBuffer(spellname, icon)
+
+
+-- Divine Spirit
+local multispell, spellname, _, icon = GetSpellInfo(27681), GetSpellInfo(14752)
+Cork:GenerateRaidBuffer(spellname, multispell, icon)
+
+
+-- Shadow Protection
+local multispell, spellname, _, icon = GetSpellInfo(27683), GetSpellInfo(976)
+Cork:GenerateRaidBuffer(spellname, multispell, icon)
