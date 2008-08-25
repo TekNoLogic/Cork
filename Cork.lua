@@ -1,13 +1,31 @@
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-Cork = {petmappings = {player = "pet"}, defaultspc = {}, corks = {}, petunits = {pet = true}}
-local corks, blist = Cork.corks, {CorkIt = true, type = true, Scan = true}
+Cork = {petmappings = {player = "pet"}, defaultspc = {}, corks = {}, petunits = {pet = true}, keyblist = {CorkIt = true, type = true, Scan = true}}
+local corks = Cork.corks
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false}
 local tooltip, anchor
 
 for i=1,4 do Cork.petmappings["party"..i], Cork.petunits["partypet"..i] = "partypet"..i, true end
 for i=1,40 do Cork.petmappings["raid"..i], Cork.petunits["raidpet"..i] = "raidpet"..i, true end
+
+
+----------------------------
+--      Localization      --
+----------------------------
+
+Cork.classnames = {
+	["WARLOCK"] = "Warlock",
+	["WARRIOR"] = "Warrior",
+	["HUNTER"] = "Hunter",
+	["MAGE"] = "Mage",
+	["PRIEST"] = "Priest",
+	["DRUID"] = "Druid",
+	["PALADIN"] = "Paladin",
+	["SHAMAN"] = "Shaman",
+	["ROGUE"] = "Rogue",
+	["DEATHKNIGHT"] = "Death Knight",
+}
 
 
 ------------------------------
@@ -91,7 +109,7 @@ end
 
 
 function Cork.Update(event, name, attr, value, dataobj)
-	if blist[attr] then return end
+	if Cork.keyblist[attr] then return end
 
 	tooltip:ClearLines()
 	tooltip:SetOwner(anchor, "ANCHOR_NONE")
@@ -99,7 +117,7 @@ function Cork.Update(event, name, attr, value, dataobj)
 
 	for name,dataobj in pairs(corks) do
 		for i,v in ldb:pairs(dataobj) do
-			if not blist[i] then
+			if not Cork.keyblist[i] then
 				if Cork.db.showunit then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
 			end
 		end
@@ -155,7 +173,7 @@ end)
 --------------------------------
 
 function Cork.SpellCastableOnUnit(spell, unit)
-	if blist[i] then return end
+	if Cork.keyblist[i] then return end
 	return UnitExists(unit) and UnitCanAssist("player", unit) and not UnitIsDeadOrGhost(unit) and IsSpellInRange(spell, unit)
 end
 

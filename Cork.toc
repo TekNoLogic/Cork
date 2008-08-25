@@ -21,5 +21,6 @@ Config.lua
 templates\SelfBuffer.lua
 templates\RaidBuffer.lua
 
-classes\Priest.lua
 classes\DeathKnight.lua
+classes\PaladinBlessings.lua
+classes\Priest.lua
