@@ -25,7 +25,7 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 			not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
 			or (Cork.petunits[unit] and not Cork.dbpc[spellname.."-castonpets"])
 			or (unit ~= "player" and UnitIsUnit(unit, "player"))
-			or (unit == "target" and (not UnitIsPlayer(unit) or UnitIsEnemy("player", unit)))
+			or (unit == "target" and (not UnitCanAssist("player", unit) or not UnitPlayerControlled(unit) or UnitIsEnemy("player", unit)))
 			or (unit == "focus" and not UnitCanAssist("player", unit)) then return end
 
 		if not (UnitAura(unit, spellname) or multispellname and UnitAura(unit, multispellname)) then

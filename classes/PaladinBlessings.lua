@@ -63,7 +63,7 @@ local function Test(unit)
 		not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
 		or Cork.petunits[unit]
 		or (unit ~= "player" and UnitIsUnit(unit, "player"))
-		or (unit == "target" and (not UnitIsPlayer(unit) or UnitIsEnemy("player", unit)))
+		or (unit == "target" and (not UnitCanAssist("player", unit) or not UnitPlayerControlled(unit) or UnitIsEnemy("player", unit)))
 		or (unit == "focus" and not UnitCanAssist("player", unit)) then return end
 
 	if not HasMyBlessing(unit) then
