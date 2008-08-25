@@ -28,7 +28,10 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 			or (unit == "target" and (not UnitIsPlayer(unit) or UnitIsEnemy("player", unit)))
 			or (unit == "focus" and not UnitCanAssist("player", unit)) then return end
 
-		if not (UnitAura(unit, spellname) or multispellname and UnitAura(unit, multispellname)) then return IconLine(icon, UnitName(unit)) end
+		if not (UnitAura(unit, spellname) or multispellname and UnitAura(unit, multispellname)) then
+			local _, token = UnitClass(unit)
+			return IconLine(icon, UnitName(unit), token)
+		end
 	end
 	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) dataobj[unit] = Test(unit) end)
 	ae.RegisterEvent("Cork "..spellname, "PARTY_MEMBERS_CHANGED", function() for i=1,4 do dataobj["party"..i], dataobj["partypet"..i] = Test("party"..i), Test("partypet"..i) end end)

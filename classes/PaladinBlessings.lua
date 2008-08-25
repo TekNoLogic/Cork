@@ -62,7 +62,7 @@ local function Test(unit)
 		local _, class = UnitClass(unit)
 		local spell = Cork.dbpc["Blessings-"..class]
 		local icon = icons[spell]
-		return IconLine(icon, UnitName(unit))
+		return IconLine(icon, UnitName(unit), class)
 	end
 end
 ae.RegisterEvent("Cork Blessings", "UNIT_AURA", function(event, unit) dataobj[unit] = Test(unit) end)
@@ -148,7 +148,7 @@ frame:SetScript("OnShow", function()
 
 		local name = row:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
 		name:SetPoint("LEFT", 4, 0)
-		name:SetText(class)
+		name:SetText("|cff".. Cork.colors[token].. class)
 
 		local lasticon
 		row.buffbuttons = {}

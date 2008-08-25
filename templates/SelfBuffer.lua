@@ -4,7 +4,8 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
 function Cork:GenerateSelfBuffer(spellname, icon)
-	local iconline = self.IconLine(icon, UnitName("player"))
+	local _, token = UnitClass("player")
+	local iconline = self.IconLine(icon, UnitName("player"), token)
 	local defaults = Cork.defaultspc
 	defaults[spellname.."-enabled"] = true
 

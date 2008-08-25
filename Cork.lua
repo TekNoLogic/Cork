@@ -27,6 +27,12 @@ Cork.classnames = {
 	["DEATHKNIGHT"] = "Death Knight",
 }
 
+Cork.colors = {}
+for token in pairs(Cork.classnames) do
+	local c = RAID_CLASS_COLORS[token]
+	Cork.colors[token] = string.format("%02x%02x%02x", c.r*255, c.g*255, c.b*255)
+end
+
 
 ------------------------------
 --      Initialization      --
@@ -177,4 +183,6 @@ function Cork.SpellCastableOnUnit(spell, unit)
 	return UnitExists(unit) and UnitCanAssist("player", unit) and not UnitIsDeadOrGhost(unit) and IsSpellInRange(spell, unit)
 end
 
-function Cork.IconLine(icon, text) return "|T"..icon..":14|t "..text end
+function Cork.IconLine(icon, text, token)
+	return "|T"..icon..":14|t ".. (token and ("|cff".. Cork.colors[token]) or "").. text
+end
