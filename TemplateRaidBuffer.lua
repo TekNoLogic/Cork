@@ -3,6 +3,8 @@ local Cork = Cork
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
+local blist = {npc = true, vehicle = true}
+
 function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 	local multispell = multispellname and GetSpellInfo(multispellname)
 
@@ -19,7 +21,7 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 
 
 	local function Test(unit)
-		if not Cork.dbpc[spellname.."-enabled"] or unit == "npc" or
+		if not Cork.dbpc[spellname.."-enabled"] or blist[unit] or
 			not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
 			or (Cork.petunits[unit] and not Cork.dbpc[spellname.."-castonpets"])
 			or (unit ~= "player" and UnitIsUnit(unit, "player"))
