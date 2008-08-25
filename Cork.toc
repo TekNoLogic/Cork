@@ -18,8 +18,8 @@ AceEvent-3.0\AceEvent-3.0.xml
 Cork.lua
 Config.lua
 
-TemplateSelfBuffer.lua
-TemplateRaidBuffer.lua
+templates\SelfBuffer.lua
+templates\RaidBuffer.lua
 
-ClassPriest.lua
-ClassDeathKnight.lua
+classes\Priest.lua
+classes\DeathKnight.lua
