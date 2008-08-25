@@ -23,6 +23,14 @@ local known = {}
 for blessing,greater in pairs(blessings) do known[blessing], known[greater] = GetSpellInfo(blessing), GetSpellInfo(greater) end
 
 
+local function RefreshKnownSpells()
+	for blessing,greater in pairs(blessings) do -- Refresh in case the player has learned this since login
+		if known[blessing] == nil then known[blessing] = GetSpellInfo(blessing) end
+		if known[greater] == nil then known[greater] = GetSpellInfo(greater) end
+	end
+end
+
+
 local function HasMyBlessing(unit)
 	for blessing,greater in pairs(blessings) do
 		local name, _, _, _, _, _, _, isMine = UnitAura(unit, greater)
@@ -82,11 +90,7 @@ end
 
 
 function dataobj:CorkIt(frame)
-	for blessing,greater in pairs(blessings) do -- Refresh in case the player has learned this since login
-		if known[blessing] == nil then known[blessing] = GetSpellInfo(blessing) end
-		if known[greater] == nil then known[greater] = GetSpellInfo(greater) end
-	end
-
+	RefreshKnownSpells()
 	for unit in ldb:pairs(self) do
 		if not Cork.keyblist[unit] then
 			local _, class = UnitClass(unit)
@@ -159,6 +163,7 @@ frame:SetScript("OnShow", function()
 			local tex = butt:CreateTexture(nil, "BACKGROUND")
 			tex:SetAllPoints()
 			tex:SetTexture(icons[buff])
+			butt.icon = tex
 
 			butt:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress")
 			butt:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
@@ -175,11 +180,19 @@ frame:SetScript("OnShow", function()
 	end
 
 	local function Update(self)
+		RefreshKnownSpells()
 		enabled:SetChecked(Cork.dbpc["Blessings-enabled"])
 
 		for token,row in pairs(rows) do
 			for buff,butt in pairs(row.buffbuttons) do
 				butt:SetChecked(Cork.dbpc["Blessings-"..token] == buff)
+				if known[buff] then
+					butt:Enable()
+					butt.icon:SetVertexColor(1.0, 1.0, 1.0)
+				else
+					butt:Disable()
+					butt.icon:SetVertexColor(0.4, 0.4, 0.4)
+				end
 			end
 		end
 	end
