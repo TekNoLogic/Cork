@@ -93,8 +93,8 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 			dataobj:Scan()
 		end)
 
-		local castonpets = tekcheck.new(frame, nil, "Cast on pets", "TOPLEFT", enabled, "BOTTOMLEFT", 0, -GAP)
-		castonpets.tiptext = "Pets need buffs too!"
+		local castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOPLEFT", enabled, "BOTTOMLEFT", 0, -GAP)
+		castonpets.tiptext = "Pets need buffs too!  When disabled you can still cast on a pet by targetting it directly."
 		castonpets:SetScript("OnClick", function(self)
 			checksound(self)
 			Cork.dbpc[spellname.."-castonpets"] = not Cork.dbpc[spellname.."-castonpets"]
