@@ -61,7 +61,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 	frame:Hide()
 
 	frame:SetScript("OnShow", function()
-		local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork - Blessings", "These settings are saved on a per-char basis.")
+		local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork - "..modulename, "These settings are saved on a per-char basis.")
 
 		local enabled = tekcheck.new(frame, nil, "Enabled", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
 		enabled.tiptext = "Toggle this module."
@@ -117,7 +117,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 
 		local function Update(self)
 			RefreshKnownSpells()
-			enabled:SetChecked(Cork.dbpc["Blessings-enabled"])
+			enabled:SetChecked(Cork.dbpc[modulename.."-enabled"])
 
 			for buff,butt in pairs(buffbuttons) do
 				butt:SetChecked(Cork.dbpc[modulename.."-spell"] == buff)
