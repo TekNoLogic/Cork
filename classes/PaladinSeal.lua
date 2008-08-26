@@ -7,8 +7,7 @@ local Cork = Cork
 local SpellCastableOnUnit = Cork.SpellCastableOnUnit
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-
-local spellidlist = {20375, 31892, 53736, 20164, 20165, 21084, 53720, 31801}
+local spellidlist = {20375, 31892, 53736, 20164, 20165, 21084, 53720, 31801, 20166}
 
 local iconline = Cork.IconLine(select(3, GetSpellInfo(spellidlist[1])), "No seal!")
 local buffnames = {}
