@@ -32,3 +32,4 @@ classes\PaladinSeal.lua
 classes\Priest.lua
 classes\Shaman.lua
 classes\Warlock.lua
+classes\Warrior.lua
