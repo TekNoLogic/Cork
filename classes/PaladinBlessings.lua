@@ -137,6 +137,12 @@ frame:SetScript("OnShow", function()
 		dataobj:Scan()
 	end
 
+	local function OnEnter(self)
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+		GameTooltip:SetText(self.buff, nil, nil, nil, nil, true)
+	end
+	local function OnLeave() GameTooltip:Hide() end
+
 	local rows, anchor = {}
 	for _,token in pairs(CLASS_SORT_ORDER) do
 		local class = Cork.classnames[token]
@@ -174,6 +180,8 @@ frame:SetScript("OnShow", function()
 
 			butt.token, butt.buff, butt.buffbuttons = token, buff, row.buffbuttons
 			butt:SetScript("OnClick", OnClick)
+			butt:SetScript("OnEnter", OnEnter)
+			butt:SetScript("OnLeave", OnLeave)
 
 			row.buffbuttons[buff], lasticon = butt, butt
 		end
