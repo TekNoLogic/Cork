@@ -23,6 +23,7 @@ templates\SelfBufferAdvanced.lua
 templates\RaidBuffer.lua
 
 classes\DeathKnight.lua
+classes\Druid.lua
 classes\Paladin.lua
 classes\PaladinBlessings.lua
 classes\PaladinSeal.lua
