@@ -82,6 +82,12 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 			dataobj:Scan()
 		end
 
+		local function OnEnter(self)
+			GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+			GameTooltip:SetText(self.buff, nil, nil, nil, nil, true)
+		end
+		local function OnLeave() GameTooltip:Hide() end
+
 
 		local row = CreateFrame("Frame", nil, frame)
 		row:SetPoint("TOP", enabled, "BOTTOM", 0, -16)
@@ -111,6 +117,8 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 
 			butt.buff = buff
 			butt:SetScript("OnClick", OnClick)
+			butt:SetScript("OnEnter", OnEnter)
+			butt:SetScript("OnLeave", OnLeave)
 
 			buffbuttons[buff], lasticon = butt, butt
 		end
