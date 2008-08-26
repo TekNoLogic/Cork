@@ -24,6 +24,7 @@ templates\RaidBuffer.lua
 
 classes\DeathKnight.lua
 classes\Druid.lua
+classes\Hunter.lua
 classes\Mage.lua
 classes\Paladin.lua
 classes\PaladinBlessings.lua
