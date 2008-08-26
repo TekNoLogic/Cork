@@ -19,8 +19,10 @@ Cork.lua
 Config.lua
 
 templates\SelfBuffer.lua
+templates\SelfBufferAdvanced.lua
 templates\RaidBuffer.lua
 
 classes\DeathKnight.lua
+classes\Paladin.lua
 classes\PaladinBlessings.lua
 classes\Priest.lua
