@@ -1,0 +1,37 @@
+Cork is a reminder addon, aimed primarily at buffs.  Cork was inspired long ago by NeedyList, and has been Alpha quality for years.  Wrath introduces new buff query APIs that let me finally make Cork as small as I'd prefer, so I'm finally pushing out a beta-quality version.
+
+<b>Due to the new API, Cork will only work on WoW 3.0 (Wrath)</b>
+
+Cork provides, at it's heart, one-click buff casting.  Non-buff reminders are planned, however.
+
+h3. Implemented
+
+* Reminders for self-only buffs, auras and shapeshifts
+* Reminders for raid-group buffs (ones that cast on multiple targets)
+* Reminders for palidin seals and warrior shouts only shown in combat
+
+h3. Planned
+
+* "Friendly target" buffs, like Thorns and Earth Shield, which are applied selectivly instead of to the whole party/raid
+* Hunter pet happiness, with possible hooks to pet-feeder addons
+* Warlock summons
+* Warlock Soul Link
+* Low durability warnings when resting (in town)
+* Reagent restock reminders when resting
+* Clam shucker
+* Minimap tracking
+* Tabard (once reputation tabards are implemented)
+
+If I have forgotten a buff for your class that is listed as implemented above, feel free to open a bug on "Google code":http://code.google.com/p/tekkub-wow/issues/list?can=1&q=addon:Cork&sort=status+milestone&colspec=ID%20Type%20Status%20Addon%20Milestone%20Summary
+
+h2. One-click? How?
+
+Simple!  Make a macro: @/click CorkFrame@.  You might wish to add a @/cast [combat] Some Spell@ at the start as well... for example I put Inner Fire in my priest's macro.
+
+Be warned, Cork will only cast _out of combat_.  If you want to apply buffs in combat, you'll have to do it manually.
+
+h2. Links
+
+<b>Visit "my site":http://www.tekkub.net/addons/Cork for more info.<br>
+Please report all bugs and feature requests to my "Google Code":http://code.google.com/p/tekkub-wow/issues/list?can=1&q=addon:Cork&sort=status+milestone&colspec=ID%20Type%20Status%20Addon%20Milestone%20Summary tracker<br>
+Please direct all feedback and questions to my "Google Groups":http://groups-beta.google.com/group/tekkub-wow mailinglist.</b>
