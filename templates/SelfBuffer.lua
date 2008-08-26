@@ -7,7 +7,7 @@ function Cork:GenerateSelfBuffer(spellname, icon)
 	local _, token = UnitClass("player")
 	local iconline = self.IconLine(icon, UnitName("player"), token)
 	local defaults = Cork.defaultspc
-	defaults[spellname.."-enabled"] = true
+	defaults[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil
 
 	local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork"})
 
