@@ -25,4 +25,5 @@ templates\RaidBuffer.lua
 classes\DeathKnight.lua
 classes\Paladin.lua
 classes\PaladinBlessings.lua
+classes\PaladinSeal.lua
 classes\Priest.lua
