@@ -42,6 +42,7 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 
 
 	function dataobj:Scan()
+		self.target, self.focus = Test("target"), Test("focus")
 		self.player, self.pet = Test("player"), Test("pet")
 		for i=1,GetNumPartyMembers() do self["party"..i], self["partypet"..i] = Test("party"..i), Test("partypet"..i) end
 		for i=1,GetNumRaidMembers() do self["raid"..i], self["raidpet"..i] = Test("raid"..i), Test("raidpet"..i) end
