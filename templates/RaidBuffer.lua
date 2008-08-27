@@ -12,13 +12,13 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 	local thresh = 2
 
 	local defaults = Cork.defaultspc
-	defaults[spellname.."-enabled"] = true
 	defaults[spellname.."-castonpets"] = false
 	defaults[spellname.."-multithreshold"] = 2
 
 
 	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork"})
 
+	function dataobj:Init() Cork.defaultspc[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil end
 
 	local function Test(unit)
 		if not Cork.dbpc[spellname.."-enabled"] or blist[unit] or

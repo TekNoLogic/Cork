@@ -1,7 +1,7 @@
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-Cork = {petmappings = {player = "pet"}, defaultspc = {}, corks = {}, petunits = {pet = true}, keyblist = {CorkIt = true, type = true, Scan = true}}
+Cork = {petmappings = {player = "pet"}, defaultspc = {}, corks = {}, petunits = {pet = true}, keyblist = {CorkIt = true, type = true, Scan = true, Init = true}}
 local corks = Cork.corks
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false}
 local tooltip, anchor
@@ -47,9 +47,21 @@ ae.RegisterEvent("Cork", "ADDON_LOADED", function(event, addon)
 	anchor:SetPoint(Cork.db.point, Cork.db.x, Cork.db.y)
 	if not Cork.db.showanchor then anchor:Hide() end
 
+	ae.UnregisterEvent("Cork", "ADDON_LOADED")
+end)
+
+
+ae.RegisterEvent("Cork", "PLAYER_LOGIN", function()
+	for name,dataobj in pairs(corks) do
+		if dataobj.Init then
+			dataobj:Init()
+			dataobj.Init = nil
+		end
+	end
+
 	for name,dataobj in pairs(corks) do dataobj:Scan() end
 
-	ae.UnregisterEvent("Cork", "ADDON_LOADED")
+	ae.UnregisterEvent("Cork", "PLAYER_LOGIN")
 end)
 
 

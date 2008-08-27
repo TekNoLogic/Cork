@@ -6,10 +6,10 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 function Cork:GenerateSelfBuffer(spellname, icon)
 	local _, token = UnitClass("player")
 	local iconline = self.IconLine(icon, UnitName("player"), token)
-	local defaults = Cork.defaultspc
-	defaults[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil
 
 	local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork"})
+
+	function dataobj:Init() Cork.defaultspc[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil end
 
 	local function Test(unit) if Cork.dbpc[spellname.."-enabled"] and not UnitAura("player", spellname) then return iconline end end
 

@@ -14,15 +14,15 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 		buffnames[id], icons[spellname] =  spellname, icon
 	end
 
-	local defaults = Cork.defaultspc
-	defaults[modulename.."-enabled"] = true
-	defaults[modulename.."-spell"] = buffnames[spellidlist[1]]
+	Cork.defaultspc[modulename.."-spell"] = buffnames[spellidlist[1]]
 
 	local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..modulename, {type = "cork"})
 
 	local function RefreshKnownSpells() -- Refresh in case the player has learned this since login
 		for buff in pairs(icons) do if known[buff] == nil then known[buff] = GetSpellInfo(buff) end end
 	end
+
+	function dataobj:Init() RefreshKnownSpells() Cork.defaultspc[modulename.."-enabled"] = known[spellname] ~= nil end
 
 	local function Test()
 		if Cork.dbpc[modulename.."-enabled"] then
