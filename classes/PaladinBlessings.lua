@@ -169,6 +169,7 @@ frame:SetScript("OnShow", function()
 			local tex = butt:CreateTexture(nil, "BACKGROUND")
 			tex:SetAllPoints()
 			tex:SetTexture(icons[buff])
+			tex:SetTexCoord(4/48, 44/48, 4/48, 44/48)
 			butt.icon = tex
 
 			butt:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress")
