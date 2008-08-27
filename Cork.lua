@@ -1,7 +1,7 @@
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-Cork = {petmappings = {player = "pet"}, defaultspc = {}, corks = {}, petunits = {pet = true}, keyblist = {CorkIt = true, type = true, Scan = true, Init = true}}
+Cork = {petmappings = {player = "pet"}, defaultspc = {castonpets = false}, corks = {}, petunits = {pet = true}, keyblist = {CorkIt = true, type = true, Scan = true, Init = true}}
 local corks = Cork.corks
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false}
 local tooltip, anchor

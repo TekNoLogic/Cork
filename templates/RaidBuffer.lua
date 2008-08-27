@@ -6,13 +6,14 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 local blist = {npc = true, vehicle = true}
 
 function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
+	Cork.hasgroupspell = true
+
 	local multispell = multispellname and GetSpellInfo(multispellname)
 
 	local SpellCastableOnUnit, IconLine = self.SpellCastableOnUnit, self.IconLine
 	local thresh = 2
 
 	local defaults = Cork.defaultspc
-	defaults[spellname.."-castonpets"] = false
 	defaults[spellname.."-multithreshold"] = 2
 
 
@@ -23,7 +24,7 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 	local function Test(unit)
 		if not Cork.dbpc[spellname.."-enabled"] or blist[unit] or
 			not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
-			or (Cork.petunits[unit] and not Cork.dbpc[spellname.."-castonpets"])
+			or (Cork.petunits[unit] and not Cork.dbpc.castonpets)
 			or (unit ~= "player" and UnitIsUnit(unit, "player"))
 			or (unit == "target" and (not UnitCanAssist("player", unit) or not UnitPlayerControlled(unit) or UnitIsEnemy("player", unit)))
 			or (unit == "focus" and not UnitCanAssist("player", unit)) then return end
@@ -69,49 +70,4 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 		if self.player and SpellCastableOnUnit(spellname, "player") then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "player") end
 		for unit in ldb:pairs(self) do if SpellCastableOnUnit(spellname, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", unit) end end
 	end
-
-
-	----------------------
-	--      Config      --
-	----------------------
-
-	local GAP = 8
-	local tekcheck = LibStub("tekKonfig-Checkbox")
-
-	local frame = CreateFrame("Frame", nil, UIParent)
-	frame.name = spellname
-	frame.parent = "Cork"
-	frame:Hide()
-
-	frame:SetScript("OnShow", function()
-		local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork - "..spellname, "These settings are saved on a per-char basis.")
-
-		local enabled = tekcheck.new(frame, nil, "Enabled", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
-		enabled.tiptext = "Toggle this module."
-		local checksound = enabled:GetScript("OnClick")
-		enabled:SetScript("OnClick", function(self)
-			checksound(self)
-			Cork.dbpc[spellname.."-enabled"] = not Cork.dbpc[spellname.."-enabled"]
-			dataobj:Scan()
-		end)
-
-		local castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOPLEFT", enabled, "BOTTOMLEFT", 0, -GAP)
-		castonpets.tiptext = "Pets need buffs too!  When disabled you can still cast on a pet by targetting it directly."
-		castonpets:SetScript("OnClick", function(self)
-			checksound(self)
-			Cork.dbpc[spellname.."-castonpets"] = not Cork.dbpc[spellname.."-castonpets"]
-			dataobj:Scan()
-		end)
-
-		local function Update(self)
-			enabled:SetChecked(Cork.dbpc[spellname.."-enabled"])
-			castonpets:SetChecked(Cork.dbpc[spellname.."-castonpets"])
-		end
-
-		frame:SetScript("OnShow", Update)
-		Update(frame)
-	end)
-
-	InterfaceOptions_AddCategory(frame)
-
 end

@@ -33,6 +33,18 @@ frame:SetScript("OnShow", function()
 	end)
 
 
+	if Cork.hasgroupspell then
+		local castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOP", showanchor, "TOP")
+		castonpets:SetPoint("LEFT", frame, "CENTER", GAP/2, 0)
+		castonpets.tiptext = "Pets need buffs too!  When disabled you can still cast on a pet by targetting it directly."
+		castonpets:SetScript("OnClick", function(self)
+			checksound(self)
+			Cork.dbpc.castonpets = not Cork.dbpc.castonpets
+			for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
+		end)
+	end
+
+
 	local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 16, 2, 4
 	local rows, corknames, anchor = {}, {}
 	for name in pairs(Cork.corks) do table.insert(corknames, (name:gsub("Cork ", ""))) end
@@ -75,6 +87,7 @@ frame:SetScript("OnShow", function()
 	local function Update(self)
 		showanchor:SetChecked(Cork.db.showanchor)
 		showunit:SetChecked(Cork.db.showunit)
+		if castonpets then castonpets:SetChecked(Cork.dbpc.castonpets) end
 		for i,row in pairs(rows) do
 			local name = corknames[i]
 			if name then
