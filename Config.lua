@@ -103,6 +103,7 @@ frame:SetScript("OnShow", function()
 				local configframe = Cork.corks["Cork "..name].configframe
 				if configframe then
 					configframe:SetPoint("RIGHT", row)
+					configframe:SetFrameLevel(row:GetFrameLevel() + 1)
 					configframe:Show()
 				end
 			else
