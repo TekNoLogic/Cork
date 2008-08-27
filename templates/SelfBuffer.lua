@@ -20,39 +20,4 @@ function Cork:GenerateSelfBuffer(spellname, icon)
 	function dataobj:CorkIt(frame)
 		if self.player then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "player") end
 	end
-
-
-	----------------------
-	--      Config      --
-	----------------------
-
-	local GAP = 8
-	local tekcheck = LibStub("tekKonfig-Checkbox")
-
-	local frame = CreateFrame("Frame", nil, UIParent)
-	frame.name = spellname
-	frame.parent = "Cork"
-	frame:Hide()
-
-	frame:SetScript("OnShow", function()
-		local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork - "..spellname, "These settings are saved on a per-char basis.")
-
-		local enabled = tekcheck.new(frame, nil, "Enabled", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
-		enabled.tiptext = "Toggle this module."
-		local checksound = enabled:GetScript("OnClick")
-		enabled:SetScript("OnClick", function(self)
-			checksound(self)
-			Cork.dbpc[spellname.."-enabled"] = not Cork.dbpc[spellname.."-enabled"]
-			dataobj:Scan()
-		end)
-
-		local function Update(self)
-			enabled:SetChecked(Cork.dbpc[spellname.."-enabled"])
-		end
-
-		frame:SetScript("OnShow", Update)
-		Update(frame)
-	end)
-
-	InterfaceOptions_AddCategory(frame)
 end

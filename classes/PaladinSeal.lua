@@ -31,38 +31,3 @@ LibStub("AceEvent-3.0").RegisterEvent("Cork Seal", "PLAYER_REGEN_ENABLED", funct
 
 function dataobj:Scan() self.player = InCombatLockdown() and Test() end
 function dataobj:CorkIt() end
-
-
-----------------------
---      Config      --
-----------------------
-
-local GAP = 8
-local tekcheck = LibStub("tekKonfig-Checkbox")
-
-local frame = CreateFrame("Frame", nil, UIParent)
-frame.name = "Seal"
-frame.parent = "Cork"
-frame:Hide()
-
-frame:SetScript("OnShow", function()
-	local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork - Seal", "These settings are saved on a per-char basis.")
-
-	local enabled = tekcheck.new(frame, nil, "Enabled", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
-	enabled.tiptext = "Toggle this module."
-	local checksound = enabled:GetScript("OnClick")
-	enabled:SetScript("OnClick", function(self)
-		checksound(self)
-		Cork.dbpc["Seal-enabled"] = not Cork.dbpc["Seal-enabled"]
-		dataobj:Scan()
-	end)
-
-	local function Update(self)
-		enabled:SetChecked(Cork.dbpc["Seal-enabled"])
-	end
-
-	frame:SetScript("OnShow", Update)
-	Update(frame)
-end)
-
-InterfaceOptions_AddCategory(frame)

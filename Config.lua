@@ -32,9 +32,63 @@ frame:SetScript("OnShow", function()
 		Cork.Update()
 	end)
 
+
+	local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 16, 2, 4
+	local rows, corknames, anchor = {}, {}
+	for name in pairs(Cork.corks) do table.insert(corknames, (name:gsub("Cork ", ""))) end
+	table.sort(corknames)
+	local function OnClick(self)
+		Cork.dbpc[self.name.."-enabled"] = not Cork.dbpc[self.name.."-enabled"]
+		PlaySound(Cork.dbpc[self.name.."-enabled"] and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
+		Cork.corks["Cork ".. self.name]:Scan()
+	end
+	for i=1,math.floor((305-22-8-24)/(ROWHEIGHT + ROWGAP)) do
+		local row = CreateFrame("Button", nil, frame)
+		if not anchor then row:SetPoint("TOP", showunit, "BOTTOM", 0, -16)
+		else row:SetPoint("TOP", anchor, "BOTTOM", 0, -ROWGAP) end
+		row:SetPoint("LEFT", EDGEGAP*2, 0)
+		row:SetPoint("RIGHT", -EDGEGAP, 0)
+		row:SetHeight(ROWHEIGHT)
+		anchor = row
+		rows[i] = row
+
+
+		local check = CreateFrame("CheckButton", nil, row)
+		check:SetWidth(ROWHEIGHT+4)
+		check:SetHeight(ROWHEIGHT+4)
+		check:SetPoint("LEFT")
+		check:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up")
+		check:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down")
+		check:SetHighlightTexture("Interface\\Buttons\\UI-CheckBox-Highlight")
+		check:SetDisabledCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")
+		check:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
+		check:SetScript("OnClick", OnClick)
+		row.check = check
+
+
+		local title = row:CreateFontString(nil, "BACKGROUND", "GameFontHighlightSmall")
+		title:SetPoint("LEFT", check, "RIGHT", 4, 0)
+		row.title = title
+	end
+
+
 	local function Update(self)
 		showanchor:SetChecked(Cork.db.showanchor)
 		showunit:SetChecked(Cork.db.showunit)
+		for i,row in pairs(rows) do
+			local name = corknames[i]
+			if name then
+				row:Show()
+				row.check.name = name
+				row.title:SetText(name)
+				row.check:SetChecked(Cork.dbpc[name.."-enabled"])
+			else
+				row:Hide()
+				row.check.name = nil
+				row.title:SetText()
+				row.check:SetChecked(false)
+			end
+		end
 	end
 
 	frame:SetScript("OnShow", Update)
