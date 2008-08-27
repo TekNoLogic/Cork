@@ -7,4 +7,5 @@
 	<Script file="tekKonfigSlider.lua"/>
 	<Script file="tekKonfigDropdown.lua"/>
 	<Script file="tekKonfigAboutPanel.lua"/>
+	<Script file="tekKonfigGroup.lua"/>
 </Ui>

@@ -100,7 +100,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 
 			buffbuttons[buff], lasticon = butt, butt
 		end
-		lasticon:SetPoint("RIGHT", -EDGEGAP, 0)
+		lasticon:SetPoint("RIGHT", 0, 0)
 
 		local function Update(self)
 			RefreshKnownSpells()

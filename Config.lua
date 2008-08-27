@@ -12,6 +12,8 @@ frame.name = "Cork"
 frame:Hide()
 
 frame:SetScript("OnShow", function()
+	local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 16, 2, 4
+
 	local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork", "These settings are saved on a per-char basis.")
 
 	local showanchor = tekcheck.new(frame, nil, "Show anchor", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
@@ -44,8 +46,10 @@ frame:SetScript("OnShow", function()
 		end)
 	end
 
+	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", showunit, "BOTTOM", 0, -27)
+	group:SetPoint("LEFT", EDGEGAP, 0)
+	group:SetPoint("BOTTOMRIGHT", -EDGEGAP, EDGEGAP)
 
-	local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 16, 2, 4
 	local rows, corknames, anchor = {}, {}
 	for name in pairs(Cork.corks) do table.insert(corknames, (name:gsub("Cork ", ""))) end
 	table.sort(corknames)
@@ -54,12 +58,12 @@ frame:SetScript("OnShow", function()
 		PlaySound(Cork.dbpc[self.name.."-enabled"] and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 		Cork.corks["Cork ".. self.name]:Scan()
 	end
-	for i=1,math.floor((305-22-8-24)/(ROWHEIGHT + ROWGAP)) do
-		local row = CreateFrame("Button", nil, frame)
-		if not anchor then row:SetPoint("TOP", showunit, "BOTTOM", 0, -16)
-		else row:SetPoint("TOP", anchor, "BOTTOM", 0, -ROWGAP) end
-		row:SetPoint("LEFT", EDGEGAP*2, 0)
-		row:SetPoint("RIGHT", -EDGEGAP, 0)
+	for i=1,math.floor((group:GetHeight() - EDGEGAP)/(ROWHEIGHT + ROWGAP)) do
+		local row = CreateFrame("Button", nil, group)
+		if anchor then row:SetPoint("TOP", anchor , "BOTTOM", 0, -ROWGAP)
+		else row:SetPoint("TOP", 0, -EDGEGAP/2) end
+		row:SetPoint("LEFT", EDGEGAP/2, 0)
+		row:SetPoint("RIGHT", -EDGEGAP/2, 0)
 		row:SetHeight(ROWHEIGHT)
 		anchor = row
 		rows[i] = row
