@@ -95,6 +95,12 @@ frame:SetScript("OnShow", function()
 				row.check.name = name
 				row.title:SetText(name)
 				row.check:SetChecked(Cork.dbpc[name.."-enabled"])
+
+				local configframe = Cork.corks["Cork "..name].configframe
+				if configframe then
+					configframe:SetPoint("RIGHT", row)
+					configframe:Show()
+				end
 			else
 				row:Hide()
 				row.check.name = nil
@@ -105,6 +111,7 @@ frame:SetScript("OnShow", function()
 	end
 
 	frame:SetScript("OnShow", Update)
+	frame:SetScript("OnHide", function() for name,dataobj in pairs(Cork.corks) do if dataobj.configframe then dataobj.configframe:Hide() end end end)
 	Update(frame)
 end)
 

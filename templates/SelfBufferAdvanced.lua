@@ -52,28 +52,13 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 	--      Config      --
 	----------------------
 
-	local GAP = 8
-	local tekcheck = LibStub("tekKonfig-Checkbox")
-
-	local frame = CreateFrame("Frame", nil, UIParent)
-	frame.name = modulename
-	frame.parent = "Cork"
+	local frame = CreateFrame("Frame", nil, Cork.config)
+	frame:SetWidth(1) frame:SetHeight(1)
+	dataobj.configframe = frame
 	frame:Hide()
 
 	frame:SetScript("OnShow", function()
-		local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork - "..modulename, "These settings are saved on a per-char basis.")
-
-		local enabled = tekcheck.new(frame, nil, "Enabled", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
-		enabled.tiptext = "Toggle this module."
-		local checksound = enabled:GetScript("OnClick")
-		enabled:SetScript("OnClick", function(self)
-			checksound(self)
-			Cork.dbpc[modulename.."-enabled"] = not Cork.dbpc[modulename.."-enabled"]
-			dataobj:Scan()
-		end)
-
-
-		local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 24, 2, 4
+		local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 18, 2, 4
 		local buffbuttons = {}
 
 		local function OnClick(self)
@@ -89,31 +74,24 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 		local function OnLeave() GameTooltip:Hide() end
 
 
-		local row = CreateFrame("Frame", nil, frame)
-		row:SetPoint("TOP", enabled, "BOTTOM", 0, -16)
-		row:SetPoint("LEFT", EDGEGAP, 0)
-		row:SetPoint("RIGHT", -EDGEGAP, 0)
-		row:SetHeight(ROWHEIGHT)
-
-
 		local lasticon
 		for _,id in ipairs(spellidlist) do
 			local buff = buffnames[id]
 
-			local butt = CreateFrame("CheckButton", nil, row)
+			local butt = CreateFrame("CheckButton", nil, frame)
 			butt:SetWidth(ROWHEIGHT) butt:SetHeight(ROWHEIGHT)
 
 			local tex = butt:CreateTexture(nil, "BACKGROUND")
 			tex:SetAllPoints()
 			tex:SetTexture(icons[buff])
+			tex:SetTexCoord(4/48, 44/48, 4/48, 44/48)
 			butt.icon = tex
 
 			butt:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress")
 			butt:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
 			butt:SetCheckedTexture("Interface\\Buttons\\CheckButtonHilight")
 
-			if not lasticon then butt:SetPoint("LEFT", ROWGAP, 0)
-			else butt:SetPoint("LEFT", lasticon, "RIGHT", ROWGAP, 0) end
+			if lasticon then lasticon:SetPoint("RIGHT", butt, "LEFT", -ROWGAP, 0) end
 
 			butt.buff = buff
 			butt:SetScript("OnClick", OnClick)
@@ -122,10 +100,10 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 
 			buffbuttons[buff], lasticon = butt, butt
 		end
+		lasticon:SetPoint("RIGHT", -EDGEGAP, 0)
 
 		local function Update(self)
 			RefreshKnownSpells()
-			enabled:SetChecked(Cork.dbpc[modulename.."-enabled"])
 
 			for buff,butt in pairs(buffbuttons) do
 				butt:SetChecked(Cork.dbpc[modulename.."-spell"] == buff)
@@ -142,6 +120,4 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 		frame:SetScript("OnShow", Update)
 		Update(frame)
 	end)
-
-	InterfaceOptions_AddCategory(frame)
 end
