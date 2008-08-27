@@ -164,7 +164,8 @@ end
 
 secureframe:SetScript("PreClick", function(self)
 	if InCombatLockdown() then return end
-	for name,dataobj in pairs(corks) do if dataobj.CorkIt and dataobj:CorkIt(self) then return end end
+	for name,dataobj in pairs(corks) do if dataobj.CorkIt and dataobj.player and dataobj:CorkIt(self) then return end end
+	for name,dataobj in pairs(corks) do if dataobj.CorkIt and not dataobj.player and dataobj:CorkIt(self) then return end end
 end)
 
 
