@@ -47,7 +47,7 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 
 
 	local raidneeds = {}
-	function dataobj:CorkIt(frame)
+	function dataobj:CorkIt(frame, playersonly)
 		multispell = multispell or multispellname and GetSpellInfo(multispellname) -- Refresh in case the player has learned this since login
 
 		if multispell then
@@ -64,6 +64,6 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 		end
 
 		if self.player and SpellCastableOnUnit(spellname, "player") then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "player") end
-		for unit in ldb:pairs(self) do if SpellCastableOnUnit(spellname, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", unit) end end
+		for unit in ldb:pairs(self) do if (not playersonly or not Cork.petunits[unit]) and SpellCastableOnUnit(spellname, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", unit) end end
 	end
 end
