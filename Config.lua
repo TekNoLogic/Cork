@@ -46,7 +46,7 @@ frame:SetScript("OnShow", function()
 			for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
 		end)
 
-		groupthresh, groupthreshtext = LibStub("tekKonfig-Slider").new(frame, "Group Threshold: ".. Cork.dbpc.multithreshold, 1, 5, "TOPLEFT", castonpets, "BOTTOMLEFT", GAP*2, -GAP)
+		groupthresh, groupthreshtext = LibStub("tekKonfig-Slider").new(frame, "Group Threshold: ".. Cork.dbpc.multithreshold, 1, 6, "TOPLEFT", castonpets, "BOTTOMLEFT", GAP*2, -GAP)
 		groupthresh.tiptext = "Minimum number of needy players in a group required to cast multi-target spells."
 		groupthresh:SetValueStep(1)
 		groupthresh:SetScript("OnValueChanged", function(self, newvalue)
