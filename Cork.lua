@@ -26,6 +26,7 @@ Cork.classnames = {
 	["ROGUE"] = "Rogue",
 	["DEATHKNIGHT"] = "Death Knight",
 }
+if not IS_WRATH_BUILD then Cork.classnames.DEATHKNIGHT = nil end
 
 Cork.colors = {}
 for token in pairs(Cork.classnames) do
