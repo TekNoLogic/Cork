@@ -43,7 +43,6 @@ local function Test()
 end
 
 function dataobj:Scan() dataobj.player = Test() end
-function dataobj:CorkIt() end
 
 ae.RegisterEvent("Cork Repairs", "UPDATE_INVENTORY_DURABILITY", dataobj.Scan)
 ae.RegisterEvent("Cork Repairs", "PLAYER_UPDATE_RESTING", dataobj.Scan)
