@@ -102,7 +102,7 @@ frame:SetScript("OnShow", function()
 			if lasticon then lasticon:SetPoint("RIGHT", butt, "LEFT", -ROWGAP, 0) end
 			lasticon, butt.spell = butt, spell
 		end
-		lasticon:SetPoint("RIGHT", 0, 0)
+		if lasticon then lasticon:SetPoint("RIGHT", 0, 0) end
 	end
 
 	frame:SetScript("OnShow", Update)
