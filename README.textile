@@ -1,14 +1,20 @@
+%{clear:right; float:right}<a href="http://farm4.static.flickr.com/3083/2805438774_6892ae09b6_o.png"><img src="http://farm4.static.flickr.com/3083/2805438774_f7eb33027e.jpg" width="250" /></a><br /><a href="http://farm4.static.flickr.com/3006/2805462442_40443460aa_o.png"><img src="http://farm4.static.flickr.com/3006/2805462442_7d4430990f.jpg" width="250" /></a><br /><a href="http://farm4.static.flickr.com/3144/2804635613_dcbded7f79_o.png"><img src="http://farm4.static.flickr.com/3144/2804635613_f4b6b8db4b.jpg" width="250" /></a>%
+
 Cork is a reminder addon, aimed primarily at buffs.  Cork was inspired long ago by NeedyList, and has been Alpha quality for years.  Wrath introduces new buff query APIs that let me finally make Cork as small as I'd prefer, so I'm finally pushing out a beta-quality version.
 
-<b>Due to the new API, Cork will only work on WoW 3.0 (Wrath)</b>
+<b>Due to the new API, Cork is designed to work on WoW 3.0 (Wrath).  A Live-compatibility layer is provided, but I make no promises that it will work correctly or efficiently.</b>
 
-Cork provides, at it's heart, one-click buff casting.  Non-buff reminders are planned, however.
+Cork provides, at it's heart, one-click buff casting.  Some non-buff reminders are included, however, and more are planned.
 
 h3. Implemented
 
 * Reminders for self-only buffs, auras and shapeshifts
 * Reminders for raid-group buffs (ones that cast on multiple targets)
 * Reminders for palidin seals and warrior shouts only shown in combat
+* Low durability warnings when resting (in town)
+* Clam shucker
+* Minimap tracking
+* Keybinding (thanks cladhaire)
 
 h3. Planned
 
@@ -16,11 +22,11 @@ h3. Planned
 * Hunter pet happiness, with possible hooks to pet-feeder addons
 * Warlock summons
 * Warlock Soul Link
-* Low durability warnings when resting (in town)
 * Reagent restock reminders when resting
-* Clam shucker
-* Minimap tracking
 * Tabard (once reputation tabards are implemented)
+* Macro-generating button, like "Buffet's":http://tekkub.net/addons/Buffet
+* "LDB":http://github.com/tekkub/libdatabroker-1-1/wikis data source
+* Option to disable the always-up tooltip
 
 If I have forgotten a buff for your class that is listed as implemented above, feel free to open a bug on "Google code":http://code.google.com/p/tekkub-wow/issues/list?can=1&q=addon:Cork&sort=status+milestone&colspec=ID%20Type%20Status%20Addon%20Milestone%20Summary
 
@@ -28,7 +34,9 @@ h2. One-click? How?
 
 Simple!  Make a macro: @/click CorkFrame@.  You might wish to add a @/cast [combat] Some Spell@ at the start as well... for example I put Inner Fire in my priest's macro.
 
-Be warned, Cork will only cast _out of combat_.  If you want to apply buffs in combat, you'll have to do it manually.
+You can also use the keybinding in the default keybind UI.
+
+Be warned, Cork will only cast <i>out of combat</i>.  If you want to apply buffs in combat, you'll have to do it manually.
 
 h2. Links
 
