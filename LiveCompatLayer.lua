@@ -7,3 +7,16 @@ function Cork.UnitAura(unit, auraname)
 		if auraname == name then return name, nil, nil, nil, nil, nil, nil, timeLeft end
 	end
 end
+
+
+CLASS_SORT_ORDER = {
+	"WARRIOR",
+	"PALADIN",
+	"PRIEST",
+	"SHAMAN",
+	"DRUID",
+	"ROGUE",
+	"MAGE",
+	"WARLOCK",
+	"HUNTER",
+}
