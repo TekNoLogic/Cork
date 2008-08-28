@@ -33,3 +33,5 @@ modules\Priest.lua
 modules\Shaman.lua
 modules\Warlock.lua
 modules\Warrior.lua
+
+modules\Repairs.lua
