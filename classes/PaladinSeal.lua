@@ -30,4 +30,3 @@ LibStub("AceEvent-3.0").RegisterEvent("Cork Seal", "PLAYER_REGEN_DISABLED", func
 LibStub("AceEvent-3.0").RegisterEvent("Cork Seal", "PLAYER_REGEN_ENABLED", function() dataobj.player = nil end)
 
 function dataobj:Scan() self.player = InCombatLockdown() and Test() end
-function dataobj:CorkIt() end
