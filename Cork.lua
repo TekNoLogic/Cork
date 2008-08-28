@@ -1,7 +1,7 @@
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-Cork = {petmappings = {player = "pet"}, defaultspc = {castonpets = false, multithreshold = 2}, corks = {}, petunits = {pet = true}, keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true}}
+Cork = {petmappings = {player = "pet"}, defaultspc = {castonpets = false, multithreshold = 2, tooltiplimit = 10}, corks = {}, petunits = {pet = true}, keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true}}
 local corks = Cork.corks
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false}
 local tooltip, anchor
@@ -134,10 +134,12 @@ function Cork.Update(event, name, attr, value, dataobj)
 	tooltip:SetOwner(anchor, "ANCHOR_NONE")
 	tooltip:SetPoint(GetTipAnchor(anchor))
 
+	local count = 0
 	for name,dataobj in pairs(corks) do
 		for i,v in ldb:pairs(dataobj) do
-			if not Cork.keyblist[i] then
+			if not Cork.keyblist[i] and count < Cork.dbpc.tooltiplimit then
 				if Cork.db.showunit then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
+				count = count + 1
 			end
 		end
 	end

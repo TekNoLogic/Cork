@@ -34,7 +34,6 @@ frame:SetScript("OnShow", function()
 		Cork.Update()
 	end)
 
-
 	local castonpets, groupthresh, groupthreshtext
 	if Cork.hasgroupspell then
 		castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOP", showanchor, "TOP")
@@ -46,8 +45,8 @@ frame:SetScript("OnShow", function()
 			for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
 		end)
 
-		groupthresh, groupthreshtext = LibStub("tekKonfig-Slider").new(frame, "Group Threshold: ".. Cork.dbpc.multithreshold, 1, 5, "TOPLEFT", castonpets, "BOTTOMLEFT", GAP*2, -GAP)
-		groupthresh.tiptext = "Minimum number of needy players in a group required to cast multi-target spells."
+		groupthresh, groupthreshtext = LibStub("tekKonfig-Slider").new(frame, "Group Threshold: ".. Cork.dbpc.multithreshold, 1, 6, "TOPLEFT", castonpets, "BOTTOMLEFT", GAP*2, -GAP)
+		groupthresh.tiptext = "Minimum number of needy players in a group required to cast multi-target spells.  Setting this to six will disable the automatic use of group spells."
 		groupthresh:SetValueStep(1)
 		groupthresh:SetScript("OnValueChanged", function(self, newvalue)
 			Cork.dbpc.multithreshold = newvalue
@@ -55,7 +54,16 @@ frame:SetScript("OnShow", function()
 		end)
 	end
 
-	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", showunit, "BOTTOM", 0, -27)
+	local tooltiplimit, tooltiplimittext = LibStub("tekKonfig-Slider").new(frame, "Tooltip Limit: " .. Cork.dbpc.tooltiplimit, 0, 40, "TOPLEFT", showunit, "BOTTOMLEFT", GAP*2, -GAP)
+	tooltiplimit.tiptext = "The number of units to show in the Cork tooltip."
+	tooltiplimit:SetValueStep(1)
+	tooltiplimit:SetValue(Cork.dbpc.tooltiplimit)
+	tooltiplimit:SetScript("OnValueChanged", function(self, newvalue)
+		Cork.dbpc.tooltiplimit = newvalue
+		tooltiplimittext:SetText("Tooltip Limit: " .. newvalue)
+	end)
+
+	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", tooltiplimit, "BOTTOM", 0, -27)
 	group:SetPoint("LEFT", EDGEGAP, 0)
 	group:SetPoint("BOTTOMRIGHT", -EDGEGAP, EDGEGAP)
 
@@ -140,3 +148,9 @@ InterfaceOptions_AddCategory(frame)
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 local dataobj = ldb:GetDataObjectByName("CorkLauncher") or ldb:NewDataObject("CorkLauncher", {type = "launcher", icon = "Interface\\Icons\\INV_Drink_11", tocname = "Cork"})
 dataobj.OnClick = function() InterfaceOptionsFrame_OpenToFrame(frame) end
+
+----------------------------
+--       Key Binding      --
+----------------------------
+setglobal("BINDING_HEADER_CORK", "Cork")
+setglobal("BINDING_NAME_CLICK CorkFrame:LeftButton", "Click the Cork frame")
