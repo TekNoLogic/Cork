@@ -22,14 +22,14 @@ templates\SelfBuffer.lua
 templates\SelfBufferAdvanced.lua
 templates\RaidBuffer.lua
 
-classes\DeathKnight.lua
-classes\Druid.lua
-classes\Hunter.lua
-classes\Mage.lua
-classes\Paladin.lua
-classes\PaladinBlessings.lua
-classes\PaladinSeal.lua
-classes\Priest.lua
-classes\Shaman.lua
-classes\Warlock.lua
-classes\Warrior.lua
+modules\DeathKnight.lua
+modules\Druid.lua
+modules\Hunter.lua
+modules\Mage.lua
+modules\Paladin.lua
+modules\PaladinBlessings.lua
+modules\PaladinSeal.lua
+modules\Priest.lua
+modules\Shaman.lua
+modules\Warlock.lua
+modules\Warrior.lua
