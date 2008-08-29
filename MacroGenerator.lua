@@ -29,7 +29,7 @@ function Cork.GenerateMacro()
 		else
 			body = "/click CorkFrame"
 		end
-		local id = CreateMacro("Cork", 1, body, true)
+		local id = IS_WRATH_BUILD and CreateMacro("Cork", 1, body, true) or CreateMacro("Cork", 1, body, nil, true)
 		PickupMacro(id)
 	end
 end
