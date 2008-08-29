@@ -38,6 +38,7 @@ modules\Priest.lua
 modules\Shaman.lua
 modules\Warlock.lua
 modules\WarlockPets.lua
+modules\WarlockSoulLink.lua
 modules\Warrior.lua
 
 modules\Repairs.lua
