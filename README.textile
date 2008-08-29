@@ -11,6 +11,9 @@ h3. Implemented
 * Reminders for self-only buffs, auras and shapeshifts
 * Reminders for raid-group buffs (ones that cast on multiple targets)
 * Reminders for palidin seals and warrior shouts only shown in combat
+* Hunter pet happiness (includes macro for feeding or calling a feed addon)
+* Warlock summons
+* Warlock Soul Link
 * Low durability warnings when resting (in town)
 * Clam shucker
 * Minimap tracking
@@ -18,17 +21,21 @@ h3. Implemented
 
 h3. Planned
 
-* "Friendly target" buffs, like Thorns and Earth Shield, which are applied selectivly instead of to the whole party/raid
-* Hunter pet happiness, with possible hooks to pet-feeder addons
-* Warlock summons
-* Warlock Soul Link
+* "Friendly target" buffs which are applied selectivly instead of to the whole party/raid
+** Druid Thorns
+** Mage Dampen/Amplify Magic
+** Priest Fear Ward
+** Shaman earth shield (managed for player currently, needs to be castable on others)
+** Shaman Water Breathing/Walking
+** Warlock Detect Invisibility
+** Warlock Unending Breath
 * Reagent restock reminders when resting
 * Tabard (once reputation tabards are implemented)
 * Macro-generating button, like "Buffet's":http://tekkub.net/addons/Buffet
 * "LDB":http://github.com/tekkub/libdatabroker-1-1/wikis data source
 * Option to disable the always-up tooltip
 
-If I have forgotten a buff for your class that is listed as implemented above, feel free to open a bug on "Google code":http://code.google.com/p/tekkub-wow/issues/list?can=1&q=addon:Cork&sort=status+milestone&colspec=ID%20Type%20Status%20Addon%20Milestone%20Summary
+If I have forgotten a buff for your class, feel free to open a bug on "Google code":http://code.google.com/p/tekkub-wow/issues/list?can=1&q=addon:Cork&sort=status+milestone&colspec=ID%20Type%20Status%20Addon%20Milestone%20Summary
 
 h2. One-click? How?
 
