@@ -44,6 +44,9 @@ end
 
 local defaults = Cork.defaultspc
 defaults["Blessings-enabled"] = true
+defaults["Blessings-solo"] = false
+defaults["Blessings-party"] = true
+defaults["Blessings-bgarena"] = false
 defaults["Blessings-PRIEST"] = WISDOM
 defaults["Blessings-SHAMAN"] = WISDOM
 defaults["Blessings-MAGE"] = WISDOM
@@ -92,12 +95,21 @@ end
 
 function dataobj:CorkIt(frame)
 	RefreshKnownSpells()
+
+	local numraid, numparty, _, instanceType = GetNumRaidMembers(), GetNumPartyMembers(), IsInInstance()
+	local usegreaters = true
+	if instanceType == "arena" or instanceType == "pvp" then usegreaters = Cork.dbpc["Blessings-bgarena"]
+	elseif numraid == 0 and numparty > 0 then usegreaters = Cork.dbpc["Blessings-party"]
+	elseif numraid == 0 and numparty == 0 then usegreaters = Cork.dbpc["Blessings-solo"] end
+
 	for unit in ldb:pairs(self) do
 		if not Cork.keyblist[unit] then
 			local _, class = UnitClass(unit)
 			local spell = Cork.dbpc["Blessings-"..class]
-			local greater = blessings[spell]
-			if known[greater] and SpellCastableOnUnit(greater, unit) then return frame:SetManyAttributes("type1", "spell", "spell", greater, "unit", unit) end
+			if usegreaters then
+				local greater = blessings[spell]
+				if known[greater] and SpellCastableOnUnit(greater, unit) then return frame:SetManyAttributes("type1", "spell", "spell", greater, "unit", unit) end
+			end
 			if known[spell] and SpellCastableOnUnit(spell, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spell, "unit", unit) end
 		end
 	end
@@ -117,19 +129,39 @@ frame.parent = "Cork"
 frame:Hide()
 
 frame:SetScript("OnShow", function()
-	local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork - Blessings", "These settings are saved on a per-char basis.")
+	local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork - Blessings", "Greater blessings are always used in raids.  These settings are saved on a per-char basis.")
 
 	local enabled = tekcheck.new(frame, nil, "Enabled", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
 	enabled.tiptext = "Toggle this module."
 	local checksound = enabled:GetScript("OnClick")
-	enabled:SetScript("OnClick", function(self)
+	local function toggle(self)
 		checksound(self)
-		Cork.dbpc["Blessings-enabled"] = not Cork.dbpc["Blessings-enabled"]
+		Cork.dbpc["Blessings-"..self.sv] = not Cork.dbpc["Blessings-"..self.sv]
 		dataobj:Scan()
-	end)
+	end
+	enabled.sv = "enabled"
+	enabled:SetScript("OnClick", toggle)
 
 
-	local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 24, 2, 4
+	local useparty = tekcheck.new(frame, nil, "Party", "TOPLEFT", enabled, "BOTTOMLEFT", 0, -GAP)
+	useparty.tiptext = "Use greater blessings when in a party."
+	useparty.sv = "party"
+	useparty:SetScript("OnClick", toggle)
+
+
+	local usebgarena = tekcheck.new(frame, nil, "BG/Arena", "TOPLEFT", useparty, "BOTTOMLEFT", 0, -GAP)
+	usebgarena.tiptext = "Use greater blessings when in a battleground or arena."
+	usebgarena.sv = "bgarena"
+	usebgarena:SetScript("OnClick", toggle)
+
+
+	local usesolo = tekcheck.new(frame, nil, "Solo", "TOPLEFT", usebgarena, "BOTTOMLEFT", 0, -GAP)
+	usesolo.tiptext = "Use greater blessings when not in a group."
+	usesolo.sv = "solo"
+	usesolo:SetScript("OnClick", toggle)
+
+
+	local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 22, 2, 4
 	local BUFFS = {SANC, KINGS, WISDOM, MIGHT}
 
 	local function OnClick(self)
@@ -144,15 +176,20 @@ frame:SetScript("OnShow", function()
 	end
 	local function OnLeave() GameTooltip:Hide() end
 
+	local group = LibStub("tekKonfig-Group").new(frame, "Classes", "TOP", enabled, "TOP", 0, -8)
+	group:SetPoint("LEFT", frame, "CENTER", -60, 0)
+	group:SetPoint("BOTTOMRIGHT", -EDGEGAP, EDGEGAP)
+
 	local rows, anchor = {}
+	local ROWHEIGHT = (group:GetHeight() - EDGEGAP)/#CLASS_SORT_ORDER - ROWGAP
 	for _,token in pairs(CLASS_SORT_ORDER) do
 		local class = Cork.classnames[token]
 
-		local row = CreateFrame("Frame", nil, frame)
-		if not anchor then row:SetPoint("TOP", enabled, "BOTTOM", 0, -16)
+		local row = CreateFrame("Frame", nil, group)
+		if not anchor then row:SetPoint("TOP", 0, -EDGEGAP/2)
 		else row:SetPoint("TOP", anchor, "BOTTOM", 0, -ROWGAP) end
-		row:SetPoint("LEFT", EDGEGAP, 0)
-		row:SetPoint("RIGHT", -EDGEGAP, 0)
+		row:SetPoint("LEFT", EDGEGAP/2, 0)
+		row:SetPoint("RIGHT", -EDGEGAP/2, 0)
 		row:SetHeight(ROWHEIGHT)
 		rows[token], anchor = row, row
 
@@ -191,7 +228,11 @@ frame:SetScript("OnShow", function()
 
 	local function Update(self)
 		RefreshKnownSpells()
+
 		enabled:SetChecked(Cork.dbpc["Blessings-enabled"])
+		usesolo:SetChecked(Cork.dbpc["Blessings-solo"])
+		usebgarena:SetChecked(Cork.dbpc["Blessings-bgarena"])
+		useparty:SetChecked(Cork.dbpc["Blessings-party"])
 
 		for token,row in pairs(rows) do
 			for buff,butt in pairs(row.buffbuttons) do
@@ -213,3 +254,22 @@ end)
 
 InterfaceOptions_AddCategory(frame)
 
+
+--------------------------
+--      Sub-config      --
+--------------------------
+
+local frame2 = CreateFrame("Frame", nil, Cork.config)
+frame2:SetWidth(1) frame2:SetHeight(1)
+dataobj.configframe = frame2
+frame2:Hide()
+
+frame2:SetScript("OnShow", function()
+	local butt = LibStub("tekKonfig-Button").new_small(frame2, "RIGHT")
+	butt:SetWidth(60) butt:SetHeight(18)
+	butt.tiptext = "Click to open detailed config."
+	butt:SetText("Config")
+	butt:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToFrame(frame) end)
+
+	frame2:SetScript("OnShow", nil)
+end)
