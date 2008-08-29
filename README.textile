@@ -19,6 +19,7 @@ h3. Implemented
 * Clam shucker
 * Minimap tracking
 * Keybinding (thanks cladhaire)
+* Macro-generating button, like "Buffet's":http://tekkub.net/addons/Buffet
 
 h3. Planned
 
@@ -32,7 +33,6 @@ h3. Planned
 ** Warlock Unending Breath
 * Reagent restock reminders when resting
 * Tabard (once reputation tabards are implemented)
-* Macro-generating button, like "Buffet's":http://tekkub.net/addons/Buffet
 * "LDB":http://github.com/tekkub/libdatabroker-1-1/wikis data source
 * Option to disable the always-up tooltip
 
