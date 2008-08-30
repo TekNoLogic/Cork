@@ -4,7 +4,7 @@
 ## Notes: Buff reminders and more
 ## Author: Tekkub Stoutwrithe
 ## X-Credits: Thiana (Warlock modules), Gnancy (Soullink module)
-## Version: Alpha
+## Version: 3.0.1.2
 ## X-Category: Buffs
 
 ## SavedVariables: CorkDB
