@@ -1,2 +1,33 @@
+3.0.1.2-Beta
+    Add compatibility layer for live.  Not super efficient, but it seems to get the jorb done
+    Fix raid buffer not checking focus and target on full scan
+    Delay spell checking till PLAYER_LOGIN
+    Prefer buffing the player first, players second, pets last
+    Pally seal was missing Seal of Wisdom
+    
+    New Modules
+    * Clam shucker
+    * DK Horn of Winter
+    * DK Path of Frost
+    * Hunter pet happiness
+    * Repairs
+    * Tracking (Only spells, not "helpers")
+    * Warlock demons
+    * Warlock soul link
+    
+    Config Enhancements
+    * Added keybinding (thanks clad)
+    * Add option to limit the tooltip lines (thanks clad)
+    * Add group threshold config
+    * Make cast on pets option char-wide instead of per-module
+    * Add macro generator
+    * Add pretty group box for modules
+    * Add module toggles to base config page
+    * Removed config panels for simple self buffs (only had "enable" toggle)
+    * Removed config for raid buffs (all options in the base panel now)
+    * Move advanced self buffer config into base config page
+    * Strip off the borders from icons
+    * Add solo/party/bg options to pally blessing module
+
 3.0.1.1-Beta
     Initial redesign for Wrath
