@@ -11,3 +11,8 @@ Cork:GenerateSelfBuffer(spellname, icon)
 -- Path of Frost
 local spellname, _, icon = GetSpellInfo(3714)
 Cork:GenerateSelfBuffer(spellname, icon)
+
+
+-- Horn of Winter
+local spellname, _, icon = GetSpellInfo(57330)
+Cork:GenerateSelfBuffer(spellname, icon)
