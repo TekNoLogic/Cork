@@ -1,5 +1,6 @@
+if IS_WRATH_BUILD == nil then IS_WRATH_BUILD = (select(4, GetBuildInfo()) >= 30000) end
 
-local lib, oldminor = LibStub:NewLibrary("tekKonfig-Dropdown", 1)
+local lib, oldminor = LibStub:NewLibrary("tekKonfig-Dropdown", 2)
 if not lib then return end
 oldminor = oldminor or 0
 
@@ -14,8 +15,8 @@ local function ShowTooltip(self)
 end
 
 
-local function OnClick()
-	ToggleDropDownMenu()
+local function OnClick(self)
+	if IS_WRATH_BUILD then ToggleDropDownMenu(nil, nil, self:GetParent()) else ToggleDropDownMenu() end
 	PlaySound("igMainMenuOptionCheckBoxOn")
 end
 
