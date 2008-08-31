@@ -36,6 +36,7 @@ modules\Paladin.lua
 modules\PaladinBlessings.lua
 modules\PaladinSeal.lua
 modules\Priest.lua
+modules\PriestFearWard.lua
 modules\Shaman.lua
 modules\Warlock.lua
 modules\WarlockPets.lua
