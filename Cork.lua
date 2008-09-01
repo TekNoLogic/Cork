@@ -48,6 +48,8 @@ ae.RegisterEvent("Cork", "ADDON_LOADED", function(event, addon)
 	anchor:SetPoint(Cork.db.point, Cork.db.x, Cork.db.y)
 	if not Cork.db.showanchor then anchor:Hide() end
 
+	LibStub("tekKonfig-AboutPanel").new("Cork", "Cork")
+
 	ae.UnregisterEvent("Cork", "ADDON_LOADED")
 end)
 
