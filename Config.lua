@@ -43,6 +43,7 @@ frame:SetScript("OnShow", function()
 	tooltiplimit:SetScript("OnValueChanged", function(self, newvalue)
 		Cork.dbpc.tooltiplimit = newvalue
 		tooltiplimittext:SetText("Tooltip Limit: " .. newvalue)
+		Cork.Update()
 	end)
 
 
