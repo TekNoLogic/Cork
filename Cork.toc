@@ -3,8 +3,10 @@
 ## Title: Cork
 ## Notes: Buff reminders and more
 ## Author: Tekkub Stoutwrithe
-## X-Credits: Thiana (Warlock modules), Gnancy (Soullink module)
 ## Version: Alpha
+## X-Website: http://www.tekkub.net/
+## X-Email: tekkub-wow@googlegroups.com
+## X-Credits: Thiana (Warlock modules), Gnancy (Soullink module)
 ## X-Category: Buffs
 
 ## SavedVariables: CorkDB
