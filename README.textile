@@ -11,6 +11,7 @@ h3. Implemented
 * Reminders for palidin seals and warrior shouts only shown in combat
 * Hunter pet happiness (includes macro for feeding or calling a feed addon)
 * Priest Fear Ward (shows whenever fear ward is not on cooldown, must be manually enabled when needed)
+* Shaman Earth Shield (tracks the last group member cast on, so you must cast manually the first time)
 * Warlock summons
 * Warlock Soul Link
 * Low durability warnings when resting (in town)
@@ -24,7 +25,6 @@ h3. Planned
 * "Friendly target" buffs which are applied selectivly instead of to the whole party/raid
 ** Druid Thorns
 ** Mage Dampen/Amplify Magic
-** Shaman earth shield (managed for player currently, needs to be castable on others)
 ** Shaman Water Breathing/Walking
 ** Warlock Detect Invisibility
 ** Warlock Unending Breath
