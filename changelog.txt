@@ -1,3 +1,11 @@
+3.0.1.3-Beta
+    Add priest fear ward module
+    Add shaman earth shield module, tracks the last group member you cast on
+    Make tooltip limit slider refresh the tooltip when changed
+    Add about panel
+    TOC metadata
+    Embed update
+
 3.0.1.2-Beta
     Add compatibility layer for live.  Not super efficient, but it seems to get the jorb done
     Fix raid buffer not checking focus and target on full scan
