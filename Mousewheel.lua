@@ -1,49 +1,26 @@
 
 -- Dynamic mousewheel binding module, originally created by Adirelle <gperreal@free.fr>
 
-local CORKNAME = "Mousewheel Bindings"
-
-local dataobj =  LibStub('LibDataBroker-1.1'):NewDataObject("Cork "..CORKNAME, {type='cork'})
-local frame
-local keys = { 'MOUSEWHEELUP', 'MOUSEWHEELDOWN' }
-
-------------------------------------------------------------------------------
--- Binding update
-------------------------------------------------------------------------------
-
 local function ClearBindings()
 	if InCombatLockdown() then return end
-	ClearOverrideBindings(frame)
+	ClearOverrideBindings(CorkFrame)
 end
 
-local function UpdateBindings()
+function Cork:UpdateMouseBinding(event, unit)
 	if InCombatLockdown() then return end
-	if Cork.dbpc[CORKNAME.."-enabled"] and Corkboard:IsVisible() and not IsStealthed() and not IsFlying() and not IsMounted() then
-		for i,key in ipairs(keys) do
-			SetOverrideBindingClick(frame, true, key, 'CorkFrame')
-		end
+	if Cork.db.bindwheel and (event ~= "PLAYER_REGEN_DISABLED") and Corkboard:IsVisible() then
+		SetOverrideBindingClick(CorkFrame, true, 'MOUSEWHEELUP', 'CorkFrame')
+		SetOverrideBindingClick(CorkFrame, true, 'MOUSEWHEELDOWN', 'CorkFrame')
 	else
-		ClearBindings()
+		ClearOverrideBindings(CorkFrame)
 	end
 end
 
-------------------------------------------------------------------------------
--- Addon setup
-------------------------------------------------------------------------------
 
-function dataobj:Init()
-	Cork.defaultspc[CORKNAME..'-enabled'] = true
+local frame = CreateFrame('Frame', nil, Corkboard)
+frame:SetScript('OnShow', Cork.UpdateMouseBinding)
+frame:SetScript('OnHide', ClearBindings)
 
-	frame = CreateFrame('Frame', 'CorkWheelFrame', Corkboard)
-	frame:SetAllPoints(Corkboard)
-	frame:SetScript('OnShow', UpdateBindings)
-	frame:SetScript('OnHide', ClearBindings)
-	frame:Show()
-
-	local AE = LibStub('AceEvent-3.0')
-	AE.RegisterEvent(self, 'PLAYER_AURAS_CHANGED', UpdateBindings)
-	AE.RegisterEvent(self, 'PLAYER_REGEN_ENABLED', UpdateBindings)
-	AE.RegisterEvent(self, 'PLAYER_REGEN_DISABLED', ClearBindings)
-end
-
-dataobj.Scan = UpdateBindings
+frame:SetScript("OnEvent", Cork.UpdateMouseBinding)
+frame:RegisterEvent('PLAYER_REGEN_ENABLED')
+frame:RegisterEvent('PLAYER_REGEN_DISABLED')

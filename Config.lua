@@ -35,6 +35,15 @@ frame:SetScript("OnShow", function()
 	end)
 
 
+	local bindwheel = tekcheck.new(frame, nil, "Bind mousewheel", "TOPLEFT", showunit, "BOTTOMLEFT", 0, -GAP)
+	bindwheel.tiptext = "Bind to mousewheel when out of combat and needs are present."
+	bindwheel:SetScript("OnClick", function(self)
+		checksound(self)
+		Cork.db.bindwheel = not Cork.db.bindwheel
+		Cork.UpdateMouseBinding()
+	end)
+
+
 	local tooltiplimit, tooltiplimittext, ttlcontainer = LibStub("tekKonfig-Slider").new(frame, "Tooltip Limit: " .. Cork.dbpc.tooltiplimit, 0, 40, "TOP", showanchor, "TOP")
 	ttlcontainer:SetPoint("LEFT", frame, "CENTER", GAP*5/2, 0)
 	tooltiplimit.tiptext = "The number of units to show in the Cork tooltip."
@@ -58,7 +67,7 @@ frame:SetScript("OnShow", function()
 		end)
 
 --~ 		castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOPLEFT", groupthreshcont, "BOTTOMLEFT", -GAP*2, 0)
-		castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOPLEFT", showunit, "BOTTOMLEFT", 0, -GAP)
+		castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOPLEFT", bindwheel, "BOTTOMLEFT", 0, -GAP)
 		castonpets.tiptext = "Pets need buffs too!  When disabled you can still cast on a pet by targetting it directly."
 		castonpets:SetScript("OnClick", function(self)
 			checksound(self)
@@ -68,7 +77,7 @@ frame:SetScript("OnShow", function()
 	end
 
 
-	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", castonpets or showunit, "BOTTOM", 0, -27)
+	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", castonpets or bindwheel, "BOTTOM", 0, -27)
 	group:SetPoint("LEFT", EDGEGAP, 0)
 	group:SetPoint("BOTTOMRIGHT", -EDGEGAP, EDGEGAP)
 
@@ -121,6 +130,7 @@ frame:SetScript("OnShow", function()
 	local function Update(self)
 		showanchor:SetChecked(Cork.db.showanchor)
 		showunit:SetChecked(Cork.db.showunit)
+		bindwheel:SetChecked(Cork.db.bindwheel)
 		if castonpets then castonpets:SetChecked(Cork.dbpc.castonpets) end
 		if groupthresh then groupthresh:SetValue(Cork.dbpc.multithreshold) end
 		for i,row in pairs(rows) do
