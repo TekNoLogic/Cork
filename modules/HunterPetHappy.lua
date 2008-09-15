@@ -12,6 +12,7 @@ local ICON = "Interface\\Icons\\Ability_Hunter_BeastTraining"
 local feedpetspell = "Feed Pet"
 
 Cork.defaultspc["Pet Happiness-enabled"] = true
+Cork.defaultspc["Pet Happiness-macro"] = ""
 
 local dataobj = ldb:NewDataObject("Cork Pet Happiness", {type = "cork"})
 
@@ -30,7 +31,7 @@ ae.RegisterEvent("Cork Pet Happiness", "UNIT_HAPPINESS", dataobj.Scan)
 
 function dataobj:CorkIt(frame)
 	local macro = Cork.dbpc["Pet Happiness-macro"]
-	if self.pet and macro and macro ~= "" then return frame:SetManyAttributes("type1", "macro", "macrotext1", macro) end
+	if self.pet and macro ~= "" then return frame:SetManyAttributes("type1", "macro", "macrotext1", macro) end
 end
 
 
