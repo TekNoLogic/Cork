@@ -22,6 +22,7 @@ AceEvent-3.0\AceEvent-3.0.xml
 Cork.lua
 Config.lua
 MacroGenerator.lua
+Mousewheel.lua
 
 LiveCompatLayer.lua
 
