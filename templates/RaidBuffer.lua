@@ -58,7 +58,7 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 			if GetNumRaidMembers() > 0 then for i in pairs(raidneeds) do raidneeds[i] = nil end end
 			for i=1,GetNumRaidMembers() do
 				local _, _, subgroup, _, _, _, zone, online, dead = GetRaidRosterInfo(i)
-				raidneeds[subgroup] = (raidneeds[subgroup] or 0) + (zone and online and not dead and IsSpellInRange(multispell, "raid"..i) and 1 or 0)
+				raidneeds[subgroup] = (raidneeds[subgroup] or 0) + (dataobj["raid"..i] and zone and online and not dead and IsSpellInRange(multispell, "raid"..i) and 1 or 0)
 				if raidneeds[subgroup] >= Cork.dbpc.multithreshold then return frame:SetManyAttributes("type1", "spell", "spell", multispell, "unit", "raid"..i) end
 			end
 		end
