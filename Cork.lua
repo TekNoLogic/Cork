@@ -1,3 +1,4 @@
+if not IS_WRATH_BUILD then InterfaceOptionsFrame_OpenToCategory = InterfaceOptionsFrame_OpenToFrame end
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
@@ -95,7 +96,7 @@ anchor:SetWidth(text:GetStringWidth() + 8)
 anchor:SetMovable(true)
 anchor:RegisterForDrag("LeftButton")
 
-anchor:SetScript("OnClick", function(self) InterfaceOptionsFrame_OpenToFrame(Cork.config) end)
+anchor:SetScript("OnClick", function(self) InterfaceOptionsFrame_OpenToCategory(Cork.config) end)
 
 
 anchor:SetScript("OnDragStart", function(self)

@@ -123,7 +123,7 @@ end
 local GAP = 8
 local tekcheck = LibStub("tekKonfig-Checkbox")
 
-local frame = CreateFrame("Frame", nil, UIParent)
+local frame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 frame.name = "Blessings"
 frame.parent = "Cork"
 frame:Hide()
@@ -269,7 +269,7 @@ frame2:SetScript("OnShow", function()
 	butt:SetWidth(60) butt:SetHeight(18)
 	butt.tiptext = "Click to open detailed config."
 	butt:SetText("Config")
-	butt:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToFrame(frame) end)
+	butt:SetScript("OnClick", function() InterfaceOptionsFrame_OpenToCategory(frame) end)
 
 	frame2:SetScript("OnShow", nil)
 end)

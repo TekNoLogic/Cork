@@ -42,7 +42,7 @@ function dataobj:CorkIt() end
 local GAP = 8
 local tekcheck = LibStub("tekKonfig-Checkbox")
 
-local frame = CreateFrame("Frame", nil, UIParent)
+local frame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 frame.name = "Shout"
 frame.parent = "Cork"
 frame:Hide()

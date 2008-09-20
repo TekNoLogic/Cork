@@ -6,7 +6,7 @@ local GAP = 8
 local tekcheck = LibStub("tekKonfig-Checkbox")
 
 
-local frame = CreateFrame("Frame", nil, UIParent)
+local frame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 Cork.config = frame
 frame.name = "Cork"
 frame:Hide()
@@ -170,7 +170,7 @@ InterfaceOptions_AddCategory(frame)
 
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 local dataobj = ldb:GetDataObjectByName("CorkLauncher") or ldb:NewDataObject("CorkLauncher", {type = "launcher", icon = "Interface\\Icons\\INV_Drink_11", tocname = "Cork"})
-dataobj.OnClick = function() InterfaceOptionsFrame_OpenToFrame(frame) end
+dataobj.OnClick = function() InterfaceOptionsFrame_OpenToCategory(frame) end
 
 ----------------------------
 --       Key Binding      --
