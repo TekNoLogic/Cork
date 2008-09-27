@@ -1,3 +1,11 @@
+3.0.1.4-Beta
+    Update for wrath build 8962 config panel breakage
+    Embed update
+    Fix raid buffer not actually checking if people in the group need a buff
+    Fix hunter pet feeder nil error on first use
+    Prevent corking when stealthed
+    Add dynamic mousewheel binding (Thanks Adirelle)
+
 3.0.1.3-Beta
     Add priest fear ward module
     Add shaman earth shield module, tracks the last group member you cast on
