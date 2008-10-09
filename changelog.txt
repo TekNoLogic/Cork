@@ -1,3 +1,6 @@
+3.0.2.5-Beta
+    Make raid buffer fall back to the single-target spell when checking range, since raid-wide spell range checking is currently broken
+
 3.0.1.4-Beta
     Update for wrath build 8962 config panel breakage
     Embed update
