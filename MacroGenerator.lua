@@ -1,5 +1,5 @@
 
-local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = IS_WRATH_BUILD and 36 or 18, 18
+local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = 36, 18
 
 local function GetMacroID()
 	for i=(MAX_ACCOUNT_MACROS+1),(MAX_ACCOUNT_MACROS+MAX_CHARACTER_MACROS) do if GetMacroInfo(i) == "Cork" then return i end end
@@ -29,7 +29,7 @@ function Cork.GenerateMacro()
 		else
 			body = "/click CorkFrame"
 		end
-		local id = IS_WRATH_BUILD and CreateMacro("Cork", 1, body, true) or CreateMacro("Cork", 1, body, nil, true)
+		local id = CreateMacro("Cork", 1, body, true)
 		PickupMacro(id)
 	end
 end

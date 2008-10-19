@@ -24,8 +24,6 @@ Config.lua
 MacroGenerator.lua
 Mousewheel.lua
 
-LiveCompatLayer.lua
-
 templates\SelfBuffer.lua
 templates\SelfBufferAdvanced.lua
 templates\RaidBuffer.lua

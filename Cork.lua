@@ -1,4 +1,3 @@
-if not IS_WRATH_BUILD then InterfaceOptionsFrame_OpenToCategory = InterfaceOptionsFrame_OpenToFrame end
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
@@ -27,7 +26,6 @@ Cork.classnames = {
 	["ROGUE"] = "Rogue",
 	["DEATHKNIGHT"] = "Death Knight",
 }
-if not IS_WRATH_BUILD then Cork.classnames.DEATHKNIGHT = nil end
 
 Cork.colors = {}
 for token in pairs(Cork.classnames) do
