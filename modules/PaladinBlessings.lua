@@ -33,11 +33,12 @@ end
 
 
 local function HasMyBlessing(unit)
+	local inrange = IsSpellInRange(MIGHT, unit)
 	for blessing,greater in pairs(blessings) do
 		local name, _, _, _, _, _, _, isMine = UnitAura(unit, greater)
-		if name and isMine then return true end
+		if name and (not inrange or isMine) then return true end
 		local name, _, _, _, _, _, _, isMine = UnitAura(unit, blessing)
-		if name and isMine then return true end
+		if name and (not inrange or isMine) then return true end
 	end
 end
 
