@@ -85,3 +85,9 @@ frame:SetScript("OnShow", function()
 	frame:SetScript("OnHide", function() editbox:Hide() end)
 	frame:SetScript("OnShow", nil)
 end)
+
+
+local orig = IsOptionFrameOpen
+function IsOptionFrameOpen(...)
+	if not frame:IsVisible() then return orig(...) end
+end
