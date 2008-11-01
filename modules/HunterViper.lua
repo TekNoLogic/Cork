@@ -61,6 +61,7 @@ frame:SetScript("OnShow", function()
 
 	local function createSlider(parent, setting, tiptext, ...)
 		local slider = LibStub("tekKonfig-Slider").newbare(parent, ...)
+		slider:SetWidth(72)
 		slider.tiptext = tiptext
 		slider:SetMinMaxValues(0,1)
 		slider:SetValueStep(0.05)
