@@ -15,7 +15,7 @@ local MIGHT, _, MIGHTICON = GetSpellInfo(19740)
 local WISDOM, _, WISDOMICON = GetSpellInfo(19742)
 local SANC, _, SANCICON = GetSpellInfo(20911)
 local KINGS, _, KINGSICON = GetSpellInfo(20217)
-local GMIGHT, GWISDOM, GSANC, GKINGS = GetSpellInfo(25782), GetSpellInfo(25898), GetSpellInfo(25899), GetSpellInfo(25894)
+local GMIGHT, GWISDOM, GSANC, GKINGS = GetSpellInfo(25782), GetSpellInfo(25894), GetSpellInfo(25899), GetSpellInfo(25898)
 
 
 local blessings = {[MIGHT] = GMIGHT, [WISDOM] = GWISDOM, [SANC] = GSANC, [KINGS] = GKINGS}
