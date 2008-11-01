@@ -29,7 +29,7 @@ end)
 
 
 local function Test(unit)
-	if not UnitExists(unit) then return end
+	if not UnitExists(unit) or (GetNumRaidMembers() + GetNumPartyMembers()) == 0 then return end
 	local name, _, _, _, _, _, _, isMine = UnitAura(unit, spellname)
 	if not name or not isMine then return end
 	lasttarget = UnitName(unit)
