@@ -1,3 +1,8 @@
+3.0.2.7-Beta
+    Don't track Earth Shield when solo
+    Greater wisdom and greater kings got swapped?
+    Allow bags to be opened when hunter pet module config is visible
+
 3.0.2.6-Beta
     Don't check if pally blessings are mine if target is out of range
     Remove 2.4.3 compat
