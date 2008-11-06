@@ -12,17 +12,17 @@ local iconline = Cork.IconLine(icon, UnitName("player"), token)
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork"})
 
 function dataobj:Init()
-	Cork.defaultspc["Aspect of the Viper-enabled"] = GetSpellInfo(spellname) ~= nil
-	Cork.defaultspc["Aspect of the Viper-low threshold"] = 0.2
-	Cork.defaultspc["Aspect of the Viper-high threshold"] = 0.6
+	Cork.defaultspc[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil
+	Cork.defaultspc[spellname.."-low threshold"] = 0.2
+	Cork.defaultspc[spellname.."-high threshold"] = 0.6
 end
 
 local function Test()
-	if Cork.dbpc["Aspect of the Viper-enabled"] then
+	if Cork.dbpc[spellname.."-enabled"] then
 		local haveBuff = UnitAura("player", spellname)
 		local manaFraction = UnitMana("player") / UnitManaMax("player")
-		if (haveBuff and manaFraction > Cork.dbpc["Aspect of the Viper-high threshold"])
-				or (not haveBuff and manaFraction < Cork.dbpc["Aspect of the Viper-low threshold"]) then
+		if (haveBuff and manaFraction > Cork.dbpc[spellname.."-high threshold"])
+				or (not haveBuff and manaFraction < Cork.dbpc[spellname.."-low threshold"]) then
 			return iconline
 		end
 	end
@@ -38,8 +38,8 @@ local function EventUpdate(event, unit)
 	end
 end
 
-LibStub("AceEvent-3.0").RegisterEvent("Cork Aspect of the Viper", "UNIT_AURA", EventUpdate)
-LibStub("AceEvent-3.0").RegisterEvent("Cork Aspect of the Viper", "UNIT_MANA", EventUpdate)
+LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "UNIT_AURA", EventUpdate)
+LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "UNIT_MANA", EventUpdate)
 
 function dataobj:CorkIt(frame)
 	if self.player then
@@ -70,7 +70,7 @@ frame:SetScript("OnShow", function()
 
 		slider:SetScript("OnValueChanged", function(self, newvalue)
 			newvalue = math.floor(newvalue*20)/20
-			Cork.dbpc["Aspect of the Viper-"..setting] = newvalue
+			Cork.dbpc[spellname.."-"..setting] = newvalue
 			sliderText:SetFormattedText("%d%%", newvalue*100)
 			dataobj:Scan()
 		end)
@@ -82,8 +82,8 @@ frame:SetScript("OnShow", function()
 	local sliderLow = createSlider(frame, 'low threshold', "Low mana threshold. Cork will remember you to switch to Aspect of the Viper when your mana is under this threshold.", "RIGHT", sliderHigh, "LEFT", -40, 0)
 
 	local function Update(self)
-		sliderLow:SetValue(Cork.dbpc["Aspect of the Viper-low threshold"])
-		sliderHigh:SetValue(Cork.dbpc["Aspect of the Viper-high threshold"])
+		sliderLow:SetValue(Cork.dbpc[spellname.."-low threshold"])
+		sliderHigh:SetValue(Cork.dbpc[spellname.."-high threshold"])
 	end
 
 	frame:SetScript("OnShow", Update)
