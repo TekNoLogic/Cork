@@ -115,6 +115,7 @@ end)
 -----------------------
 
 tooltip = CreateFrame("GameTooltip", "Corkboard", UIParent, "GameTooltipTemplate")
+tooltip:SetFrameStrata("MEDIUM")
 CorkboardTextLeft1:SetFontObject(GameTooltipText)
 CorkboardTextRight1:SetFontObject(GameTooltipText)
 
