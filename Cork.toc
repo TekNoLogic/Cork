@@ -32,6 +32,7 @@ modules\DeathKnight.lua
 modules\Druid.lua
 modules\Hunter.lua
 modules\HunterPetHappy.lua
+modules\HunterViper.lua
 modules\Mage.lua
 modules\Paladin.lua
 modules\PaladinBlessings.lua
