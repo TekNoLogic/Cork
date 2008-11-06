@@ -7,7 +7,7 @@ local Cork = Cork
 local UnitAura = Cork.UnitAura or UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-local iconline = Cork.IconLine(icon, UnitName("player"), token)
+local iconline_low = Cork.IconLine(icon, 'Low mana', token)
 
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork"})
 
@@ -17,13 +17,19 @@ function dataobj:Init()
 	Cork.defaultspc[spellname.."-high threshold"] = 0.6
 end
 
+local function GetStandardAspect()
+	return Cork.dbpc['Aspects-spell'] or spellname
+end
+
 local function Test()
 	if Cork.dbpc[spellname.."-enabled"] then
 		local haveBuff = UnitAura("player", spellname)
 		local manaFraction = UnitMana("player") / UnitManaMax("player")
-		if (haveBuff and manaFraction > Cork.dbpc[spellname.."-high threshold"])
-				or (not haveBuff and manaFraction < Cork.dbpc[spellname.."-low threshold"]) then
-			return iconline
+		if haveBuff and manaFraction > Cork.dbpc[spellname.."-high threshold"] then
+			local icon = select(3, GetSpellInfo(GetStandardAspect()))
+			return Cork.IconLine(icon, 'High mana', token)
+		elseif not haveBuff and manaFraction < Cork.dbpc[spellname.."-low threshold"] then
+			return iconline_low
 		end
 	end
 end
@@ -43,7 +49,11 @@ LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "UNIT_MANA", EventUpda
 
 function dataobj:CorkIt(frame)
 	if self.player then
-		return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "player")
+		if self.player == iconline_low then
+			return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "player")
+		else
+			return frame:SetManyAttributes("type1", "spell", "spell", GetStandardAspect(), "unit", "player")
+		end
 	end
 end
 
