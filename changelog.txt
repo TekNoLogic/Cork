@@ -1,3 +1,7 @@
+3.0.3.8-Beta
+    Tweak tooltip strata a smidge
+    Hunter Viper module (thanks adirelle)
+
 3.0.2.7-Beta
     Don't track Earth Shield when solo
     Greater wisdom and greater kings got swapped?
