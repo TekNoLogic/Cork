@@ -3,7 +3,7 @@ local Cork = Cork
 local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-local ICON, ITEMS = "Interface\\Icons\\INV_Misc_Shell_03", {7973, 24476, 5523, 15874, 5524, 32724}
+local ICON, ITEMS = "Interface\\Icons\\INV_Misc_Shell_03", {7973, 24476, 5523, 15874, 5524, 32724, 36781}
 
 Cork.defaultspc["Shuck Clams-enabled"] = true
 
