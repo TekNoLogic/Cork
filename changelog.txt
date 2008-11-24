@@ -1,3 +1,8 @@
+3.0.3.9-Beta
+    Add a NR clam
+    "Feed Pet Effect" was renamed "Feed Pet"... bastards
+    Add aspect of the dragonhawk
+
 3.0.3.8-Beta
     Tweak tooltip strata a smidge
     Hunter Viper module (thanks adirelle)
