@@ -9,7 +9,8 @@ local IconLine = Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 local ICON = "Interface\\Icons\\Ability_Hunter_BeastTraining"
-local feedpetspell = "Feed Pet"
+local feedpetspell = GetSpellInfo(6991)
+local feedpeteffect = GetSpellInfo(1539)
 
 Cork.defaultspc["Pet Happiness-enabled"] = true
 Cork.defaultspc["Pet Happiness-macro"] = ""
@@ -17,7 +18,7 @@ Cork.defaultspc["Pet Happiness-macro"] = ""
 local dataobj = ldb:NewDataObject("Cork Pet Happiness", {type = "cork"})
 
 local function Test()
-	if Cork.dbpc["Pet Happiness-enabled"] and UnitExists("pet") and not UnitIsDeadOrGhost("pet") and GetPetHappiness() ~= 3 and not UnitAura("pet", "Feed Pet") then
+	if Cork.dbpc["Pet Happiness-enabled"] and UnitExists("pet") and not UnitIsDeadOrGhost("pet") and GetPetHappiness() ~= 3 and not UnitAura("pet", feedpeteffect) then
 		return IconLine(ICON, UnitName("pet").." is hungry")
 	end
 end
@@ -45,9 +46,6 @@ dataobj.configframe = frame
 frame:Hide()
 
 frame:SetScript("OnShow", function()
-	local feedpetspell = GetSpellInfo(6991)
-
-
 	local editbox = CreateFrame("EditBox", nil, frame)
 	editbox:SetWidth(300)
 	editbox:SetPoint("RIGHT")
