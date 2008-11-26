@@ -18,7 +18,7 @@ Cork.defaultspc["Pet Happiness-macro"] = ""
 local dataobj = ldb:NewDataObject("Cork Pet Happiness", {type = "cork"})
 
 local function Test()
-	if Cork.dbpc["Pet Happiness-enabled"] and UnitExists("pet") and not UnitIsDeadOrGhost("pet") and GetPetHappiness() ~= 3 and not UnitAura("pet", feedpeteffect) then
+	if Cork.dbpc["Pet Happiness-enabled"] and UnitExists("pet") and not UnitIsDeadOrGhost("pet") and (GetPetHappiness() or 3) ~= 3 and not UnitAura("pet", feedpeteffect) then
 		return IconLine(ICON, UnitName("pet").." is hungry")
 	end
 end
