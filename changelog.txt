@@ -1,3 +1,7 @@
+3.0.3.10-Beta
+    Vehicles are NEVER happy...
+    Remove locale-specific bits from pet happy module
+
 3.0.3.9-Beta
     Add a NR clam
     "Feed Pet Effect" was renamed "Feed Pet"... bastards
