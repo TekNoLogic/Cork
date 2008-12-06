@@ -105,7 +105,7 @@ end)
 
 anchor:SetScript("OnDragStop", function(self)
 	self:StopMovingOrSizing()
-	Cork.db.point, Cork.db.x, Cork.db.y = "BOTTOMLEFT", self:GetCenter()
+	Cork.db.point, Cork.db.x, Cork.db.y = "BOTTOMLEFT", self:GetLeft(), self:GetBottom()
 	Cork.Update()
 end)
 
