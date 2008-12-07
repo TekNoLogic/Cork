@@ -1,3 +1,6 @@
+3.0.3.11-Beta
+    Fix anchor saving on drag stop
+
 3.0.3.10-Beta
     Vehicles are NEVER happy...
     Remove locale-specific bits from pet happy module
