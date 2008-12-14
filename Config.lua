@@ -117,6 +117,7 @@ frame:SetScript("OnShow", function()
 		check:SetHighlightTexture("Interface\\Buttons\\UI-CheckBox-Highlight")
 		check:SetDisabledCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")
 		check:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
+		check:SetHitRectInsets(0, -100, 0, 0)
 		check:SetScript("OnClick", OnClick)
 		row.check = check
 
