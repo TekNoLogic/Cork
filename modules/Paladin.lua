@@ -9,4 +9,4 @@ Cork:GenerateSelfBuffer(spellname, icon)
 
 
 -- Auras
-Cork:GenerateAdvancedSelfBuffer("Aura", {465, 7294, 19746, 19876, 19888, 19891})
+Cork:GenerateAdvancedSelfBuffer("Aura", {465, 7294, 19746, 19876, 19888, 19891, 32223})

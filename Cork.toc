@@ -36,6 +36,7 @@ modules\HunterViper.lua
 modules\Mage.lua
 modules\Paladin.lua
 modules\PaladinBlessings.lua
+modules\PaladinCrusaderAura.lua
 modules\PaladinSeal.lua
 modules\Priest.lua
 modules\PriestFearWard.lua
