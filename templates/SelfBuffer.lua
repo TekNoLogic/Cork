@@ -5,8 +5,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
 function Cork:GenerateSelfBuffer(spellname, icon)
-	local _, token = UnitClass("player")
-	local iconline = self.IconLine(icon, UnitName("player"), token)
+	local iconline = self.IconLine(icon, spellname)
 
 	local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork"})
 

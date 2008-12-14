@@ -34,7 +34,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 
 			local spell = Cork.dbpc[modulename.."-spell"]
 			local icon = icons[spell]
-			return IconLine(icon, myname, myclass)
+			return IconLine(icon, spell)
 		end
 	end
 
