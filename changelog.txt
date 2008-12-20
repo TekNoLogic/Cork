@@ -1,3 +1,9 @@
+3.0.3.12-Beta
+    Extend the config list checkbox hit rects
+    Make self-buff modules show spell name instead of unit name
+    Pally crusader aura module
+    Warlock soul link fixes
+
 3.0.3.11-Beta
     Fix anchor saving on drag stop
 
