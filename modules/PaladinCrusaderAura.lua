@@ -45,6 +45,15 @@ f:SetScript("OnUpdate", function(self, elap)
 end)
 
 
+-- Rescan when the aura module's config changes
+local AuraDO = LibStub:GetLibrary("LibDataBroker-1.1"):GetDataObjectByName("Cork Aura")
+local orig = AuraDO.Scan
+function AuraDO:Scan(...)
+	dataobj.player = Test()
+	return orig(self, ...)
+end
+
+
 function dataobj:Scan() self.player = Test() end
 LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) if unit == "player" then dataobj.player = Test() end end)
 
