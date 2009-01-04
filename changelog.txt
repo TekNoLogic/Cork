@@ -1,3 +1,6 @@
+3.0.3.13-Beta
+    Make crusader module properly update when aura module's config changes
+
 3.0.3.12-Beta
     Extend the config list checkbox hit rects
     Make self-buff modules show spell name instead of unit name
