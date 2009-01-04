@@ -26,6 +26,17 @@ frame:SetScript("OnShow", function()
 	end)
 
 
+	local resetanchor = LibStub("tekKonfig-Button").new_small(frame, "LEFT", showanchor, "RIGHT", 105, 0)
+	resetanchor:SetWidth(60) resetanchor:SetHeight(18)
+	resetanchor.tiptext = "Click to reset the anchor to it's default position."
+	resetanchor:SetText("Reset")
+	resetanchor:SetScript("OnClick", function()
+		Cork.db.point, Cork.db.x, Cork.db.y = nil
+		Cork.anchor:ClearAllPoints()
+		Cork.anchor:SetPoint(Cork.db.point, Cork.db.x, Cork.db.y)
+	end)
+
+
 	local showunit = tekcheck.new(frame, nil, "Show unitID", "TOPLEFT", showanchor, "BOTTOMLEFT", 0, -GAP)
 	showunit.tiptext = "Show unitID (target, party1, raidpet5) in tooltip."
 	showunit:SetScript("OnClick", function(self)
