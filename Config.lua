@@ -34,6 +34,7 @@ frame:SetScript("OnShow", function()
 		Cork.db.point, Cork.db.x, Cork.db.y = nil
 		Cork.anchor:ClearAllPoints()
 		Cork.anchor:SetPoint(Cork.db.point, Cork.db.x, Cork.db.y)
+		Cork.Update()
 	end)
 
 
