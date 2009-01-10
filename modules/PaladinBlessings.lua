@@ -68,7 +68,7 @@ local function Test(unit)
 		not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
 		or Cork.petunits[unit]
 		or (unit ~= "player" and UnitIsUnit(unit, "player"))
-		or (unit == "target" and (not UnitCanAssist("player", unit) or not UnitPlayerControlled(unit) or UnitIsEnemy("player", unit)))
+		or (unit == "target" and (UnitIsUnit("target", "focus") or not UnitCanAssist("player", unit) or not UnitPlayerControlled(unit) or UnitIsEnemy("player", unit)))
 		or (unit == "focus" and not UnitCanAssist("player", unit)) then return end
 
 	if not HasMyBlessing(unit) then
@@ -82,8 +82,9 @@ ae.RegisterEvent("Cork Blessings", "UNIT_AURA", function(event, unit) dataobj[un
 ae.RegisterEvent("Cork Blessings", "PARTY_MEMBERS_CHANGED", function() for i=1,4 do dataobj["party"..i], dataobj["partypet"..i] = Test("party"..i), Test("partypet"..i) end end)
 ae.RegisterEvent("Cork Blessings", "RAID_ROSTER_UPDATE", function() for i=1,40 do dataobj["raid"..i], dataobj["raidpet"..i] = Test("raid"..i), Test("raidpet"..i) end end)
 ae.RegisterEvent("Cork Blessings", "UNIT_PET", function(event, unit) if Cork.petmappings[unit] then dataobj[Cork.petmappings[unit]] = Test(Cork.petmappings[unit]) end end)
-ae.RegisterEvent("Cork Blessings", "PLAYER_TARGET_CHANGED", function() dataobj.target = Test("target") end)
-ae.RegisterEvent("Cork Blessings", "PLAYER_FOCUS_CHANGED", function() dataobj.focus = Test("focus") end)
+local function TestTargetandFocus() dataobj.target, dataobj.focus = Test("target"), Test("focus") end
+ae.RegisterEvent("Cork Blessings", "PLAYER_TARGET_CHANGED", TestTargetandFocus)
+ae.RegisterEvent("Cork Blessings", "PLAYER_FOCUS_CHANGED", TestTargetandFocus)
 
 
 function dataobj:Scan()
