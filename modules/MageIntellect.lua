@@ -30,33 +30,14 @@ end
 
 local MagicClasses = {["DRUID"] = true, ["HUNTER"] = true, ["MAGE"] = true, ["PALADIN"] = true, ["PRIEST"] = true, ["SHAMAN"] = true, ["WARLOCK"] = true}
 local function Test(unit)
-	if not Cork.dbpc[spellname.."-enabled"] or blist[unit] or
-		not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
-		or (Cork.petunits[unit] and not Cork.dbpc.castonpets)
-		or (unit ~= "player" and UnitIsUnit(unit, "player"))
-		or (unit == "target" and (UnitIsUnit("target", "focus") or not UnitCanAssist("player", unit) or not UnitPlayerControlled(unit) or UnitIsEnemy("player", unit)))
-		or (unit == "focus" and not UnitCanAssist("player", unit)) then return end
-
-	if MagicClasses[select(2, UnitClass(unit))] and not HasBuff(unit) then
+	if not Cork.dbpc[spellname.."-enabled"] or not Cork:ValidUnit(unit) or not MagicClasses[select(2, UnitClass(unit))] then return end
+	if not HasBuff(unit) then
 		local _, token = UnitClass(unit)
 		return IconLine(icon, UnitName(unit), token)
 	end
 end
-ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) dataobj[unit] = Test(unit) end)
-ae.RegisterEvent("Cork "..spellname, "PARTY_MEMBERS_CHANGED", function() for i=1,4 do dataobj["party"..i], dataobj["partypet"..i] = Test("party"..i), Test("partypet"..i) end end)
-ae.RegisterEvent("Cork "..spellname, "RAID_ROSTER_UPDATE", function() for i=1,40 do dataobj["raid"..i], dataobj["raidpet"..i] = Test("raid"..i), Test("raidpet"..i) end end)
-ae.RegisterEvent("Cork "..spellname, "UNIT_PET", function(event, unit) if Cork.petmappings[unit] then dataobj[Cork.petmappings[unit]] = Test(Cork.petmappings[unit]) end end)
-local function TestTargetandFocus() dataobj.target, dataobj.focus = Test("target"), Test("focus") end
-ae.RegisterEvent("Cork "..spellname, "PLAYER_TARGET_CHANGED", TestTargetandFocus)
-ae.RegisterEvent("Cork "..spellname, "PLAYER_FOCUS_CHANGED", TestTargetandFocus)
-
-
-function dataobj:Scan()
-	self.target, self.focus = Test("target"), Test("focus")
-	self.player, self.pet = Test("player"), Test("pet")
-	for i=1,GetNumPartyMembers() do self["party"..i], self["partypet"..i] = Test("party"..i), Test("partypet"..i) end
-	for i=1,GetNumRaidMembers() do self["raid"..i], self["raidpet"..i] = Test("raid"..i), Test("raidpet"..i) end
-end
+Cork:RegisterRaidEvents(spellname, dataobj, Test)
+dataobj.Scan = Cork:GenerateRaidScan(Test)
 
 
 local raidneeds = {}
