@@ -6,7 +6,7 @@ if c ~= "PALADIN" then return end
 local Cork = Cork
 local UnitAura = Cork.UnitAura or UnitAura
 local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
-local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
+local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 
 
 local blist = {npc = true, vehicle = true}
@@ -64,13 +64,7 @@ local dataobj = ldb:NewDataObject("Cork Blessings", {type = "cork"})
 
 
 local function Test(unit)
-	if not Cork.dbpc["Blessings-enabled"] or blist[unit] or
-		not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
-		or Cork.petunits[unit]
-		or (unit ~= "player" and UnitIsUnit(unit, "player"))
-		or (unit == "target" and (UnitIsUnit("target", "focus") or not UnitCanAssist("player", unit) or not UnitPlayerControlled(unit) or UnitIsEnemy("player", unit)))
-		or (unit == "focus" and not UnitCanAssist("player", unit)) then return end
-
+	if not Cork.dbpc["Blessings-enabled"] or not Cork:ValidUnit(unit, true) then return end
 	if not HasMyBlessing(unit) then
 		local _, class = UnitClass(unit)
 		local spell = Cork.dbpc["Blessings-"..class]
@@ -78,21 +72,8 @@ local function Test(unit)
 		return IconLine(icon, UnitName(unit), class)
 	end
 end
-ae.RegisterEvent("Cork Blessings", "UNIT_AURA", function(event, unit) dataobj[unit] = Test(unit) end)
-ae.RegisterEvent("Cork Blessings", "PARTY_MEMBERS_CHANGED", function() for i=1,4 do dataobj["party"..i], dataobj["partypet"..i] = Test("party"..i), Test("partypet"..i) end end)
-ae.RegisterEvent("Cork Blessings", "RAID_ROSTER_UPDATE", function() for i=1,40 do dataobj["raid"..i], dataobj["raidpet"..i] = Test("raid"..i), Test("raidpet"..i) end end)
-ae.RegisterEvent("Cork Blessings", "UNIT_PET", function(event, unit) if Cork.petmappings[unit] then dataobj[Cork.petmappings[unit]] = Test(Cork.petmappings[unit]) end end)
-local function TestTargetandFocus() dataobj.target, dataobj.focus = Test("target"), Test("focus") end
-ae.RegisterEvent("Cork Blessings", "PLAYER_TARGET_CHANGED", TestTargetandFocus)
-ae.RegisterEvent("Cork Blessings", "PLAYER_FOCUS_CHANGED", TestTargetandFocus)
-
-
-function dataobj:Scan()
-	self.target, self.focus= Test("target"), Test("focus")
-	self.player, self.pet = Test("player"), Test("pet")
-	for i=1,GetNumPartyMembers() do self["party"..i], self["partypet"..i] = Test("party"..i), Test("partypet"..i) end
-	for i=1,GetNumRaidMembers() do self["raid"..i], self["raidpet"..i] = Test("raid"..i), Test("raidpet"..i) end
-end
+Cork:RegisterRaidEvents("Blessings", dataobj, Test)
+dataobj.Scan = Cork:GenerateRaidScan(Test)
 
 
 function dataobj:CorkIt(frame)
