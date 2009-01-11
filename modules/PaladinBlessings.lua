@@ -7,6 +7,7 @@ local Cork = Cork
 local UnitAura = Cork.UnitAura or UnitAura
 local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
+Cork.hasraidspell = true
 
 
 local blist = {npc = true, vehicle = true}
