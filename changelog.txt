@@ -1,3 +1,15 @@
+3.0.9.14-Beta
+    Make crusader aura module only watch auras cast by the player
+    Move pally seals to normal buffs
+    Add raid mode setting for raid buffing classes    
+    * 10-man will only watch groups 1 and 2 for needed buffs
+    * 25-man will watch groups 1-5
+    * 40-man will watch all groups
+    Smarter mage int module (Will cast Dalaran Int and ignore non-mana classes)
+    Don't show target and focus if they're the same unit
+    Update after the anchor is reset to position the tip correctly
+    Add anchor reset button
+
 3.0.3.13-Beta
     Make crusader module properly update when aura module's config changes
 
