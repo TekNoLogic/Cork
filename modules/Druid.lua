@@ -13,7 +13,6 @@ local bear = GetSpellInfo(GetSpellInfo(5487)) and 5487 or 9634
 Cork:GenerateAdvancedSelfBuffer("Fursuit", {bear, 768, 24858, 33891})
 
 
---~ local th = GetSpellInfo(467) -- Thorns
---~ i = core:NewModule(th, buffs)
---~ i.target = "Friendly"
---~ i.spell = th
+-- Thorns
+local spellname, _, icon = GetSpellInfo(467)
+Cork:GenerateLastBuffedBuffer(spellname, icon)

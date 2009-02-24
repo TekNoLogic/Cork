@@ -27,6 +27,7 @@ Mousewheel.lua
 templates\SelfBuffer.lua
 templates\SelfBufferAdvanced.lua
 templates\RaidBuffer.lua
+templates\LastBuffedBuffer.lua
 
 modules\DeathKnight.lua
 modules\Druid.lua
@@ -39,9 +40,7 @@ modules\Paladin.lua
 modules\PaladinBlessings.lua
 modules\PaladinCrusaderAura.lua
 modules\Priest.lua
-modules\PriestFearWard.lua
 modules\Shaman.lua
-modules\ShamanEarthShield.lua
 modules\Warlock.lua
 modules\WarlockPets.lua
 modules\WarlockSoulLink.lua

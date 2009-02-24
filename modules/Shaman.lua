@@ -3,14 +3,13 @@ local _, c = UnitClass("player")
 if c ~= "SHAMAN" then return end
 
 
--- Shields
+-- Self-shields
 Cork:GenerateAdvancedSelfBuffer("Shields", {324, 24398, 974})
 
 
---~ local es = GetSpellInfo(974) -- Earth Shield
---~ i = core:NewModule(es, buffs)
---~ i.target = "Friendly"
---~ i.spell = es
+-- Earth Shield
+local spellname, _, icon = GetSpellInfo(974)
+Cork:GenerateLastBuffedBuffer(spellname, icon)
 
 
 --~ local wb = GetSpellInfo(131) -- Water Breathing
