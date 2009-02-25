@@ -44,7 +44,7 @@ local raidneeds = {}
 function dataobj:CorkIt(frame, playersonly)
 	-- Refresh in case the player has learned spells since login
 	multispell, dalaranspell, dalaranmultispell = multispell or GetSpellInfo(multispellname), dalaranspell or GetSpellInfo(dalaranspellname), dalaranmultispell or GetSpellInfo(dalaranmultispellname)
-	singlespell, multispell = dalaranspellname or spellname, dalaranmultispell or multispell
+	singlespell, multispell = dalaranspell or spellname, dalaranmultispell or multispell
 
 	if multispell then
 		local num = dataobj.player and 1 or 0
