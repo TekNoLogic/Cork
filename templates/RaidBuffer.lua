@@ -6,7 +6,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 local blist = {npc = true, vehicle = true}
 
-function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
+function Cork:GenerateRaidBuffer(spellname, multispellname, icon, defaultstate)
 	Cork.hasgroupspell = true
 
 	local multispell = multispellname and GetSpellInfo(multispellname)
@@ -15,7 +15,13 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon)
 
 	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork"})
 
-	function dataobj:Init() Cork.defaultspc[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil end
+	function dataobj:Init()
+		if defaultstate ~= nil then
+			Cork.defaultspc[spellname.."-enabled"] = defaultstate
+		else
+			Cork.defaultspc[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil
+		end
+	end
 
 	local function Test(unit)
 		if not Cork.dbpc[spellname.."-enabled"] or not Cork:ValidUnit(unit) then return end

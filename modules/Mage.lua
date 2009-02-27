@@ -6,6 +6,14 @@ if c ~= "MAGE" then return end
 -- Armor
 Cork:GenerateAdvancedSelfBuffer("Armor", {168, 7302, 6117, 30482})
 
+-- Amplify Magic
+local spellname, _, icon = GetSpellInfo(1008)
+Cork:GenerateRaidBuffer(spellname, nil, icon, false)
+
+-- Dampen Magic
+local spellname, _, icon = GetSpellInfo(604)
+Cork:GenerateRaidBuffer(spellname, nil, icon, false)
+
 
 --~ i = core:NewModule("Amplify/Dampen Magic", buffs)
 --~ i.target = "Raid"
