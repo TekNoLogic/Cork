@@ -1,3 +1,8 @@
+3.0.9.15-Beta
+    Add amp/damp magic modules for mages, default them to disabled
+    Fix mage Int module for players without dalaran int
+    Merge fear ward and earth shield modules into an abstract template, add druid thorns to new system
+
 3.0.9.14-Beta
     Make crusader aura module only watch auras cast by the player
     Move pally seals to normal buffs
