@@ -45,6 +45,7 @@ modules\Warlock.lua
 modules\WarlockPets.lua
 modules\WarlockSoulLink.lua
 modules\Warrior.lua
+modules\WarriorShout.lua
 
 modules\Repairs.lua
 modules\Shucks.lua
