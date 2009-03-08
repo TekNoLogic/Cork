@@ -47,6 +47,7 @@ modules\WarlockSoulLink.lua
 modules\Warrior.lua
 modules\WarriorShout.lua
 
+modules\WellFed.lua
 modules\Repairs.lua
 modules\Shucks.lua
 modules\Tracking.lua
