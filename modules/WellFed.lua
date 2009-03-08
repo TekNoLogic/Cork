@@ -12,15 +12,16 @@ local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..s
 
 Cork.defaultspc[spellname.."-enabled"] = true
 
-local function Test(unit) if Cork.dbpc[spellname.."-enabled"] and not UnitAura("player", spellname) then return iconline end end
+local function Test(unit) if Cork.dbpc[spellname.."-enabled"] and not UnitAura("player", spellname) and not IsResting() then return iconline end end
 
 LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) if unit == "player" then dataobj.player = Test() end end)
+LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "PLAYER_UPDATE_RESTING", function() dataobj.player = Test() end)
 
 function dataobj:Scan() self.player = Test() end
 
 function dataobj:CorkIt(frame)
 	local macro = Cork.dbpc[spellname.."-macro"]
-	if self.player and macro ~= "" and IsResting() then return frame:SetManyAttributes("type1", "macro", "macrotext1", macro) end
+	if self.player and macro ~= "" then return frame:SetManyAttributes("type1", "macro", "macrotext1", macro) end
 end
 
 
