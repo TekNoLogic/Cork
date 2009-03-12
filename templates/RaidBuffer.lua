@@ -34,6 +34,8 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon, defaultstate)
 	Cork:RegisterRaidEvents(spellname, dataobj, Test)
 	dataobj.Scan = Cork:GenerateRaidScan(Test)
 
+	if multispellname then dataobj.RaidLine = IconLine(icon, multispellname.." (%d)") end
+
 
 	local raidneeds = {}
 	function dataobj:CorkIt(frame, playersonly)

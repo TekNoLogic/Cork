@@ -1,7 +1,7 @@
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-Cork = {petmappings = {player = "pet"}, defaultspc = {castonpets = false, multithreshold = 2, tooltiplimit = 10, raid_thresh = 5}, corks = {}, petunits = {pet = true}, keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true}}
+Cork = {petmappings = {player = "pet"}, defaultspc = {castonpets = false, multithreshold = 2, tooltiplimit = 10, raid_thresh = 5}, corks = {}, petunits = {pet = true}, keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true}}
 local corks = Cork.corks
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false, bindwheel = false}
 local tooltip, anchor
@@ -129,6 +129,9 @@ local function GetTipAnchor(frame)
 end
 
 
+local raidunits = {player = true}
+for i=1,4 do raidunits["party"..i] = true end
+for i=1,40 do raidunits["raid"..i] = true end
 function Cork.Update(event, name, attr, value, dataobj)
 	if Cork.keyblist[attr] then return end
 
@@ -138,8 +141,15 @@ function Cork.Update(event, name, attr, value, dataobj)
 
 	local count = 0
 	for name,dataobj in pairs(corks) do
+		local inneed, numr = 0, GetNumRaidMembers()
+		for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
+		if dataobj.RaidLine and numr > 0 and dataobj["player"] then inneed = inneed + 1 end
+		if inneed > 0 and count < Cork.dbpc.tooltiplimit then
+			if Cork.db.showunit then tooltip:AddDoubleLine(string.format(dataobj.RaidLine, inneed), "raid") else tooltip:AddLine(string.format(dataobj.RaidLine, inneed)) end
+			count = count + 1
+		end
 		for i,v in ldb:pairs(dataobj) do
-			if not Cork.keyblist[i] and count < Cork.dbpc.tooltiplimit then
+			if not Cork.keyblist[i] and (inneed == 0 or not raidunits[i]) and count < Cork.dbpc.tooltiplimit then
 				if Cork.db.showunit then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
 				count = count + 1
 			end
