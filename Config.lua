@@ -145,7 +145,7 @@ frame:SetScript("OnShow", function()
 		PlaySound(Cork.dbpc[self.name.."-enabled"] and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 		Cork.corks["Cork ".. self.name]:Scan()
 	end
-	for i=1,math.floor((group:GetHeight() - EDGEGAP)/(ROWHEIGHT + ROWGAP)) do
+	for i=1,10 do
 		local row = CreateFrame("Button", nil, group)
 		if anchor then row:SetPoint("TOP", anchor , "BOTTOM", 0, -ROWGAP)
 		else row:SetPoint("TOP", 0, -EDGEGAP/2) end
