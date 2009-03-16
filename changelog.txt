@@ -1,3 +1,11 @@
+3.0.9.16-Beta
+    Clarify a tooltip just a smidge
+    Make sure all the modules are shown on the config pane
+    When in a raid, condese multi-target spells down into a single line
+    Add Well Fed module, cause I suck at keeping that buff up (I have year old buff food in my bag)
+    Add Vigilance to warrior modules
+    Add mage focus magic
+
 3.0.9.15-Beta
     Add amp/damp magic modules for mages, default them to disabled
     Fix mage Int module for players without dalaran int
