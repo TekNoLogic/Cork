@@ -4,7 +4,7 @@ if c ~= "PALADIN" then return end
 
 
 local Cork = Cork
-local UnitAura = Cork.UnitAura or UnitAura
+local UnitAura = UnitAura
 local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 Cork.hasraidspell = true
@@ -37,9 +37,9 @@ local function HasMyBlessing(unit)
 	local inrange = IsSpellInRange(MIGHT, unit)
 	for blessing,greater in pairs(blessings) do
 		local name, _, _, _, _, _, _, isMine = UnitAura(unit, greater)
-		if name and (not inrange or isMine) then return true end
+		if name and (not inrange or isMine == "player") then return true end
 		local name, _, _, _, _, _, _, isMine = UnitAura(unit, blessing)
-		if name and (not inrange or isMine) then return true end
+		if name and (not inrange or isMine == "player") then return true end
 	end
 end
 

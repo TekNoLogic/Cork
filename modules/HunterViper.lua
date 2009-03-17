@@ -6,7 +6,7 @@ if token ~= "HUNTER" then return end
 local spellname, _, icon = GetSpellInfo(34074)
 
 local Cork = Cork
-local UnitAura = Cork.UnitAura or UnitAura
+local UnitAura = UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 local iconline_low = Cork.IconLine(icon, 'Low mana', token)
