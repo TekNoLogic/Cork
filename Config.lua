@@ -38,7 +38,16 @@ frame:SetScript("OnShow", function()
 	end)
 
 
-	local showunit = tekcheck.new(frame, nil, "Show unitID", "TOPLEFT", showanchor, "BOTTOMLEFT", 0, -GAP)
+	local showbg = tekcheck.new(frame, nil, "Show toolip in BG", "TOPLEFT", showanchor, "BOTTOMLEFT", 0, -GAP)
+	showbg.tiptext = "Show the tooltip when in a battleground or Wintergrasp.  When the tooltip is hidden the macro will still work."
+	showbg:SetScript("OnClick", function(self)
+		checksound(self)
+		Cork.db.showbg = not Cork.db.showbg
+		Cork.Update()
+	end)
+
+
+	local showunit = tekcheck.new(frame, nil, "Show unitID", "TOPLEFT", showbg, "BOTTOMLEFT", 0, -GAP)
 	showunit.tiptext = "Show unitID (target, party1, raidpet5) in tooltip."
 	showunit:SetScript("OnClick", function(self)
 		checksound(self)

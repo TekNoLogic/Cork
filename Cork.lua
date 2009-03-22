@@ -139,19 +139,21 @@ function Cork.Update(event, name, attr, value, dataobj)
 	tooltip:SetOwner(anchor, "ANCHOR_NONE")
 	tooltip:SetPoint(GetTipAnchor(anchor))
 
-	local count = 0
-	for name,dataobj in pairs(corks) do
-		local inneed, numr = 0, GetNumRaidMembers()
-		for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
-		if dataobj.RaidLine and numr > 0 and dataobj["player"] then inneed = inneed + 1 end
-		if inneed > 0 and count < Cork.dbpc.tooltiplimit then
-			if Cork.db.showunit then tooltip:AddDoubleLine(string.format(dataobj.RaidLine, inneed), "raid") else tooltip:AddLine(string.format(dataobj.RaidLine, inneed)) end
-			count = count + 1
-		end
-		for i,v in ldb:pairs(dataobj) do
-			if not Cork.keyblist[i] and (inneed == 0 or not raidunits[i]) and count < Cork.dbpc.tooltiplimit then
-				if Cork.db.showunit then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
+	if Cork.db.showbg or (GetZoneText() ~= "Wintergrasp" and select(2, IsInInstance()) ~= "pvp") then
+		local count = 0
+		for name,dataobj in pairs(corks) do
+			local inneed, numr = 0, GetNumRaidMembers()
+			for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
+			if dataobj.RaidLine and numr > 0 and dataobj["player"] then inneed = inneed + 1 end
+			if inneed > 0 and count < Cork.dbpc.tooltiplimit then
+				if Cork.db.showunit then tooltip:AddDoubleLine(string.format(dataobj.RaidLine, inneed), "raid") else tooltip:AddLine(string.format(dataobj.RaidLine, inneed)) end
 				count = count + 1
+			end
+			for i,v in ldb:pairs(dataobj) do
+				if not Cork.keyblist[i] and (inneed == 0 or not raidunits[i]) and count < Cork.dbpc.tooltiplimit then
+					if Cork.db.showunit then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
+					count = count + 1
+				end
 			end
 		end
 	end
