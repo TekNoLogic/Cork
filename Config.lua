@@ -154,12 +154,12 @@ frame:SetScript("OnShow", function()
 		PlaySound(Cork.dbpc[self.name.."-enabled"] and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 		Cork.corks["Cork ".. self.name]:Scan()
 	end
-	for i=1,10 do
+	for i=1,8 do
 		local row = CreateFrame("Button", nil, group)
 		if anchor then row:SetPoint("TOP", anchor , "BOTTOM", 0, -ROWGAP)
 		else row:SetPoint("TOP", 0, -EDGEGAP/2) end
 		row:SetPoint("LEFT", EDGEGAP/2, 0)
-		row:SetPoint("RIGHT", -EDGEGAP/2, 0)
+		row:SetPoint("RIGHT", -EDGEGAP/2 - 22, 0)
 		row:SetHeight(ROWHEIGHT)
 		anchor = row
 		rows[i] = row
@@ -185,14 +185,18 @@ frame:SetScript("OnShow", function()
 	end
 
 
-	local function Update(self)
-		showanchor:SetChecked(Cork.db.showanchor)
-		showunit:SetChecked(Cork.db.showunit)
-		bindwheel:SetChecked(Cork.db.bindwheel)
-		if castonpets then castonpets:SetChecked(Cork.dbpc.castonpets) end
-		if groupthresh then groupthresh:SetValue(Cork.dbpc.multithreshold) end
+	local scrollbar = LibStub("tekKonfig-Scroll").new(group, 6, #rows/2)
+	local f = scrollbar:GetScript("OnValueChanged")
+	scrollbar:SetScript("OnValueChanged", function(self, value, ...)
+		local offset = math.floor(value)
+
+		for _,name in pairs(corknames) do
+			local configframe = Cork.corks["Cork "..name].configframe
+			if configframe then configframe:Hide() end
+		end
+
 		for i,row in pairs(rows) do
-			local name = corknames[i]
+			local name = corknames[i + offset]
 			if name then
 				row:Show()
 				row.check.name = name
@@ -212,6 +216,21 @@ frame:SetScript("OnShow", function()
 				row.check:SetChecked(false)
 			end
 		end
+		return f(self, value, ...)
+	end)
+	scrollbar:SetMinMaxValues(0, math.max(0, #corknames-#rows))
+	scrollbar:SetValue(0)
+
+	group:EnableMouseWheel()
+	group:SetScript("OnMouseWheel", function(self, val) scrollbar:SetValue(scrollbar:GetValue() - val*#rows/2) end)
+
+
+	local function Update(self)
+		showanchor:SetChecked(Cork.db.showanchor)
+		showunit:SetChecked(Cork.db.showunit)
+		bindwheel:SetChecked(Cork.db.bindwheel)
+		if castonpets then castonpets:SetChecked(Cork.dbpc.castonpets) end
+		if groupthresh then groupthresh:SetValue(Cork.dbpc.multithreshold) end
 	end
 
 	frame:SetScript("OnShow", Update)
