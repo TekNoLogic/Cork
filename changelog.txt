@@ -1,3 +1,7 @@
+3.0.9.17-Beta
+    Add scrollbar to module config group
+    Add option to hide tooltip in battlegrounds
+
 3.0.9.16-Beta
     Clarify a tooltip just a smidge
     Make sure all the modules are shown on the config pane
