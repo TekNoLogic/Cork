@@ -9,7 +9,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 	local spellname, _, defaulticon = GetSpellInfo(spellidlist[1])
 	local _, myclass = UnitClass("player")
 	local myname = UnitName("player")
-	local buffnames, icons, known = {}, {}, {}
+	local buffnames, icons, known = {}, {}
 	for _,id in pairs(spellidlist) do
 		local spellname, _, icon = GetSpellInfo(id)
 		buffnames[id], icons[spellname] =  spellname, icon
@@ -23,7 +23,11 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 		for buff in pairs(icons) do if known[buff] == nil then known[buff] = GetSpellInfo(buff) end end
 	end
 
-	function dataobj:Init() RefreshKnownSpells() Cork.defaultspc[modulename.."-enabled"] = known[spellname] ~= nil end
+	function dataobj:Init()
+		known = {}
+		RefreshKnownSpells()
+		Cork.defaultspc[modulename.."-enabled"] = known[spellname] ~= nil
+	end
 
 	local function Test()
 		if Cork.dbpc[modulename.."-enabled"] then

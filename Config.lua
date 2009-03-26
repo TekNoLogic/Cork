@@ -14,10 +14,10 @@ frame:Hide()
 frame:SetScript("OnShow", function()
 	local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 16, 2, 4
 
-	local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork", "These settings are saved on a per-char basis.")
+	local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork", "Most of these settings are saved on a per-talent spec basis.  Settings will automatically switch when you swap specs.")
 
 	local showanchor = tekcheck.new(frame, nil, "Show anchor", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
-	showanchor.tiptext = "Toggle the tooltip anchor."
+	showanchor.tiptext = "Toggle the tooltip anchor. \n|cffffff9aThis setting is global."
 	local checksound = showanchor:GetScript("OnClick")
 	showanchor:SetScript("OnClick", function(self)
 		checksound(self)
@@ -28,7 +28,7 @@ frame:SetScript("OnShow", function()
 
 	local resetanchor = LibStub("tekKonfig-Button").new_small(frame, "LEFT", showanchor, "RIGHT", 105, 0)
 	resetanchor:SetWidth(60) resetanchor:SetHeight(18)
-	resetanchor.tiptext = "Click to reset the anchor to it's default position."
+	resetanchor.tiptext = "Click to reset the anchor to it's default position. \n|cffffff9aPosition is a global setting."
 	resetanchor:SetText("Reset")
 	resetanchor:SetScript("OnClick", function()
 		Cork.db.point, Cork.db.x, Cork.db.y = nil
@@ -39,7 +39,7 @@ frame:SetScript("OnShow", function()
 
 
 	local showunit = tekcheck.new(frame, nil, "Show unitID", "TOPLEFT", showanchor, "BOTTOMLEFT", 0, -GAP)
-	showunit.tiptext = "Show unitID (target, party1, raidpet5) in tooltip."
+	showunit.tiptext = "Show unitID (target, party1, raidpet5) in tooltip. \n|cffffff9aThis setting is global."
 	showunit:SetScript("OnClick", function(self)
 		checksound(self)
 		Cork.db.showunit = not Cork.db.showunit
@@ -48,7 +48,7 @@ frame:SetScript("OnShow", function()
 
 
 	local bindwheel = tekcheck.new(frame, nil, "Bind mousewheel", "TOPLEFT", showunit, "BOTTOMLEFT", 0, -GAP)
-	bindwheel.tiptext = "Bind to mousewheel when out of combat and needs are present."
+	bindwheel.tiptext = "Bind to mousewheel when out of combat and needs are present. \n|cffffff9aThis setting is global."
 	bindwheel:SetScript("OnClick", function(self)
 		checksound(self)
 		Cork.db.bindwheel = not Cork.db.bindwheel
@@ -221,8 +221,10 @@ local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 local dataobj = ldb:GetDataObjectByName("CorkLauncher") or ldb:NewDataObject("CorkLauncher", {type = "launcher", icon = "Interface\\Icons\\INV_Drink_11", tocname = "Cork"})
 dataobj.OnClick = function() InterfaceOptionsFrame_OpenToCategory(frame) end
 
+
 ----------------------------
 --       Key Binding      --
 ----------------------------
+
 setglobal("BINDING_HEADER_CORK", "Cork")
 setglobal("BINDING_NAME_CLICK CorkFrame:LeftButton", "Click the Cork frame")
