@@ -234,7 +234,6 @@ frame:SetScript("OnShow", function()
 	end
 
 	frame:SetScript("OnShow", Update)
-	frame:SetScript("OnHide", function() for name,dataobj in pairs(Cork.corks) do if dataobj.configframe then dataobj.configframe:Hide() end end end)
 	Update(frame)
 end)
 
