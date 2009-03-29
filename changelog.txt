@@ -1,3 +1,6 @@
+3.0.9.18-Beta
+    Fix secondary module config frames disappearing after first use
+
 3.0.9.17-Beta
     Add scrollbar to module config group
     Add option to hide tooltip in battlegrounds
