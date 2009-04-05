@@ -98,6 +98,20 @@ frame:SetScript("OnShow", function(self)
 	local sliderHigh = createSlider(self, 'high threshold', "High mana threshold. Cork will remember you to remove Aspect of the Viper when your mana is above this threshold.", "RIGHT")
 	local sliderLow = createSlider(self, 'low threshold', "Low mana threshold. Cork will remember you to switch to Aspect of the Viper when your mana is under this threshold.", "RIGHT", sliderHigh, "LEFT", -30, 0)
 
+	local highOVC = sliderHigh:GetScript("OnValueChanged")
+	sliderHigh:SetScript("OnValueChanged", function(self, value, ...)
+		highOVC(self, value, ...)
+		value = math.floor(value*100)/100
+		sliderLow:SetMinMaxValues(0, value)
+	end)
+
+	local lowOVC = sliderLow:GetScript("OnValueChanged")
+	sliderLow:SetScript("OnValueChanged", function(self, value, ...)
+		lowOVC(self, value, ...)
+		value = math.floor(value*100)/100
+		sliderHigh:SetMinMaxValues(value, 1)
+	end)
+
 	local function Update()
 		sliderLow:SetValue(Cork.dbpc[spellname.."-low threshold"])
 		sliderHigh:SetValue(Cork.dbpc[spellname.."-high threshold"])
