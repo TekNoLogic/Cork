@@ -34,11 +34,12 @@ end
 
 function dataobj:Init() RefreshKnownSpells() Cork.defaultspc["Summon demon-enabled"] = known[buffnames[spellidlist[1]]] ~= nil end
 function dataobj:Scan()
-	if not Cork.dbpc["Summon demon-enabled"] or UnitExists("pet") then dataobj.player = nil
+	if IsMounted() or not Cork.dbpc["Summon demon-enabled"] or UnitExists("pet") then dataobj.player = nil
 	else dataobj.player = IconLine(icons[Cork.dbpc["Summon demon-spell"]], Cork.dbpc["Summon demon-spell"]) end
 end
 
 ae.RegisterEvent("Cork Summon demon", "UNIT_PET", function(event, unit) if unit == "player" then dataobj:Scan() end end)
+ae.RegisterEvent("Cork mount aura check", "UNIT_AURA", function(event, unit) if unit == "player" then dataobj:Scan() end end)
 
 function dataobj:CorkIt(frame)
 	if self.player then return frame:SetManyAttributes("type1", "spell", "spell", Cork.dbpc["Summon demon-spell"]) end
