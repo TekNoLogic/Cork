@@ -72,6 +72,16 @@ ae.RegisterEvent("Cork", "PLAYER_LOGOUT", function()
 	for i,v in pairs(Cork.defaultspc) do if Cork.dbpc[i] == v then Cork.dbpc[i] = nil end end
 end)
 
+local onTaxi = nil
+ae.RegisterEvent("Cork BeginTaxi", "PLAYER_CONTROL_LOST", function()
+	onTaxi = true
+	Cork.Update()
+end)
+
+ae.RegisterEvent("Cork EndTaxi", "PLAYER_CONTROL_GAINED", function()
+	onTaxi = nil
+	Cork.Update()
+end)
 
 ------------------------------
 --      Tooltip anchor      --
@@ -158,7 +168,7 @@ function Cork.Update(event, name, attr, value, dataobj)
 		end
 	end
 
-	if tooltip:NumLines() > 0 then tooltip:Show() end
+	if tooltip:NumLines() > 0 and not onTaxi then tooltip:Show() end
 end
 
 
