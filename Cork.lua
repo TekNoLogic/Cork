@@ -38,11 +38,14 @@ end
 --      Initialization      --
 ------------------------------
 
+local meta = {__index = Cork.defaultspc}
 ae.RegisterEvent("Cork", "ADDON_LOADED", function(event, addon)
 	if addon:lower() ~= "cork" then return end
 
-	CorkDB, CorkDBPC = setmetatable(CorkDB or {}, {__index = defaults}), setmetatable(CorkDBPC or {}, {__index = Cork.defaultspc})
-	Cork.db, Cork.dbpc = CorkDB, CorkDBPC
+	CorkDB = setmetatable(CorkDB or {}, {__index = defaults})
+	CorkDBPC = CorkDBPC or {{},{}}
+	if not CorkDBPC[1] then CorkDBPC = {CorkDBPC, {}} end
+	Cork.db = CorkDB
 
 	anchor:SetPoint(Cork.db.point, Cork.db.x, Cork.db.y)
 	if not Cork.db.showanchor then anchor:Hide() end
@@ -54,14 +57,22 @@ end)
 
 
 ae.RegisterEvent("Cork", "PLAYER_LOGIN", function()
-	for name,dataobj in pairs(corks) do
-		if dataobj.Init then
-			dataobj:Init()
-			dataobj.Init = nil
-		end
-	end
+	local lastgroup = GetActiveTalentGroup()
+	Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
 
+	for name,dataobj in pairs(corks) do if dataobj.Init then dataobj:Init() end end
 	for name,dataobj in pairs(corks) do dataobj:Scan() end
+
+	ae.RegisterEvent("Cork", "PLAYER_TALENT_UPDATE", function()
+		if lastgroup == GetActiveTalentGroup() then return end
+
+		lastgroup = GetActiveTalentGroup()
+		for i,v in pairs(Cork.defaultspc) do if Cork.dbpc[i] == v then Cork.dbpc[i] = nil end end
+		Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
+
+		for name,dataobj in pairs(corks) do if dataobj.Init then dataobj:Init() end end
+		for name,dataobj in pairs(corks) do dataobj:Scan() end
+	end)
 
 	ae.UnregisterEvent("Cork", "PLAYER_LOGIN")
 end)

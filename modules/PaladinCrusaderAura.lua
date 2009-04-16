@@ -4,7 +4,7 @@ if c ~= "PALADIN" then return end
 
 
 local Cork = Cork
-local UnitAura = Cork.UnitAura or UnitAura
+local UnitAura = UnitAura
 
 local spellname, _, icon = GetSpellInfo(32223)
 local auras = {}
@@ -24,13 +24,13 @@ local function Test()
 	if not Cork.dbpc[spellname.."-enabled"] then return end
 
 	local name, _, _, _, _, _, _, isMine = UnitAura("player", spellname)
-	local crusading = name and isMine
+	local crusading = name and isMine == "player"
 
 	if mounted and not crusading then return iconline
 	elseif crusading and not mounted then
 		for buff in pairs(auras) do
 			local name, _, _, _, _, _, _, isMine = UnitAura("player", buff)
-			if name and isMine then return end
+			if name and isMine == "player" then return end
 		end
 
 		local aura = Cork.dbpc['Aura-spell'] or spellname

@@ -4,7 +4,6 @@ if c ~= "WARLOCK" then return end
 
 
 local Cork = Cork
-local UnitAura = Cork.UnitAura or UnitAura
 local IconLine = Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 

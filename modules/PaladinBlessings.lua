@@ -4,7 +4,7 @@ if c ~= "PALADIN" then return end
 
 
 local Cork = Cork
-local UnitAura = Cork.UnitAura or UnitAura
+local UnitAura = UnitAura
 local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 Cork.hasraidspell = true
@@ -37,9 +37,9 @@ local function HasMyBlessing(unit)
 	local inrange = IsSpellInRange(MIGHT, unit)
 	for blessing,greater in pairs(blessings) do
 		local name, _, _, _, _, _, _, isMine = UnitAura(unit, greater)
-		if name and (not inrange or isMine) then return true end
+		if name and (not inrange or isMine == "player") then return true end
 		local name, _, _, _, _, _, _, isMine = UnitAura(unit, blessing)
-		if name and (not inrange or isMine) then return true end
+		if name and (not inrange or isMine == "player") then return true end
 	end
 end
 
@@ -63,6 +63,7 @@ defaults["Blessings-DEATHKNIGHT"] = MIGHT
 
 local dataobj = ldb:NewDataObject("Cork Blessings", {type = "cork"})
 
+function dataobj:Init() known = {} RefreshKnownSpells() end
 
 local function Test(unit)
 	if not Cork.dbpc["Blessings-enabled"] or not Cork:ValidUnit(unit, true) then return end
@@ -113,7 +114,7 @@ frame.parent = "Cork"
 frame:Hide()
 
 frame:SetScript("OnShow", function()
-	local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork - Blessings", "Greater blessings are always used in raids.  These settings are saved on a per-char basis.")
+	local title, subtitle = LibStub("tekKonfig-Heading").new(frame, "Cork - Blessings", "Greater blessings are always used in raids.  These settings are saved on a per-talent spec basis.  Settings will automatically switch when you swap specs.")
 
 	local enabled = tekcheck.new(frame, nil, "Enabled", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
 	enabled.tiptext = "Toggle this module."
