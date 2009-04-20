@@ -21,7 +21,7 @@ function dataobj:Scan() self.player = Test() end
 
 function dataobj:CorkIt(frame)
 	local macro = Cork.dbpc[spellname.."-macro"]
-	if self.player and macro ~= "" then return frame:SetManyAttributes("type1", "macro", "macrotext1", macro) end
+	if self.player and macro and macro ~= "" then return frame:SetManyAttributes("type1", "macro", "macrotext1", macro) end
 end
 
 
