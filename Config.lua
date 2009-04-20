@@ -147,6 +147,8 @@ frame:SetScript("OnShow", function()
 
 
 	local rows, corknames, anchor = {}, {}
+	local NUMROWS = math.floor((group:GetHeight()-EDGEGAP+ROWGAP + 2) / (ROWHEIGHT+ROWGAP))
+	print("NUMROWS", NUMROWS)
 	for name in pairs(Cork.corks) do table.insert(corknames, (name:gsub("Cork ", ""))) end
 	table.sort(corknames)
 	local function OnClick(self)
@@ -154,7 +156,7 @@ frame:SetScript("OnShow", function()
 		PlaySound(Cork.dbpc[self.name.."-enabled"] and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 		Cork.corks["Cork ".. self.name]:Scan()
 	end
-	for i=1,8 do
+	for i=1,NUMROWS do
 		local row = CreateFrame("Button", nil, group)
 		if anchor then row:SetPoint("TOP", anchor , "BOTTOM", 0, -ROWGAP)
 		else row:SetPoint("TOP", 0, -EDGEGAP/2) end
