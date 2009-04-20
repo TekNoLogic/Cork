@@ -212,7 +212,7 @@ end)
 
 secureframe:SetScript("PostClick", function()
 	if InCombatLockdown() then return end
-	secureframe:SetManyAttributes("type1", ATTRIBUTE_NOOP, "bag1", nil, "slot1", nil, "item1", nil, "spell", nil, "unit", nil)
+	secureframe:SetManyAttributes("type1", ATTRIBUTE_NOOP, "bag1", nil, "slot1", nil, "item1", nil, "spell", nil, "unit", nil, "macrotext1", nil)
 end)
 
 
