@@ -146,6 +146,18 @@ frame:SetScript("OnShow", function()
 	usesolo:SetScript("OnClick", toggle)
 
 
+	local mwbutt = LibStub("tekKonfig-Button").new_small(frame)
+	mwbutt:SetWidth(25)
+	mwbutt:SetText("All")
+	mwbutt.tiptext = "Set all classes to receive Blessing of Might or Wisdom"
+
+
+	local kingsbutt = LibStub("tekKonfig-Button").new_small(frame)
+	kingsbutt:SetWidth(25)
+	kingsbutt:SetText("All")
+	kingsbutt.tiptext = "Set all classes to receive Blessing of Kings"
+
+
 	local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 22, 2, 4
 	local BUFFS = {SANC, KINGS, WISDOM, MIGHT}
 
@@ -211,6 +223,9 @@ frame:SetScript("OnShow", function()
 		end
 	end
 
+	kingsbutt:SetPoint("BOTTOM", rows[CLASS_SORT_ORDER[1]].buffbuttons[KINGS], "TOP", 0, 7)
+	mwbutt:SetPoint("BOTTOM", rows[CLASS_SORT_ORDER[1]].buffbuttons[WISDOM], "TOPLEFT", -ROWGAP/2, 7)
+
 	local function Update(self)
 		RefreshKnownSpells()
 
@@ -232,6 +247,9 @@ frame:SetScript("OnShow", function()
 			end
 		end
 	end
+
+	mwbutt:SetScript("OnClick", function() for _,token in pairs(CLASS_SORT_ORDER) do Cork.dbpc["Blessings-"..token] = nil end; Update(frame); dataobj:Scan() end)
+	kingsbutt:SetScript("OnClick", function() for _,token in pairs(CLASS_SORT_ORDER) do Cork.dbpc["Blessings-"..token] = KINGS end; Update(frame); dataobj:Scan() end)
 
 	frame:SetScript("OnShow", Update)
 	Update(frame)
