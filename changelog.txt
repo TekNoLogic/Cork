@@ -1,3 +1,8 @@
+3.1.0.19-Beta
+    Add talent "profiles", per-char settings automatically Swap for the current talent set
+    Fix for UnitAura changes in 3.1
+    Adjust hunter viper slider min/max on value change to ensure low never goes above high
+
 3.0.9.18-Beta
     Fix secondary module config frames disappearing after first use
 
