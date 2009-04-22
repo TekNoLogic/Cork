@@ -1,0 +1,1 @@
+if not TEK_WM_WARNED then print("Congratulations, you are using an unauthorized updater to acquire Tekkub's addons.  Please visit tekkub.net, wowinterface.com or curse.com for official versions of my addons.") TEK_WM_WARNED = true end
