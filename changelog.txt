@@ -1,3 +1,8 @@
+3.1.0.20-Beta
+    Fix macro blocking if well fed macro is nil (not blank)
+    Add more mini-config rows when possible
+    Add all-might/wis and all-kings buttons to pally blessing config
+
 3.1.0.19-Beta
     Add talent "profiles", per-char settings automatically Swap for the current talent set
     Fix for UnitAura changes in 3.1
