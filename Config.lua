@@ -148,7 +148,6 @@ frame:SetScript("OnShow", function()
 
 	local rows, corknames, anchor = {}, {}
 	local NUMROWS = math.floor((group:GetHeight()-EDGEGAP+ROWGAP + 2) / (ROWHEIGHT+ROWGAP))
-	print("NUMROWS", NUMROWS)
 	for name in pairs(Cork.corks) do table.insert(corknames, (name:gsub("Cork ", ""))) end
 	table.sort(corknames)
 	local function OnClick(self)
