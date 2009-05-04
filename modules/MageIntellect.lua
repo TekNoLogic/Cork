@@ -9,6 +9,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
 local blist = {npc = true, vehicle = true}
+for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true
 
 local multispellname, spellname, _, icon = GetSpellInfo(23028), GetSpellInfo(1459)
 local dalaranmultispellname, dalaranspellname = GetSpellInfo(61316), GetSpellInfo(61024)

@@ -3,6 +3,7 @@ local Cork = Cork
 local UnitAura = Cork.UnitAura or UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 local blist = {npc = true, vehicle = true, focus = true, target = true}
+for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true
 
 
 function Cork:GenerateLastBuffedBuffer(spellname, icon)
