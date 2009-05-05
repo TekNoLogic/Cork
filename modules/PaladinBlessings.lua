@@ -11,7 +11,7 @@ Cork.hasraidspell = true
 
 
 local blist = {npc = true, vehicle = true}
-for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true
+for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true end
 
 local MIGHT, _, MIGHTICON = GetSpellInfo(19740)
 local WISDOM, _, WISDOMICON = GetSpellInfo(19742)
