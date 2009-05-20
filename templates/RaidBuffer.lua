@@ -25,7 +25,7 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon, defaultstate)
 	end
 
 	local function Test(unit)
-		if not Cork.dbpc[spellname.."-enabled"] or not Cork:ValidUnit(unit) then return end
+		if not Cork.dbpc[spellname.."-enabled"] or IsResting() or not Cork:ValidUnit(unit) then return end
 
 		if not (UnitAura(unit, spellname) or multispellname and UnitAura(unit, multispellname)) then
 			local _, token = UnitClass(unit)
@@ -34,6 +34,9 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon, defaultstate)
 	end
 	Cork:RegisterRaidEvents(spellname, dataobj, Test)
 	dataobj.Scan = Cork:GenerateRaidScan(Test)
+
+	ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
+
 
 	if multispellname then dataobj.RaidLine = IconLine(icon, multispellname.." (%d)") end
 

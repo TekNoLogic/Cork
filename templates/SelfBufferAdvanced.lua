@@ -30,7 +30,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 	end
 
 	local function Test()
-		if Cork.dbpc[modulename.."-enabled"] then
+		if Cork.dbpc[modulename.."-enabled"] and not IsResting() then
 			for _,buff in pairs(buffnames) do
 				local name, _, _, _, _, _, _, isMine = UnitAura("player", buff)
 				if name and isMine then return end
@@ -42,8 +42,6 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 		end
 	end
 
-	LibStub("AceEvent-3.0").RegisterEvent("Cork "..modulename, "UNIT_AURA", function(event, unit) if unit == "player" then dataobj.player = Test() end end)
-
 	function dataobj:Scan() self.player = Test() end
 
 	function dataobj:CorkIt(frame)
@@ -51,6 +49,9 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 		local spell = Cork.dbpc[modulename.."-spell"]
 		if self.player then return frame:SetManyAttributes("type1", "spell", "spell", spell, "unit", "player") end
 	end
+
+	ae.RegisterEvent("Cork "..modulename, "UNIT_AURA", function(event, unit) if unit == "player" then dataobj.player = Test() end end)
+	ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
 
 
 	----------------------

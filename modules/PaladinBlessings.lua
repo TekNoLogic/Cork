@@ -6,7 +6,7 @@ if c ~= "PALADIN" then return end
 local Cork = Cork
 local UnitAura = UnitAura
 local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
-local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
+local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 Cork.hasraidspell = true
 
 
@@ -67,7 +67,7 @@ local dataobj = ldb:NewDataObject("Cork Blessings", {type = "cork"})
 function dataobj:Init() known = {} RefreshKnownSpells() end
 
 local function Test(unit)
-	if not Cork.dbpc["Blessings-enabled"] or not Cork:ValidUnit(unit, true) then return end
+	if not Cork.dbpc["Blessings-enabled"] or IsResting() or not Cork:ValidUnit(unit, true) then return end
 	if not HasMyBlessing(unit) then
 		local _, class = UnitClass(unit)
 		local spell = Cork.dbpc["Blessings-"..class]
@@ -77,6 +77,8 @@ local function Test(unit)
 end
 Cork:RegisterRaidEvents("Blessings", dataobj, Test)
 dataobj.Scan = Cork:GenerateRaidScan(Test)
+
+ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
 
 
 function dataobj:CorkIt(frame)
