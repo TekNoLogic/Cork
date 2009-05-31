@@ -1,3 +1,7 @@
+3.1.0.21-Beta
+    Make buffer modules hide when in town (resting)
+    Ignore arena unitids
+
 3.1.0.20-Beta
     Fix macro blocking if well fed macro is nil (not blank)
     Add more mini-config rows when possible
