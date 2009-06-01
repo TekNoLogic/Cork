@@ -63,6 +63,7 @@ ae.RegisterEvent("Cork", "PLAYER_LOGIN", function()
 	for name,dataobj in pairs(corks) do if dataobj.Init then dataobj:Init() end end
 	for name,dataobj in pairs(corks) do dataobj:Scan() end
 
+	ae.RegisterEvent("Cork", "ZONE_CHANGED_NEW_AREA", Cork.Update)
 	ae.RegisterEvent("Cork", "PLAYER_TALENT_UPDATE", function()
 		if lastgroup == GetActiveTalentGroup() then return end
 
