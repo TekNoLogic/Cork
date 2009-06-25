@@ -126,4 +126,6 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 		frame:SetScript("OnShow", Update)
 		Update(frame)
 	end)
+
+	return dataobj, RefreshKnownSpells
 end
