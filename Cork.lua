@@ -231,9 +231,13 @@ end)
 --      Shared functions      --
 --------------------------------
 
+function Cork.IsSpellInRange(spell, unit)
+	return IsSpellInRange(spell, unit) == 1
+end
+
 function Cork.SpellCastableOnUnit(spell, unit)
 	if Cork.keyblist[i] then return end
-	return UnitExists(unit) and UnitCanAssist("player", unit) and not UnitIsDeadOrGhost(unit) and IsSpellInRange(spell, unit)
+	return UnitExists(unit) and UnitCanAssist("player", unit) and not UnitIsDeadOrGhost(unit) and Cork.IsSpellInRange(spell, unit)
 end
 
 function Cork.IconLine(icon, text, token)

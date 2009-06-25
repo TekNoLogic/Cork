@@ -5,7 +5,7 @@ if c ~= "PALADIN" then return end
 
 local Cork = Cork
 local UnitAura = UnitAura
-local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
+local IsSpellInRange, SpellCastableOnUnit, IconLine = Cork.IsSpellInRange, Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 Cork.hasraidspell = true
 

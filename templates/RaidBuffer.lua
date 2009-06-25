@@ -1,6 +1,7 @@
 
 local Cork = Cork
 local UnitAura = Cork.UnitAura or UnitAura
+local IsSpellInRange = Cork.IsSpellInRange
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 

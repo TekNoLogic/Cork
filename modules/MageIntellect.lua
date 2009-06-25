@@ -5,6 +5,7 @@ if c ~= "MAGE" then return end
 
 local Cork = Cork
 local UnitAura = UnitAura
+local IsSpellInRange = Cork.IsSpellInRange
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
