@@ -19,6 +19,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 
 	local endtime, elapsed
 	local function Test()
+		if IsResting() then return end
 		if not Cork.dbpc[spellname.."-enabled"] or not lasttarget then
 			f:Hide()
 			return
@@ -34,6 +35,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 	end
 
 
+	ae.RegisterEvent("Cork "..spellname, "PLAYER_UPDATE_RESTING", function() dataobj.custom = Test() end)
 	ae.RegisterEvent("Cork "..spellname, "PARTY_MEMBERS_CHANGED", function() if lasttarget and not UnitInParty(lasttarget) then lasttarget, dataobj.custom = nil end end)
 	ae.RegisterEvent("Cork "..spellname, "RAID_ROSTER_UPDATE", function() if lasttarget and not UnitInRaid(lasttarget) then lasttarget, dataobj.custom = nil end end)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_PET", function() if lasttarget and not (UnitInParty(lasttarget) or UnitInRaid(lasttarget)) then lasttarget, dataobj.custom = nil end end)
