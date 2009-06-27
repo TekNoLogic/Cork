@@ -41,7 +41,9 @@ modules\PaladinBlessings.lua
 modules\PaladinCrusaderAura.lua
 modules\Priest.lua
 modules\Shaman.lua
+modules\ShamanWeapon.lua
 modules\Warlock.lua
+modules\WarlockWeapon.lua
 modules\WarlockPets.lua
 modules\WarlockSoulLink.lua
 modules\Warrior.lua
