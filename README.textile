@@ -33,7 +33,7 @@ h3. Planned
 * "LDB":http://github.com/tekkub/libdatabroker-1-1/wikis data source
 * Option to disable the always-up tooltip
 
-If I have forgotten a buff for your class, feel free to open a bug on "Google code":http://code.google.com/p/tekkub-wow/issues/list?can=1&q=addon:Cork&sort=status+milestone&colspec=ID%20Type%20Status%20Addon%20Milestone%20Summary
+If I have forgotten a buff for your class, feel free to open a bug on "github":http://github.com/tekkub/Cork/issues
 
 h2. One-click? How?
 
