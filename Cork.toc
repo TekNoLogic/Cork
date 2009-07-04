@@ -51,5 +51,6 @@ modules\WarriorShout.lua
 
 modules\WellFed.lua
 modules\Repairs.lua
+modules\Talents.lua
 modules\Shucks.lua
 modules\Tracking.lua
