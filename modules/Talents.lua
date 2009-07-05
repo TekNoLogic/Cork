@@ -21,5 +21,5 @@ end
 
 function dataobj:Scan() dataobj.player = Test() end
 
-ae.RegisterEvent("Cork Talents", "PLAYER_LEVEL_UP", dataobj.Scan)
+ae.RegisterEvent("Cork Talents", "CHARACTER_POINTS_CHANGED", dataobj.Scan)
 ae.RegisterEvent("Cork Talents", "PLAYER_UPDATE_RESTING", dataobj.Scan)
