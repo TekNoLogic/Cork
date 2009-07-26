@@ -1,3 +1,13 @@
+3.1.0.23-Beta
+    Make "last buffed" templates hide when resting
+    And we have shaman weapon buffs!
+    Warlock temp enchant (spellstone) module
+    Fixed range check issues (Fucking eh, Blizzy, 0 IS NOT FALSE IN LUA)
+    Make druid shapeshift module only cast if no other needs are up
+    Hide tooltip when on a taxi (thanks PProvost)
+    Fixed Warlock pets (thanks PProvost)
+    Unspent talent points module (thanks Iain Broadfoot)
+
 3.1.0.22-Beta
     Fix tooltip not hiding when entering WG
 
@@ -38,7 +48,7 @@
 3.0.9.14-Beta
     Make crusader aura module only watch auras cast by the player
     Move pally seals to normal buffs
-    Add raid mode setting for raid buffing classes    
+    Add raid mode setting for raid buffing classes
     * 10-man will only watch groups 1 and 2 for needed buffs
     * 25-man will watch groups 1-5
     * 40-man will watch all groups
@@ -107,7 +117,7 @@
     Delay spell checking till PLAYER_LOGIN
     Prefer buffing the player first, players second, pets last
     Pally seal was missing Seal of Wisdom
-    
+
     New Modules
     * Clam shucker
     * DK Horn of Winter
@@ -117,7 +127,7 @@
     * Tracking (Only spells, not "helpers")
     * Warlock demons
     * Warlock soul link
-    
+
     Config Enhancements
     * Added keybinding (thanks clad)
     * Add option to limit the tooltip lines (thanks clad)
