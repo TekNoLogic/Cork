@@ -10,7 +10,7 @@ Cork:GenerateRaidBuffer(spellname, multispell, icon)
 
 -- Shapeshifts
 local bear = GetSpellInfo(GetSpellInfo(5487)) and 5487 or 9634
-local dobj, ref = Cork:GenerateAdvancedSelfBuffer("Fursuit", {bear, 768, 24858, 33891})
+local dobj, ref = Cork:GenerateAdvancedSelfBuffer("Fursuit", {5487, 9634, 768, 24858, 33891})
 function dobj:CorkIt(frame)
 	ref()
 	local spell = Cork.dbpc["Fursuit-spell"]
