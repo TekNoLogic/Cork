@@ -1,3 +1,7 @@
+3.2.0.24-Beta
+    UnitAura doesn't do isMine anymore
+    Rejigger druid bear list to avoid forgetting settings on low-level toons
+
 3.1.0.23-Beta
     Make "last buffed" templates hide when resting
     And we have shaman weapon buffs!
