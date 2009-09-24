@@ -46,6 +46,14 @@ dataobj.configframe = frame
 frame:Hide()
 
 frame:SetScript("OnShow", function()
+	local function MakeMacro()
+		local infotype, itemid, itemlink = GetCursorInfo()
+		if infotype == "merchant" then itemid = tonumber(GetMerchantItemLink(itemid):match("item:(%d+):")) end
+		if infotype == "item" or infotype == "merchant" then Cork.dbpc["Pet Happiness-macro"] = "/cast "..feedpetspell.."\n/use item:"..itemid end
+		return ClearCursor()
+	end
+
+
 	local editbox = CreateFrame("EditBox", nil, frame)
 	editbox:SetWidth(300)
 	editbox:SetPoint("RIGHT")
@@ -65,6 +73,10 @@ frame:SetScript("OnShow", function()
 	editbox:SetScript("OnShow", function(self) self:SetText(Cork.dbpc["Pet Happiness-macro"]) end)
 	editbox:SetScript("OnHide", function(self) Cork.dbpc["Pet Happiness-macro"] = self:GetText() end)
 	editbox:SetScript("OnEscapePressed", editbox.Hide)
+	editbox:SetScript("OnReceiveDrag", function()
+		MakeMacro()
+		self:SetText(Cork.dbpc["Pet Happiness-macro"])
+	end)
 
 
 	local butt = LibStub("tekKonfig-Button").new_small(frame, "RIGHT")
@@ -72,12 +84,7 @@ frame:SetScript("OnShow", function()
 	butt.tiptext = "Click to edit macro, or drop an item to automatically generate a macro."
 	butt:SetText("Macro")
 	butt:SetScript("OnClick", function() editbox:Show() end)
-	butt:SetScript("OnReceiveDrag", function()
-		local infotype, itemid, itemlink = GetCursorInfo()
-		if infotype == "merchant" then itemid = tonumber(GetMerchantItemLink(itemid):match("item:(%d+):")) end
-		if infotype == "item" or infotype == "merchant" then Cork.dbpc["Pet Happiness-macro"] = "/cast "..feedpetspell.."\n/use item:"..itemid end
-		return ClearCursor()
-	end)
+	butt:SetScript("OnReceiveDrag", MakeMacro)
 
 
 	frame:SetScript("OnHide", function() editbox:Hide() end)
