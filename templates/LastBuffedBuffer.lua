@@ -43,7 +43,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit)
 		if not Cork.dbpc[spellname.."-enabled"] or blist[unit] then return end
 		local name, _, _, _, _, _, _, caster = UnitAura(unit, spellname)
-		if name and UnitIsUnit('player', caster) then lasttarget, dataobj.custom = UnitName(unit), nil
+		if name and caster and UnitIsUnit('player', caster) then lasttarget, dataobj.custom = UnitName(unit), nil
 		elseif not name and UnitName(unit) == lasttarget then dataobj.custom = Test() end
 	end)
 
@@ -51,7 +51,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 	local function TestUnit(unit)
 		if not UnitExists(unit) or (GetNumRaidMembers() + GetNumPartyMembers()) == 0 then return end
 		local name, _, _, _, _, _, _, caster = UnitAura(unit, spellname)
-		if not name or not UnitIsUnit('player', caster) then return end
+		if not name or not caster or not UnitIsUnit('player', caster) then return end
 		lasttarget = UnitName(unit)
 		return true
 	end
