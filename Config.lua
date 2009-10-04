@@ -228,6 +228,7 @@ frame:SetScript("OnShow", function()
 
 	local function Update(self)
 		showanchor:SetChecked(Cork.db.showanchor)
+		showbg:SetChecked(Cork.db.showbg)
 		showunit:SetChecked(Cork.db.showunit)
 		bindwheel:SetChecked(Cork.db.bindwheel)
 		if castonpets then castonpets:SetChecked(Cork.dbpc.castonpets) end
