@@ -28,6 +28,7 @@ templates\SelfBuffer.lua
 templates\SelfBufferAdvanced.lua
 templates\RaidBuffer.lua
 templates\LastBuffedBuffer.lua
+templates\RaidBuffingItems.lua
 
 modules\DeathKnight.lua
 modules\Druid.lua
@@ -49,6 +50,7 @@ modules\WarlockSoulLink.lua
 modules\Warrior.lua
 modules\WarriorShout.lua
 
+modules\BuffItems.lua
 modules\WellFed.lua
 modules\Repairs.lua
 modules\Talents.lua
