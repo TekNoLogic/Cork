@@ -75,12 +75,12 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 		local num = 0
 		for i=1,GetNumRaidMembers() do
 			local _, _, _, _, _, _, zone, online, dead = GetRaidRosterInfo(i)
-			num = num + (dataobj["raid"..i] and zone and online and not dead and IsItemInRange(itemid, "raid"..i) and 1 or 0)
+			num = num + (dataobj["raid"..i] and zone and online and not dead and (IsItemInRange(17202, "raid"..i) == 1) and 1 or 0)
 			if num >= Cork.dbpc.multithreshold then return frame:SetManyAttributes("type1", "item", "item1", "item:"..itemid) end
 		end
 
 		num = dataobj.player and 1 or 0
-		for i=1,GetNumPartyMembers() do num = num + (dataobj["party"..i] and IsItemInRange(itemid, "party"..i) and 1 or 0) end
+		for i=1,GetNumPartyMembers() do num = num + (dataobj["party"..i] and (IsItemInRange(17202, "party"..i) == 1) and 1 or 0) end
 		if num >= Cork.dbpc.multithreshold then return frame:SetManyAttributes("type1", "item", "item1", "item:"..itemid) end
 	end
 end
