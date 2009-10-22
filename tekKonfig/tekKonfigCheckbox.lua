@@ -1,5 +1,5 @@
 
-local lib, oldminor = LibStub:NewLibrary("tekKonfig-Checkbox", 1)
+local lib, oldminor = LibStub:NewLibrary("tekKonfig-Checkbox", 2)
 if not lib then return end
 
 
@@ -36,6 +36,7 @@ function lib.new(parent, size, label, ...)
 
 	-- Sound
 	check:SetScript("OnClick", OnClick)
+	check:SetScript("PostClick", OnClick) -- So we don't have to hook OnClick to get the sound
 
 	-- Label
 	local fs = check:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
