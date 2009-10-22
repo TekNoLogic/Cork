@@ -56,3 +56,5 @@ modules\Repairs.lua
 modules\Talents.lua
 modules\Shucks.lua
 modules\Tracking.lua
+modules\Combine.lua
+

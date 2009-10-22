@@ -9,13 +9,6 @@ Cork.defaultspc["Shuck Clams-enabled"] = true
 
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Shuck Clams", {type = "cork"})
 
-local function Test()
-	if min >= Cork.dbpc["Shuck Clams-threshold"] then return end
-
-	local r,g,b = RYGColorGradient(min)
-	return IconLine(ICON, string.format("Your equipment is damaged |cff%02x%02x%02x(%d%%)", r*255, g*255, b*255, min*100))
-end
-
 function dataobj:Scan()
 	if not Cork.dbpc["Shuck Clams-enabled"] then
 		dataobj.player = nil

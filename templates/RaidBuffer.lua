@@ -68,7 +68,7 @@ end
 local raidunits = {}
 for i=1,40 do raidunits["raid"..i] = i end
 function Cork:ValidUnit(unit, nopets)
-	if blist[unit] or not UnitExists(unit) or (UnitIsPlayer(unit) and not UnitIsConnected(unit))
+	if blist[unit] or not UnitExists(unit) or (UnitIsPlayer(unit) and (not UnitIsConnected(unit) or UnitIsDeadOrGhost(unit) or UnitInVehicle(unit)))
 		or (Cork.petunits[unit] and (nopets or not Cork.dbpc.castonpets))
 		or (unit ~= "player" and UnitIsUnit(unit, "player"))
 		or (unit == "target" and (UnitIsUnit("target", "focus") or not UnitCanAssist("player", unit) or not UnitPlayerControlled(unit) or UnitIsEnemy("player", unit)))
@@ -80,7 +80,12 @@ end
 
 
 function Cork:RegisterRaidEvents(spellname, dataobj, Test)
-	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) dataobj[unit] = Test(unit) end)
+	local function TestUnit(event, unit) dataobj[unit] = Test(unit) end
+	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", TestUnit)
+	ae.RegisterEvent("Cork "..spellname, "UNIT_DYNAMIC_FLAGS", TestUnit)
+	ae.RegisterEvent("Cork "..spellname, "UNIT_ENTERED_VEHICLE", TestUnit)
+	ae.RegisterEvent("Cork "..spellname, "UNIT_EXITED_VEHICLE", TestUnit)
+	ae.RegisterEvent("Cork "..spellname, "UNIT_FLAGS", TestUnit)
 	ae.RegisterEvent("Cork "..spellname, "PARTY_MEMBERS_CHANGED", function() for i=1,4 do dataobj["party"..i], dataobj["partypet"..i] = Test("party"..i), Test("partypet"..i) end end)
 	ae.RegisterEvent("Cork "..spellname, "RAID_ROSTER_UPDATE", function() for i=1,40 do dataobj["raid"..i], dataobj["raidpet"..i] = Test("raid"..i), Test("raidpet"..i) end end)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_PET", function(event, unit) if Cork.petmappings[unit] then dataobj[Cork.petmappings[unit]] = Test(Cork.petmappings[unit]) end end)
