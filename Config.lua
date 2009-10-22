@@ -18,9 +18,7 @@ frame:SetScript("OnShow", function()
 
 	local showanchor = tekcheck.new(frame, nil, "Show anchor", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
 	showanchor.tiptext = "Toggle the tooltip anchor. \n|cffffff9aThis setting is global."
-	local checksound = showanchor:GetScript("OnClick")
 	showanchor:SetScript("OnClick", function(self)
-		checksound(self)
 		Cork.db.showanchor = not Cork.db.showanchor
 		if Cork.db.showanchor then Cork.anchor:Show() else Cork.anchor:Hide() end
 	end)
@@ -41,7 +39,6 @@ frame:SetScript("OnShow", function()
 	local showbg = tekcheck.new(frame, nil, "Show toolip in BG", "TOPLEFT", showanchor, "BOTTOMLEFT", 0, -GAP)
 	showbg.tiptext = "Show the tooltip when in a battleground or Wintergrasp.  When the tooltip is hidden the macro will still work."
 	showbg:SetScript("OnClick", function(self)
-		checksound(self)
 		Cork.db.showbg = not Cork.db.showbg
 		Cork.Update()
 	end)
@@ -50,7 +47,6 @@ frame:SetScript("OnShow", function()
 	local showunit = tekcheck.new(frame, nil, "Show unitID", "TOPLEFT", showbg, "BOTTOMLEFT", 0, -GAP)
 	showunit.tiptext = "Show unitID (target, party1, raidpet5) in tooltip. \n|cffffff9aThis setting is global."
 	showunit:SetScript("OnClick", function(self)
-		checksound(self)
 		Cork.db.showunit = not Cork.db.showunit
 		Cork.Update()
 	end)
@@ -59,7 +55,6 @@ frame:SetScript("OnShow", function()
 	local bindwheel = tekcheck.new(frame, nil, "Bind mousewheel", "TOPLEFT", showunit, "BOTTOMLEFT", 0, -GAP)
 	bindwheel.tiptext = "Bind to mousewheel when out of combat and needs are present. \n|cffffff9aThis setting is global."
 	bindwheel:SetScript("OnClick", function(self)
-		checksound(self)
 		Cork.db.bindwheel = not Cork.db.bindwheel
 		Cork.UpdateMouseBinding()
 	end)
@@ -91,7 +86,6 @@ frame:SetScript("OnShow", function()
 		castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOPLEFT", bindwheel, "BOTTOMLEFT", 0, -GAP)
 		castonpets.tiptext = "Pets need buffs too!  When disabled you can still cast on a pet by targetting it directly."
 		castonpets:SetScript("OnClick", function(self)
-			checksound(self)
 			Cork.dbpc.castonpets = not Cork.dbpc.castonpets
 			for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
 		end)

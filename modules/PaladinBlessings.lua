@@ -121,9 +121,7 @@ frame:SetScript("OnShow", function()
 
 	local enabled = tekcheck.new(frame, nil, "Enabled", "TOPLEFT", subtitle, "BOTTOMLEFT", -2, -GAP)
 	enabled.tiptext = "Toggle this module."
-	local checksound = enabled:GetScript("OnClick")
 	local function toggle(self)
-		checksound(self)
 		Cork.dbpc["Blessings-"..self.sv] = not Cork.dbpc["Blessings-"..self.sv]
 		dataobj:Scan()
 	end
