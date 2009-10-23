@@ -5,7 +5,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 local ITEMS = {[37700] = 10, [37701] = 10, [37702] = 10, [37703] = 10, [37704] = 10, [37705] = 10, [33567] = 5, [34056] = 3}
 
-Cork.defaultspc[MODULE.."-enabled"] = true
+Cork.defaultspc["Combine-enabled"] = true
 
 local dataobj = ldb:NewDataObject("Cork Combine", {type = "cork"})
 
@@ -23,6 +23,7 @@ function dataobj:Scan()
 			return
 		end
 	end
+	dataobj.player = nil
 end
 
 ae.RegisterEvent("Cork Combine", "BAG_UPDATE", dataobj.Scan)
