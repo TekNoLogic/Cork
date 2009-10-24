@@ -68,8 +68,8 @@ function dataobj:Init() known = {} RefreshKnownSpells() end
 
 local function Test(unit)
 	if not Cork.dbpc["Blessings-enabled"] or IsResting() or not Cork:ValidUnit(unit, true) then return end
-	if not HasMyBlessing(unit) then
-		local _, class = UnitClass(unit)
+	local _, class = UnitClass(unit)
+	if class and not HasMyBlessing(unit) then
 		local spell = Cork.dbpc["Blessings-"..class]
 		local icon = icons[spell]
 		return IconLine(icon, UnitName(unit), class)
