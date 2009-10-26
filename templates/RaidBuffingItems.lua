@@ -9,7 +9,7 @@ local partyunits, raidunits = {}, {}
 for i=1,4 do partyunits["party"..i] = i end
 for i=1,40 do raidunits["raid"..i] = i end
 local function ValidUnit(unit, nopets)
-	if not (unit == "player" or partyunits[unit] or raidunits[unit]) or not UnitExists(unit) or not UnitIsConnected(unit)
+	if not (unit == "player" or partyunits[unit] or raidunits[unit]) or not UnitExists(unit) or (not UnitIsConnected(unit) or UnitIsDeadOrGhost(unit) or UnitInVehicle(unit))
 		or raidunits[unit] and select(3, GetRaidRosterInfo(raidunits[unit])) > Cork.dbpc.raid_thresh then return end
 
 	return true
