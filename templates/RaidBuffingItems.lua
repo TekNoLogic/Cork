@@ -44,7 +44,7 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 	end
 
 	local function Test(unit)
-		if hasclass or not Cork.dbpc[itemname.."-enabled"] or IsResting() or not ValidUnit(unit) then return end
+		if hasclass or not Cork.dbpc[itemname.."-enabled"] or IsResting() or not ValidUnit(unit) or (GetItemCount(itemid) or 0) == 0 then return end
 
 		if not (UnitAura(unit, classspellname) or UnitAura(unit, spellname)) then
 			local _, token = UnitClass(unit)
