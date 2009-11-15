@@ -11,13 +11,9 @@ function Cork:GenerateSelfBuffer(spellname, icon, ...)
 
 	function dataobj:Init() Cork.defaultspc[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil end
 
-	local exceptions = select("#", ...)
+	local spells = {spellname, ...}
 	local function HasBuff()
-		if UnitAura("player", spellname) then return true end
-		for i=1,exceptions do
-			local name = select(i, ...)
-			if UnitAura("player", name) then return true end
-		end
+		for _,spell in pairs(spells) do if UnitAura("player", spell) then return true end end
 	end
 
 	local function Test(unit) if Cork.dbpc[spellname.."-enabled"] and not HasBuff() and not IsResting() then return iconline end end
