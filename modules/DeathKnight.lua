@@ -15,4 +15,5 @@ Cork:GenerateSelfBuffer(spellname, icon)
 
 -- Horn of Winter
 local spellname, _, icon = GetSpellInfo(57330)
-Cork:GenerateSelfBuffer(spellname, icon)
+local str_earth = GetSpellInfo(58646) -- Strength of Earth
+Cork:GenerateSelfBuffer(spellname, icon, str_earth)
