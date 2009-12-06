@@ -1,3 +1,7 @@
+3.2.0.27-Beta
+    Add exclusions to self buffer... fix hunter trueshot (doesn't stack with unleashed rage or abom might)
+    Horn of Winter and Strength of Earth dun stack
+
 3.2.0.26-Beta
     Added "Combine" module, that combines small items into larger ones, e.g. 10 crystallized waters into eternal water. (Thanks Adirelle)
     RaidBuff now ignores dead units and units in vehicle. (Thanks Adirelle)
