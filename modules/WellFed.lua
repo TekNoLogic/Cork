@@ -15,14 +15,14 @@ Cork.defaultspc[spellname.."-macro"] = ""
 
 local function Test(unit) if Cork.dbpc[spellname.."-enabled"] and not UnitAura("player", spellname) and not IsResting() then return iconline end end
 
-LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) if unit == "player" then dataobj.player = Test() end end)
-LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "PLAYER_UPDATE_RESTING", function() dataobj.player = Test() end)
+LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) if unit == "player" then dataobj.custom = Test() end end)
+LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "PLAYER_UPDATE_RESTING", function() dataobj.custom = Test() end)
 
-function dataobj:Scan() self.player = Test() end
+function dataobj:Scan() self.custom = Test() end
 
 function dataobj:CorkIt(frame)
 	local macro = Cork.dbpc[spellname.."-macro"]
-	if self.player and macro and macro ~= "" then return frame:SetManyAttributes("type1", "macro", "macrotext1", macro) end
+	if self.custom and macro and macro ~= "" then return frame:SetManyAttributes("type1", "macro", "macrotext1", macro) end
 end
 
 
