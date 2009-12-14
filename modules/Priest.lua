@@ -27,6 +27,12 @@ Cork:GenerateRaidBuffer(spellname, multispell, icon)
 local multispell, spellname, _, icon = GetSpellInfo(27683), GetSpellInfo(976)
 Cork:GenerateRaidBuffer(spellname, multispell, icon)
 
+
 -- Fear Ward
 local spellname, _, icon = GetSpellInfo(6346)
 Cork:GenerateLastBuffedBuffer(spellname, icon)
+
+
+-- Vampiric Embrace
+local spellname, _, icon = GetSpellInfo(15286)
+Cork:GenerateSelfBuffer(spellname, icon)
