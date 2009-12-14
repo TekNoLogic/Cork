@@ -241,5 +241,5 @@ function Cork.SpellCastableOnUnit(spell, unit)
 end
 
 function Cork.IconLine(icon, text, token)
-	return "|T"..icon..":24|t ".. (token and ("|cff".. Cork.colors[token]) or "").. text
+	return "|T"..icon..":24:24:0:0:64:64:4:60:4:60|t ".. (token and ("|cff".. Cork.colors[token]) or "").. text
 end
