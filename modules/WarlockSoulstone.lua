@@ -1,4 +1,7 @@
 
+local _, c = UnitClass("player")
+if c ~= "WARLOCK" then return end
+
 local Cork = Cork
 local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
