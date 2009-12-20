@@ -42,6 +42,7 @@ function dataobj:CorkIt(frame)
 end
 
 
+local offhands = {INVTYPE_WEAPON = true, INVTYPE_WEAPONOFFHAND = true}
 f:SetScript("OnUpdate", function(self, elap)
 	elapsed = elapsed + elap
 	if elapsed < 0.5 then return end
@@ -54,7 +55,7 @@ f:SetScript("OnUpdate", function(self, elap)
 	dataobj.mainhand = not main and not zzz and GetInventoryItemLink("player", MAINHAND) and IconLine(icon, INVTYPE_WEAPONMAINHAND)
 
 	local offlink = GetInventoryItemLink("player", OFFHAND)
-	local offweapon = offlink and select(9, GetItemInfo(offlink)) == "INVTYPE_WEAPON"
+	local offweapon = offlink and offhands[select(9, GetItemInfo(offlink))]
 	local icon = icons[Cork.dbpc["Temp Enchant-offspell"]]
 	dataobj.offhand = not offhand and not zzz and offweapon and IconLine(icon, INVTYPE_WEAPONOFFHAND)
 end)
