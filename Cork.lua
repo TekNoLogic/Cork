@@ -1,7 +1,7 @@
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-Cork = {db = {}, dbpc = {}, petmappings = {player = "pet"}, defaultspc = {castonpets = false, multithreshold = 2, tooltiplimit = 10, raid_thresh = 5}, corks = {}, petunits = {pet = true}, keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true}}
+Cork = {db = {}, dbpc = {}, petmappings = {player = "pet"}, defaultspc = {castonpets = false, multithreshold = 2, tooltiplimit = 10, raid_thresh = 5}, corks = {}, petunits = {pet = true}, keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true, lowpriority = true}}
 local corks = Cork.corks
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false, bindwheel = false}
 local tooltip, anchor
@@ -215,9 +215,10 @@ end
 
 secureframe:SetScript("PreClick", function(self)
 	if InCombatLockdown() or IsStealthed() then return end
-	for name,dataobj in pairs(corks) do if dataobj.CorkIt and dataobj.player and dataobj:CorkIt(self) then return end end
-	for name,dataobj in pairs(corks) do if dataobj.CorkIt and not dataobj.player and dataobj:CorkIt(self, true) then return end end
-	for name,dataobj in pairs(corks) do if dataobj.CorkIt and not dataobj.player and dataobj:CorkIt(self) then return end end
+	for name,dataobj in pairs(corks) do if dataobj.CorkIt and not dataobj.lowpriority and dataobj.player and dataobj:CorkIt(self) then return end end
+	for name,dataobj in pairs(corks) do if dataobj.CorkIt and not dataobj.lowpriority and not dataobj.player and dataobj:CorkIt(self, true) then return end end
+	for name,dataobj in pairs(corks) do if dataobj.CorkIt and not dataobj.lowpriority and not dataobj.player and dataobj:CorkIt(self) then return end end
+	for name,dataobj in pairs(corks) do if dataobj.CorkIt and dataobj:CorkIt(self) then return end end
 end)
 
 
