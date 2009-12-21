@@ -1,3 +1,12 @@
+3.3.0.28-Beta
+    Fix shaman offhands that are offhand *only*
+    Force WellFed to the lowest priority when corking (so that we recover mana from our casts)
+    New clam
+    Vampiric Embrace is a buff now
+    Use new embed texture coords to crop off those goddamn borders on icons
+    Add soulstone module
+    Add glyph module
+
 3.2.0.27-Beta
     Add exclusions to self buffer... fix hunter trueshot (doesn't stack with unleashed rage or abom might)
     Horn of Winter and Strength of Earth dun stack
