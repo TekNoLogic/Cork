@@ -5,7 +5,7 @@ if token ~= "HUNTER" then return end
 
 local spellname, _, icon = GetSpellInfo(34074)
 
-local Cork = Cork
+local myname, Cork = ...
 local UnitAura = UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 

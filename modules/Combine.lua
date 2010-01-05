@@ -1,5 +1,5 @@
 
-local Cork = Cork
+local myname, Cork = ...
 local IconLine = Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 

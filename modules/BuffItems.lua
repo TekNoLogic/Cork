@@ -1,4 +1,6 @@
 
+local myname, Cork = ...
+
 -- Items only available at 80
 if UnitLevel("player") < 80 then return end
 

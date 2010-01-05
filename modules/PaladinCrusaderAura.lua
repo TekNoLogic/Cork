@@ -3,7 +3,7 @@ local _, c = UnitClass("player")
 if c ~= "PALADIN" then return end
 
 
-local Cork = Cork
+local myname, Cork = ...
 local UnitAura = UnitAura
 
 local spellname, _, icon = GetSpellInfo(32223)

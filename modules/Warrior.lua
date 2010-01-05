@@ -1,4 +1,5 @@
 
+local myname, Cork = ...
 local _, c = UnitClass("player")
 if c ~= "WARRIOR" then return end
 

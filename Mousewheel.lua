@@ -1,4 +1,6 @@
 
+local myname, Cork = ...
+
 -- Dynamic mousewheel binding module, originally created by Adirelle <gperreal@free.fr>
 
 local function ClearBindings()

@@ -1,6 +1,6 @@
 
 
-local Cork = Cork
+local myname, Cork = ...
 
 local GAP = 8
 local tekcheck = LibStub("tekKonfig-Checkbox")

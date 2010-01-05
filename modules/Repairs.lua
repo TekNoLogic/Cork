@@ -1,6 +1,6 @@
 
 
-local Cork = Cork
+local myname, Cork = ...
 local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 

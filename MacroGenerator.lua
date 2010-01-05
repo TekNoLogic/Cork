@@ -1,4 +1,5 @@
 
+local myname, Cork = ...
 local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = 36, 18
 
 local function GetMacroID()

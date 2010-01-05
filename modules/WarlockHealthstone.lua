@@ -1,5 +1,5 @@
 
-local Cork = Cork
+local myname, Cork = ...
 local spellname = GetSpellInfo(6201)
 local IconLine = Cork.IconLine(GetItemIcon(5509), spellname)
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")

@@ -3,7 +3,7 @@ local _, c = UnitClass("player")
 if c ~= "PALADIN" then return end
 
 
-local Cork = Cork
+local myname, Cork = ...
 local UnitAura = UnitAura
 local SpellCastableOnUnit = Cork.SpellCastableOnUnit
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
