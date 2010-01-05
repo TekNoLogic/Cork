@@ -2,7 +2,6 @@
 local myname, Cork = ...
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-local corks = Cork.corks
 Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits = {}, {}, {}, {player = "pet"}, {pet = true}
 Cork.defaultspc, Cork.keyblist = {castonpets = false, multithreshold = 2, tooltiplimit = 10, raid_thresh = 5}, {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true, lowpriority = true}
 
@@ -63,8 +62,8 @@ ae.RegisterEvent("Cork", "PLAYER_LOGIN", function()
 	local lastgroup = GetActiveTalentGroup()
 	Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
 
-	for name,dataobj in pairs(corks) do if dataobj.Init then dataobj:Init() end end
-	for name,dataobj in pairs(corks) do dataobj:Scan() end
+	for name,dataobj in pairs(Cork.corks) do if dataobj.Init then dataobj:Init() end end
+	for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
 
 	ae.RegisterEvent("Cork", "ZONE_CHANGED_NEW_AREA", Cork.Update)
 	ae.RegisterEvent("Cork", "PLAYER_TALENT_UPDATE", function()
@@ -74,8 +73,8 @@ ae.RegisterEvent("Cork", "PLAYER_LOGIN", function()
 		for i,v in pairs(Cork.defaultspc) do if Cork.dbpc[i] == v then Cork.dbpc[i] = nil end end
 		Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
 
-		for name,dataobj in pairs(corks) do if dataobj.Init then dataobj:Init() end end
-		for name,dataobj in pairs(corks) do dataobj:Scan() end
+		for name,dataobj in pairs(Cork.corks) do if dataobj.Init then dataobj:Init() end end
+		for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
 	end)
 
 	ae.UnregisterEvent("Cork", "PLAYER_LOGIN")
@@ -166,7 +165,7 @@ function Cork.Update(event, name, attr, value, dataobj)
 
 	if Cork.db.showbg or (GetZoneText() ~= "Wintergrasp" and select(2, IsInInstance()) ~= "pvp") then
 		local count = 0
-		for name,dataobj in pairs(corks) do
+		for name,dataobj in pairs(Cork.corks) do
 			local inneed, numr = 0, GetNumRaidMembers()
 			for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
 			if dataobj.RaidLine and numr > 0 and dataobj["player"] then inneed = inneed + 1 end
@@ -193,7 +192,7 @@ end
 
 local function NewDataobject(event, name, dataobj)
 	if dataobj.type ~= "cork" then return end
-	corks[name] = dataobj
+	Cork.corks[name] = dataobj
 	ldb.RegisterCallback("Corker", "LibDataBroker_AttributeChanged_"..name, Cork.Update)
 end
 
@@ -218,10 +217,10 @@ end
 
 secureframe:SetScript("PreClick", function(self)
 	if InCombatLockdown() or IsStealthed() then return end
-	for name,dataobj in pairs(corks) do if dataobj.CorkIt and not dataobj.lowpriority and dataobj.player and dataobj:CorkIt(self) then return end end
-	for name,dataobj in pairs(corks) do if dataobj.CorkIt and not dataobj.lowpriority and not dataobj.player and dataobj:CorkIt(self, true) then return end end
-	for name,dataobj in pairs(corks) do if dataobj.CorkIt and not dataobj.lowpriority and not dataobj.player and dataobj:CorkIt(self) then return end end
-	for name,dataobj in pairs(corks) do if dataobj.CorkIt and dataobj:CorkIt(self) then return end end
+	for name,dataobj in pairs(Cork.corks) do if dataobj.CorkIt and not dataobj.lowpriority and dataobj.player and dataobj:CorkIt(self) then return end end
+	for name,dataobj in pairs(Cork.corks) do if dataobj.CorkIt and not dataobj.lowpriority and not dataobj.player and dataobj:CorkIt(self, true) then return end end
+	for name,dataobj in pairs(Cork.corks) do if dataobj.CorkIt and not dataobj.lowpriority and not dataobj.player and dataobj:CorkIt(self) then return end end
+	for name,dataobj in pairs(Cork.corks) do if dataobj.CorkIt and dataobj:CorkIt(self) then return end end
 end)
 
 
