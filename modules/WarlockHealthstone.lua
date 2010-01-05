@@ -1,4 +1,7 @@
 
+local _, c = UnitClass("player")
+if c ~= "WARLOCK" then return end
+
 local myname, Cork = ...
 local spellname = GetSpellInfo(6201)
 local IconLine = Cork.IconLine(GetItemIcon(5509), spellname)
