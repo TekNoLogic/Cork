@@ -5,7 +5,7 @@ local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
-function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
+function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly)
 	local spellname, _, defaulticon = GetSpellInfo(spellidlist[1])
 	local _, myclass = UnitClass("player")
 	local myname = UnitName("player")
@@ -29,8 +29,8 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 		Cork.defaultspc[modulename.."-enabled"] = known[spellname] ~= nil
 	end
 
-	local function Test()
-		if Cork.dbpc[modulename.."-enabled"] and not IsResting() then
+	local function Test(enteringcombat)
+		if Cork.dbpc[modulename.."-enabled"] and not IsResting() and (not combatonly or enteringcombat or InCombatLockdown()) then
 			for _,buff in pairs(buffnames) do
 				local name, _, _, _, _, _, _, isMine = UnitAura("player", buff)
 				if name and isMine then return end
@@ -52,6 +52,10 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 
 	ae.RegisterEvent("Cork "..modulename, "UNIT_AURA", function(event, unit) if unit == "player" then dataobj.player = Test() end end)
 	ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
+	if combatonly then
+		ae.RegisterEvent("Cork "..modulename, "PLAYER_REGEN_DISABLED", function() dataobj.player = Test(true) end)
+		ae.RegisterEvent("Cork "..modulename, "PLAYER_REGEN_ENABLED", function() dataobj.player = nil end)
+	end
 
 
 	----------------------

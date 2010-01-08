@@ -50,7 +50,6 @@ modules\WarlockSoulLink.lua
 modules\WarlockSoulstone.lua
 modules\WarlockHealthstone.lua
 modules\Warrior.lua
-modules\WarriorShout.lua
 
 modules\BuffItems.lua
 modules\WellFed.lua
