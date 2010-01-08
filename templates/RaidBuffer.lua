@@ -15,7 +15,7 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon, defaultstate)
 
 	local SpellCastableOnUnit, IconLine = self.SpellCastableOnUnit, self.IconLine
 
-	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork"})
+	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork", tiplink = GetSpellLink(multispellname or spellname)})
 
 	function dataobj:Init()
 		if defaultstate ~= nil then

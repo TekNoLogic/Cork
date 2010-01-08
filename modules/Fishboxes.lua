@@ -7,7 +7,7 @@ local ICON, ITEMS = "Interface\\Icons\\INV_Crate_05", {6351, 6352, 6357, 13874, 
 
 Cork.defaultspc["Crates-enabled"] = true
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Crates", {type = "cork"})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Crates", {type = "cork", tiptext = "Warn when you have fished-up crates that need opened."})
 
 function dataobj:Scan()
 	if not Cork.dbpc["Crates-enabled"] then

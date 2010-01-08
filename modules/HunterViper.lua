@@ -11,7 +11,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 local iconline_low = Cork.IconLine(icon, 'Low mana', token)
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork"})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork", tiplink = "spell:34074"})
 
 
 function dataobj:Init()

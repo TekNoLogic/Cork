@@ -10,7 +10,7 @@ for _,id in pairs(lances) do ITEMS[id] = true end
 
 Cork.defaultspc["Lances and Poles-enabled"] = true
 
-local dataobj = ldb:NewDataObject("Cork Lances and Poles", {type = "cork"})
+local dataobj = ldb:NewDataObject("Cork Lances and Poles", {type = "cork", tiptext = "Warn when you have a lance or fishing pole equipped at a time you probably want a weapon equipped."})
 
 local incombat
 function dataobj:Scan()

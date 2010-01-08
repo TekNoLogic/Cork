@@ -12,7 +12,7 @@ for _,id in pairs{465, 7294, 19746, 19876, 19888, 19891} do auras[GetSpellInfo(i
 local iconline = Cork.IconLine(icon, spellname)
 local mounted = false
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork"})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork", tiplink = "spell:32223"})
 
 
 function dataobj:Init()

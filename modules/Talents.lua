@@ -7,7 +7,7 @@ local IconLine = Cork.IconLine("Interface\\Icons\\Ability_Marksmanship", "Unspen
 local defaults = Cork.defaultspc
 defaults["Talents-enabled"] = true
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Talents", {type = "cork"})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Talents", {type = "cork", tiptext = "Warn when you have unspent talent points."})
 
 local function Test() return Cork.dbpc["Talents-enabled"] and UnitCharacterPoints("player") > 0 and IconLine end
 

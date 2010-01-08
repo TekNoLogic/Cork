@@ -1,5 +1,5 @@
 
-local lib, oldminor = LibStub:NewLibrary("tekKonfig-Checkbox", 2)
+local lib, oldminor = LibStub:NewLibrary("tekKonfig-Checkbox", 3)
 if not lib then return end
 
 
@@ -9,6 +9,9 @@ local function ShowTooltip(self)
 	if self.tiptext then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		GameTooltip:SetText(self.tiptext, nil, nil, nil, nil, true)
+	elseif self.tiplink then
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+		GameTooltip:SetHyperlink(self.tiplink)
 	end
 end
 local function OnClick(self) PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff") end

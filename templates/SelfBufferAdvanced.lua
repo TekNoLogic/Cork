@@ -75,7 +75,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist)
 
 		local function OnEnter(self)
 			GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-			GameTooltip:SetText(self.buff, nil, nil, nil, nil, true)
+			GameTooltip:SetHyperlink(GetSpellLink(self.buff))
 		end
 		local function OnLeave() GameTooltip:Hide() end
 

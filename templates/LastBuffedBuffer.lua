@@ -11,7 +11,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 
 
 	local lasttarget
-	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork"})
+	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork", tiplink = GetSpellLink(spellname)})
 
 
 	local f = CreateFrame("Frame")

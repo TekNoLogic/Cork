@@ -7,7 +7,7 @@ local ICON, ITEMS = "Interface\\Icons\\INV_Misc_Shell_03", {7973, 24476, 5523, 1
 
 Cork.defaultspc["Shuck Clams-enabled"] = true
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Shuck Clams", {type = "cork"})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Shuck Clams", {type = "cork", tiptext = "Warn when you have clams in your bags that need shucked."})
 
 function dataobj:Scan()
 	if not Cork.dbpc["Shuck Clams-enabled"] then

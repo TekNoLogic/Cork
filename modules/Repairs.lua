@@ -22,7 +22,7 @@ local defaults = Cork.defaultspc
 defaults["Repairs-enabled"] = true
 defaults["Repairs-threshold"] = .85
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Repairs", {type = "cork"})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Repairs", {type = "cork", tiptext = "Warn you if your equipment needs repaired and you are in a city or resting."})
 
 local function Test()
 	if not Cork.dbpc["Repairs-enabled"] or not IsResting() then return end

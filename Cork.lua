@@ -2,8 +2,8 @@
 local myname, Cork = ...
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits = {}, {}, {}, {player = "pet"}, {pet = true}
-Cork.defaultspc, Cork.keyblist = {castonpets = false, multithreshold = 2, tooltiplimit = 10, raid_thresh = 5}, {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true, lowpriority = true}
+Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits, Cork.defaultspc = {}, {}, {}, {player = "pet"}, {pet = true}, {castonpets = false, multithreshold = 2, tooltiplimit = 10, raid_thresh = 5}
+Cork.keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true, lowpriority = true, tiptext = true, tiplink = true}
 
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false, bindwheel = false}
 local tooltip, anchor

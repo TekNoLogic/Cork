@@ -21,7 +21,7 @@ local multispell, dalaranspell, dalaranmultispell = GetSpellInfo(multispellname)
 
 local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 
-local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork"})
+local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork", tiplink = GetSpellLink(dalaranmultispell or multispell or spellname)})
 
 function dataobj:Init() Cork.defaultspc[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil end
 

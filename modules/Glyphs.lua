@@ -8,7 +8,7 @@ local IconLine = Cork.IconLine("Interface\\Icons\\INV_Glyph_Major"..myclass, "Em
 local defaults = Cork.defaultspc
 defaults["Glyphs-enabled"] = true
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Glyphs", {type = "cork"})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Glyphs", {type = "cork", tiptext = "Warn when you have empty glyph slots."})
 
 local function Test()
 	if not Cork.dbpc["Glyphs-enabled"]  then return end

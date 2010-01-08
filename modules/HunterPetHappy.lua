@@ -15,7 +15,7 @@ local feedpeteffect = GetSpellInfo(1539)
 Cork.defaultspc["Pet Happiness-enabled"] = true
 Cork.defaultspc["Pet Happiness-macro"] = ""
 
-local dataobj = ldb:NewDataObject("Cork Pet Happiness", {type = "cork"})
+local dataobj = ldb:NewDataObject("Cork Pet Happiness", {type = "cork", tiptext = "Warn when your pet wants food."})
 
 local function Test()
 	if Cork.dbpc["Pet Happiness-enabled"] and UnitExists("pet") and not UnitIsDeadOrGhost("pet") and (GetPetHappiness() or 3) ~= 3 and not UnitAura("pet", feedpeteffect) then

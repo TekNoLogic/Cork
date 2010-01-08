@@ -10,7 +10,7 @@ local ITEMS = {5232, 16892, 16893, 16895, 16896, 22116, 36895}
 local spellname, _, icon = GetSpellInfo(693)
 local iconline = Cork.IconLine(icon, "Soulstone")
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Soulstone", {type = "cork"})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Soulstone", {type = "cork", tiplink = GetSpellLink(spellname)})
 
 
 function dataobj:Init()

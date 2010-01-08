@@ -11,7 +11,7 @@ local ITEMS = {5509, 5510, 5511, 5512, 9421, 19004, 19005, 19006, 19007, 19008, 
 
 Cork.defaultspc["Healthstone-enabled"] = true
 
-local dataobj = ldb:NewDataObject("Cork Healthstone", {type = "cork"})
+local dataobj = ldb:NewDataObject("Cork Healthstone", {type = "cork", tiptext = "Warn when you do not have a healthstone in your bags."})
 
 function dataobj:Scan()
 	if not Cork.dbpc["Healthstone-enabled"] or IsResting() then

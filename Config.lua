@@ -141,6 +141,7 @@ frame:SetScript("OnShow", function()
 
 
 	local rows, corknames, anchor = {}, {}
+	local tekcheck = LibStub("tekKonfig-Checkbox")
 	local NUMROWS = math.floor((group:GetHeight()-EDGEGAP+ROWGAP + 2) / (ROWHEIGHT+ROWGAP))
 	for name in pairs(Cork.corks) do table.insert(corknames, (name:gsub("Cork ", ""))) end
 	table.sort(corknames)
@@ -160,16 +161,7 @@ frame:SetScript("OnShow", function()
 		rows[i] = row
 
 
-		local check = CreateFrame("CheckButton", nil, row)
-		check:SetWidth(ROWHEIGHT+4)
-		check:SetHeight(ROWHEIGHT+4)
-		check:SetPoint("LEFT")
-		check:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up")
-		check:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down")
-		check:SetHighlightTexture("Interface\\Buttons\\UI-CheckBox-Highlight")
-		check:SetDisabledCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")
-		check:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
-		check:SetHitRectInsets(0, -100, 0, 0)
+		local check = tekcheck.new(row, ROWHEIGHT+4, nil, "LEFT")
 		check:SetScript("OnClick", OnClick)
 		row.check = check
 
@@ -195,6 +187,7 @@ frame:SetScript("OnShow", function()
 			if name then
 				row:Show()
 				row.check.name = name
+				row.check.tiptext, row.check.tiplink = Cork.corks["Cork "..name].tiptext, Cork.corks["Cork "..name].tiplink
 				row.title:SetText(name)
 				row.check:SetChecked(Cork.dbpc[name.."-enabled"])
 

@@ -7,7 +7,7 @@ local NOTRACKING = "Interface\\Minimap\\Tracking\\None"
 local textures, spells = {}, {}
 
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Tracking", {type = "cork"})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Tracking", {type = "cork", tiptext = "Warn when you are not tracking anything on the minimap."})
 
 local function Test()
 	if not Cork.dbpc["Tracking-enabled"] then return end
