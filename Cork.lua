@@ -97,6 +97,16 @@ ae.RegisterEvent("Cork EndTaxi", "PLAYER_CONTROL_GAINED", function()
 	Cork.Update()
 end)
 
+ae.RegisterEvent("Cork Core", "UNIT_ENTERED_VEHICLE", function()
+	onTaxi = UnitHasVehicleUI('player')
+	Cork.Update()
+end)
+ae.RegisterEvent("Cork Core", "UNIT_EXITED_VEHICLE", function()
+	onTaxi = nil
+	Cork.Update()
+end)
+
+
 ------------------------------
 --      Tooltip anchor      --
 ------------------------------
