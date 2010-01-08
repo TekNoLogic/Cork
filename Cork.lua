@@ -87,12 +87,12 @@ ae.RegisterEvent("Cork", "PLAYER_LOGOUT", function()
 end)
 
 local onTaxi = nil
-ae.RegisterEvent("Cork BeginTaxi", "PLAYER_CONTROL_LOST", function()
+ae.RegisterEvent("Cork Core", "PLAYER_CONTROL_LOST", function()
 	onTaxi = true
 	Cork.Update()
 end)
 
-ae.RegisterEvent("Cork EndTaxi", "PLAYER_CONTROL_GAINED", function()
+ae.RegisterEvent("Cork Core", "PLAYER_CONTROL_GAINED", function()
 	onTaxi = nil
 	Cork.Update()
 end)
@@ -226,7 +226,7 @@ end
 
 
 secureframe:SetScript("PreClick", function(self)
-	if InCombatLockdown() or IsStealthed() then return end
+	if onTaxi or InCombatLockdown() or IsStealthed() then return end
 	for name,dataobj in pairs(Cork.corks) do if dataobj.CorkIt and not dataobj.lowpriority and dataobj.player and dataobj:CorkIt(self) then return end end
 	for name,dataobj in pairs(Cork.corks) do if dataobj.CorkIt and not dataobj.lowpriority and not dataobj.player and dataobj:CorkIt(self, true) then return end end
 	for name,dataobj in pairs(Cork.corks) do if dataobj.CorkIt and not dataobj.lowpriority and not dataobj.player and dataobj:CorkIt(self) then return end end
