@@ -14,7 +14,7 @@ Cork.defaultspc["Healthstone-enabled"] = true
 local dataobj = ldb:NewDataObject("Cork Healthstone", {type = "cork"})
 
 function dataobj:Scan()
-	if not Cork.dbpc["Healthstone-enabled"] then
+	if not Cork.dbpc["Healthstone-enabled"] or IsResting() then
 		dataobj.player = nil
 		return
 	end
@@ -29,6 +29,7 @@ function dataobj:Scan()
 end
 
 ae.RegisterEvent("Cork Healthstone", "BAG_UPDATE", dataobj.Scan)
+ae.RegisterEvent("Cork Healthstone", "PLAYER_UPDATE_RESTING", dataobj.Scan)
 
 function dataobj:CorkIt(frame)
 	if dataobj.player then return frame:SetManyAttributes("type1", "spell", "spell", spellname) end
