@@ -25,7 +25,7 @@ defaults["Repairs-threshold"] = .85
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Repairs", {type = "cork", tiptext = "Warn you if your equipment needs repaired and you are in a city or resting."})
 
 local function Test()
-	if not Cork.dbpc["Repairs-enabled"] or not IsResting() then return end
+	if not Cork.dbpc["Repairs-enabled"] or InCombatLockdown() then return end
 
 	local min = 1
 	for slot,id in pairs(SLOTIDS) do
@@ -36,7 +36,7 @@ local function Test()
 		end
 	end
 
-	if min >= Cork.dbpc["Repairs-threshold"] then return end
+	if min >= Cork.dbpc["Repairs-threshold"] or (min > 0.15 and IsResting()) then return end
 
 	local r,g,b = RYGColorGradient(min)
 	return IconLine(ICON, string.format("Your equipment is damaged |cff%02x%02x%02x(%d%%)", r*255, g*255, b*255, min*100))
@@ -46,6 +46,8 @@ function dataobj:Scan() dataobj.player = Test() end
 
 ae.RegisterEvent("Cork Repairs", "UPDATE_INVENTORY_DURABILITY", dataobj.Scan)
 ae.RegisterEvent("Cork Repairs", "PLAYER_UPDATE_RESTING", dataobj.Scan)
+ae.RegisterEvent("Cork Repairs", "PLAYER_REGEN_DISABLED", dataobj.Scan)
+ae.RegisterEvent("Cork Repairs", "PLAYER_REGEN_ENABLED", dataobj.Scan)
 
 
 ----------------------
