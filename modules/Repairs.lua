@@ -36,7 +36,7 @@ local function Test()
 		end
 	end
 
-	if min >= Cork.dbpc["Repairs-threshold"] or (min > 0.15 and IsResting()) then return end
+	if min >= Cork.dbpc["Repairs-threshold"] or min >= 0.15 and not IsResting() then return end
 
 	local r,g,b = RYGColorGradient(min)
 	return IconLine(ICON, string.format("Your equipment is damaged |cff%02x%02x%02x(%d%%)", r*255, g*255, b*255, min*100))
