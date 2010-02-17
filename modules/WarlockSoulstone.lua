@@ -8,6 +8,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 local ITEMS = {5232, 16892, 16893, 16895, 16896, 22116, 36895}
 local spellname, _, icon = GetSpellInfo(693)
+local buffName = GetSpellInfo(20707)
 local iconline = Cork.IconLine(icon, "Soulstone")
 
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Soulstone", {type = "cork", tiplink = GetSpellLink(spellname)})
@@ -29,6 +30,10 @@ function dataobj:Scan()
 
 	local start, duration = GetItemCooldown("item:5232")
 	nexttime = start + duration
+	local _, _, _, _, _, _, buffNextTime = UnitBuff("player", buffName)
+	if type(buffNextTime) == "number" and buffNextTime > nexttime then 
+		nexttime = buffNextTime
+	end
 	if nexttime == 0 then
 		f:Hide()
 		dataobj.custom = iconline
@@ -41,7 +46,7 @@ f:SetScript("OnUpdate", function(self) if GetTime() >= nexttime then self:Hide()
 
 ae.RegisterEvent("Cork Soulstone", "BAG_UPDATE", dataobj.Scan)
 ae.RegisterEvent("Cork Soulstone", "PLAYER_UPDATE_RESTING", dataobj.Scan)
-
+ae.RegisterEvent("Cork Soulstone", "UNIT_AURA", function(event, unit) if unit == "player" then return dataobj.Scan() end)
 
 function dataobj:CorkIt(frame)
 	if not dataobj.custom then return end
