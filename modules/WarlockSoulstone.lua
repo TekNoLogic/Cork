@@ -46,7 +46,7 @@ f:SetScript("OnUpdate", function(self) if GetTime() >= nexttime then self:Hide()
 
 ae.RegisterEvent("Cork Soulstone", "BAG_UPDATE", dataobj.Scan)
 ae.RegisterEvent("Cork Soulstone", "PLAYER_UPDATE_RESTING", dataobj.Scan)
-ae.RegisterEvent("Cork Soulstone", "UNIT_AURA", function(event, unit) if unit == "player" then return dataobj.Scan() end)
+ae.RegisterEvent("Cork Soulstone", "UNIT_AURA", function(event, unit) if unit == "player" then return dataobj.Scan() end end)
 
 function dataobj:CorkIt(frame)
 	if not dataobj.custom then return end
