@@ -1,3 +1,12 @@
+3.3.0.29-Beta
+    Make warrior battle shout module suck less
+    Add warlock healthstone module
+    Add fished crates
+    Add fishing pole and lance module
+    Disable when vehicle UI is active
+    Disable the macro as well, don't just hide the toolip
+    Add more useful tooltips to config
+
 3.3.0.28-Beta
     Fix shaman offhands that are offhand *only*
     Force WellFed to the lowest priority when corking (so that we recover mana from our casts)
