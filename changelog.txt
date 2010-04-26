@@ -1,3 +1,12 @@
+3.3.0.30-Beta
+    Thanks Adirelle and PProvost for new good bits!
+    Fixed Abominable Might spell id.
+    Don't cork soulstone if player has buff
+    Always show repair warning if any equipped item is below 15% durability
+    Don't cork disconnected or non-visible characters
+    Don't buff raid items if player doesn't have item in bag
+    Added Rogue poisons
+
 3.3.0.29-Beta
     Make warrior battle shout module suck less
     Add warlock healthstone module
