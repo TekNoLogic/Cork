@@ -45,6 +45,7 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 
 	local function Test(unit)
 		if hasclass or not Cork.dbpc[itemname.."-enabled"] or IsResting() or not ValidUnit(unit) or (GetItemCount(itemid) or 0) == 0 then return end
+		if unit == "player" and (GetNumRaidMembers() + GetNumPartyMembers()) == 0 then return end
 
 		if not (UnitAura(unit, classspellname) or UnitAura(unit, spellname)) then
 			local _, token = UnitClass(unit)
@@ -54,7 +55,7 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 
 	function dataobj:Scan()
 		ScanForClass()
-		self.player = (GetNumRaidMembers() + GetNumPartyMembers()) > 0 and Test("player")
+		self.player = Test("player")
 		for i=1,4 do self["party"..i] = Test("party"..i) end
 		for i=1,40 do self["raid"..i] = Test("raid"..i) end
 	end
