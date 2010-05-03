@@ -54,7 +54,7 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 
 	function dataobj:Scan()
 		ScanForClass()
-		self.player = Test("player")
+		self.player = (GetNumRaidMembers() + GetNumPartyMembers()) > 0 and Test("player")
 		for i=1,4 do self["party"..i] = Test("party"..i) end
 		for i=1,40 do self["raid"..i] = Test("raid"..i) end
 	end
