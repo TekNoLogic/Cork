@@ -36,6 +36,7 @@ modules\Hunter.lua
 modules\HunterPetHappy.lua
 modules\HunterViper.lua
 modules\Mage.lua
+modules\MageGem.lua
 modules\MageIntellect.lua
 modules\Paladin.lua
 modules\PaladinBlessings.lua
