@@ -94,8 +94,8 @@ function dataobj:CorkIt(frame)
 		if not Cork.keyblist[unit] then
 			local _, class = UnitClass(unit)
 			local spell = Cork.dbpc["Blessings-"..class]
-			if usegreaters then
-				local greater = blessings[spell]
+			local greater = blessings[spell]
+			if usegreaters and GetSpellCount(greater) > 0 then
 				if known[greater] and SpellCastableOnUnit(greater, unit) then return frame:SetManyAttributes("type1", "spell", "spell", greater, "unit", unit) end
 			end
 			if known[spell] and SpellCastableOnUnit(spell, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spell, "unit", unit) end

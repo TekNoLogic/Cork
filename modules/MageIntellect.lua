@@ -49,7 +49,7 @@ function dataobj:CorkIt(frame, playersonly)
 	multispell, dalaranspell, dalaranmultispell = multispell or GetSpellInfo(multispellname), dalaranspell or GetSpellInfo(dalaranspellname), dalaranmultispell or GetSpellInfo(dalaranmultispellname)
 	singlespell, multispell = dalaranspell or spellname, dalaranmultispell or multispell
 
-	if multispell then
+	if multispell and GetSpellCount(multispell) > 0 then
 		local num = dataobj.player and 1 or 0
 		for i=1,GetNumPartyMembers() do num = num + (dataobj["party"..i] and (IsSpellInRange(multispell, "party"..i) or IsSpellInRange(singlespell, "party"..i)) and 1 or 0) end
 		if num >= Cork.dbpc.multithreshold then return frame:SetManyAttributes("type1", "spell", "spell", multispell, "unit", "player") end

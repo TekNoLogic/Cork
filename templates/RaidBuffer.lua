@@ -46,7 +46,7 @@ function Cork:GenerateRaidBuffer(spellname, multispellname, icon, defaultstate)
 	function dataobj:CorkIt(frame, playersonly)
 		multispell = multispell or multispellname and GetSpellInfo(multispellname) -- Refresh in case the player has learned this since login
 
-		if multispell then
+		if multispell and (not IsConsumableSpell(multispell) or GetSpellCount(multispell) > 0) then
 			local num = dataobj.player and 1 or 0
 			for i=1,GetNumPartyMembers() do num = num + (dataobj["party"..i] and (IsSpellInRange(multispell, "party"..i) or IsSpellInRange(spellname, "party"..i)) and 1 or 0) end
 			if num >= Cork.dbpc.multithreshold then return frame:SetManyAttributes("type1", "spell", "spell", multispell, "unit", "player") end
