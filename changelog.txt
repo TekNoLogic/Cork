@@ -1,3 +1,9 @@
+3.3.0.31-Beta
+    Fall back to single-target spells when out of reagents
+    Mage mana gem module (thanks fryguy)
+    Make int module ignore resting
+    Don't bother solo players with buff items
+
 3.3.0.30-Beta
     Thanks Adirelle and PProvost for new good bits!
     Fixed Abominable Might spell id.
