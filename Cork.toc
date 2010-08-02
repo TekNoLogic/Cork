@@ -63,4 +63,5 @@ modules\Combine.lua
 modules\Glyphs.lua
 modules\Fishboxes.lua
 modules\LancePole.lua
+modules\DownrankedSpells.lua
 
