@@ -1,6 +1,6 @@
 
 local _, c = UnitClass("player")
-if c ~= "PALADIN" then return end
+if c ~= "PALADIN" or select(4, GetBuildInfo()) >= 40000 then return end
 
 
 local myname, Cork = ...
