@@ -1,5 +1,7 @@
 
 local myname, Cork = ...
+if select(4, GetBuildInfo()) >= 40000 then return end  -- Don't load on cat!
+
 local IconLine = Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
