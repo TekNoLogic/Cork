@@ -1,5 +1,6 @@
 
 local myname, Cork = ...
+Cork.IHASCAT = select(4, GetBuildInfo()) >= 40000
 local _, c = UnitClass("player")
 if c ~= "DRUID" then return end
 
@@ -10,8 +11,9 @@ Cork:GenerateRaidBuffer(spellname, multispell, icon)
 
 
 -- Shapeshifts
-local bear = GetSpellInfo(GetSpellInfo(5487)) and 5487 or 9634
-local dobj, ref = Cork:GenerateAdvancedSelfBuffer("Fursuit", {5487, 9634, 768, 24858, 33891})
+local forms
+if Cork.IHASCAT then forms = {768, 5487, 24858} else forms = {5487, 9634, 768, 24858, 33891} end
+local dobj, ref = Cork:GenerateAdvancedSelfBuffer("Fursuit", forms)
 function dobj:CorkIt(frame)
 	ref()
 	local spell = Cork.dbpc["Fursuit-spell"]
