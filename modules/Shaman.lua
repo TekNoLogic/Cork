@@ -1,7 +1,6 @@
 
 local myname, Cork = ...
-local _, c = UnitClass("player")
-if c ~= "SHAMAN" then return end
+if Cork.MYCLASS ~= "SHAMAN" then return end
 
 
 -- Self-shields

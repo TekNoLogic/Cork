@@ -1,6 +1,6 @@
 
-local _, c = UnitClass("player")
-if c ~= "PALADIN" or select(4, GetBuildInfo()) >= 40000 then return end
+local myname, Cork = ...
+if Cork.MYCLASS ~= "PALADIN" or Cork.IHASCAT then return end
 
 
 local myname, Cork = ...

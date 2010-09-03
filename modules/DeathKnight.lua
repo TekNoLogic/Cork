@@ -1,7 +1,6 @@
 
 local myname, Cork = ...
-local _, c = UnitClass("player")
-if c ~= "DEATHKNIGHT" then return end
+if Cork.MYCLASS ~= "DEATHKNIGHT" then return end
 
 
 -- Bone Shield

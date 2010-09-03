@@ -2,6 +2,9 @@
 local myname, Cork = ...
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
+Cork.IHASCAT = select(4, GetBuildInfo()) >= 40000
+_, Cork.MYCLASS = UnitClass("player")
+
 Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits, Cork.defaultspc = {}, {}, {}, {player = "pet"}, {pet = true}, {castonpets = false, multithreshold = 2, tooltiplimit = 10, raid_thresh = 5}
 Cork.keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true, lowpriority = true, tiptext = true, tiplink = true}
 

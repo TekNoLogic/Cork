@@ -1,6 +1,6 @@
 
-local _, token = UnitClass("player")
-if token ~= "HUNTER" then return end
+local myname, Cork = ...
+if Cork.MYCLASS ~= "HUNTER" then return end
 
 
 local spellname, _, icon = GetSpellInfo(34074)
@@ -9,7 +9,7 @@ local myname, Cork = ...
 local UnitAura = UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-local iconline_low = Cork.IconLine(icon, 'Low mana', token)
+local iconline_low = Cork.IconLine(icon, 'Low mana', Cork.MYCLASS)
 
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork", tiplink = "spell:34074"})
 
@@ -31,7 +31,7 @@ local function Test()
 		local manaFraction = UnitMana("player") / UnitManaMax("player")
 		if haveBuff and manaFraction > Cork.dbpc[spellname.."-high threshold"] then
 			local icon = select(3, GetSpellInfo(GetStandardAspect()))
-			return Cork.IconLine(icon, 'High mana', token)
+			return Cork.IconLine(icon, 'High mana', Cork.MYCLASS)
 		elseif not haveBuff and manaFraction < Cork.dbpc[spellname.."-low threshold"] then
 			return iconline_low
 		end

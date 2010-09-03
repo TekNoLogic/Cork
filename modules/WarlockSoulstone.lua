@@ -1,6 +1,6 @@
 
-local _, c = UnitClass("player")
-if c ~= "WARLOCK" then return end
+local myname, Cork = ...
+if Cork.MYCLASS ~= "WARLOCK" then return end
 
 local myname, Cork = ...
 local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
@@ -31,7 +31,7 @@ function dataobj:Scan()
 	local start, duration = GetItemCooldown("item:5232")
 	nexttime = start + duration
 	local _, _, _, _, _, _, buffNextTime = UnitBuff("player", buffName)
-	if type(buffNextTime) == "number" and buffNextTime > nexttime then 
+	if type(buffNextTime) == "number" and buffNextTime > nexttime then
 		nexttime = buffNextTime
 	end
 	if nexttime == 0 then

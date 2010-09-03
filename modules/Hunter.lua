@@ -1,7 +1,6 @@
 
 local myname, Cork = ...
-local _, c = UnitClass("player")
-if c ~= "HUNTER" then return end
+if Cork.MYCLASS ~= "HUNTER" then return end
 
 
 -- Aspects

@@ -3,8 +3,7 @@ local myname, Cork = ...
 local SpellCastableOnUnit = Cork.SpellCastableOnUnit
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-local _, myclass = UnitClass("player")
-local IconLine = Cork.IconLine("Interface\\Icons\\INV_Glyph_Major"..myclass, "Empty glyph slots")
+local IconLine = Cork.IconLine("Interface\\Icons\\INV_Glyph_Major"..Cork.MYCLASS, "Empty glyph slots")
 local defaults = Cork.defaultspc
 defaults["Glyphs-enabled"] = true
 

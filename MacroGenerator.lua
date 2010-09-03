@@ -1,6 +1,5 @@
 
 local myname, Cork = ...
-Cork.IHASCAT = select(4, GetBuildInfo()) >= 40000
 local MAX_ACCOUNT_MACROS, MAX_CHARACTER_MACROS = 36, 18
 
 local function GetMacroID()
@@ -14,7 +13,7 @@ function Cork.GenerateMacro()
 	if id then PickupMacro(id)
 	elseif select(2, GetNumMacros()) < MAX_CHARACTER_MACROS then
 		local body, ic, ooc
-		local _, c = UnitClass("player")
+		local c = Cork.MYCLASS
 		if Cork.IHASCAT then
 			if c == "DEATHKNIGHT" then ooc = GetSpellInfo(3714)
 			elseif c == "HUNTER"  then ooc = GetSpellInfo(13165)

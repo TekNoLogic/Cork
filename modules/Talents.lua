@@ -1,6 +1,5 @@
 
 local myname, Cork = ...
-Cork.IHASCAT = select(4, GetBuildInfo()) >= 40000
 local SpellCastableOnUnit = Cork.SpellCastableOnUnit
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 

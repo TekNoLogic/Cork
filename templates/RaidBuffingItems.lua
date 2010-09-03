@@ -17,7 +17,7 @@ end
 
 
 function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
-	if select(2, UnitClass("player")) == class then return end
+	if Cork.MYCLASS == class then return end
 
 	Cork.hasgroupspell = true
 

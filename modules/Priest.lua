@@ -1,8 +1,6 @@
 
 local myname, Cork = ...
-Cork.IHASCAT = select(4, GetBuildInfo()) >= 40000
-local _, c = UnitClass("player")
-if c ~= "PRIEST" then return end
+if Cork.MYCLASS ~= "PRIEST" then return end
 
 
 if Cork.IHASCAT then

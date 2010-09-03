@@ -1,5 +1,6 @@
-local _, c = UnitClass("player")
-if c ~= "ROGUE" then return end
+
+local myname, Cork = ...
+if Cork.MYCLASS ~= "ROGUE" then return end
 
 local myname, Cork = ...
 local UnitAura = Cork.UnitAura or UnitAura
@@ -32,13 +33,13 @@ function dataobj:Scan() if Cork.dbpc["Temp Enchant-enabled"] then f:Show() else 
 
 function dataobj:CorkIt(frame)
 	if self.mainhand then
-		for _,id in ipairs(poisonranklist[Cork.dbpc["Temp Enchant-mainspell"]]) do 
-			if (GetItemCount(id) or 0) > 0 then return frame:SetManyAttributes("type1", "macro", "macrotext1", "/use item:"..id.."\n/use 16") end 
+		for _,id in ipairs(poisonranklist[Cork.dbpc["Temp Enchant-mainspell"]]) do
+			if (GetItemCount(id) or 0) > 0 then return frame:SetManyAttributes("type1", "macro", "macrotext1", "/use item:"..id.."\n/use 16") end
 		end
 	end
 	if self.offhand then
-		for _,id in ipairs(poisonranklist[Cork.dbpc["Temp Enchant-offspell"]]) do 
-			if (GetItemCount(id) or 0) > 0 then return frame:SetManyAttributes("type1", "macro", "macrotext1", "/use item:"..id.."\n/use 17") end 
+		for _,id in ipairs(poisonranklist[Cork.dbpc["Temp Enchant-offspell"]]) do
+			if (GetItemCount(id) or 0) > 0 then return frame:SetManyAttributes("type1", "macro", "macrotext1", "/use item:"..id.."\n/use 17") end
 		end
 	end
 end

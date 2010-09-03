@@ -7,7 +7,6 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly)
 	local spellname, _, defaulticon = GetSpellInfo(spellidlist[1])
-	local _, myclass = UnitClass("player")
 	local myname = UnitName("player")
 	local buffnames, icons, known = {}, {}
 	for _,id in pairs(spellidlist) do
