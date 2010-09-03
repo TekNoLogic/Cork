@@ -1,13 +1,34 @@
 
 local myname, Cork = ...
+Cork.IHASCAT = select(4, GetBuildInfo()) >= 40000
 local _, c = UnitClass("player")
 if c ~= "PRIEST" then return end
 
 
--- Fort
-local multispell, spellname, _, icon = GetSpellInfo(21562), GetSpellInfo(1243)
-Cork:GenerateRaidBuffer(spellname, multispell, icon)
+if Cork.IHASCAT then
+	-- Fort
+	local spellname, _, icon = GetSpellInfo(21562)
+	Cork:GenerateRaidBuffer(spellname, icon)
 
+
+	-- Shadow Protection
+	local spellname, _, icon = GetSpellInfo(27683)
+	Cork:GenerateRaidBuffer(spellname, icon)
+else
+	-- Fort
+	local multispell, spellname, _, icon = GetSpellInfo(21562), GetSpellInfo(1243)
+	Cork:GenerateRaidBuffer(spellname, multispell, icon)
+
+
+	-- Divine Spirit
+	local multispell, spellname, _, icon = GetSpellInfo(27681), GetSpellInfo(14752)
+	Cork:GenerateRaidBuffer(spellname, multispell, icon)
+
+
+	-- Shadow Protection
+	local multispell, spellname, _, icon = GetSpellInfo(27683), GetSpellInfo(976)
+	Cork:GenerateRaidBuffer(spellname, multispell, icon)
+end
 
 -- Inner Fire
 local spellname, _, icon = GetSpellInfo(588)
@@ -17,16 +38,6 @@ Cork:GenerateSelfBuffer(spellname, icon)
 -- Shadowform
 local spellname, _, icon = GetSpellInfo(15473)
 Cork:GenerateSelfBuffer(spellname, icon)
-
-
--- Divine Spirit
-local multispell, spellname, _, icon = GetSpellInfo(27681), GetSpellInfo(14752)
-Cork:GenerateRaidBuffer(spellname, multispell, icon)
-
-
--- Shadow Protection
-local multispell, spellname, _, icon = GetSpellInfo(27683), GetSpellInfo(976)
-Cork:GenerateRaidBuffer(spellname, multispell, icon)
 
 
 -- Fear Ward
