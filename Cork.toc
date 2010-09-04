@@ -64,4 +64,5 @@ modules\Glyphs.lua
 modules\Fishboxes.lua
 modules\LancePole.lua
 modules\DownrankedSpells.lua
+modules\Training.lua
 
