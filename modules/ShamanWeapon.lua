@@ -13,7 +13,7 @@ local enchantable_offhands = {INVTYPE_WEAPON = true, }
 local MAINHAND, OFFHAND = GetInventorySlotInfo("MainHandSlot"), GetInventorySlotInfo("SecondaryHandSlot")
 local IconLine = Cork.IconLine
 
-local spellidlist = {8017, 8024, 8033, 8232, 51730}
+local spellidlist = Cork.IHASCAT and {8024, 8033, 8232, 51730, 8017} or {8017, 8024, 8033, 8232, 51730}
 local buffnames, icons, known = {}, {}
 for _,id in pairs(spellidlist) do
 	local spellname, _, icon = GetSpellInfo(id)
