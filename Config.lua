@@ -72,7 +72,7 @@ frame:SetScript("OnShow", function()
 	end)
 
 
-	local castonpets, groupthresh, groupthreshtext, groupthreshcont
+	local groupthresh, groupthreshtext, groupthreshcont
 	if Cork.hasgroupspell then
 		groupthresh, groupthreshtext, groupthreshcont = LibStub("tekKonfig-Slider").new(frame, "Group Threshold: ".. Cork.dbpc.multithreshold, 1, 6, "TOPLEFT", ttlcontainer, "BOTTOMLEFT") --, GAP*2, -GAP)
 		groupthresh.tiptext = "Minimum number of needy players in a group required to cast multi-target spells.  Setting this to six will disable the automatic use of group spells when in a party."
@@ -81,14 +81,16 @@ frame:SetScript("OnShow", function()
 			Cork.dbpc.multithreshold = newvalue
 			groupthreshtext:SetText("Group Threshold: ".. newvalue)
 		end)
+	end
 
---~ 		castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOPLEFT", groupthreshcont, "BOTTOMLEFT", -GAP*2, 0)
-		castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOPLEFT", bindwheel, "BOTTOMLEFT", 0, -GAP)
-		castonpets.tiptext = "Pets need buffs too!  When disabled you can still cast on a pet by targetting it directly."
-		castonpets:SetScript("OnClick", function(self)
-			Cork.dbpc.castonpets = not Cork.dbpc.castonpets
-			for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
-		end)
+	local castonpets
+	if Cork.hasgroupspell and not Cork.IHASCAT then
+			castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOPLEFT", bindwheel, "BOTTOMLEFT", 0, -GAP)
+			castonpets.tiptext = "Pets need buffs too!  When disabled you can still cast on a pet by targetting it directly."
+			castonpets:SetScript("OnClick", function(self)
+				Cork.dbpc.castonpets = not Cork.dbpc.castonpets
+				for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
+			end)
 	end
 
 	if Cork.hasgroupspell or Cork.hasraidspell then
