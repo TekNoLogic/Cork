@@ -29,9 +29,9 @@ else
 		local spell = Cork.dbpc["Fursuit-spell"]
 		if self.player and Corkboard:NumLines() == 1 then return frame:SetManyAttributes("type1", "spell", "spell", spell, "unit", "player") end
 	end
+
+
+	-- Thorns
+	local spellname, _, icon = GetSpellInfo(467)
+	Cork:GenerateLastBuffedBuffer(spellname, icon)
 end
-
-
--- Thorns
-local spellname, _, icon = GetSpellInfo(467)
-Cork:GenerateLastBuffedBuffer(spellname, icon)
