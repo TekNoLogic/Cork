@@ -19,7 +19,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 
 	local endtime, elapsed
 	local function Test()
-		if IsResting() then return end
+		if (IsResting() and not Cork.db.debug) then return end
 		if not Cork.dbpc[spellname.."-enabled"] or not lasttarget then
 			f:Hide()
 			return

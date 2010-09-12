@@ -14,7 +14,7 @@ Cork.defaultspc["Healthstone-enabled"] = true
 local dataobj = ldb:NewDataObject("Cork Healthstone", {type = "cork", tiptext = "Warn when you do not have a healthstone in your bags."})
 
 function dataobj:Scan()
-	if not Cork.dbpc["Healthstone-enabled"] or IsResting() then
+	if not Cork.dbpc["Healthstone-enabled"] or (IsResting() and not Cork.db.debug) then
 		dataobj.player = nil
 		return
 	end

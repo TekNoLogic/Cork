@@ -28,7 +28,7 @@ local function Test()
 	local crusading = name and isMine == "player"
 
 	if mounted and not crusading then return iconline
-	elseif crusading and not mounted and not IsResting() then
+	elseif crusading and not mounted and not (IsResting() and not Cork.db.debug) then
 		for buff in pairs(auras) do
 			local name, _, _, _, _, _, _, isMine = UnitAura("player", buff)
 			if name and isMine == "player" then return end

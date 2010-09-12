@@ -45,7 +45,7 @@ end
 function dataobj:Scan(...)
 	dataobj.player = nil
 
-	if not Cork.dbpc["Downranked spells-enabled"] or IsResting() then return end
+	if not Cork.dbpc["Downranked spells-enabled"] or (IsResting() and not Cork.db.debug) then return end
 
 	for i=1,120 do
 		ScanOne(nil, i)

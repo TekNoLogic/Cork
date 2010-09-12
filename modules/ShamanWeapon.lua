@@ -49,7 +49,7 @@ f:SetScript("OnUpdate", function(self, elap)
 
 	elapsed = 0
 
-	local zzz = IsResting()
+	local zzz = (IsResting() and not Cork.db.debug)
 	local main, _, _, offhand = GetWeaponEnchantInfo()
 	local icon = icons[Cork.dbpc["Temp Enchant-mainspell"]]
 	dataobj.mainhand = not main and not zzz and GetInventoryItemLink("player", MAINHAND) and IconLine(icon, INVTYPE_WEAPONMAINHAND)

@@ -19,7 +19,7 @@ if Cork.IHASCAT then
 		end
 
 		local function Test(unit)
-			if not Cork.dbpc[spellname.."-enabled"] or IsResting() or not Cork:ValidUnit(unit) then return end
+			if not Cork.dbpc[spellname.."-enabled"] or (IsResting() and not Cork.db.debug) or not Cork:ValidUnit(unit) then return end
 
 			if not UnitAura(unit, spellname) then
 				local _, token = UnitClass(unit)
@@ -97,7 +97,7 @@ else
 		end
 
 		local function Test(unit)
-			if not Cork.dbpc[spellname.."-enabled"] or IsResting() or not Cork:ValidUnit(unit) then return end
+			if not Cork.dbpc[spellname.."-enabled"] or (IsResting() and not Cork.db.debug) or not Cork:ValidUnit(unit) then return end
 
 			if not (UnitAura(unit, spellname) or multispellname and UnitAura(unit, multispellname)) then
 				local _, token = UnitClass(unit)

@@ -32,7 +32,7 @@ end
 
 local MagicClasses = {["DRUID"] = true, ["HUNTER"] = true, ["MAGE"] = true, ["PALADIN"] = true, ["PRIEST"] = true, ["SHAMAN"] = true, ["WARLOCK"] = true}
 local function Test(unit)
-	if not Cork.dbpc[spellname.."-enabled"] or IsResting() or not Cork:ValidUnit(unit) or not MagicClasses[select(2, UnitClass(unit))] then return end
+	if not Cork.dbpc[spellname.."-enabled"] or (IsResting() and not Cork.db.debug) or not Cork:ValidUnit(unit) or not MagicClasses[select(2, UnitClass(unit))] then return end
 	if not HasBuff(unit) then
 		local _, token = UnitClass(unit)
 		return IconLine(icon, UnitName(unit), token)

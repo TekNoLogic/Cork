@@ -16,7 +16,7 @@ function Cork:GenerateSelfBuffer(spellname, icon, ...)
 		for _,spell in pairs(spells) do if UnitAura("player", spell) then return true end end
 	end
 
-	local function Test(unit) if Cork.dbpc[spellname.."-enabled"] and not HasBuff() and not IsResting() then return iconline end end
+	local function Test(unit) if Cork.dbpc[spellname.."-enabled"] and not HasBuff() and not (IsResting() and not Cork.db.debug) then return iconline end end
 
 	function dataobj:Scan() self.player = Test() end
 

@@ -22,7 +22,7 @@ end
 local f = CreateFrame("Frame")
 local nexttime = 0
 function dataobj:Scan()
-	if not Cork.dbpc["Soulstone-enabled"] or IsResting() then
+	if not Cork.dbpc["Soulstone-enabled"] or (IsResting() and not Cork.db.debug) then
 		f:Hide()
 		dataobj.custom = nil
 		return

@@ -29,7 +29,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly)
 	end
 
 	local function Test(enteringcombat)
-		if Cork.dbpc[modulename.."-enabled"] and not IsResting() and (not combatonly or enteringcombat or InCombatLockdown()) then
+		if Cork.dbpc[modulename.."-enabled"] and not (IsResting() and not Cork.db.debug) and (not combatonly or enteringcombat or InCombatLockdown()) then
 			for _,buff in pairs(buffnames) do
 				local name, _, _, _, _, _, _, isMine = UnitAura("player", buff)
 				if name and isMine then return end
