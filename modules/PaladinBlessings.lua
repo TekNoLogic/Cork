@@ -24,24 +24,7 @@ if Cork.IHASCAT then
 	-- If there is a druid in the group, you have the kings drums, or units have kings/forgotten kings on them, cast might
 	-- Otherwise, cast kings
 
-	local MARK, FORGOTTEN_KINGS = GetSpellInfo(1126), GetSpellInfo(69378)
-	local KINGS, _, KINGSICON = GetSpellInfo(20217)
-	local MIGHT, _, MIGHTICON = GetSpellInfo(19740)
-	local GMIGHT, GWISDOM, GSANC, GKINGS = GetSpellInfo(25782), GetSpellInfo(25894), GetSpellInfo(25899), GetSpellInfo(25898)
-
-
-	local blessings = {[MIGHT] = GMIGHT, [KINGS] = GKINGS}
-	local icons = {[MIGHT] = MIGHTICON, [KINGS] = KINGSICON}
-	local mightier, known = {}, {}
-	for blessing,greater in pairs(blessings) do known[blessing], known[greater] = GetSpellInfo(blessing), GetSpellInfo(greater) end
-
-
-	local function RefreshKnownSpells()
-		for blessing,greater in pairs(blessings) do -- Refresh in case the player has learned this since login
-			if known[blessing] == nil then known[blessing] = GetSpellInfo(blessing) end
-			if known[greater] == nil then known[greater] = GetSpellInfo(greater) end
-		end
-	end
+	local MARK, FORGOTTEN_KINGS, MIGHT, KINGS, _, KINGSICON = GetSpellInfo(1126), GetSpellInfo(69378), GetSpellInfo(19740), GetSpellInfo(20217)
 
 
 	local function FurryInParty()
@@ -68,18 +51,11 @@ if Cork.IHASCAT then
 
 	local dataobj = ldb:NewDataObject("Cork Blessings", {type = "cork", tiptext = "Attempts to pick the best blessing to cast based on your group.  Kings is preferred, except in cases where it can be provided by another means like a druid, forgotten kings drums, or another pally.\n\nNote: the icon will not always show which spell will be cast, that is determined at the time you cast."})
 
-	-- function dataobj:Init() known = {} RefreshKnownSpells() end
-
 	local function Test(unit)
-		if not Cork.dbpc["Blessings-enabled"] or (IsResting() and not Cork.db.debug) or not Cork:ValidUnit(unit, true) then
-			-- mightier[unit] = nil
-			return
-		end
+		if not Cork.dbpc["Blessings-enabled"] or (IsResting() and not Cork.db.debug) or not Cork:ValidUnit(unit, true) then return end
 		local spell = NeededBlessing(unit)
 		if spell then
-			-- mightier[unit] = spell == MIGHT or nil -- We don't want to store a false, that'll mess up next()
 			local _, class = UnitClass(unit)
-			-- local icon = icons[spell]
 			return IconLine(KINGSICON, UnitName(unit), class)
 		end
 	end
@@ -90,29 +66,23 @@ if Cork.IHASCAT then
 
 
 	function dataobj:CorkIt(frame)
-		-- local spellname = next(mightier) and MIGHT or KINGS
-
-		-- local numraid, numparty = GetNumRaidMembers(), GetNumPartyMembers()
-		-- for i=1,numraid do if self["raid"..i] and NeededBlessing("raid"..i) == MIGHT and SpellCastableOnUnit(spellname, unit) then frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "raid"..i) end end
-		-- for i=1,numparty do if self["party"..i] and NeededBlessing("party"..i) == MIGHT then frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "party"..i) end end
-
-		-- if self.player and SpellCastableOnUnit(spellname, "player") then
-		-- 	return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "player")
-		-- end
 		for unit in ldb:pairs(self) do
 			if Cork.petmappings[unit] and NeededBlessing(unit) == MIGHT and SpellCastableOnUnit(MIGHT, unit) then
+				-- unit is in group and needs might, so everyone gets it
 				return frame:SetManyAttributes("type1", "spell", "spell", MIGHT, "unit", unit)
 			end
 		end
 		for unit in ldb:pairs(self) do
+			-- No one in group needed might
 			if Cork.petmappings[unit] and SpellCastableOnUnit(KINGS, unit) then
+				-- buff the group with kings
 				return frame:SetManyAttributes("type1", "spell", "spell", KINGS, "unit", unit)
 			elseif not Cork.petmappings[unit] then
+				-- Unit isn't in group, so give them whatever is needed
 				local spell = NeededBlessing(unit)
 				if SpellCastableOnUnit(spell, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spell, "unit", unit) end
 			end
 		end
-		-- for unit in ldb:pairs(self) do if SpellCastableOnUnit(spellname, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", unit) end end
 	end
 
 else
