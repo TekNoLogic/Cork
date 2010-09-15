@@ -4,16 +4,6 @@ if Cork.MYCLASS ~= "PALADIN" then return end
 
 
 if Cork.IHASCAT then
-	-- Blessing of Might
-	local spellname, _, icon = GetSpellInfo(19740)
-	Cork:GenerateRaidBuffer(spellname, icon)
-
-
-	-- Blessing of Kings
-	local spellname, _, icon = GetSpellInfo(20217)
-	Cork:GenerateRaidBuffer(spellname, icon)
-
-
 	-- Auras
 	Cork:GenerateAdvancedSelfBuffer("Aura", {465, 7294, 19746, 19891, 32223})
 
