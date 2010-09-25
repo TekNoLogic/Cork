@@ -1,3 +1,12 @@
+4.0.0.32-Beta
+    New unlearned spells module, only works in Cat
+    Pally buffs are a bit different in cat
+    Fix up macro generator for cat
+    Fix up raid buffer for cat
+    Talents API changed a bit in cat
+    Druid forms changed a tad in cat
+    Downranked spells module (wrath only)
+
 3.3.0.31-Beta
     Fall back to single-target spells when out of reagents
     Mage mana gem module (thanks fryguy)
