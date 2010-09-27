@@ -78,7 +78,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly)
 
 		local function OnEnter(self)
 			GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-			GameTooltip:SetHyperlink(GetSpellLink(self.buff))
+			GameTooltip:SetHyperlink(GetSpellLink(self.buffid))
 		end
 		local function OnLeave() GameTooltip:Hide() end
 
@@ -103,9 +103,11 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly)
 			if lasticon then lasticon:SetPoint("RIGHT", butt, "LEFT", -ROWGAP, 0) end
 
 			butt.buff = buff
+			butt.buffid = id
 			butt:SetScript("OnClick", OnClick)
 			butt:SetScript("OnEnter", OnEnter)
 			butt:SetScript("OnLeave", OnLeave)
+			butt:SetMotionScriptsWhileDisabled(true)
 
 			buffbuttons[buff], lasticon = butt, butt
 		end
