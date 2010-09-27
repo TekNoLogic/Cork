@@ -1,6 +1,6 @@
 
 local myname, Cork = ...
-if Cork.MYCLASS ~= "HUNTER" then return end
+if Cork.MYCLASS ~= "HUNTER" or Cork.IHASCAT then return end
 
 
 local spellname, _, icon = GetSpellInfo(34074)
