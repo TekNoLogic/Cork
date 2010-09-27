@@ -10,9 +10,10 @@ local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Trai
 
 local function NeedToTrain()
 	for i=1,MAX_SPELLS do
-		local spelltype = GetSpellBookItemInfo(i, "spell")
+		local spelltype, spellid = GetSpellBookItemInfo(i, "spell")
 		if not spelltype then return end
-		if spelltype == "FUTURESPELL" and (GetSpellAvailableLevel(i, "spell") or math.huge) <= UnitLevel("player") then return true end
+		-- 34091 is artisan riding (epic flying), that's not a "need" really
+		if spelltype == "FUTURESPELL" and spellid ~= 34091 and (GetSpellAvailableLevel(i, "spell") or math.huge) <= UnitLevel("player") then return true end
 	end
 end
 local function Test() return Cork.dbpc["Training-enabled"] and NeedToTrain() and IconLine end
