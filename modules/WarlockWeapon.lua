@@ -1,6 +1,6 @@
 
 local myname, Cork = ...
-if Cork.MYCLASS ~= "WARLOCK" then return end
+if Cork.MYCLASS ~= "WARLOCK" or Cork.IHASCAT then return end
 
 
 local myname, Cork = ...
