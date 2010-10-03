@@ -49,6 +49,7 @@ modules\Warlock.lua
 modules\WarlockWeapon.lua
 modules\WarlockPets.lua
 modules\WarlockSoulLink.lua
+modules\WarlockSoulShards.lua
 modules\WarlockSoulstone.lua
 modules\WarlockHealthstone.lua
 modules\Warrior.lua
