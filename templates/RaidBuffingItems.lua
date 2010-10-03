@@ -17,7 +17,8 @@ end
 
 
 function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
-	if Cork.MYCLASS == class then return end
+	local multiclass = type(class) == "table"
+	if Cork.MYCLASS == class or multiclass and class[Cork.MYCLASS] then return end
 
 	Cork.hasgroupspell = true
 
@@ -37,10 +38,14 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 	Cork.defaultspc[itemname.."-enabled"] = true
 
 	local hasclass
+	local function TestUnit(unit)
+		local _, c = UnitClass(unit)
+		return class == c or multiclass and class[c]
+	end
 	local function ScanForClass()
 		hasclass = false
-		for i=1,GetNumRaidMembers() do if select(2, UnitClass("raid"..i)) == class then hasclass = true; return end end
-		for i=1,GetNumPartyMembers() do if select(2, UnitClass("party"..i)) == class then hasclass = true; return end end
+		for i=1,GetNumRaidMembers() do if TestUnit("raid"..i) then hasclass = true; return end end
+		for i=1,GetNumPartyMembers() do if TestUnit("party"..i) then hasclass = true; return end end
 	end
 
 	local function Test(unit)
