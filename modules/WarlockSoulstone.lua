@@ -28,7 +28,7 @@ function dataobj:Scan()
 		return
 	end
 
-	local start, duration = GetItemCooldown("item:5232")
+	local start, duration = GetItemCooldown(5232)
 	nexttime = start + duration
 	local _, _, _, _, _, _, buffNextTime = UnitBuff("player", buffName)
 	if type(buffNextTime) == "number" and buffNextTime > nexttime then
@@ -50,6 +50,10 @@ ae.RegisterEvent("Cork Soulstone", "UNIT_AURA", function(event, unit) if unit ==
 
 function dataobj:CorkIt(frame)
 	if not dataobj.custom then return end
-	for _,id in pairs(ITEMS) do if (GetItemCount(id) or 0) > 0 then return frame:SetManyAttributes("type1", "item", "item1", "item:"..id) end end
+	if Cork.IHASCAT then
+		if (GetItemCount(5232) or 0) > 0 then return frame:SetManyAttributes("type1", "item", "item1", "item:5232") end
+	else
+		for _,id in pairs(ITEMS) do if (GetItemCount(id) or 0) > 0 then return frame:SetManyAttributes("type1", "item", "item1", "item:"..id) end end
+	end
 	return frame:SetManyAttributes("type1", "spell", "spell", spellname)
 end
