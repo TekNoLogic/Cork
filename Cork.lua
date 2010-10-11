@@ -177,7 +177,7 @@ function Cork.Update(event, name, attr, value, dataobj)
 	tooltip:SetOwner(anchor, "ANCHOR_NONE")
 	tooltip:SetPoint(GetTipAnchor(anchor))
 
-	if Cork.db.showbg or (GetZoneText() ~= "Wintergrasp" and select(2, IsInInstance()) ~= "pvp") then
+	if Cork.db.showbg or (GetZonePVPInfo() ~= "combat" and select(2, IsInInstance()) ~= "pvp") then
 		local count = 0
 		for name,dataobj in pairs(Cork.corks) do
 			local inneed, numr = 0, GetNumRaidMembers()
