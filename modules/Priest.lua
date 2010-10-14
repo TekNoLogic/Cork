@@ -3,30 +3,15 @@ local myname, Cork = ...
 if Cork.MYCLASS ~= "PRIEST" then return end
 
 
-if Cork.IHASCAT then
-	-- Fort
-	local spellname, _, icon = GetSpellInfo(21562)
-	Cork:GenerateRaidBuffer(spellname, icon)
+-- Fort
+local spellname, _, icon = GetSpellInfo(21562)
+Cork:GenerateRaidBuffer(spellname, icon)
 
 
-	-- Shadow Protection
-	local spellname, _, icon = GetSpellInfo(27683)
-	Cork:GenerateRaidBuffer(spellname, icon)
-else
-	-- Fort
-	local multispell, spellname, _, icon = GetSpellInfo(21562), GetSpellInfo(1243)
-	Cork:GenerateRaidBuffer(spellname, multispell, icon)
+-- Shadow Protection
+local spellname, _, icon = GetSpellInfo(27683)
+Cork:GenerateRaidBuffer(spellname, icon)
 
-
-	-- Divine Spirit
-	local multispell, spellname, _, icon = GetSpellInfo(27681), GetSpellInfo(14752)
-	Cork:GenerateRaidBuffer(spellname, multispell, icon)
-
-
-	-- Shadow Protection
-	local multispell, spellname, _, icon = GetSpellInfo(27683), GetSpellInfo(976)
-	Cork:GenerateRaidBuffer(spellname, multispell, icon)
-end
 
 -- Inner Fire
 local spellname, _, icon = GetSpellInfo(588)

@@ -50,10 +50,6 @@ ae.RegisterEvent("Cork Soulstone", "UNIT_AURA", function(event, unit) if unit ==
 
 function dataobj:CorkIt(frame)
 	if not dataobj.custom then return end
-	if Cork.IHASCAT then
-		if (GetItemCount(5232) or 0) > 0 then return frame:SetManyAttributes("type1", "item", "item1", "item:5232") end
-	else
-		for _,id in pairs(ITEMS) do if (GetItemCount(id) or 0) > 0 then return frame:SetManyAttributes("type1", "item", "item1", "item:"..id) end end
-	end
+	if (GetItemCount(5232) or 0) > 0 then return frame:SetManyAttributes("type1", "item", "item1", "item:5232") end
 	return frame:SetManyAttributes("type1", "spell", "spell", spellname)
 end

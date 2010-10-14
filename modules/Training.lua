@@ -1,6 +1,5 @@
 
 local myname, Cork = ...
-if not Cork.IHASCAT then return end
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 local IconLine = Cork.IconLine("Interface\\Icons\\inv_misc_book_09", "Unlearned spells")

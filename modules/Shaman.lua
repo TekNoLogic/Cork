@@ -4,7 +4,7 @@ if Cork.MYCLASS ~= "SHAMAN" then return end
 
 
 -- Self-shields
-Cork:GenerateAdvancedSelfBuffer("Shields", {324, Cork.IHASCAT and 52127 or 24398, 974})
+Cork:GenerateAdvancedSelfBuffer("Shields", {324, 52127, 974})
 
 
 -- Earth Shield

@@ -10,8 +10,7 @@ defaults["Talents-enabled"] = true
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Talents", {type = "cork", tiptext = "Warn when you have unspent talent points."})
 
 local function talentlesshack()
-	if Cork.IHASCAT then return GetUnspentTalentPoints() > 0
-	else return UnitCharacterPoints("player") > 0 end
+ 	return GetUnspentTalentPoints() > 0
 end
 local function Test() return Cork.dbpc["Talents-enabled"] and talentlesshack() and IconLine end
 

@@ -34,7 +34,6 @@ modules\DeathKnight.lua
 modules\Druid.lua
 modules\Hunter.lua
 modules\HunterPetHappy.lua
-modules\HunterViper.lua
 modules\Mage.lua
 modules\MageGem.lua
 modules\MageIntellect.lua
@@ -46,7 +45,6 @@ modules\RogueWeapon.lua
 modules\Shaman.lua
 modules\ShamanWeapon.lua
 modules\Warlock.lua
-modules\WarlockWeapon.lua
 modules\WarlockPets.lua
 modules\WarlockSoulLink.lua
 modules\WarlockSoulShards.lua
@@ -64,6 +62,5 @@ modules\Combine.lua
 modules\Glyphs.lua
 modules\Fishboxes.lua
 modules\LancePole.lua
-modules\DownrankedSpells.lua
 modules\Training.lua
 

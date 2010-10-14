@@ -83,16 +83,6 @@ frame:SetScript("OnShow", function()
 		end)
 	end
 
-	local castonpets
-	if Cork.hasgroupspell and not Cork.IHASCAT then
-			castonpets = tekcheck.new(frame, nil, "Cast on group pets", "TOPLEFT", bindwheel, "BOTTOMLEFT", 0, -GAP)
-			castonpets.tiptext = "Pets need buffs too!  When disabled you can still cast on a pet by targetting it directly."
-			castonpets:SetScript("OnClick", function(self)
-				Cork.dbpc.castonpets = not Cork.dbpc.castonpets
-				for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
-			end)
-	end
-
 	if Cork.hasgroupspell or Cork.hasraidspell then
 		local raidgroupdropdown, raidgroupdropdowntext, raidgroupdropdowncontainer, raidgroupdropdownlabel = LibStub("tekKonfig-Dropdown").new(frame, "Raid mode", "TOPLEFT", groupthreshcont or ttlcontainer, "BOTTOMLEFT", -12, -6)
 		raidgroupdropdowncontainer:SetHeight(28)
@@ -130,7 +120,7 @@ frame:SetScript("OnShow", function()
 	end
 
 
-	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", castonpets or bindwheel, "BOTTOM", 0, -27)
+	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", bindwheel, "BOTTOM", 0, -27)
 	group:SetPoint("LEFT", EDGEGAP, 0)
 	group:SetPoint("BOTTOMRIGHT", -EDGEGAP, EDGEGAP)
 
@@ -220,7 +210,6 @@ frame:SetScript("OnShow", function()
 		showbg:SetChecked(Cork.db.showbg)
 		showunit:SetChecked(Cork.db.showunit)
 		bindwheel:SetChecked(Cork.db.bindwheel)
-		if castonpets then castonpets:SetChecked(Cork.dbpc.castonpets) end
 		if groupthresh then groupthresh:SetValue(Cork.dbpc.multithreshold) end
 	end
 
