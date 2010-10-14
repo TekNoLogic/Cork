@@ -12,8 +12,8 @@ local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Glyp
 local function Test()
 	if not Cork.dbpc["Glyphs-enabled"]  then return end
 	local talents = GetActiveTalentGroup()
-	for i=1,6 do
-		local enabled, _, spellID = GetGlyphSocketInfo(i, talents)
+	for i=1,(NUM_GLYPH_SLOTS or 9) do
+		local enabled, _, _, spellID = GetGlyphSocketInfo(i, talents)
 		if enabled and not spellID then return IconLine end
 	end
 end
