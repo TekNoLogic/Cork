@@ -20,7 +20,7 @@ function Cork.GenerateMacro()
 		elseif c == "WARLOCK" then ooc = GetSpellInfo(687)
 		elseif c == "WARRIOR" then ooc = GetSpellInfo(6673)
 		elseif c == "DRUID"   then ic, ooc = GetSpellInfo(22812), GetSpellInfo(1126)
-		elseif c == "MAGE"    then ic, ooc = GetSpellInfo(168),   GetSpellInfo(1459)
+		elseif c == "MAGE"    then ic, ooc = GetSpellInfo(30482), GetSpellInfo(1459)
 		elseif c == "PALADIN" then ic, ooc = GetSpellInfo(21084), GetSpellInfo(19740)
 		elseif c == "PRIEST"  then ic, ooc = GetSpellInfo(588),   GetSpellInfo(21562) end
 		if ic and ooc then

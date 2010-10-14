@@ -8,7 +8,8 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 local blist = {npc = true, vehicle = true}
 for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true end
 
-function Cork:GenerateRaidBuffer(spellname, icon)
+local MagicClasses = {["DRUID"] = true, ["MAGE"] = true, ["PALADIN"] = true, ["PRIEST"] = true, ["SHAMAN"] = true, ["WARLOCK"] = true}
+function Cork:GenerateRaidBuffer(spellname, icon, altspellname, manausers_only)
 	local SpellCastableOnUnit, IconLine = self.SpellCastableOnUnit, self.IconLine
 
 	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork", tiplink = GetSpellLink(spellname)})
@@ -22,7 +23,7 @@ function Cork:GenerateRaidBuffer(spellname, icon)
 
 		if not UnitAura(unit, spellname) then
 			local _, token = UnitClass(unit)
-			return IconLine(icon, UnitName(unit), token)
+			if not manausers_only or MagicClasses[token] then return IconLine(icon, UnitName(unit), token) end
 		end
 	end
 	Cork:RegisterRaidEvents(spellname, dataobj, Test)
@@ -35,8 +36,9 @@ function Cork:GenerateRaidBuffer(spellname, icon)
 
 
 	function dataobj:CorkIt(frame, playersonly)
-		if self.player and SpellCastableOnUnit(spellname, "player") then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "player") end
-		for unit in ldb:pairs(self) do if SpellCastableOnUnit(spellname, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", unit) end end
+		local spell = GetSpellInfo(altspellname) and altspellname or spellname
+		if self.player and SpellCastableOnUnit(spell, "player") then return frame:SetManyAttributes("type1", "spell", "spell", spell, "unit", "player") end
+		for unit in ldb:pairs(self) do if SpellCastableOnUnit(spell, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spell, "unit", unit) end end
 	end
 end
 
