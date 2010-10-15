@@ -21,7 +21,7 @@ function Cork:GenerateRaidBuffer(spellname, icon, altspellname, manausers_only)
 	local function Test(unit)
 		if not Cork.dbpc[spellname.."-enabled"] or (IsResting() and not Cork.db.debug) or not Cork:ValidUnit(unit) then return end
 
-		if not UnitAura(unit, spellname) then
+		if not UnitAura(unit, spellname) and (not altspellname or not UnitAura(unit, altspellname)) then
 			local _, token = UnitClass(unit)
 			if not manausers_only or MagicClasses[token] then return IconLine(icon, UnitName(unit), token) end
 		end
