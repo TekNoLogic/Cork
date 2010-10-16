@@ -1,3 +1,13 @@
+4.0.0.33-Beta
+    New and updated modules for 4.0
+    There are NINE glyphs
+    Enable disabled hovering on spell buttons in config
+    Don't harass people to get artisan or master riding
+    Ignore azeroth flying on live, for now
+    Tweak the pvp zone detection
+    Add in-town buff debuggery
+    Can't buff pets in 4.0 it seems
+
 4.0.0.32-Beta
     New unlearned spells module, only works in Cat
     Pally buffs are a bit different in cat
