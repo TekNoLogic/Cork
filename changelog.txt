@@ -1,3 +1,6 @@
+4.0.0.34-Beta
+    That might be nil, fuh!
+
 4.0.0.33-Beta
     New and updated modules for 4.0
     There are NINE glyphs
