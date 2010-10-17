@@ -36,7 +36,7 @@ function Cork:GenerateRaidBuffer(spellname, icon, altspellname, manausers_only)
 
 
 	function dataobj:CorkIt(frame, playersonly)
-		local spell = GetSpellInfo(altspellname) and altspellname or spellname
+		local spell = altspellname and GetSpellInfo(altspellname) or spellname
 		if self.player and SpellCastableOnUnit(spell, "player") then return frame:SetManyAttributes("type1", "spell", "spell", spell, "unit", "player") end
 		for unit in ldb:pairs(self) do if SpellCastableOnUnit(spell, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spell, "unit", unit) end end
 	end
