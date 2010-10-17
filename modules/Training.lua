@@ -15,8 +15,8 @@ local blacklist = {
 local function NeedToTrain()
 	for i=1,MAX_SPELLS do
 		local spelltype, spellid = GetSpellBookItemInfo(i, "spell")
-		if not spelltype or blacklist[spellid] then return end
-		if spelltype == "FUTURESPELL" and (GetSpellAvailableLevel(i, "spell") or math.huge) <= UnitLevel("player") then return true end
+		if not spelltype then return end
+		if spelltype == "FUTURESPELL" and not blacklist[spellid] and (GetSpellAvailableLevel(i, "spell") or math.huge) <= UnitLevel("player") then return true end
 	end
 end
 local function Test() return Cork.dbpc["Training-enabled"] and NeedToTrain() and IconLine end
