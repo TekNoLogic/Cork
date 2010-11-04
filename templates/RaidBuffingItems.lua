@@ -26,16 +26,12 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 	local classspellname = GetSpellInfo(classspellid)
 	local itemname = GetItemInfo(itemid)
 	local icon = GetItemIcon(itemid)
-	if not itemname then
-		GameTooltip:SetHyperlink("item:"..itemid)
-		return print("Cork cannot find cached info for "..spellname.."'s buff item.  Please reload your UI to activate the module.")
-	end
 
 	local SpellCastableOnUnit, IconLine = self.SpellCastableOnUnit, self.IconLine
 
-	local dataobj = ldb:NewDataObject("Cork "..itemname, {type = "cork", tiplink = "item:"..itemid})
+	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork", tiplink = "item:"..itemid})
 
-	Cork.defaultspc[itemname.."-enabled"] = true
+	Cork.defaultspc[spellname.."-enabled"] = true
 
 	local hasclass
 	local function TestUnit(unit)
@@ -49,7 +45,7 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 	end
 
 	local function Test(unit)
-		if hasclass or not Cork.dbpc[itemname.."-enabled"] or (IsResting() and not Cork.db.debug) or not ValidUnit(unit) or (GetItemCount(itemid) or 0) == 0 then return end
+		if hasclass or not Cork.dbpc[spellname.."-enabled"] or (IsResting() and not Cork.db.debug) or not ValidUnit(unit) or (GetItemCount(itemid) or 0) == 0 then return end
 		if unit == "player" and (GetNumRaidMembers() + GetNumPartyMembers()) == 0 then return end
 
 		if not (UnitAura(unit, classspellname) or UnitAura(unit, spellname)) then
@@ -68,10 +64,10 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 	ae.RegisterEvent(dataobj, "PARTY_MEMBERS_CHANGED", "Scan")
 	ae.RegisterEvent(dataobj, "RAID_ROSTER_UPDATE", "Scan")
 	ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
-	ae.RegisterEvent("Cork "..itemname, "UNIT_AURA", function(event, unit) dataobj[unit] = Test(unit) end)
+	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) dataobj[unit] = Test(unit) end)
 
 
-	dataobj.RaidLine = IconLine(icon, itemname.." (%d)")
+	dataobj.RaidLine = IconLine(icon, spellname.." (%d)")
 
 
 	local raidneeds = {}
