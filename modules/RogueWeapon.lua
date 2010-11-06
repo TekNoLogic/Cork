@@ -10,9 +10,8 @@ local f, elapsed = CreateFrame("Frame"), 0
 local MAINHAND, OFFHAND = GetInventorySlotInfo("MainHandSlot"), GetInventorySlotInfo("SecondaryHandSlot")
 local IconLine = Cork.IconLine
 
-local spellidlist = { 26785, 3408, 2823, 8679, 5761, 13219, }
+local spellidlist = { 3408, 2823, 8679, 5761, 13219, }
 local poisonranklist = {
-	["Anesthetic Poison"] = { 21835, 43237 },
 	["Crippling Poison"] = { 3775 },
 	["Deadly Poison"] = { 2892, 2893, 8984, 8985, 20844, 22053, 22054, 43232, 43233 },
 	["Instant Poison"] = { 6947, 6949, 6950, 8926, 8927, 8928, 21927, 43230, 43231 },
@@ -23,8 +22,9 @@ local poisonranklist = {
 local buffnames, icons = {}, {}
 for _,id in pairs(spellidlist) do
 	local spellname, _, icon = GetSpellInfo(id)
-	buffnames[id], icons[spellname] =  spellname, icon
+	buffnames[id], icons[spellname] = spellname, icon
 end
+Cork.defaultspc["Temp Enchant-enabled"] = UnitLevel("player") >= 10
 Cork.defaultspc["Temp Enchant-mainspell"], Cork.defaultspc["Temp Enchant-offspell"] = buffnames[spellidlist[1]], buffnames[spellidlist[1]]
 
 local dataobj = ldb:NewDataObject("Cork Temp Enchant", {type = "cork"})
