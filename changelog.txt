@@ -1,3 +1,6 @@
+4.0.0.36-Beta
+    Item cache is gone, use the spell name instead of the item name for buffing items
+
 4.0.0.35-Beta
     4 loops r hard
 
