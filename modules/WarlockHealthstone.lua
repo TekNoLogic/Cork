@@ -9,9 +9,11 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 local ITEMS = {5509, 5510, 5511, 5512, 9421, 19004, 19005, 19006, 19007, 19008, 19009, 19010, 19011, 19012, 19013, 22103, 22104, 22105, 36889, 36890, 36891, 36892, 36893, 36894}
 
-Cork.defaultspc["Healthstone-enabled"] = true
-
 local dataobj = ldb:NewDataObject("Cork Healthstone", {type = "cork", tiptext = "Warn when you do not have a healthstone in your bags."})
+
+function dataobj:Init()
+	Cork.defaultspc["Healthstone-enabled"] = GetSpellInfo(spellname)
+end
 
 function dataobj:Scan()
 	if not Cork.dbpc["Healthstone-enabled"] or (IsResting() and not Cork.db.debug) then
