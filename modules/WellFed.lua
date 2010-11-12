@@ -10,7 +10,7 @@ local iconline = Cork.IconLine(icon, spellname)
 
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork", lowpriority = true, tiptext = "Warn when you are not well fed."})
 
-Cork.defaultspc[spellname.."-enabled"] = true
+Cork.defaultspc[spellname.."-enabled"] = UnitLevel("player") >= 10
 Cork.defaultspc[spellname.."-macro"] = ""
 
 local function Test(unit) if Cork.dbpc[spellname.."-enabled"] and not UnitAura("player", spellname) and not (IsResting() and not Cork.db.debug) then return iconline end end
