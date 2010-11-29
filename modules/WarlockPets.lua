@@ -13,9 +13,11 @@ local VOID, _, VOIDICON = GetSpellInfo(697)
 local SUC,  _, SUCICON  = GetSpellInfo(712)
 local FELH, _, FELHICON = GetSpellInfo(691)
 local FELG, _, FELGICON = GetSpellInfo(30146)
+local soulburn = GetSpellInfo(74434)
 
 local defaultspell = IMP
 
+local knowssoulburn
 local spellidlist = {688, 697, 712, 691, 30146}
 local buffnames, icons, known = {}, {}, {}
 for _,id in pairs(spellidlist) do
@@ -47,7 +49,14 @@ end
 ae.RegisterEvent("Cork Summon demon", "UNIT_PET", function(event, unit) if unit == "player" then dataobj:Scan() end end)
 ae.RegisterEvent("Cork mount check", "COMPANION_UPDATE", function(event, type) if type == "MOUNT" then dataobj:Scan() end end)
 function dataobj:CorkIt(frame)
-	if self.player then return frame:SetManyAttributes("type1", "spell", "spell", Cork.dbpc["Summon demon-spell"]) end
+	if self.player then
+		knowssoulburn = knowssoulburn or GetSpellInfo(soulburn)
+		if knowssoulburn then
+			return frame:SetManyAttributes("type1", "macro", "macrotext1", "/cast ".. soulburn.. "\n/cast ".. Cork.dbpc["Summon demon-spell"])
+		else
+			return frame:SetManyAttributes("type1", "spell", "spell", Cork.dbpc["Summon demon-spell"])
+		end
+	end
 end
 
 
