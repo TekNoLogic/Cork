@@ -1,3 +1,8 @@
+4.0.0.37-Beta
+    Don't harass players to be well fed until, oh, lets say level 10
+    Don't bug warlocks to make a healthstone if they can't
+    Seems that poison was removed
+
 4.0.0.36-Beta
     Item cache is gone, use the spell name instead of the item name for buffing items
 
