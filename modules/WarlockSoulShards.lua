@@ -12,7 +12,7 @@ Cork.defaultspc[SOUL_SHARDS.. "-enabled"] = true
 local dataobj = ldb:NewDataObject("Cork ".. SOUL_SHARDS, {type = "cork", tiptext = "Warn when you do not have 3 ".. SOUL_SHARDS.. " out of combat."})
 
 function dataobj:Scan()
-	if not Cork.dbpc[SOUL_SHARDS.. "-enabled"] or (IsResting() and not Cork.db.debug) or UnitPower("player", SPELL_POWER_SOUL_SHARDS) == 3 then
+	if not Cork.dbpc[SOUL_SHARDS.. "-enabled"] or UnitPower("player", SPELL_POWER_SOUL_SHARDS) == 3 then
 		dataobj.player = nil
 		return
 	end
