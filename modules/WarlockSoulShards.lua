@@ -10,6 +10,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 Cork.defaultspc[SOUL_SHARDS.. "-enabled"] = true
 
 local dataobj = ldb:NewDataObject("Cork ".. SOUL_SHARDS, {type = "cork", tiptext = "Warn when you do not have 3 ".. SOUL_SHARDS.. " out of combat."})
+local summon = ldb:GetDataObjectByName("Cork Summon demon")
 
 function dataobj:Scan()
 	if not Cork.dbpc[SOUL_SHARDS.. "-enabled"] or UnitPower("player", SPELL_POWER_SOUL_SHARDS) == 3 then
@@ -28,5 +29,6 @@ ae.RegisterEvent("Cork ".. SOUL_SHARDS, "UNIT_POWER", unit_power)
 ae.RegisterEvent("Cork ".. SOUL_SHARDS, "PLAYER_UPDATE_RESTING", dataobj.Scan)
 
 function dataobj:CorkIt(frame)
+	if summon.player then return end
 	if dataobj.player then return frame:SetManyAttributes("type1", "spell", "spell", spellname) end
 end
