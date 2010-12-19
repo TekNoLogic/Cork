@@ -62,4 +62,5 @@ modules\Glyphs.lua
 modules\Fishboxes.lua
 modules\LancePole.lua
 modules\Training.lua
+modules\QuestStartingItems.lua
 
