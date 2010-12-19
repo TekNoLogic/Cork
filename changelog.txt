@@ -1,3 +1,12 @@
+4.0.0.38-Beta
+    Add quest starting items module
+    Change Inner Fire to an advanced self buffer for Inner Fire or Inner Will (thanks James FitzGibbon)
+    New clam!
+    No point in using pet names in the soul link module
+    Soul shards are lower priority than summon pet
+    Soulshards can bitch even when we're in town
+    Use soulburn when summoning warlock demons
+
 4.0.0.37-Beta
     Don't harass players to be well fed until, oh, lets say level 10
     Don't bug warlocks to make a healthstone if they can't
