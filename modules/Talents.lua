@@ -17,3 +17,5 @@ local function Test() return Cork.dbpc["Talents-enabled"] and talentlesshack() a
 function dataobj:Scan() dataobj.player = Test() end
 
 ae.RegisterEvent("Cork Talents", "CHARACTER_POINTS_CHANGED", dataobj.Scan)
+ae.RegisterEvent("Cork Talents", "PLAYER_TALENT_UPDATE", dataobj.Scan)
+ae.RegisterEvent("Cork Talents", "ACTIVE_TALENT_GROUP_CHANGED", dataobj.Scan)
