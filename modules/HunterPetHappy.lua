@@ -5,10 +5,17 @@ if Cork.MYCLASS ~= "HUNTER" then return end
 
 local myname, Cork = ...
 local UnitAura = UnitAura
-local IconLine = Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-local ICON = "Interface\\Icons\\Ability_Hunter_BeastTraining"
+local coords = {
+	"48:72:0:24",
+	"24:48:0:24",
+}
+local function IconLine(i)
+	if not i or i == 3 then return end
+	return "|TInterface\\PetPaperDollFrame\\UI-PetHappiness:24:24:0:0:128:64:".. coords[i].. "|t ".. UnitName("pet").." is hungry"
+end
+
 local feedpetspell = GetSpellInfo(6991)
 local feedpeteffect = GetSpellInfo(1539)
 
@@ -18,14 +25,15 @@ Cork.defaultspc["Pet Happiness-macro"] = ""
 local dataobj = ldb:NewDataObject("Cork Pet Happiness", {type = "cork", tiptext = "Warn when your pet wants food."})
 
 local function Test()
-	if Cork.dbpc["Pet Happiness-enabled"] and UnitExists("pet") and not UnitIsDeadOrGhost("pet") and (GetPetHappiness() or 3) ~= 3 and not UnitAura("pet", feedpeteffect) then
-		return IconLine(ICON, UnitName("pet").." is hungry")
+	if Cork.dbpc["Pet Happiness-enabled"] and UnitExists("pet") and not UnitIsDeadOrGhost("pet") and not UnitAura("pet", feedpeteffect) then
+		return IconLine(GetPetHappiness())
 	end
 end
 
 function dataobj:Scan() dataobj.pet = Test() end
 
 ae.RegisterEvent("Cork Pet Happiness", "UNIT_AURA", function(event, unit) if unit == "pet" then dataobj.pet = Test() end end)
+ae.RegisterEvent("Cork Pet Happiness", "UNIT_POWER", function(event, unit, power_type) if unit == "pet" and power_type == "HAPPINESS" then dataobj.pet = Test() end end)
 ae.RegisterEvent("Cork Pet Happiness", "UNIT_PET", function(event, unit) if unit == "player" then dataobj.pet = Test() end end)
 ae.RegisterEvent("Cork Pet Happiness", "UNIT_HAPPINESS", dataobj.Scan)
 
