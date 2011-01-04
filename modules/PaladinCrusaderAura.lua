@@ -8,7 +8,7 @@ local UnitAura = UnitAura
 
 local spellname, _, icon = GetSpellInfo(32223)
 local auras = {}
-for _,id in pairs{465, 7294, 19746, 19891, 32223} do auras[GetSpellInfo(id)] = true end
+for _,id in pairs{465, 7294, 19746, 19891} do auras[GetSpellInfo(id)] = true end
 local iconline = Cork.IconLine(icon, spellname)
 local mounted = false
 
