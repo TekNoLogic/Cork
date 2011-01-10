@@ -28,9 +28,9 @@ function dataobj:Scan()
 	dataobj.player = nil
 end
 
-ae.RegisterEvent("Cork Combine", "QUEST_ACCEPTED", function() if next(bags) then dataobj:Scan() end end)
-ae.RegisterEvent("Cork Combine", "UNIT_QUEST_LOG_CHANGED", function(event, unit) if unit == "player" and next(bags) then dataobj:Scan() end end)
-ae.RegisterEvent("Cork Combine", "BAG_UPDATE", function(event, bag)
+ae.RegisterEvent("Cork Quest Starting Items", "QUEST_ACCEPTED", function() if next(bags) then dataobj:Scan() end end)
+ae.RegisterEvent("Cork Quest Starting Items", "UNIT_QUEST_LOG_CHANGED", function(event, unit) if unit == "player" and next(bags) then dataobj:Scan() end end)
+ae.RegisterEvent("Cork Quest Starting Items", "BAG_UPDATE", function(event, bag)
 	if not Cork.dbpc["Quest Starting Items-enabled"] then return end
 	bags[bag] = TestBag(bag)
 	if next(bags) then dataobj.player = IconLine end
