@@ -19,8 +19,10 @@ function dataobj:Scan()
 		local count = GetItemCount(id) or 0
 		if count >= threshold then
 			local itemName, _, _, _, _, _, _, _, _, itemTexture = GetItemInfo(id)
-			dataobj.player = IconLine(itemTexture, itemName.." ("..count..")")
-			return
+			if itemName then
+				dataobj.player = IconLine(itemTexture, itemName.." ("..count..")")
+				return
+			end
 		end
 	end
 	dataobj.player = nil
