@@ -1,3 +1,14 @@
+4.0.0.39-Beta
+    And another openable box thing
+    Add new cat mats to combine module
+    Item cache failsafe kinda fixes #54 until Blizzy gives us an event that works
+    S M R T
+    Attempt to blacklist boss units, I think, i can't test this shit
+    What me break the crusader aura module? nevar!
+    Fix up pet happiness module for new UNIT_POWER events
+    I never had this error, but whatever, if it shuts the bitches up
+    Add archaeology module
+
 4.0.0.38-Beta
     Add quest starting items module
     Change Inner Fire to an advanced self buffer for Inner Fire or Inner Will (thanks James FitzGibbon)
