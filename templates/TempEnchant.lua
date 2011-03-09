@@ -15,10 +15,10 @@ local IconLine = Cork.IconLine
 -- spellids - List of spellIDs to use for name and icon lookups
 -- itemmap - A table containing a table of itemIDs for each spellid
 function Cork:GenerateTempEnchant(slotname, minlevel, spellids, itemmap)
-	local weaponindex
-	if     slotname == INVTYPE_WEAPONMAINHAND then weaponindex, weaponslot = 1, 16
-	elseif slotname == INVTYPE_WEAPONOFFHAND  then weaponindex, weaponslot = 2, 17
-	elseif slotname == INVTYPE_THROWN         then weaponindex, weaponslot = 3, 18
+	local weaponindex, weaponslot
+	if     slotname == INVTYPE_WEAPONMAINHAND then weaponindex, weaponslot = 1, MAINHAND
+	elseif slotname == INVTYPE_WEAPONOFFHAND  then weaponindex, weaponslot = 2, OFFHAND
+	elseif slotname == INVTYPE_THROWN         then weaponindex, weaponslot = 3, RANGED
 	else return end
 
 	local f, elapsed = CreateFrame("Frame"), 0
