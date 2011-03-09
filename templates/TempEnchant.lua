@@ -60,9 +60,8 @@ function Cork:GenerateTempEnchant(slotname, spellids, minlevel, itemmap)
 			if maindataobj and maindataobj.custom then return end
 			return frame:SetManyAttributes("type1", "spell", "spell", Cork.dbpc[modulename.."-spell"])
 		else
-			for _,id in ipairs(itemmap[Cork.dbpc[modulename.."-spell"]]) do
-				if (GetItemCount(id) or 0) > 0 then return frame:SetManyAttributes("type1", "macro", "macrotext1", "/use item:"..id.."\n/use "..weaponslot) end
-			end
+			local id = itemmap[Cork.dbpc[modulename.."-spell"]]
+			if id and (GetItemCount(id) or 0) > 0 then return frame:SetManyAttributes("type1", "macro", "macrotext1", "/use item:"..id.."\n/use "..weaponslot) end
 		end
 	end
 
