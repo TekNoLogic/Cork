@@ -29,6 +29,7 @@ templates\SelfBufferAdvanced.lua
 templates\RaidBuffer.lua
 templates\LastBuffedBuffer.lua
 templates\RaidBuffingItems.lua
+templates\TempEnchant.lua
 
 modules\DeathKnight.lua
 modules\Druid.lua
