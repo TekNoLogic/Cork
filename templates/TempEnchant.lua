@@ -12,11 +12,12 @@ local IconLine = Cork.IconLine
 --
 -- weaponslot - The name of the slot this module is for, best use the globalstrings
 --              INVTYPE_WEAPONMAINHAND, INVTYPE_WEAPONOFFHAND or INVTYPE_THROWN
--- minlevel - Lowest level to activate this module for
 -- spellids - List of spellIDs to use for name and icon lookups
--- itemmap - A table containing a table of itemIDs for each spellid
-function Cork:GenerateTempEnchant(slotname, minlevel, spellids, itemmap)
-	local weaponindex, weaponslot
+-- minlevel - Lowest level to activate this module for.  Not used is itemmap isn't passed.
+-- itemmap  - A table containing a table of itemIDs for each spellid.
+--            If not provided it is assumed the module is using spells instead.
+function Cork:GenerateTempEnchant(slotname, spellids, minlevel, itemmap)
+	local isspells, weaponindex, weaponslot = not itemmap
 	if     slotname == INVTYPE_WEAPONMAINHAND then weaponindex, weaponslot = 1, MAINHAND
 	elseif slotname == INVTYPE_WEAPONOFFHAND  then weaponindex, weaponslot = 2, OFFHAND
 	elseif slotname == INVTYPE_THROWN         then weaponindex, weaponslot = 3, RANGED
@@ -25,23 +26,43 @@ function Cork:GenerateTempEnchant(slotname, minlevel, spellids, itemmap)
 	local f, elapsed = CreateFrame("Frame"), 0
 	local modulename = "Temp Enchant "..slotname
 
-	local buffnames, icons = {}, {}
+	local buffnames, icons, known = {}, {}
 	for _,id in pairs(spellids) do
 		local spellname, _, icon = GetSpellInfo(id)
 		buffnames[id], icons[spellname] = spellname, icon
 	end
 
-	Cork.defaultspc[modulename.."-enabled"] = UnitLevel("player") >= minlevel
+	local function RefreshKnownSpells() -- Refresh in case the player has learned this since login
+		if not isspells then return end
+		for buff in pairs(icons) do if known[buff] == nil then known[buff] = GetSpellInfo(buff) end end
+	end
+
+	if not isspells then Cork.defaultspc[modulename.."-enabled"] = UnitLevel("player") >= minlevel end
 	Cork.defaultspc[modulename.."-spell"] = buffnames[spellids[1]]
 
 	local dataobj = ldb:NewDataObject("Cork "..modulename, {type = "cork"})
+	local maindataobj = slotname == INVTYPE_WEAPONOFFHAND and ldb:GetDataObjectByName("Cork Temp Enchant "..INVTYPE_WEAPONMAINHAND)
+
+	if isspells then
+		function dataobj:Init()
+			known = {}
+			RefreshKnownSpells()
+			Cork.defaultspc[modulename.."-enabled"] = not not next(known)
+		end
+	end
 
 	function dataobj:Scan() if Cork.dbpc[modulename.."-enabled"] then f:Show() else f:Hide(); dataobj.custom = nil end end
 
 	function dataobj:CorkIt(frame)
-		if not dataobj.custom then return end
-		for _,id in ipairs(itemmap[Cork.dbpc[modulename.."-spell"]]) do
-			if (GetItemCount(id) or 0) > 0 then return frame:SetManyAttributes("type1", "macro", "macrotext1", "/use item:"..id.."\n/use "..weaponslot) end
+		if not self.custom then return end
+		RefreshKnownSpells()
+		if isspells then
+			if maindataobj and maindataobj.custom then return end
+			return frame:SetManyAttributes("type1", "spell", "spell", Cork.dbpc[modulename.."-spell"])
+		else
+			for _,id in ipairs(itemmap[Cork.dbpc[modulename.."-spell"]]) do
+				if (GetItemCount(id) or 0) > 0 then return frame:SetManyAttributes("type1", "macro", "macrotext1", "/use item:"..id.."\n/use "..weaponslot) end
+			end
 		end
 	end
 
@@ -124,10 +145,16 @@ function Cork:GenerateTempEnchant(slotname, minlevel, spellids, itemmap)
 		lasticon:SetPoint("RIGHT", 0, 0)
 
 		local function Update(self)
+			RefreshKnownSpells()
 			for buff,butt in pairs(buffbuttons) do
 				butt:SetChecked(Cork.dbpc[modulename.."-spell"] == buff)
-				butt:Enable()
-				butt.icon:SetVertexColor(1.0, 1.0, 1.0)
+				if not isspells or known[buff] then
+					butt:Enable()
+					butt.icon:SetVertexColor(1.0, 1.0, 1.0)
+				else
+					butt:Disable()
+					butt.icon:SetVertexColor(0.4, 0.4, 0.4)
+				end
 			end
 		end
 

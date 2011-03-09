@@ -12,6 +12,12 @@ local spellname, _, icon = GetSpellInfo(974)
 Cork:GenerateLastBuffedBuffer(spellname, icon)
 
 
+-- Weapon temp-enchants
+local spellidlist = {8024, 8033, 8232, 51730, 8017}
+Cork:GenerateTempEnchant(INVTYPE_WEAPONMAINHAND, spellidlist)
+Cork:GenerateTempEnchant(INVTYPE_WEAPONOFFHAND, spellidlist)
+
+
 --~ local wb = GetSpellInfo(131) -- Water Breathing
 --~ i = core:NewModule(wb, buffs)
 --~ i.target = "Friendly"

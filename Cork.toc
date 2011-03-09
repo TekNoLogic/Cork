@@ -43,7 +43,6 @@ modules\PaladinCrusaderAura.lua
 modules\Priest.lua
 modules\RogueWeapon.lua
 modules\Shaman.lua
-modules\ShamanWeapon.lua
 modules\Warlock.lua
 modules\WarlockPets.lua
 modules\WarlockSoulLink.lua
