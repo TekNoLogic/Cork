@@ -5,6 +5,7 @@ local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 
 local MAINHAND, OFFHAND, RANGED = GetInventorySlotInfo("MainHandSlot"), GetInventorySlotInfo("SecondaryHandSlot"), GetInventorySlotInfo("RangedSlot")
 local offhands = {INVTYPE_WEAPON = true, INVTYPE_WEAPONOFFHAND = true}
+local _, _, _, _, _, _, _, _, _, _, _, MISC = GetAuctionItemSubClasses(1)
 local IconLine = Cork.IconLine
 
 -- Creates a module for applying temp enchants (poisons, etc) to weapons
@@ -53,14 +54,12 @@ function Cork:GenerateTempEnchant(slotname, minlevel, spellids, itemmap)
 		if (IsResting() and not Cork.db.debug) or select(weaponindex*3-2, GetWeaponEnchantInfo()) then dataobj.custom = nil return end
 
 		-- Check that we have the right weapon type equipped
-		if slotname == INVTYPE_WEAPONMAINHAND then
-			if not GetInventoryItemLink("player", MAINHAND) then dataobj.custom = nil return end
-		elseif slotname == INVTYPE_WEAPONOFFHAND then
-			local offlink = GetInventoryItemLink("player", OFFHAND)
-			if not offlink or not offhands[select(9, GetItemInfo(offlink))] then dataobj.custom = nil return end
-		elseif slotname == INVTYPE_THROWN then
-			local rangedlink = GetInventoryItemLink("player", RANGED)
-			if not rangedlink or select(9, GetItemInfo(rangedlink)) ~= "INVTYPE_THROWN" then dataobj.custom = nil return end
+		local equippedID = GetInventoryItemID("player", weaponslot)
+		if not equippedID or select(7, GetItemInfo(equippedID)) == MISC
+		or (slotname == INVTYPE_WEAPONOFFHAND and not offhands[select(9, GetItemInfo(equippedID))])
+		or (slotname == INVTYPE_THROWN and select(9, GetItemInfo(equippedID)) ~= "INVTYPE_THROWN") then
+			dataobj.custom = nil
+			return
 		end
 
 
