@@ -9,8 +9,8 @@ local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork Trai
 
 local blacklist = {
 	[34091] = true, -- artisan riding (epic flying)
+	[40120] = true, -- druid swift flight
 	[90265] = true, -- master riding (super-epic flying)
-	[90267] = not GetGuildLevelEnabled(), -- azeroth flying, not in live but shows up in the spellbook
 }
 local function NeedToTrain()
 	for i=1,MAX_SPELLS do
