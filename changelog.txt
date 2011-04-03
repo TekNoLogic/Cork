@@ -1,3 +1,12 @@
+4.0.0.40-Beta
+    Don't bug about druid swift flight either
+    Bleepin bloop
+    Add Poison support for Rogue Thrown weapons (thanks winks)
+    Generalize rogue poisons into a template
+    Make shaman enchants work with new template too
+    All those poisons are gone now
+    Don't try to temp-chant lances and other "misc" weapons
+
 4.0.0.39-Beta
     And another openable box thing
     Add new cat mats to combine module
