@@ -14,3 +14,8 @@ Cork:GenerateAdvancedSelfBuffer("Seal", {20154, 20165, 31801, 20164})
 -- Righteous Fury
 local spellname, _, icon = GetSpellInfo(25780)
 Cork:GenerateSelfBuffer(spellname, icon)
+
+
+-- Beacon of Light
+local spellname, _, icon = GetSpellInfo(53563)
+Cork:GenerateLastBuffedBuffer(spellname, icon)
