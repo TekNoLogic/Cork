@@ -1,3 +1,6 @@
+4.1.0.41-Beta
+    Add Beacon of Light
+
 4.0.0.40-Beta
     Don't bug about druid swift flight either
     Bleepin bloop
