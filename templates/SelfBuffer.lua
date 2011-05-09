@@ -26,4 +26,6 @@ function Cork:GenerateSelfBuffer(spellname, icon, ...)
 
 	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) if unit == "player" then dataobj.player = Test() end end)
 	ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
+
+	return dataobj
 end
