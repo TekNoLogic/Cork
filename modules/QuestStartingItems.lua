@@ -33,7 +33,8 @@ ae.RegisterEvent("Cork Quest Starting Items", "UNIT_QUEST_LOG_CHANGED", function
 ae.RegisterEvent("Cork Quest Starting Items", "BAG_UPDATE", function(event, bag)
 	if not Cork.dbpc["Quest Starting Items-enabled"] then return end
 	bags[bag] = TestBag(bag)
-	if next(bags) then dataobj.player = IconLine end
+	if next(bags) then dataobj.player = IconLine; return end
+	dataobj.player = nil
 end)
 
 function dataobj:CorkIt(frame)
