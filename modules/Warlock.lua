@@ -8,6 +8,11 @@ local spellname = GetSpellInfo(687)
 Cork:GenerateAdvancedSelfBuffer(spellname, {687, 28176})
 
 
+-- Dark Intent
+local spellname, _, icon = GetSpellInfo(80398)
+Cork:GenerateLastBuffedBuffer(spellname, icon)
+
+
 --~ local di = GetSpellInfo(132) -- Detect Invisibility
 --~ i = core:NewModule(di, buffs)
 --~ i.target = "Friendly"
