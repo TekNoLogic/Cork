@@ -1,3 +1,11 @@
+4.1.0.42-Beta
+    Add warlock dark intent module
+    Fix quest item cork not going away if item is dropped
+    Add alchemist Flask of Enhancement
+    New fort scroll at 85
+    Update that ancient readme
+    Pet happenis is no more
+
 4.1.0.41-Beta
     Add Beacon of Light
 
