@@ -6,7 +6,7 @@ local blist = {npc = true, vehicle = true, focus = true, target = true}
 for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true end
 
 
-function Cork:GenerateLastBuffedBuffer(spellname, icon)
+function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 	local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 
 
@@ -43,7 +43,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit)
 		if not Cork.dbpc[spellname.."-enabled"] or blist[unit] then return end
 		local name, _, _, _, _, _, _, caster = UnitAura(unit, spellname)
-		if name and caster and UnitIsUnit('player', caster) then lasttarget, dataobj.custom = UnitName(unit), nil
+		if name and caster and UnitIsUnit('player', caster) and (not ignoreself or not UnitIsUnit('player', unit)) then lasttarget, dataobj.custom = UnitName(unit), nil
 		elseif not name and UnitName(unit) == lasttarget then dataobj.custom = Test() end
 	end)
 
