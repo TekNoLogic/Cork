@@ -9,7 +9,7 @@ local blist = {npc = true, vehicle = true}
 for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true end
 
 local MagicClasses = {["DRUID"] = true, ["MAGE"] = true, ["PALADIN"] = true, ["PRIEST"] = true, ["SHAMAN"] = true, ["WARLOCK"] = true}
-function Cork:GenerateRaidBuffer(spellname, icon, altspellname, manausers_only)
+function Cork:GenerateRaidBuffer(spellname, icon, altspellname, manausers_only, extra_test)
 	local SpellCastableOnUnit, IconLine = self.SpellCastableOnUnit, self.IconLine
 
 	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork", tiplink = GetSpellLink(spellname)})
@@ -21,7 +21,7 @@ function Cork:GenerateRaidBuffer(spellname, icon, altspellname, manausers_only)
 	local function Test(unit)
 		if not Cork.dbpc[spellname.."-enabled"] or (IsResting() and not Cork.db.debug) or not Cork:ValidUnit(unit) then return end
 
-		if not UnitAura(unit, spellname) and (not altspellname or not UnitAura(unit, altspellname)) then
+		if not UnitAura(unit, spellname) and (not altspellname or not UnitAura(unit, altspellname)) and (not extra_test or not extra_test(unit)) then
 			local _, token = UnitClass(unit)
 			if not manausers_only or MagicClasses[token] then return IconLine(icon, UnitName(unit), token) end
 		end

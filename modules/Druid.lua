@@ -5,7 +5,11 @@ if Cork.MYCLASS ~= "DRUID" then return end
 
 -- Mark of the Wild
 local spellname, _, icon = GetSpellInfo(1126)
-Cork:GenerateRaidBuffer(spellname, icon)
+local MIGHT, KINGS = GetSpellInfo(19740), GetSpellInfo(20217)
+Cork:GenerateRaidBuffer(spellname, icon, nil, nil, function(unit)
+	-- Make sure we don't cork players that have *both* pally blessings on them
+	return UnitAura(unit, MIGHT) and UnitAura(unit, KINGS)
+end)
 
 
 -- Shapeshifts
