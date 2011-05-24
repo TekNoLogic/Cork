@@ -1,3 +1,8 @@
+4.1.0.43-Beta
+    Don't do fancy shit for flask of enh... it doesn't work on initial login
+    Don't bitch at druids to cast mark on units that have both pally blessings
+    Ignore player for dark intent module
+
 4.1.0.42-Beta
     Add warlock dark intent module
     Fix quest item cork not going away if item is dropped
