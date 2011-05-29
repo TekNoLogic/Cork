@@ -8,6 +8,7 @@
 ## X-Email: tekkub-wow@googlegroups.com
 ## X-Credits: Thiana (Warlock modules), Gnancy (Soullink module)
 ## X-Category: Buffs
+## X-Icon: Interface\Icons\INV_Drink_11
 
 ## SavedVariables: CorkDB
 ## SavedVariablesPerCharacter: CorkDBPC
