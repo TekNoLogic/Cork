@@ -71,42 +71,6 @@ frame:SetScript("OnShow", function()
 		end)
 	end
 
-	if Cork.hasgroupspell or Cork.hasraidspell then
-		local raidgroupdropdown, raidgroupdropdowntext, raidgroupdropdowncontainer, raidgroupdropdownlabel = LibStub("tekKonfig-Dropdown").new(frame, "Raid mode", "TOPLEFT", groupthreshcont or bindwheel, "BOTTOMLEFT", -12, -6)
-		raidgroupdropdowncontainer:SetHeight(28)
-		raidgroupdropdown:SetWidth(120)
-		raidgroupdropdown:ClearAllPoints()
-		raidgroupdropdown:SetPoint("LEFT", raidgroupdropdownlabel, "RIGHT", -8, -2)
-		raidgroupdropdowntext:SetText((Cork.dbpc.raid_thresh*5).."-man")
-		raidgroupdropdown.tiptext = "Select which raid groups should be monitored for buffs."
-
-		local function OnClick(self)
-			raidgroupdropdowntext:SetText((self.value*5).."-man")
-			Cork.dbpc.raid_thresh = self.value
-			for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
-		end
-		UIDropDownMenu_Initialize(raidgroupdropdown, function()
-			local selected, info = (Cork.dbpc.raid_thresh*5).."-man", UIDropDownMenu_CreateInfo()
-
-			info.func = OnClick
-
-			info.text = "10-man"
-			info.value = 2
-			info.checked = "10-man" == selected
-			UIDropDownMenu_AddButton(info)
-
-			info.text = "25-man"
-			info.value = 5
-			info.checked = "25-man" == selected
-			UIDropDownMenu_AddButton(info)
-
-			info.text = "40-man"
-			info.value = 8
-			info.checked = "40-man" == selected
-			UIDropDownMenu_AddButton(info)
-		end)
-	end
-
 
 	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", subtitle, "BOTTOM", 0, -GAP-22)
 	group:SetPoint("LEFT", frame, "CENTER", -40, 0)

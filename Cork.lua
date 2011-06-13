@@ -4,7 +4,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 _, Cork.MYCLASS = UnitClass("player")
 
-Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits, Cork.defaultspc = {}, {}, {}, {player = "pet"}, {pet = true}, {multithreshold = 2, raid_thresh = 5}
+Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits, Cork.defaultspc = {}, {}, {}, {player = "pet"}, {pet = true}, {multithreshold = 2}
 Cork.keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true, lowpriority = true, tiptext = true, tiplink = true}
 
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false, bindwheel = false}
@@ -259,3 +259,21 @@ end
 function Cork.IconLine(icon, text, token)
 	return "|T"..icon..":24:24:0:0:64:64:4:60:4:60|t ".. (token and ("|cff".. Cork.colors[token]) or "").. text
 end
+
+local last_thresh
+function Cork.RaidThresh()
+	if not last_thresh then
+		local name, type, difficulty, difficultyName, maxPlayers, playerDifficulty, isDynamicInstance = GetInstanceInfo()
+		last_thresh = maxPlayers < 10 and 8 or maxPlayers / 5
+	end
+	return last_thresh
+end
+
+local function FlushThresh()
+	last_thresh = nil
+	for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
+end
+ae.RegisterEvent("Cork Core", "PLAYER_DIFFICULTY_CHANGED", FlushThresh)
+ae.RegisterEvent("Cork Core", "UPDATE_INSTANCE_INFO", FlushThresh)
+-- ae.RegisterEvent("Cork Core", "GUILD_PARTY_STATE_UPDATED", FlushThresh)
+-- ae.RegisterEvent("Cork Core", "PLAYER_GUILD_UPDATE", FlushThresh)

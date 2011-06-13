@@ -50,7 +50,7 @@ function Cork:ValidUnit(unit)
 		or (unit ~= "player" and UnitIsUnit(unit, "player"))
 		or (unit == "target" and (UnitIsUnit("target", "focus") or not UnitCanAssist("player", unit) or not UnitIsPlayer(unit) or UnitIsEnemy("player", unit)))
 		or (unit == "focus" and not UnitCanAssist("player", unit))
-		or raidunits[unit] and select(3, GetRaidRosterInfo(raidunits[unit])) > Cork.dbpc.raid_thresh then return end
+		or raidunits[unit] and select(3, GetRaidRosterInfo(raidunits[unit])) > Cork.RaidThresh() then return end
 
 	return true
 end

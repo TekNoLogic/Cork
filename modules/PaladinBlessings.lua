@@ -7,7 +7,6 @@ local myname, Cork = ...
 local UnitAura = UnitAura
 local IsSpellInRange, SpellCastableOnUnit, IconLine = Cork.IsSpellInRange, Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
-Cork.hasraidspell = true
 
 local blist = {npc = true, vehicle = true}
 for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true end
