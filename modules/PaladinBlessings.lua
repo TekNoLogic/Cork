@@ -62,6 +62,7 @@ dataobj.Scan = Cork:GenerateRaidScan(Test)
 
 ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
 
+dataobj.RaidLine = IconLine(KINGSICON, "Blessing (%d)")
 
 function dataobj:CorkIt(frame)
 	for unit in ldb:pairs(self) do
