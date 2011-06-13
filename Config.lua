@@ -60,8 +60,7 @@ frame:SetScript("OnShow", function()
 	end)
 
 
-	local tooltiplimit, tooltiplimittext, ttlcontainer = LibStub("tekKonfig-Slider").new(frame, "Tooltip Limit: " .. Cork.dbpc.tooltiplimit, 0, 40, "TOP", showanchor, "TOP")
-	ttlcontainer:SetPoint("LEFT", frame, "CENTER", GAP*5/2, 0)
+	local tooltiplimit, tooltiplimittext, ttlcontainer = LibStub("tekKonfig-Slider").new(frame, "Tooltip Limit: " .. Cork.dbpc.tooltiplimit, 0, 40, "TOPLEFT", bindwheel, "BOTTOMLEFT", 20, -GAP)
 	tooltiplimit.tiptext = "The number of units to show in the Cork tooltip."
 	tooltiplimit:SetValueStep(1)
 	tooltiplimit:SetValue(Cork.dbpc.tooltiplimit)
@@ -120,8 +119,8 @@ frame:SetScript("OnShow", function()
 	end
 
 
-	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", bindwheel, "BOTTOM", 0, -27)
-	group:SetPoint("LEFT", EDGEGAP, 0)
+	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", subtitle, "BOTTOM", 0, -GAP-22)
+	group:SetPoint("LEFT", frame, "CENTER", -40, 0)
 	group:SetPoint("BOTTOMRIGHT", -EDGEGAP, EDGEGAP)
 
 
@@ -132,7 +131,7 @@ frame:SetScript("OnShow", function()
 	macrobutt:SetScript("OnClick", Cork.GenerateMacro)
 
 
-	local rows, corknames, anchor = {}, {}
+	local corknames, anchor = {}
 	local tekcheck = LibStub("tekKonfig-Checkbox")
 	local NUMROWS = math.floor((group:GetHeight()-EDGEGAP+ROWGAP + 2) / (ROWHEIGHT+ROWGAP))
 	for name in pairs(Cork.corks) do table.insert(corknames, (name:gsub("Cork ", ""))) end
@@ -143,66 +142,38 @@ frame:SetScript("OnShow", function()
 		Cork.corks["Cork ".. self.name]:Scan()
 	end
 	for i=1,NUMROWS do
-		local row = CreateFrame("Button", nil, group)
-		if anchor then row:SetPoint("TOP", anchor , "BOTTOM", 0, -ROWGAP)
-		else row:SetPoint("TOP", 0, -EDGEGAP/2) end
-		row:SetPoint("LEFT", EDGEGAP/2, 0)
-		row:SetPoint("RIGHT", -EDGEGAP/2 - 22, 0)
-		row:SetHeight(ROWHEIGHT)
-		anchor = row
-		rows[i] = row
+		local name = corknames[i]
+		if name then
+			local row = CreateFrame("Button", nil, group)
+			if anchor then row:SetPoint("TOP", anchor , "BOTTOM", 0, -ROWGAP)
+			else row:SetPoint("TOP", 0, -EDGEGAP/2) end
+			row:SetPoint("LEFT", EDGEGAP/2, 0)
+			row:SetPoint("RIGHT", -EDGEGAP/2, 0)
+			row:SetHeight(ROWHEIGHT)
+			anchor = row
 
 
-		local check = tekcheck.new(row, ROWHEIGHT+4, nil, "LEFT")
-		check:SetScript("OnClick", OnClick)
-		row.check = check
+			local check = tekcheck.new(row, ROWHEIGHT+4, nil, "LEFT")
+			check:SetScript("OnClick", OnClick)
+			check.name = name
+			check.tiptext = Cork.corks["Cork "..name].tiptext
+			check.tiplink = Cork.corks["Cork "..name].tiplink
+			check:SetChecked(Cork.dbpc[name.."-enabled"])
 
 
-		local title = row:CreateFontString(nil, "BACKGROUND", "GameFontHighlightSmall")
-		title:SetPoint("LEFT", check, "RIGHT", 4, 0)
-		row.title = title
-	end
+			local title = row:CreateFontString(nil, "BACKGROUND", "GameFontHighlightSmall")
+			title:SetPoint("LEFT", check, "RIGHT", 4, 0)
+			title:SetText(name)
 
 
-	local scrollbar = LibStub("tekKonfig-Scroll").new(group, 6, #rows/2)
-	local f = scrollbar:GetScript("OnValueChanged")
-	scrollbar:SetScript("OnValueChanged", function(self, value, ...)
-		local offset = math.floor(value)
-
-		for _,name in pairs(corknames) do
 			local configframe = Cork.corks["Cork "..name].configframe
-			if configframe then configframe:Hide() end
-		end
-
-		for i,row in pairs(rows) do
-			local name = corknames[i + offset]
-			if name then
-				row:Show()
-				row.check.name = name
-				row.check.tiptext, row.check.tiplink = Cork.corks["Cork "..name].tiptext, Cork.corks["Cork "..name].tiplink
-				row.title:SetText(name)
-				row.check:SetChecked(Cork.dbpc[name.."-enabled"])
-
-				local configframe = Cork.corks["Cork "..name].configframe
-				if configframe then
-					configframe:SetPoint("RIGHT", row)
-					configframe:SetFrameLevel(row:GetFrameLevel() + 1)
-					configframe:Show()
-				end
-			else
-				row:Hide()
-				row.check.name = nil
-				row.title:SetText()
-				row.check:SetChecked(false)
+			if configframe then
+				configframe:SetPoint("RIGHT", row)
+				configframe:SetFrameLevel(row:GetFrameLevel() + 1)
+				configframe:Show()
 			end
 		end
-		return f(self, value, ...)
-	end)
-	scrollbar:SetMinMaxValues(0, math.max(0, #corknames-#rows))
-	scrollbar:SetValue(0)
-
-	group:EnableMouseWheel()
-	group:SetScript("OnMouseWheel", function(self, val) scrollbar:SetValue(scrollbar:GetValue() - val*#rows/2) end)
+	end
 
 
 	local function Update(self)
