@@ -60,20 +60,9 @@ frame:SetScript("OnShow", function()
 	end)
 
 
-	local tooltiplimit, tooltiplimittext, ttlcontainer = LibStub("tekKonfig-Slider").new(frame, "Tooltip Limit: " .. Cork.dbpc.tooltiplimit, 0, 40, "TOPLEFT", bindwheel, "BOTTOMLEFT", 20, -GAP)
-	tooltiplimit.tiptext = "The number of units to show in the Cork tooltip."
-	tooltiplimit:SetValueStep(1)
-	tooltiplimit:SetValue(Cork.dbpc.tooltiplimit)
-	tooltiplimit:SetScript("OnValueChanged", function(self, newvalue)
-		Cork.dbpc.tooltiplimit = newvalue
-		tooltiplimittext:SetText("Tooltip Limit: " .. newvalue)
-		Cork.Update()
-	end)
-
-
 	local groupthresh, groupthreshtext, groupthreshcont
 	if Cork.hasgroupspell then
-		groupthresh, groupthreshtext, groupthreshcont = LibStub("tekKonfig-Slider").new(frame, "Group Threshold: ".. Cork.dbpc.multithreshold, 1, 6, "TOPLEFT", ttlcontainer, "BOTTOMLEFT") --, GAP*2, -GAP)
+		groupthresh, groupthreshtext, groupthreshcont = LibStub("tekKonfig-Slider").new(frame, "Group Threshold: ".. Cork.dbpc.multithreshold, 1, 6, "TOPLEFT", bindwheel, "BOTTOMLEFT", 20, -GAP) --, GAP*2, -GAP)
 		groupthresh.tiptext = "Minimum number of needy players in a group required to cast multi-target spells.  Setting this to six will disable the automatic use of group spells when in a party."
 		groupthresh:SetValueStep(1)
 		groupthresh:SetScript("OnValueChanged", function(self, newvalue)
@@ -83,7 +72,7 @@ frame:SetScript("OnShow", function()
 	end
 
 	if Cork.hasgroupspell or Cork.hasraidspell then
-		local raidgroupdropdown, raidgroupdropdowntext, raidgroupdropdowncontainer, raidgroupdropdownlabel = LibStub("tekKonfig-Dropdown").new(frame, "Raid mode", "TOPLEFT", groupthreshcont or ttlcontainer, "BOTTOMLEFT", -12, -6)
+		local raidgroupdropdown, raidgroupdropdowntext, raidgroupdropdowncontainer, raidgroupdropdownlabel = LibStub("tekKonfig-Dropdown").new(frame, "Raid mode", "TOPLEFT", groupthreshcont or bindwheel, "BOTTOMLEFT", -12, -6)
 		raidgroupdropdowncontainer:SetHeight(28)
 		raidgroupdropdown:SetWidth(120)
 		raidgroupdropdown:ClearAllPoints()

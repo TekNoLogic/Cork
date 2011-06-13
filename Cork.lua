@@ -4,7 +4,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 _, Cork.MYCLASS = UnitClass("player")
 
-Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits, Cork.defaultspc = {}, {}, {}, {player = "pet"}, {pet = true}, {multithreshold = 2, tooltiplimit = 10, raid_thresh = 5}
+Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits, Cork.defaultspc = {}, {}, {}, {player = "pet"}, {pet = true}, {multithreshold = 2, raid_thresh = 5}
 Cork.keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true, lowpriority = true, tiptext = true, tiplink = true}
 
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false, bindwheel = false}
@@ -182,12 +182,12 @@ function Cork.Update(event, name, attr, value, dataobj)
 			local inneed, numr = 0, GetNumRaidMembers()
 			for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
 			if dataobj.RaidLine and numr > 0 and dataobj["player"] then inneed = inneed + 1 end
-			if inneed > 0 and count < Cork.dbpc.tooltiplimit then
+			if inneed > 0 and count < 10 then -- Hard limit, show 10 lines at most
 				if Cork.db.showunit then tooltip:AddDoubleLine(string.format(dataobj.RaidLine, inneed), "raid") else tooltip:AddLine(string.format(dataobj.RaidLine, inneed)) end
 				count = count + 1
 			end
 			for i,v in ldb:pairs(dataobj) do
-				if not Cork.keyblist[i] and (inneed == 0 or not raidunits[i]) and count < Cork.dbpc.tooltiplimit then
+				if not Cork.keyblist[i] and (inneed == 0 or not raidunits[i]) and count < 10 then
 					if Cork.db.showunit then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
 					count = count + 1
 				end
