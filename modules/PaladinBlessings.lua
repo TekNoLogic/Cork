@@ -22,10 +22,12 @@ for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true end
 -- If there is a druid in the group, you have the kings drums, or units have kings/forgotten kings on them, cast might
 -- Otherwise, cast kings
 
-local MARK, FORGOTTEN_KINGS, MIGHT, KINGS, _, KINGSICON = GetSpellInfo(1126), GetSpellInfo(69378), GetSpellInfo(19740), GetSpellInfo(20217)
+local MARK, FORGOTTEN_KINGS, KINGS, _, KINGSICON = GetSpellInfo(1126), GetSpellInfo(69378), GetSpellInfo(20217)
+local MIGHT, _, MIGHTICON = GetSpellInfo(19740)
+local MIGHTRAIDLINE, KINGSRAIDLINE = IconLine(MIGHTICON, "Blessing (%d)"), IconLine(KINGSICON, "Blessing (%d)")
 
 
-local function FurryInParty()
+local function FurryInGroup()
 	for i=1,GetNumRaidMembers() do if select(2, UnitClass("raid"..i)) == "DRUID" then return true end end
 	for i=1,GetNumPartyMembers() do if select(2, UnitClass("party"..i)) == "DRUID" then return true end end
 end
@@ -38,7 +40,7 @@ local function NeededBlessing(unit)
 	local hasMight, _, _, _, _, _, _, myMight = UnitAura(unit, MIGHT)
 	local drummer = GetItemCount(49633) > 0
 	if myKings or myMight or (hasMark or hasKings) and hasMight then return end
-	if (hasMark or hasKings or hasForgottenKings or drummer or FurryInParty() or select(2, UnitClass(unit)) == "DRUID") and not hasMight then return MIGHT end
+	if (hasMark or hasKings or hasForgottenKings or drummer or FurryInGroup() or select(2, UnitClass(unit)) == "DRUID") and not hasMight then return MIGHT end
 	return KINGS
 end
 
@@ -49,20 +51,32 @@ defaults["Blessings-enabled"] = true
 
 local dataobj = ldb:NewDataObject("Cork Blessings", {type = "cork", tiptext = "Attempts to pick the best blessing to cast based on your group.  Kings is preferred, except in cases where it can be provided by another means like a druid, forgotten kings drums, or another pally.\n\nNote: the icon will not always show which spell will be cast, that is determined at the time you cast."})
 
+local unitspells = {}
 local function Test(unit)
-	if not Cork.dbpc["Blessings-enabled"] or (IsResting() and not Cork.db.debug) or not Cork:ValidUnit(unit, true) then return end
-	local spell = NeededBlessing(unit)
-	if spell then
+	if not Cork.dbpc["Blessings-enabled"] or (IsResting() and not Cork.db.debug) or not Cork:ValidUnit(unit, true) then wipe(unitspells); return end
+	unitspells[unit] = NeededBlessing(unit)
+	if unitspells[unit] then
+		local icon = (unitspells[unit] == KINGS) and KINGSICON or MIGHTICON
 		local _, class = UnitClass(unit)
-		return IconLine(KINGSICON, UnitName(unit), class)
+		dataobj.RaidLine = KINGSRAIDLINE
+		for _,spellname in pairs(unitspells) do if spellname == MIGHT then dataobj.RaidLine = MIGHTRAIDLINE end end
+		return IconLine(icon, UnitName(unit), class)
 	end
 end
 Cork:RegisterRaidEvents("Blessings", dataobj, Test)
 dataobj.Scan = Cork:GenerateRaidScan(Test)
 
+local hadfurry
+local function ScanGroupForFurry()
+	local hasfurry = FurryInGroup()
+	if hadfurry ~= hasfurry then dataobj:Scan() end
+	hadfurry = hasfurry
+end
+ae.RegisterEvent(dataobj, "PARTY_MEMBERS_CHANGED", function() for i=1,4 do dataobj["party"..i] = Test("party"..i) end end)
+ae.RegisterEvent(dataobj, "RAID_ROSTER_UPDATE", function() for i=1,40 do dataobj["raid"..i] = Test("raid"..i) end end)
 ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
 
-dataobj.RaidLine = IconLine(KINGSICON, "Blessing (%d)")
+dataobj.RaidLine = KINGSRAIDLINE
 
 function dataobj:CorkIt(frame)
 	for unit in ldb:pairs(self) do
