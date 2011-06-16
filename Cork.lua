@@ -187,7 +187,7 @@ function Cork.Update(event, name, attr, value, dataobj)
 				count = count + 1
 			end
 			for i,v in ldb:pairs(dataobj) do
-				if not Cork.keyblist[i] and (inneed <= 1 or not raidunits[i]) and count < 10 then
+				if v ~= false and not Cork.keyblist[i] and (inneed <= 1 or not raidunits[i]) and count < 10 then
 					if Cork.db.showunit then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
 					count = count + 1
 				end
