@@ -2,8 +2,6 @@
 local myname, Cork = ...
 if Cork.MYCLASS ~= "PALADIN" then return end
 
-
-local myname, Cork = ...
 local UnitAura = UnitAura
 local IsSpellInRange, SpellCastableOnUnit, IconLine = Cork.IsSpellInRange, Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
