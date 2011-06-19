@@ -44,21 +44,23 @@ frame:SetScript("OnShow", function()
 	end)
 
 
-	local showunit = tekcheck.new(frame, nil, "Show unitID", "TOPLEFT", showbg, "BOTTOMLEFT", 0, -GAP)
-	showunit.tiptext = "Show unitID (target, party1, raidpet5) in tooltip. \n|cffffff9aThis setting is global."
-	showunit:SetScript("OnClick", function(self)
-		Cork.db.showunit = not Cork.db.showunit
-		Cork.Update()
-	end)
-
-
-	local bindwheel = tekcheck.new(frame, nil, "Bind mousewheel", "TOPLEFT", showunit, "BOTTOMLEFT", 0, -GAP)
+	local bindwheel = tekcheck.new(frame, nil, "Bind mousewheel", "TOPLEFT", showbg, "BOTTOMLEFT", 0, -GAP)
 	bindwheel.tiptext = "Bind to mousewheel when out of combat and needs are present. \n|cffffff9aThis setting is global."
 	bindwheel:SetScript("OnClick", function(self)
 		Cork.db.bindwheel = not Cork.db.bindwheel
 		Cork.UpdateMouseBinding()
 	end)
 
+
+	if tekDebug then
+		local showunit = tekcheck.new(frame, nil, "Debug mode", "TOPLEFT", bindwheel, "BOTTOMLEFT", 0, -GAP)
+		showunit.tiptext = "Ignores rest state and shows unitIDs (target, party1, raidpet5) in tooltip."
+		showunit:SetChecked(Cork.db.debug)
+		showunit:SetScript("OnClick", function(self)
+			Cork.db.debug = not Cork.db.debug
+			Cork.Update()
+		end)
+	end
 
 	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", subtitle, "BOTTOM", 0, -GAP-22)
 	group:SetPoint("LEFT", frame, "CENTER", -40, 0)
@@ -120,7 +122,6 @@ frame:SetScript("OnShow", function()
 	local function Update(self)
 		showanchor:SetChecked(Cork.db.showanchor)
 		showbg:SetChecked(Cork.db.showbg)
-		showunit:SetChecked(Cork.db.showunit)
 		bindwheel:SetChecked(Cork.db.bindwheel)
 	end
 

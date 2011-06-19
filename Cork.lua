@@ -7,7 +7,7 @@ _, Cork.MYCLASS = UnitClass("player")
 Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits, Cork.defaultspc = {}, {}, {}, {player = "pet"}, {pet = true}, {}
 Cork.keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true, lowpriority = true, tiptext = true, tiplink = true, nobg = true}
 
-local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false, bindwheel = false}
+local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, debug = false, bindwheel = false}
 local tooltip, anchor
 
 for i=1,4 do Cork.petmappings["party"..i], Cork.petunits["partypet"..i] = "partypet"..i, true end
@@ -186,12 +186,12 @@ function Cork.Update(event, name, attr, value, dataobj)
 				for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
 				if dataobj.RaidLine and numr > 0 and dataobj["player"] then inneed = inneed + 1 end
 				if inneed > 1 and count < 10 then -- Hard limit, show 10 lines at most
-					if Cork.db.showunit then tooltip:AddDoubleLine(string.format(dataobj.RaidLine, inneed), "raid") else tooltip:AddLine(string.format(dataobj.RaidLine, inneed)) end
+					if Cork.db.debug then tooltip:AddDoubleLine(string.format(dataobj.RaidLine, inneed), "raid") else tooltip:AddLine(string.format(dataobj.RaidLine, inneed)) end
 					count = count + 1
 				end
 				for i,v in ldb:pairs(dataobj) do
 					if v ~= false and not Cork.keyblist[i] and (inneed <= 1 or not raidunits[i]) and count < 10 then
-						if Cork.db.showunit then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
+						if Cork.db.debug then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
 						count = count + 1
 					end
 				end
