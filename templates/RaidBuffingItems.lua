@@ -74,15 +74,21 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 	function dataobj:CorkIt(frame, playersonly)
 		if (GetItemCount(itemid) or 0) == 0 then return end
 
-		local num = 0
+		-- Only use our item if everyone in need is in range, online and alive
 		for i=1,GetNumRaidMembers() do
-			local _, _, _, _, _, _, zone, online, dead = GetRaidRosterInfo(i)
-			num = num + (dataobj["raid"..i] and zone and online and not dead and (IsItemInRange(17202, "raid"..i) == 1) and 1 or 0)
-			if num >= Cork.dbpc.multithreshold then return frame:SetManyAttributes("type1", "item", "item1", "item:"..itemid) end
+			if select(3, GetRaidRosterInfo("raid"..i)) > Cork.RaidThresh() then
+				local _, _, _, _, _, _, zone, online, dead = GetRaidRosterInfo(i)
+				if not online or dead then return end
+				if dataobj["raid"..i] then
+					if not zone or not ValidUnit("raid"..i) or IsItemInRange(17202, "raid"..i) ~= 1 then return end
+				end
+			end
 		end
-
-		num = dataobj.player and 1 or 0
-		for i=1,GetNumPartyMembers() do num = num + (dataobj["party"..i] and (IsItemInRange(17202, "party"..i) == 1) and 1 or 0) end
-		if num >= Cork.dbpc.multithreshold then return frame:SetManyAttributes("type1", "item", "item1", "item:"..itemid) end
+		for i=1,GetNumPartyMembers() do
+			if dataobj["party"..i] then
+				if IsItemInRange(17202, "party"..i) ~= 1 then return end
+			end
+		end
+		return frame:SetManyAttributes("type1", "item", "item1", "item:"..itemid)
 	end
 end

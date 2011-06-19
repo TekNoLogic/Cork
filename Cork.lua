@@ -4,7 +4,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 _, Cork.MYCLASS = UnitClass("player")
 
-Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits, Cork.defaultspc = {}, {}, {}, {player = "pet"}, {pet = true}, {multithreshold = 2}
+Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits, Cork.defaultspc = {}, {}, {}, {player = "pet"}, {pet = true}, {}
 Cork.keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true, lowpriority = true, tiptext = true, tiplink = true, nobg = true}
 
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, showunit = false, bindwheel = false}

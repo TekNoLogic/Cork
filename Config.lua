@@ -60,18 +60,6 @@ frame:SetScript("OnShow", function()
 	end)
 
 
-	local groupthresh, groupthreshtext, groupthreshcont
-	if Cork.hasgroupspell then
-		groupthresh, groupthreshtext, groupthreshcont = LibStub("tekKonfig-Slider").new(frame, "Group Threshold: ".. Cork.dbpc.multithreshold, 1, 6, "TOPLEFT", bindwheel, "BOTTOMLEFT", 20, -GAP) --, GAP*2, -GAP)
-		groupthresh.tiptext = "Minimum number of needy players in a group required to cast multi-target spells.  Setting this to six will disable the automatic use of group spells when in a party."
-		groupthresh:SetValueStep(1)
-		groupthresh:SetScript("OnValueChanged", function(self, newvalue)
-			Cork.dbpc.multithreshold = newvalue
-			groupthreshtext:SetText("Group Threshold: ".. newvalue)
-		end)
-	end
-
-
 	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", subtitle, "BOTTOM", 0, -GAP-22)
 	group:SetPoint("LEFT", frame, "CENTER", -40, 0)
 	group:SetPoint("BOTTOMRIGHT", -EDGEGAP, EDGEGAP)
@@ -134,7 +122,6 @@ frame:SetScript("OnShow", function()
 		showbg:SetChecked(Cork.db.showbg)
 		showunit:SetChecked(Cork.db.showunit)
 		bindwheel:SetChecked(Cork.db.bindwheel)
-		if groupthresh then groupthresh:SetValue(Cork.dbpc.multithreshold) end
 	end
 
 	frame:SetScript("OnShow", Update)
