@@ -8,7 +8,12 @@ local spellname, _, icon = GetSpellInfo(57139)
 
 local iconline = Cork.IconLine(icon, spellname)
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork", lowpriority = true, tiptext = "Warn when you are not well fed."})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {
+	type = "cork",
+	lowpriority = true,
+	tiptext = "Warn when you are not well fed.",
+	nobg = true,
+})
 
 Cork.defaultspc[spellname.."-enabled"] = UnitLevel("player") >= 10
 Cork.defaultspc[spellname.."-macro"] = ""
