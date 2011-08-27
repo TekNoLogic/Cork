@@ -76,18 +76,16 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 
 		-- Only use our item if everyone in need is in range, online and alive
 		for i=1,GetNumRaidMembers() do
-			if select(3, GetRaidRosterInfo("raid"..i)) > Cork.RaidThresh() then
+			local unit = "raid"..i
+			if select(3, GetRaidRosterInfo(unit)) > Cork.RaidThresh() then
 				local _, _, _, _, _, _, zone, online, dead = GetRaidRosterInfo(i)
 				if not online or dead then return end
-				if dataobj["raid"..i] then
-					if not zone or not ValidUnit("raid"..i) or IsItemInRange(17202, "raid"..i) ~= 1 then return end
-				end
+				if dataobj[unit] and (not zone or not ValidUnit(unit) or IsItemInRange(17202, unit) ~= 1) then return end
 			end
 		end
 		for i=1,GetNumPartyMembers() do
-			if dataobj["party"..i] then
-				if IsItemInRange(17202, "party"..i) ~= 1 then return end
-			end
+			local unit = "party"..i
+			if dataobj[unit] and (not ValidUnit(unit) or IsItemInRange(17202, unit) ~= 1) then return end
 		end
 		return frame:SetManyAttributes("type1", "item", "item1", "item:"..itemid)
 	end
