@@ -11,7 +11,7 @@ Cork:GenerateItemBuffer({PALADIN = true, DRUID = true}, 49633, 69378, 20217)
 
 
 -- Runescroll of Fortitude
-Cork:GenerateItemBuffer("PRIEST", UnitLevel("player") < 85 and 49632 or 62251, 69377, 48161)
+Cork:GenerateItemBuffer("PRIEST", UnitLevel("player") < 85 and 49632 or 62251, 69377, 21562)
 
 
 -- Only available to alchys
