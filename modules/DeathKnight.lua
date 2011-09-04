@@ -1,9 +1,9 @@
-
 local myname, Cork = ...
 if Cork.MYCLASS ~= "DEATHKNIGHT" then return end
 
+
 -- Presence
-Cork:GenerateAdvancedSelfBuffer("Presence", {48263,48266,48265})
+Cork:GenerateAdvancedSelfBuffer("Presence", {48263, 48266, 48265})
 
 
 -- Bone Shield
