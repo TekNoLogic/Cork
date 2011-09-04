@@ -2,6 +2,9 @@
 local myname, Cork = ...
 if Cork.MYCLASS ~= "DEATHKNIGHT" then return end
 
+-- Presence
+Cork:GenerateAdvancedSelfBuffer("Presence", {48263,48266,48265})
+
 
 -- Bone Shield
 local spellname, _, icon = GetSpellInfo(49222)
