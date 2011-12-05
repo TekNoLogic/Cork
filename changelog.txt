@@ -1,3 +1,17 @@
+4.3.0.44-Beta
+    "Well fed"
+    Add support for DK presences (thanks jf647)
+    Don't let alchy endless flask override normal flasks
+    D'oh, fort spellID changed
+    Safeguard against using a buff item if no unit is in need
+    Remove group threshold setting, buff items only cast if all needy units in range
+    Crazy attempt to make blessings report back the spell it would cast
+    If a single unit is in need, don't display the raid-need line
+    Pally blessings need to condense down in raid
+    Remove raid type config, now dynamically adjusts to instance size
+    Remove tooltip limit, hardcode at 10 lines
+    Rejigger config panel for 4.2
+
 4.1.0.43-Beta
     Don't do fancy shit for flask of enh... it doesn't work on initial login
     Don't bitch at druids to cast mark on units that have both pally blessings
