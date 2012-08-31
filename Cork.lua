@@ -62,7 +62,7 @@ end)
 
 
 ae.RegisterEvent("Cork", "PLAYER_LOGIN", function()
-	local lastgroup = GetActiveTalentGroup()
+	local lastgroup = GetActiveSpecGroup()
 	Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
 
 	for name,dataobj in pairs(Cork.corks) do if dataobj.Init then dataobj:Init() end end
@@ -70,9 +70,9 @@ ae.RegisterEvent("Cork", "PLAYER_LOGIN", function()
 
 	ae.RegisterEvent("Cork", "ZONE_CHANGED_NEW_AREA", Cork.Update)
 	ae.RegisterEvent("Cork", "PLAYER_TALENT_UPDATE", function()
-		if lastgroup == GetActiveTalentGroup() then return end
+		if lastgroup == GetActiveSpecGroup() then return end
 
-		lastgroup = GetActiveTalentGroup()
+		lastgroup = GetActiveSpecGroup()
 		for i,v in pairs(Cork.defaultspc) do if Cork.dbpc[i] == v then Cork.dbpc[i] = nil end end
 		Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
 
@@ -182,7 +182,7 @@ function Cork.Update(event, name, attr, value, dataobj)
 		local count = 0
 		for name,dataobj in pairs(Cork.corks) do
 			if not (dataobj.nobg and inbg) then
-				local inneed, numr = 0, GetNumRaidMembers()
+				local inneed, numr = 0, GetNumGroupMembers()
 				for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
 				if dataobj.RaidLine and numr > 0 and dataobj["player"] then inneed = inneed + 1 end
 				if inneed > 1 and count < 10 then -- Hard limit, show 10 lines at most
@@ -262,7 +262,7 @@ function Cork.SpellCastableOnUnit(spell, unit)
 end
 
 function Cork.IconLine(icon, text, token)
-	return "|T"..icon..":24:24:0:0:64:64:4:60:4:60|t ".. (token and ("|cff".. Cork.colors[token]) or "").. text
+	return "|T"..(icon or "")..":24:24:0:0:64:64:4:60:4:60|t ".. (token and ("|cff".. Cork.colors[token]) or "").. text
 end
 
 local last_thresh

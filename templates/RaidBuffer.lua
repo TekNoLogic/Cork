@@ -74,7 +74,7 @@ end
 function Cork:GenerateRaidScan(Test)
 	return function(self)
 		self.player, self.target, self.focus = Test("player"), Test("target"), Test("focus")
-		for i=1,GetNumPartyMembers() do self["party"..i] = Test("party"..i) end
-		for i=1,GetNumRaidMembers() do self["raid"..i] = Test("raid"..i) end
+		for i=1,GetNumSubgroupMembers() do self["party"..i] = Test("party"..i) end
+		for i=1,GetNumGroupMembers() do self["raid"..i] = Test("raid"..i) end
 	end
 end
