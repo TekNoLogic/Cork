@@ -3,7 +3,7 @@ local myname, Cork = ...
 local UnitAura = Cork.UnitAura or UnitAura
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
 
-local MAINHAND, OFFHAND, RANGED = GetInventorySlotInfo("MainHandSlot"), GetInventorySlotInfo("SecondaryHandSlot"), GetInventorySlotInfo("RangedSlot")
+local MAINHAND, OFFHAND = GetInventorySlotInfo("MainHandSlot"), GetInventorySlotInfo("SecondaryHandSlot")
 local offhands = {INVTYPE_WEAPON = true, INVTYPE_WEAPONOFFHAND = true}
 local _, _, _, _, _, _, _, _, _, _, _, MISC = GetAuctionItemSubClasses(1)
 local IconLine = Cork.IconLine
@@ -20,7 +20,6 @@ function Cork:GenerateTempEnchant(slotname, spellids, minlevel, itemmap)
 	local isspells, weaponindex, weaponslot = not itemmap
 	if     slotname == INVTYPE_WEAPONMAINHAND then weaponindex, weaponslot = 1, MAINHAND
 	elseif slotname == INVTYPE_WEAPONOFFHAND  then weaponindex, weaponslot = 2, OFFHAND
-	elseif slotname == INVTYPE_THROWN         then weaponindex, weaponslot = 3, RANGED
 	else return end
 
 	local f, elapsed = CreateFrame("Frame"), 0
