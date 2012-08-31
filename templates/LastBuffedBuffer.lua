@@ -57,8 +57,8 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 	end
 	local function FindCurrent()
 		if TestUnit("player") then return true end
-		for i=1,GetNumPartyMembers() do if TestUnit("party"..i) or TestUnit("partypet"..i) then return true end end
-		for i=1,GetNumRaidMembers() do if TestUnit("raid"..i) or TestUnit("raidpet"..i) then return true end end
+		for i=1,GetNumSubgroupMembers() do if TestUnit("party"..i) or TestUnit("partypet"..i) then return true end end
+		for i=1,GetNumGroupMembers() do if TestUnit("raid"..i) or TestUnit("raidpet"..i) then return true end end
 	end
 
 	function dataobj:Init() FindCurrent(); Cork.defaultspc[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil end
