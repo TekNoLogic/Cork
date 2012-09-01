@@ -26,8 +26,7 @@ local MIGHTRAIDLINE, KINGSRAIDLINE = IconLine(MIGHTICON, "Blessing (%d)"), IconL
 
 
 local function FurryInGroup()
-	for i=1,GetNumRaidMembers() do if select(2, UnitClass("raid"..i)) == "DRUID" then return true end end
-	for i=1,GetNumPartyMembers() do if select(2, UnitClass("party"..i)) == "DRUID" then return true end end
+	for i=1,GetNumGroupMembers() do if select(6, GetRaidRosterInfo(i)) == "DRUID" then return true end end
 end
 
 
