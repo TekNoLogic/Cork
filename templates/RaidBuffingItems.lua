@@ -35,7 +35,7 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 
 	local hasclass
 	local function TestUnit(unit)
-		local _, c = select(6,GetRaidRosterInfo(unit))
+		local _, _, _, _, _, c = GetRaidRosterInfo(unit)
 		return class == c or multiclass and class[c]
 	end
 	local function ScanForClass()
