@@ -1,6 +1,7 @@
 
 local myname, Cork = ...
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
+local _
 
 _, Cork.MYCLASS = UnitClass("player")
 
