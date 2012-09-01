@@ -39,7 +39,6 @@ modules\Mage.lua
 modules\MageGem.lua
 modules\Paladin.lua
 modules\PaladinBlessings.lua
-modules\PaladinCrusaderAura.lua
 modules\Priest.lua
 modules\RogueWeapon.lua
 modules\Shaman.lua
