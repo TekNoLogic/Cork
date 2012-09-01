@@ -5,7 +5,7 @@ local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
-function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly)
+function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly, usestance)
 	local spellname, _, defaulticon = GetSpellInfo(spellidlist[1])
 	local myname = UnitName("player")
 	local buffnames, icons, known = {}, {}
@@ -30,12 +30,20 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly)
 
 	local function Test(enteringcombat)
 		if Cork.dbpc[modulename.."-enabled"] and not (IsResting() and not Cork.db.debug) and (not combatonly or enteringcombat or InCombatLockdown()) then
-			for _,buff in pairs(buffnames) do
-				local name, _, _, _, _, _, _, isMine = UnitAura("player", buff)
-				if name and isMine then return end
+			local spell = Cork.dbpc[modulename.."-spell"]
+
+			if usestance then
+				for i=1,GetNumShapeshiftForms() do
+					local _, name, isActive = GetShapeshiftFormInfo(i)
+					if name == spell and isActive then return end
+				end
+			else
+				for _,buff in pairs(buffnames) do
+					local name, _, _, _, _, _, _, isMine = UnitAura("player", buff)
+					if name and isMine then return end
+				end
 			end
 
-			local spell = Cork.dbpc[modulename.."-spell"]
 			local icon = icons[spell]
 			return IconLine(icon, spell)
 		end
@@ -49,7 +57,13 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly)
 		if self.player then return frame:SetManyAttributes("type1", "spell", "spell", spell, "unit", "player") end
 	end
 
-	ae.RegisterEvent("Cork "..modulename, "UNIT_AURA", function(event, unit) if unit == "player" then dataobj.player = Test() end end)
+	if usestance then
+		ae.RegisterEvent(dataobj, "UPDATE_SHAPESHIFT_FORM", "Scan")
+	else
+		ae.RegisterEvent("Cork "..modulename, "UNIT_AURA", function(event, unit)
+			if unit == "player" then dataobj.player = Test() end
+		end)
+	end
 	ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
 	if combatonly then
 		ae.RegisterEvent("Cork "..modulename, "PLAYER_REGEN_DISABLED", function() dataobj.player = Test(true) end)

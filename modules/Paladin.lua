@@ -4,7 +4,7 @@ if Cork.MYCLASS ~= "PALADIN" then return end
 
 
 -- Seals
-Cork:GenerateAdvancedSelfBuffer("Seal", {20154, 20165, 31801, 20164})
+Cork:GenerateAdvancedSelfBuffer("Seal", {20154, 20165, 31801, 20164}, false, true)
 
 
 -- Righteous Fury
