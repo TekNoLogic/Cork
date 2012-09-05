@@ -21,7 +21,7 @@ for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true end
 -- Otherwise, cast kings
 
 local MARK, FORGOTTEN_KINGS, KINGS, _, KINGSICON = GetSpellInfo(1126), GetSpellInfo(69378), GetSpellInfo(20217)
-local MIGHT, _, MIGHTICON = GetSpellInfo(19740)
+local GRACE, MIGHT, _, MIGHTICON = GetSpellInfo(116956), GetSpellInfo(19740)
 local MIGHTRAIDLINE, KINGSRAIDLINE = IconLine(MIGHTICON, "Blessing (%d)"), IconLine(KINGSICON, "Blessing (%d)")
 
 
@@ -29,15 +29,19 @@ local function FurryInGroup()
 	for i=1,GetNumGroupMembers() do if select(6, GetRaidRosterInfo(i)) == "DRUID" then return true end end
 end
 
+local function ShammieInGroup()
+	for i=1,GetNumGroupMembers() do if select(6, GetRaidRosterInfo(i)) == "SHAMAN" then return true end end
+end
 
 local function NeededBlessing(unit)
 	local hasMark = UnitAura(unit, MARK)
+    local hasGrace = UnitAura(unit, GRACE)
 	local hasForgottenKings = UnitAura(unit, FORGOTTEN_KINGS)
 	local hasKings, _, _, _, _, _, _, myKings = UnitAura(unit, KINGS)
 	local hasMight, _, _, _, _, _, _, myMight = UnitAura(unit, MIGHT)
 	local drummer = GetItemCount(49633) > 0
-	if myKings or myMight or (hasMark or hasKings) and hasMight then return end
-	if (hasMark or hasKings or hasForgottenKings or drummer or FurryInGroup() or select(2, UnitClass(unit)) == "DRUID") and not hasMight then return MIGHT end
+	if myKings or myMight or (hasMark or hasKings) and (hasMight or hasGrace) then return end
+	if (hasMark or hasKings or hasForgottenKings or drummer or FurryInGroup() or select(2, UnitClass(unit)) == "DRUID") and not hasMight and not hasGrace then return MIGHT end
 	return KINGS
 end
 

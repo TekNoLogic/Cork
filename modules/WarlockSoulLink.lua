@@ -7,7 +7,9 @@ local UnitAura = UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
-local spellname, _, icon = GetSpellInfo(19028)
+local soul_link_enabled = select(5, GetTalentInfo(7))
+if(soul_link_enabled) then
+    local spellname, _, icon = GetSpellInfo(108415)
 local IconLine = Cork.IconLine(icon, spellname)
 
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork", tiplink = GetSpellLink(spellname)})
@@ -28,5 +30,4 @@ function dataobj:Scan() self.pet = Test() end
 function dataobj:CorkIt(frame)
 	if self.pet then return frame:SetManyAttributes("type1", "spell", "spell", spellname) end
 end
-
-
+end

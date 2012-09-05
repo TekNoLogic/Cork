@@ -8,11 +8,6 @@ local spellname, _, icon = GetSpellInfo(21562)
 Cork:GenerateRaidBuffer(spellname, icon)
 
 
--- Shadow Protection
-local spellname, _, icon = GetSpellInfo(27683)
-Cork:GenerateRaidBuffer(spellname, icon)
-
-
 -- Inner Fire / Will
 local spellname, _, icon = GetSpellInfo(588)
 Cork:GenerateAdvancedSelfBuffer(spellname, {588,73413})
@@ -27,7 +22,5 @@ Cork:GenerateSelfBuffer(spellname, icon)
 local spellname, _, icon = GetSpellInfo(6346)
 Cork:GenerateLastBuffedBuffer(spellname, icon)
 
-
--- Vampiric Embrace
-local spellname, _, icon = GetSpellInfo(15286)
-Cork:GenerateSelfBuffer(spellname, icon)
+-- Chakras
+Cork:GenerateAdvancedSelfBuffer("Chakra", {81206, 81208, 81209})
