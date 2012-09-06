@@ -6,7 +6,8 @@ if Cork.MYCLASS ~= "MAGE" then return end
 local myname, Cork = ...
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-local ITEM = 36799
+local ITEM1 = 36799 -- regular mana gem
+local ITEM2 = 81901 -- brilliant mana gem (glyphed)
 local spellname, _, icon = GetSpellInfo(759)
 local IconLine = Cork.IconLine(icon, spellname)
 
@@ -20,7 +21,8 @@ end
 
 function dataobj:Scan()
 	if not Cork.dbpc[spellname.."-enabled"] then dataobj.player = nil; return end
-	if GetItemCount(ITEM) > 0 then dataobj.player = nil; return end
+	if GetItemCount(ITEM1) > 0 then dataobj.player = nil; return end
+	if GetItemCount(ITEM2) > 0 then dataobj.player = nil; return end
 	dataobj.player = IconLine
 end
 ae.RegisterEvent("Cork "..spellname, "BAG_UPDATE", dataobj.Scan)
