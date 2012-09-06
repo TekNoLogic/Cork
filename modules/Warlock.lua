@@ -9,8 +9,8 @@ Cork:GenerateAdvancedSelfBuffer(spellname, {687, 28176})
 
 
 -- Dark Intent
-local spellname, _, icon = GetSpellInfo(80398)
-Cork:GenerateLastBuffedBuffer(spellname, icon, true)
+local spellname, _, icon = GetSpellInfo(109773)
+Cork:GenerateRaidBuffer(spellname, icon)
 
 
 --~ local di = GetSpellInfo(132) -- Detect Invisibility
