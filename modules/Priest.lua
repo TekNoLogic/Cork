@@ -8,11 +8,6 @@ local spellname, _, icon = GetSpellInfo(21562)
 Cork:GenerateRaidBuffer(spellname, icon)
 
 
--- Shadow Protection
-local spellname, _, icon = GetSpellInfo(27683)
-Cork:GenerateRaidBuffer(spellname, icon)
-
-
 -- Inner Fire / Will
 local spellname, _, icon = GetSpellInfo(588)
 Cork:GenerateAdvancedSelfBuffer(spellname, {588,73413})
