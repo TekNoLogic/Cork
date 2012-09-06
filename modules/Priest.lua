@@ -27,7 +27,3 @@ Cork:GenerateSelfBuffer(spellname, icon)
 local spellname, _, icon = GetSpellInfo(6346)
 Cork:GenerateLastBuffedBuffer(spellname, icon)
 
-
--- Vampiric Embrace
-local spellname, _, icon = GetSpellInfo(15286)
-Cork:GenerateSelfBuffer(spellname, icon)
