@@ -2,12 +2,6 @@
 local myname, Cork = ...
 if Cork.MYCLASS ~= "WARLOCK" then return end
 
-
--- Demon Armor
-local spellname = GetSpellInfo(687)
-Cork:GenerateAdvancedSelfBuffer(spellname, {687, 28176})
-
-
 -- Dark Intent
 local spellname, _, icon = GetSpellInfo(80398)
 Cork:GenerateLastBuffedBuffer(spellname, icon, true)
