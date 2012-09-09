@@ -37,7 +37,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 
 	ae.RegisterEvent("Cork "..spellname, "PLAYER_UPDATE_RESTING", function() dataobj.custom = Test() end)
 	ae.RegisterEvent("Cork "..spellname, "PARTY_MEMBERS_CHANGED", function() if lasttarget and not UnitInParty(lasttarget) then lasttarget, dataobj.custom = nil end end)
-	ae.RegisterEvent("Cork "..spellname, "RAID_ROSTER_UPDATE", function() if lasttarget and not UnitInRaid(lasttarget) then lasttarget, dataobj.custom = nil end end)
+	ae.RegisterEvent("Cork "..spellname, "GROUP_ROSTER_UPDATE", function() if lasttarget and not UnitInRaid(lasttarget) then lasttarget, dataobj.custom = nil end end)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_PET", function() if lasttarget and not (UnitInParty(lasttarget) or UnitInRaid(lasttarget)) then lasttarget, dataobj.custom = nil end end)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_SPELLCAST_SUCCEEDED", function(event, unit, spell) if unit == "player" and spell == spellname then dataobj.custom = Test() end end)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit)

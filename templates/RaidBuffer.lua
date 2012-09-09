@@ -64,7 +64,7 @@ function Cork:RegisterRaidEvents(spellname, dataobj, Test)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_EXITED_VEHICLE", TestUnit)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_FLAGS", TestUnit)
 	ae.RegisterEvent("Cork "..spellname, "PARTY_MEMBERS_CHANGED", function() for i=1,4 do dataobj["party"..i] = Test("party"..i) end end)
-	ae.RegisterEvent("Cork "..spellname, "RAID_ROSTER_UPDATE", function() for i=1,40 do dataobj["raid"..i] = Test("raid"..i) end end)
+	ae.RegisterEvent("Cork "..spellname, "GROUP_ROSTER_UPDATE", function() for i=1,40 do dataobj["raid"..i] = Test("raid"..i) end end)
 	local function TestTargetandFocus() dataobj.target, dataobj.focus = Test("target"), Test("focus") end
 	ae.RegisterEvent("Cork "..spellname, "PLAYER_TARGET_CHANGED", TestTargetandFocus)
 	ae.RegisterEvent("Cork "..spellname, "PLAYER_FOCUS_CHANGED", TestTargetandFocus)
