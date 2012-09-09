@@ -61,7 +61,7 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 	end
 
 	ae.RegisterEvent(dataobj, "PARTY_MEMBERS_CHANGED", "Scan")
-	ae.RegisterEvent(dataobj, "RAID_ROSTER_UPDATE", "Scan")
+	ae.RegisterEvent(dataobj, "GROUP_ROSTER_UPDATE", "Scan")
 	ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
 	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) dataobj[unit] = Test(unit) end)
 
