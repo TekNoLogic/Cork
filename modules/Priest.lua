@@ -22,5 +22,6 @@ Cork:GenerateSelfBuffer(spellname, icon)
 local spellname, _, icon = GetSpellInfo(6346)
 Cork:GenerateLastBuffedBuffer(spellname, icon)
 
+
 -- Chakras
 Cork:GenerateAdvancedSelfBuffer("Chakra", {81206, 81208, 81209})

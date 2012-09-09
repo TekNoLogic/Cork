@@ -29,13 +29,9 @@ local function FurryInGroup()
 	for i=1,GetNumGroupMembers() do if select(6, GetRaidRosterInfo(i)) == "DRUID" then return true end end
 end
 
-local function ShammieInGroup()
-	for i=1,GetNumGroupMembers() do if select(6, GetRaidRosterInfo(i)) == "SHAMAN" then return true end end
-end
-
 local function NeededBlessing(unit)
 	local hasMark = UnitAura(unit, MARK)
-    local hasGrace = UnitAura(unit, GRACE)
+  local hasGrace = UnitAura(unit, GRACE)
 	local hasForgottenKings = UnitAura(unit, FORGOTTEN_KINGS)
 	local hasKings, _, _, _, _, _, _, myKings = UnitAura(unit, KINGS)
 	local hasMight, _, _, _, _, _, _, myMight = UnitAura(unit, MIGHT)
