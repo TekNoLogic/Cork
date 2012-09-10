@@ -69,8 +69,10 @@ local function ScanGroupForFurry()
 	if hadfurry ~= hasfurry then dataobj:Scan() end
 	hadfurry = hasfurry
 end
-ae.RegisterEvent(dataobj, "PARTY_MEMBERS_CHANGED", function() for i=1,4 do dataobj["party"..i] = Test("party"..i) end end)
-ae.RegisterEvent(dataobj, "GROUP_ROSTER_UPDATE", function() for i=1,40 do dataobj["raid"..i] = Test("raid"..i) end end)
+ae.RegisterEvent(dataobj, "GROUP_ROSTER_UPDATE", function()
+	for i=1,4 do dataobj["party"..i] = Test("party"..i) end
+	for i=1,40 do dataobj["raid"..i] = Test("raid"..i) end
+end)
 ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
 
 dataobj.RaidLine = KINGSRAIDLINE
