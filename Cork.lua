@@ -31,6 +31,7 @@ Cork.classnames = {
 	["SHAMAN"] = "Shaman",
 	["ROGUE"] = "Rogue",
 	["DEATHKNIGHT"] = "Death Knight",
+	["MONK"] = "Monk",
 }
 
 Cork.colors = {}
