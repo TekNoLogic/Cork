@@ -20,25 +20,49 @@ for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true end
 -- If there is a druid in the group, you have the kings drums, or units have kings/forgotten kings on them, cast might
 -- Otherwise, cast kings
 
-local MARK, FORGOTTEN_KINGS, KINGS, _, KINGSICON = GetSpellInfo(1126), GetSpellInfo(69378), GetSpellInfo(20217)
+local MARK, FORGOTTEN_KINGS = GetSpellInfo(1126), GetSpellInfo(69378)
+local EMP, KINGS, _, KINGSICON = GetSpellInfo(115921), GetSpellInfo(20217)
 local GRACE, MIGHT, _, MIGHTICON = GetSpellInfo(116956), GetSpellInfo(19740)
-local MIGHTRAIDLINE, KINGSRAIDLINE = IconLine(MIGHTICON, "Blessing (%d)"), IconLine(KINGSICON, "Blessing (%d)")
+local MIGHTRAIDLINE = IconLine(MIGHTICON, "Blessing (%d)")
+local KINGSRAIDLINE = IconLine(KINGSICON, "Blessing (%d)")
 
 
 local function FurryInGroup()
-	for i=1,GetNumGroupMembers() do if select(6, GetRaidRosterInfo(i)) == "DRUID" then return true end end
+	for i=1,GetNumGroupMembers() do
+		local _, _, _, _, _, class = GetRaidRosterInfo(i)
+		if class == "DRUID" or class == "MONK" then return true end
+	end
 end
 
 local function NeededBlessing(unit)
-	local hasMark = UnitAura(unit, MARK)
-  local hasGrace = UnitAura(unit, GRACE)
-	local hasForgottenKings = UnitAura(unit, FORGOTTEN_KINGS)
+	-- The logic here gets a bit hairy, so stay with me...
 	local hasKings, _, _, _, _, _, _, myKings = UnitAura(unit, KINGS)
 	local hasMight, _, _, _, _, _, _, myMight = UnitAura(unit, MIGHT)
+
+	-- If we've buffed this unit already, there's nothing more to do
+	if myKings or myMight then return	end
+
+	-- If the unit has both buff types already, there's nothing more to do
+	local hasMark = UnitAura(unit, MARK)
+	local hasGrace = UnitAura(unit, GRACE)
+	local hasEmperor = UnitAura(unit, EMP)
+	local hasStatsBuff = hasMark or hasKings or hasEmperor
+	local hasMasteryBuff = hasMight or hasGrace
+	if hasStatsBuff and hasMasteryBuff then return end
+
+	local _, class = UnitClass(unit)
+	local isFurry = class == "DRUID" or class == "MONK"
 	local drummer = GetItemCount(49633) > 0
-	if myKings or myMight or (hasMark or hasKings) and (hasMight or hasGrace) then return end
-	if (hasMark or hasKings or hasForgottenKings or drummer or FurryInGroup() or select(2, UnitClass(unit)) == "DRUID") and not hasMight and not hasGrace then return MIGHT end
-	return KINGS
+	local hasStatsBuffSource = isFurry or drummer or FurryInGroup()
+	local hasForgottenKings = UnitAura(unit, FORGOTTEN_KINGS)
+	local needsStatsBuff = not (hasStatsBuff or hasForgottenKings)
+
+	-- Give kings if they cannot get stats from anyone else, then go for might if
+	-- they need the mastery buff and are high level so we can give it to them.
+	-- Fall back to kings if they need stats and don't need mastery.
+	if needsStatsBuff and not hasStatsBuffSource then return KINGS
+	elseif not hasMasteryBuff and (UnitLevel(unit) >= 80) then return MIGHT
+	elseif needsStatsBuff then return KINGS end
 end
 
 
