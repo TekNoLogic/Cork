@@ -9,6 +9,17 @@ local blist = {npc = true, vehicle = true}
 for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true end
 
 local MagicClasses = {["DRUID"] = true, ["MAGE"] = true, ["PALADIN"] = true, ["PRIEST"] = true, ["SHAMAN"] = true, ["WARLOCK"] = true}
+
+-- Create a raid buffing module.  This module will try to make sure all group
+-- members have this buff
+--
+--      spellname - the name of our spell (give a localized one!)
+--           icon - the icon to show in the tip
+--   altspellname - name of other buff that fills this need, like Kings and Mark
+-- manausers_only - this buff is useless to folks without mana, ignore them
+--     extra_test - an extra check not covered in the generator.  If this
+--                  returns false and other conditions are not met, the need is
+--                  displayed.  Return true if the need is filled.
 function Cork:GenerateRaidBuffer(spellname, icon, altspellname, manausers_only, extra_test)
 	local SpellCastableOnUnit, IconLine = self.SpellCastableOnUnit, self.IconLine
 
