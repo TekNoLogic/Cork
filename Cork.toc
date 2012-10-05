@@ -36,6 +36,7 @@ modules\DeathKnight.lua
 modules\Druid.lua
 modules\Hunter.lua
 modules\Mage.lua
+modules\Monk.lua
 modules\MageGem.lua
 modules\Paladin.lua
 modules\PaladinBlessings.lua
