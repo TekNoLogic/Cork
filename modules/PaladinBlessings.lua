@@ -34,13 +34,19 @@ local function FurryInGroup()
 	end
 end
 
+local function NumMastBuffers()
+	local num = 0
+	for i=1,GetNumGroupMembers() do
+		local _, _, _, _, _, class = GetRaidRosterInfo(i)
+		if class == "PALADIN" or class == "SHAMAN" then num = num + 1 end
+	end
+	return num
+end
+
 local function NeededBlessing(unit)
 	-- The logic here gets a bit hairy, so stay with me...
 	local hasKings, _, _, _, _, _, _, myKings = UnitAura(unit, KINGS)
 	local hasMight, _, _, _, _, _, _, myMight = UnitAura(unit, MIGHT)
-
-	-- If we've buffed this unit already, there's nothing more to do
-	if myKings or myMight then return	end
 
 	-- If the unit has both buff types already, there's nothing more to do
 	local hasMark = UnitAura(unit, MARK)
@@ -54,15 +60,27 @@ local function NeededBlessing(unit)
 	local isFurry = class == "DRUID" or class == "MONK"
 	local drummer = GetItemCount(49633) > 0
 	local hasStatsBuffSource = isFurry or drummer or FurryInGroup()
+	local hasMasteryBuffSource = NumMastBuffers() >= 2
 	local hasForgottenKings = UnitAura(unit, FORGOTTEN_KINGS)
 	local needsStatsBuff = not (hasStatsBuff or hasForgottenKings)
+	local highLevel = UnitLevel(unit) >= 80
+	local needsMasteryBuff = not hasMasteryBuff and highLevel
 
-	-- Give kings if they cannot get stats from anyone else, then go for might if
-	-- they need the mastery buff and are high level so we can give it to them.
-	-- Fall back to kings if they need stats and don't need mastery.
-	if needsStatsBuff and not hasStatsBuffSource then return KINGS
-	elseif not hasMasteryBuff and (UnitLevel(unit) >= 80) then return MIGHT
-	elseif needsStatsBuff then return KINGS end
+	-- Jesus fuck this shit is complex.  Lets start with groups that have druids,
+	-- monks and shamans.  We want to make sure we cast the right buff if one can
+	-- be filled and the other cannot.
+	if hasStatsBuffSource and not hasMasteryBuffSource and needsMasteryBuff then
+		-- Someone can give stats, so lets focus on giving mastery
+		return MIGHT
+	elseif hasMasteryBuffSource and not hasStatsBuffSource and needsStatsBuff then
+		-- Someone can give mastery, so lets focus on giving stats
+		return KINGS
+	else
+		-- The group can provide both or neither, so lets just fill the current
+		-- needs, preferring to give stats if the unit doesn't have it.
+		if needsStatsBuff then return KINGS
+		elseif needsMasteryBuff then return MIGHT end
+	end
 end
 
 
