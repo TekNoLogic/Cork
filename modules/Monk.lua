@@ -17,3 +17,12 @@ Cork:GenerateRaidBuffer(spellname, icon, nil, nil, function(unit)
 		return UnitAura(unit, MIGHT) or UnitAura(unit, GRACE)
 	end
 end)
+
+
+-- Legacy of the White Tiger
+local spellname, _, icon = GetSpellInfo(116781)
+local ARCBRIL, DALBRIL = GetSpellInfo(1459), GetSpellInfo(61316)
+Cork:GenerateRaidBuffer(spellname, icon, ARCBRIL, nil, function(unit)
+	-- We have to account for all forms of arcane briliance, ugh
+	if UnitAura(unit, DALBRIL) then return true end
+end)
