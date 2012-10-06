@@ -26,3 +26,7 @@ Cork:GenerateRaidBuffer(spellname, icon, ARCBRIL, nil, function(unit)
 	-- We have to account for all forms of arcane briliance, ugh
 	if UnitAura(unit, DALBRIL) then return true end
 end)
+
+
+-- Stance
+Cork:GenerateAdvancedSelfBuffer("Stance", {103985, 115069, 115070}, false, true)
