@@ -15,8 +15,8 @@ Cork:GenerateItemBuffer("PRIEST", UnitLevel("player") < 85 and 49632 or 62251, 6
 
 
 -- Only available to alchys
-local itemname = GetItemInfo(58149) or "Flask of Enhancement"
-local dataobj = Cork:GenerateSelfBuffer(itemname, GetItemIcon(58149),
+local itemname = GetItemInfo(75525) or "Alchemist's Flask"
+local dataobj = Cork:GenerateSelfBuffer(itemname, GetItemIcon(75525),
 	GetSpellInfo(79469),  -- Flask of Steelskin
 	GetSpellInfo(79470),  -- Flask of the Draconic Mind
 	GetSpellInfo(79471),  -- Flask of the Winds
@@ -27,10 +27,10 @@ local dataobj = Cork:GenerateSelfBuffer(itemname, GetItemIcon(58149),
 	GetSpellInfo(79639),  -- Flask of Enhancement - Agilty
 	(GetSpellInfo(79640)) -- Flask of Enhancement - Intellect
 )
-dataobj.tiplink = "item:58149"
+dataobj.tiplink = "item:75525"
 
-function dataobj:Init() Cork.defaultspc[itemname.."-enabled"] = GetItemCount(58149) > 0 end
+function dataobj:Init() Cork.defaultspc[itemname.."-enabled"] = GetItemCount(75525) > 0 end
 
 function dataobj:CorkIt(frame)
-	if self.player then return frame:SetManyAttributes("type1", "item", "item1", "item:58149") end
+	if self.player then return frame:SetManyAttributes("type1", "item", "item1", "item:75525") end
 end
