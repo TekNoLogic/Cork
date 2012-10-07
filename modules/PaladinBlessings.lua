@@ -78,7 +78,8 @@ local function NeededBlessing(unit)
 	else
 		-- The group can provide both or neither, so lets just fill the current
 		-- needs, preferring to give stats if the unit doesn't have it.
-		if needsStatsBuff then return KINGS
+		if myKings or myMight then return
+		elseif needsStatsBuff then return KINGS
 		elseif needsMasteryBuff then return MIGHT end
 	end
 end
