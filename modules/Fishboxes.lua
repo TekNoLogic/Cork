@@ -3,7 +3,7 @@ local myname, Cork = ...
 local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-local ICON, ITEMS = "Interface\\Icons\\INV_Crate_05", {6351, 6352, 6357, 13874, 27513, 27481, 44475}
+local ICON, ITEMS = "Interface\\Icons\\INV_Crate_05", {6351, 6352, 6353, 6355, 6356, 6357, 13874, 13875, 20708, 21113, 21150, 21228, 27513, 27446, 27481, 34863, 35348, 44475, 46007, 67597, 68798, 68799, 68800, 68801, 68801, 68803, 68804, 68805, 78930, 88496}
 
 Cork.defaultspc["Crates-enabled"] = true
 
