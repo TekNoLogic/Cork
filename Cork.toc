@@ -51,6 +51,7 @@ modules\WarlockHealthstone.lua
 modules\Warrior.lua
 
 modules\BuffItems.lua
+modules\BattleStandard.lua
 modules\WellFed.lua
 modules\Repairs.lua
 modules\Talents.lua
