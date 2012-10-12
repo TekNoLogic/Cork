@@ -17,7 +17,6 @@ local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..s
 })
 
 Cork.defaultspc[spellname.."-enabled"] = UnitLevel("player") >= 10
-Cork.defaultspc[spellname.."-macro"] = ""
 
 local function Test(unit) if Cork.dbpc[spellname.."-enabled"] and not (UnitAura("player", spellname) or UnitAura("player", spellname2)) and not (IsResting() and not Cork.db.debug) then return iconline end end
 
@@ -28,7 +27,10 @@ function dataobj:Scan() self.custom = Test() end
 
 function dataobj:CorkIt(frame)
 	local macro = Cork.dbpc[spellname.."-macro"]
-	if self.custom and macro and macro ~= "" then return frame:SetManyAttributes("type1", "macro", "macrotext1", macro) end
+	local id = Cork.dbpc[spellname.."-item"]
+	if self.custom and id and GetItemCount(id) > 0 then
+		return frame:SetManyAttributes("type1", "item", "item1", "item:"..id)
+	end
 end
 
 
@@ -42,53 +44,82 @@ dataobj.configframe = frame
 frame:Hide()
 
 frame:SetScript("OnShow", function()
-	local function MakeMacro()
-		local infotype, itemid, itemlink = GetCursorInfo()
-		if infotype == "merchant" then itemid = tonumber(GetMerchantItemLink(itemid):match("item:(%d+):")) end
-		if infotype == "item" or infotype == "merchant" then Cork.dbpc[spellname.."-macro"] = "/use item:"..itemid end
-		return ClearCursor()
+	local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 18, 2, 4
+	local Update
+	local FOOD = GetAuctionItemSubClasses(4)
+
+	local function GetFoods()
+		local t = {}
+		local mylevel = UnitLevel('player')
+
+		if Cork.dbpc[spellname.."-item"] then
+			t[Cork.dbpc[spellname.."-item"]] = true
+		end
+
+		for bag=0,4 do
+			for slot=1,GetContainerNumSlots(bag) do
+				local id = GetContainerItemID(bag, slot)
+				if id then
+					local _, _, _, _, reqlevel, _, subtype = GetItemInfo(id)
+					if subtype == FOOD and reqlevel <= mylevel then t[id] = true end
+				end
+			end
+		end
+
+		return t
 	end
 
+	local function OnClick(self)
+		Cork.dbpc[spellname.."-item"] = self.itemid
+		Update()
+		dataobj:Scan()
+	end
 
-	local editbox = CreateFrame("EditBox", nil, frame)
-	editbox:SetWidth(300)
-	editbox:SetPoint("RIGHT")
-	editbox:SetFrameStrata("DIALOG")
-	editbox:Hide()
-	editbox:SetFontObject(GameFontHighlightSmall)
-	editbox:SetTextInsets(8,8,8,8)
-	editbox:SetBackdrop({
-		bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-		edgeSize = 16,
-		insets = {left = 4, right = 4, top = 4, bottom = 4}
-	})
-	editbox:SetBackdropColor(.3, .1, .1, 1)
-	editbox:SetMultiLine(true)
-	editbox:SetAutoFocus(true)
-	editbox:SetScript("OnShow", function(self) self:SetText(Cork.dbpc[spellname.."-macro"]) end)
-	editbox:SetScript("OnHide", function(self) Cork.dbpc[spellname.."-macro"] = self:GetText() end)
-	editbox:SetScript("OnEscapePressed", editbox.Hide)
-	editbox:SetScript("OnReceiveDrag", function()
-		MakeMacro()
-		self:SetText(Cork.dbpc[spellname.."-macro"])
-	end)
+	local function OnEnter(self)
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+		GameTooltip:SetHyperlink("item:"..self.itemid)
+	end
+	local function OnLeave() GameTooltip:Hide() end
 
 
-	local butt = LibStub("tekKonfig-Button").new_small(frame, "RIGHT")
-	butt:SetWidth(60) butt:SetHeight(18)
-	butt.tiptext = "Click to edit macro, or drop an item to automatically generate a macro."
-	butt:SetText("Macro")
-	butt:SetScript("OnClick", function() editbox:Show() end)
-	butt:SetScript("OnReceiveDrag", MakeMacro)
+	local buffbuttons = setmetatable({}, {__index = function(t, i)
+		local butt = CreateFrame("CheckButton", nil, frame)
+		butt:SetWidth(ROWHEIGHT) butt:SetHeight(ROWHEIGHT)
 
+		local tex = butt:CreateTexture(nil, "BACKGROUND")
+		tex:SetAllPoints()
+		tex:SetTexCoord(4/48, 44/48, 4/48, 44/48)
+		butt.icon = tex
 
-	frame:SetScript("OnHide", function() editbox:Hide() end)
-	frame:SetScript("OnShow", nil)
+		butt:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress")
+		butt:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+		butt:SetCheckedTexture("Interface\\Buttons\\CheckButtonHilight")
+
+		butt:SetScript("OnClick", OnClick)
+		butt:SetScript("OnEnter", OnEnter)
+		butt:SetScript("OnLeave", OnLeave)
+
+		t[i] = butt
+		return butt
+	end})
+
+	function Update(self)
+		for _,f in pairs(buffbuttons) do f:Hide() end
+		local foods = GetFoods()
+		local lasticon
+		-- local i = 0
+		for id in pairs(foods) do
+			-- i = i + 1
+			local butt = buffbuttons[id]
+			butt.icon:SetTexture(GetItemIcon(id))
+			butt:SetChecked(Cork.dbpc[spellname.."-item"] == id)
+			butt:Show()
+			if lasticon then lasticon:SetPoint("RIGHT", butt, "LEFT", -ROWGAP, 0) end
+			lasticon, butt.itemid = butt, id
+		end
+		if lasticon then lasticon:SetPoint("RIGHT", 0, 0) end
+	end
+
+	frame:SetScript("OnShow", Update)
+	Update(frame)
 end)
-
-
-local orig = IsOptionFrameOpen
-function IsOptionFrameOpen(...)
-	if not frame:IsVisible() then return orig(...) end
-end
