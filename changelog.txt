@@ -1,3 +1,15 @@
+5.0.1.46-Beta
+    Add guild battle standard module
+    Add basic stance support for Monks (thanks jf647)
+    Add Legacy of the Emperor support for Monks
+    Add Legacy of the White Tiger
+    Rework mark logic for monks' buff
+    Update pally blessings for pandas
+    Fix error caused by monks
+    Fix alchy flask
+    Better config panel for well fed
+    New fishing boxes (thanks hughescr)
+
 5.0.1.45-Beta
     5.0 updates, may not be complete (thanks hughescr and jf647)
 
