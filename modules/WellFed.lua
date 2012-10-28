@@ -104,12 +104,10 @@ frame:SetScript("OnShow", function()
 	end})
 
 	function Update(self)
-		for _,f in pairs(buffbuttons) do f:Hide() end
+		for _,f in pairs(buffbuttons) do f:Hide(); f:ClearAllPoints() end
 		local foods = GetFoods()
 		local lasticon
-		-- local i = 0
 		for id in pairs(foods) do
-			-- i = i + 1
 			local butt = buffbuttons[id]
 			butt.icon:SetTexture(GetItemIcon(id))
 			butt:SetChecked(Cork.dbpc[spellname.."-item"] == id)
