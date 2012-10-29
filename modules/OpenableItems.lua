@@ -21,4 +21,4 @@ clams.items = {7973, 24476, 5523, 15874, 5524, 32724, 36781, 45909, 52340, 65513
 local bloated = ns:New("Bloated innards")
 bloated.Init = ns.InitItemOpener
 bloated.tiptext = "Warn when you have bloated innards that need opened."
-bloated.items = {67495, 72201, 81400}
+bloated.items = {67495, 72201}
