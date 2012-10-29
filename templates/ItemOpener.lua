@@ -38,5 +38,5 @@ function ns.InitItemOpener(self)
 	ns.defaultspc[self.name.."-enabled"] = true
 	self.CorkIt = corkit
 	self.Scan = scan
-	ae.RegisterEvent("Cork ".. self.name, "BAG_UPDATE", scan, self)
+	ae.RegisterEvent(self, "BAG_UPDATE", "Scan")
 end
