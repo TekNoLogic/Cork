@@ -22,11 +22,15 @@ CallbackHandler-1.0.lua
 LibDataBroker-1.1\LibDataBroker-1.1.lua
 AceEvent-3.0\AceEvent-3.0.xml
 
+Locale.lua
+KeyBlacklist.lua
+
 Cork.lua
 Config.lua
 MacroGenerator.lua
 Mousewheel.lua
 
+templates\ItemOpener.lua
 templates\SelfBuffer.lua
 templates\SelfBufferAdvanced.lua
 templates\RaidBuffer.lua
@@ -57,11 +61,10 @@ modules\BattleStandard.lua
 modules\WellFed.lua
 modules\Repairs.lua
 modules\Talents.lua
-modules\Shucks.lua
 modules\Tracking.lua
 modules\Combine.lua
 modules\Glyphs.lua
-modules\Fishboxes.lua
+modules\OpenableItems.lua
 modules\LancePole.lua
 modules\QuestStartingItems.lua
 modules\Dig.lua

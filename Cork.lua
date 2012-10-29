@@ -6,7 +6,6 @@ local _
 _, Cork.MYCLASS = UnitClass("player")
 
 Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits, Cork.defaultspc = {}, {}, {}, {player = "pet"}, {pet = true}, {}
-Cork.keyblist = {CorkIt = true, type = true, Scan = true, Init = true, configframe = true, RaidLine = true, lowpriority = true, tiptext = true, tiplink = true, nobg = true}
 
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, debug = false, bindwheel = false}
 local tooltip, anchor
@@ -14,31 +13,6 @@ local tooltip, anchor
 for i=1,4 do Cork.petmappings["party"..i], Cork.petunits["partypet"..i] = "partypet"..i, true end
 for i=1,40 do Cork.petmappings["raid"..i], Cork.petunits["raidpet"..i] = "raidpet"..i, true end
 for i=1,MAX_BOSS_FRAMES do Cork.keyblist["boss"..i] = true end
-
-
-----------------------------
---      Localization      --
-----------------------------
-
-Cork.classnames = {
-	["WARLOCK"] = "Warlock",
-	["WARRIOR"] = "Warrior",
-	["HUNTER"] = "Hunter",
-	["MAGE"] = "Mage",
-	["PRIEST"] = "Priest",
-	["DRUID"] = "Druid",
-	["PALADIN"] = "Paladin",
-	["SHAMAN"] = "Shaman",
-	["ROGUE"] = "Rogue",
-	["DEATHKNIGHT"] = "Death Knight",
-	["MONK"] = "Monk",
-}
-
-Cork.colors = {}
-for token in pairs(Cork.classnames) do
-	local c = RAID_CLASS_COLORS[token]
-	Cork.colors[token] = string.format("%02x%02x%02x", c.r*255, c.g*255, c.b*255)
-end
 
 
 ------------------------------
@@ -212,10 +186,16 @@ end
 local function NewDataobject(event, name, dataobj)
 	if dataobj.type ~= "cork" then return end
 	Cork.corks[name] = dataobj
+	if not dataobj.name then dataobj.name = name:gsub("Cork ", "") end
 	ldb.RegisterCallback("Corker", "LibDataBroker_AttributeChanged_"..name, Cork.Update)
 end
 
 ldb.RegisterCallback("Corker", "LibDataBroker_DataObjectCreated", NewDataobject)
+
+
+function Cork:New(name)
+	return ldb:NewDataObject("Cork "..name, {type = "cork", name = name})
+end
 
 
 ----------------------------
