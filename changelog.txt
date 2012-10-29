@@ -1,3 +1,9 @@
+5.0.1.47-Beta
+    Added bloated skinning items to open
+    Fix a bug with the new wellfed config
+    Add monk exp booster buff
+    Don't prompt for guild battle standard when it's on CD
+
 5.0.1.46-Beta
     Add guild battle standard module
     Add basic stance support for Monks (thanks jf647)
