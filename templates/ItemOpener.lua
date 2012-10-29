@@ -1,11 +1,11 @@
 
-local myname, Cork = ...
-local IconLine = Cork.IconLine
+local myname, ns = ...
+local IconLine = ns.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
 local function scan(self)
-	if not Cork.dbpc[self.name.."-enabled"] then
+	if not ns.dbpc[self.name.."-enabled"] then
 		self.player = nil
 		return
 	end
@@ -34,8 +34,8 @@ local function corkit(self, frame)
 end
 
 
-function Cork.InitItemOpener(self)
-	Cork.defaultspc[self.name.."-enabled"] = true
+function ns.InitItemOpener(self)
+	ns.defaultspc[self.name.."-enabled"] = true
 	self.CorkIt = corkit
 	self.Scan = scan
 	ae.RegisterEvent("Cork ".. self.name, "BAG_UPDATE", scan)
