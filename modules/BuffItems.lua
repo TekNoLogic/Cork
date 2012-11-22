@@ -3,6 +3,18 @@ local myname, Cork = ...
 local level = UnitLevel("player")
 
 
+local itemname = GetItemInfo(71134) or "Celebration Package"
+local dataobj = Cork:GenerateSelfBuffer(itemname, GetItemIcon(71134),
+	                                      (GetSpellInfo(100951)))
+dataobj.tiplink = "item:71134"
+
+function dataobj:Init() Cork.defaultspc[itemname.."-enabled"] = GetItemCount(71134) > 0 end
+
+function dataobj:CorkIt(frame)
+	if self.player then return frame:SetManyAttributes("type1", "item", "item1", "item:71134") end
+end
+
+
 -- Items only available at 80
 if level < 80 then return end
 
