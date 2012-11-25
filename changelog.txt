@@ -1,3 +1,7 @@
+5.0.1.49-Beta
+    Add anniversary exp buff item
+    Add new fortitude runescroll
+
 5.0.1.48-Beta
     Fix error with openable items
 
