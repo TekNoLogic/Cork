@@ -68,4 +68,5 @@ modules\OpenableItems.lua
 modules\LancePole.lua
 modules\QuestStartingItems.lua
 modules\Dig.lua
+modules\Minipet.lua
 
