@@ -16,4 +16,5 @@ ns.keyblist = {
 	items = true,
 	spells = true,
 	name = true,
+	Test = true,
 }
