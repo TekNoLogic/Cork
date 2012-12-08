@@ -65,7 +65,7 @@ ae.RegisterEvent("Cork", "PLAYER_LOGOUT", function()
 	for i,v in pairs(Cork.defaultspc) do if Cork.dbpc[i] == v then Cork.dbpc[i] = nil end end
 end)
 
-local onTaxi = nil
+local onTaxi, petBattle
 ae.RegisterEvent("Cork Core", "PLAYER_CONTROL_LOST", function()
 	onTaxi = true
 	Cork.Update()
@@ -85,6 +85,14 @@ ae.RegisterEvent("Cork Core", "UNIT_EXITED_VEHICLE", function()
 	Cork.Update()
 end)
 
+ae.RegisterEvent("Cork Core", "PET_BATTLE_OPENING_START", function()
+	petBattle = true
+	Cork.Update()
+end)
+ae.RegisterEvent("Cork Core", "PET_BATTLE_OVER", function()
+	petBattle = nil
+	Cork.Update()
+end)
 
 ------------------------------
 --      Tooltip anchor      --
@@ -175,7 +183,9 @@ function Cork.Update(event, name, attr, value, dataobj)
 		end
 	end
 
-	if tooltip:NumLines() > 0 and not onTaxi then tooltip:Show() end
+	if tooltip:NumLines() > 0 and not onTaxi and not petBattle then
+		tooltip:Show()
+	end
 end
 
 
