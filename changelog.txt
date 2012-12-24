@@ -1,3 +1,10 @@
+5.1.0.50-Beta
+    Hide tooltip during pet battles
+    Add darkmoon exp buff
+    Add minipet summoning module
+    Remove 8th anniversary buff item
+    Remove an old hunter aspect
+
 5.0.1.49-Beta
     Add anniversary exp buff item
     Add new fortitude runescroll
