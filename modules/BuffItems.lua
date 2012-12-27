@@ -53,7 +53,12 @@ local dataobj = Cork:GenerateSelfBuffer(itemname, GetItemIcon(75525),
 	GetSpellInfo(92679),  -- Flask of Battle (Guild Flask)
 	GetSpellInfo(79638),  -- Flask of Enhancement - Strength
 	GetSpellInfo(79639),  -- Flask of Enhancement - Agilty
-	(GetSpellInfo(79640)) -- Flask of Enhancement - Intellect
+	GetSpellInfo(79640), -- Flask of Enhancement - Intellect
+	GetSpellInfo(105689), -- Flask of Spring Blossoms
+	GetSpellInfo(105691), -- Flask of the Warm Sun
+	GetSpellInfo(105693), -- Flask of Falling Leaves
+	GetSpellInfo(105694), -- Flask of the Earth
+	(GetSpellInfo(105696)) -- Flask of Winter's Bite
 )
 dataobj.tiplink = "item:75525"
 
