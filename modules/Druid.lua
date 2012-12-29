@@ -18,6 +18,9 @@ Cork:GenerateRaidBuffer(spellname, icon, nil, nil, function(unit)
 	end
 end)
 
+-- Symbiosis
+local spellname, _, icon = GetSpellInfo(110309)
+Cork:GenerateLastBuffedBuffer(spellname, icon, true)
 
 -- Shapeshifts
 local dobj, ref = Cork:GenerateAdvancedSelfBuffer("Fursuit", {768, 5487, 24858})
