@@ -34,7 +34,7 @@ if level < 80 then return end
 
 
 -- Drums of Forgotten Kings
-Cork:GenerateItemBuffer({PALADIN = true, DRUID = true}, 49633, 69378, 20217)
+Cork:GenerateItemBuffer({PALADIN = true, DRUID = true, MONK = true}, 49633, 69378, 20217)
 
 
 -- Runescroll of Fortitude
