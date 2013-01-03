@@ -18,9 +18,17 @@ Cork:GenerateRaidBuffer(spellname, icon, nil, nil, function(unit)
 	end
 end)
 
+
 -- Symbiosis
 local spellname, _, icon = GetSpellInfo(110309)
-Cork:GenerateLastBuffedBuffer(spellname, icon, true)
+local dataobj = Cork:GenerateLastBuffedBuffer(spellname, icon, true)
+function dataobj:CorkIt(frame)
+	if self.custom then
+		local macro = "/target ".. dataobj.lasttarget.. "\n/cast ".. spellname
+		return frame:SetManyAttributes("type1", "macro", "macrotext1", macro)
+	end
+end
+
 
 -- Shapeshifts
 local dobj, ref = Cork:GenerateAdvancedSelfBuffer("Fursuit", {768, 5487, 24858})

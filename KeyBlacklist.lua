@@ -17,4 +17,5 @@ ns.keyblist = {
 	spells = true,
 	name = true,
 	Test = true,
+	lasttarget = true,
 }

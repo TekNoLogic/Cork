@@ -10,7 +10,6 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 	local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 
 
-	local lasttarget
 	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork", tiplink = GetSpellLink(spellname)})
 
 
@@ -20,14 +19,14 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 	local endtime, elapsed
 	local function Test()
 		if (IsResting() and not Cork.db.debug) then return end
-		if not Cork.dbpc[spellname.."-enabled"] or not lasttarget then
+		if not Cork.dbpc[spellname.."-enabled"] or not dataobj.lasttarget then
 			f:Hide()
 			return
 		end
 
 		local start, duration = GetSpellCooldown(spellname)
 		if start == 0 then
-			if not UnitAura(lasttarget, spellname) then return IconLine(icon, lasttarget, select(2, UnitClass(lasttarget))) end
+			if not UnitAura(dataobj.lasttarget, spellname) then return IconLine(icon, dataobj.lasttarget, select(2, UnitClass(dataobj.lasttarget))) end
 			return
 		end
 		endtime = start + duration
@@ -37,17 +36,17 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 
 	ae.RegisterEvent("Cork "..spellname, "PLAYER_UPDATE_RESTING", function() dataobj.custom = Test() end)
 	ae.RegisterEvent("Cork "..spellname, "GROUP_ROSTER_UPDATE", function()
-		if lasttarget and not (UnitInRaid(lasttarget) or UnitInParty(lasttarget)) then
-			lasttarget, dataobj.custom = nil
+		if dataobj.lasttarget and not (UnitInRaid(dataobj.lasttarget) or UnitInParty(dataobj.lasttarget)) then
+			dataobj.lasttarget, dataobj.custom = nil
 		end
 	end)
-	ae.RegisterEvent("Cork "..spellname, "UNIT_PET", function() if lasttarget and not (UnitInParty(lasttarget) or UnitInRaid(lasttarget)) then lasttarget, dataobj.custom = nil end end)
+	ae.RegisterEvent("Cork "..spellname, "UNIT_PET", function() if dataobj.lasttarget and not (UnitInParty(dataobj.lasttarget) or UnitInRaid(dataobj.lasttarget)) then dataobj.lasttarget, dataobj.custom = nil end end)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_SPELLCAST_SUCCEEDED", function(event, unit, spell) if unit == "player" and spell == spellname then dataobj.custom = Test() end end)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit)
 		if not Cork.dbpc[spellname.."-enabled"] or blist[unit] then return end
 		local name, _, _, _, _, _, _, caster = UnitAura(unit, spellname)
-		if name and caster and UnitIsUnit('player', caster) and (not ignoreself or not UnitIsUnit('player', unit)) then lasttarget, dataobj.custom = UnitName(unit), nil
-		elseif not name and UnitName(unit) == lasttarget then dataobj.custom = Test() end
+		if name and caster and UnitIsUnit('player', caster) and (not ignoreself or not UnitIsUnit('player', unit)) then dataobj.lasttarget, dataobj.custom = UnitName(unit), nil
+		elseif not name and UnitName(unit) == dataobj.lasttarget then dataobj.custom = Test() end
 	end)
 
 
@@ -55,7 +54,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 		if not UnitExists(unit) or GetNumGroupMembers() == 0 then return end
 		local name, _, _, _, _, _, _, caster = UnitAura(unit, spellname)
 		if not name or not caster or not UnitIsUnit('player', caster) then return end
-		lasttarget = UnitName(unit)
+		dataobj.lasttarget = UnitName(unit)
 		return true
 	end
 	local function FindCurrent()
@@ -65,8 +64,8 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 	end
 
 	function dataobj:Init() FindCurrent(); Cork.defaultspc[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil end
-	function dataobj:Scan() if not Cork.dbpc[spellname.."-enabled"] then lasttarget, dataobj.custom = nil end end
-	function dataobj:CorkIt(frame) if self.custom then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", lasttarget) end end
+	function dataobj:Scan() if not Cork.dbpc[spellname.."-enabled"] then dataobj.lasttarget, dataobj.custom = nil end end
+	function dataobj:CorkIt(frame) if self.custom then return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", dataobj.lasttarget) end end
 
 	f:SetScript("OnShow", function() elapsed = GetTime() end)
 	f:SetScript("OnHide", function() dataobj.custom, endtime = Test() end)
@@ -106,4 +105,6 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 		frame:SetScript("OnShow", Refresh)
 		Refresh()
 	end)
+
+	return dataobj
 end
