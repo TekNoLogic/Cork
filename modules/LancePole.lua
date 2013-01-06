@@ -3,30 +3,61 @@ local myname, Cork = ...
 local IconLine = Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
-local slot = GetInventorySlotInfo("MainHandSlot")
-local lances, poles, ITEMS = {46069, 46106, 46070}, {6256, 6365, 6366, 6367, 12225, 19022, 25978, 45858, 45992, 45991, 19970, 44050}, {}
-for _,id in pairs(poles) do ITEMS[id] = "pole" end
-for _,id in pairs(lances) do ITEMS[id] = true end
 
-Cork.defaultspc["Lances and Poles-enabled"] = true
+local function Test(self, id)
+	return self.items[id]
+end
 
-local dataobj = ldb:NewDataObject("Cork Lances and Poles", {type = "cork", tiptext = "Warn when you have a lance or fishing pole equipped at a time you probably want a weapon equipped."})
 
 local incombat
-function dataobj:Scan()
-	if self == "PLAYER_REGEN_DISABLED" then incombat = true
-	elseif self == "PLAYER_REGEN_ENABLED" then incombat = false end
+local function Scan(self, event)
+	if event == "PLAYER_REGEN_DISABLED" then incombat = true
+	elseif event == "PLAYER_REGEN_ENABLED" then incombat = false end
 
-	local id = GetInventoryItemID("player", 16)
+	local id = GetInventoryItemID("player", self.slot)
+	print("id", id)
 
-	if not Cork.dbpc["Lances and Poles-enabled"] or not ITEMS[id] or ITEMS[id] == "pole" and not incombat then
-		dataobj.player = nil
+	if not Cork.dbpc[self.name.."-enabled"] or not self:Test(id) then
+		self.player = nil
 		return
 	end
 
-	dataobj.player = IconLine(GetItemIcon(id), (GetItemInfo(id)))
+	self.player = IconLine(GetItemIcon(id), (GetItemInfo(id)))
 end
 
-ae.RegisterEvent("Cork Lance", "UNIT_INVENTORY_CHANGED", dataobj.Scan)
-ae.RegisterEvent("Cork Lance", "PLAYER_REGEN_DISABLED", dataobj.Scan)
-ae.RegisterEvent("Cork Lance", "PLAYER_REGEN_ENABLED", dataobj.Scan)
+
+function Cork:GenerateEquippedWarning(name, slot, ...)
+	local dataobj = ldb:NewDataObject("Cork "..name, {
+		type  = "cork",
+		name  = name,
+		slot  = slot,
+		Test  = Test,
+		Scan  = Scan,
+		items = {},
+		tiptext = "Warn when you have a ".. name:lower()..
+		          " equipped at a time you probably don't want it.",
+	})
+
+	for i=1,select("#", ...) do dataobj.items[select(i, ...)] = true end
+
+	Cork.defaultspc[name.."-enabled"] = true
+
+	ae.RegisterEvent(dataobj, "UNIT_INVENTORY_CHANGED", "Scan")
+	ae.RegisterEvent(dataobj, "PLAYER_REGEN_DISABLED", "Scan")
+	ae.RegisterEvent(dataobj, "PLAYER_REGEN_ENABLED", "Scan")
+end
+
+
+local mainhand = GetInventorySlotInfo("MainHandSlot")
+Cork:GenerateEquippedWarning("Lance", mainhand, 46069, 46106, 46070)
+
+local poles = Cork:GenerateEquippedWarning("Fishing pole", mainhand,
+	6256, 6365, 6366, 6367, 12225, 19022, 19970, -- Classic
+	25978, -- BC
+	44050, 45858, 45991, 45992, -- Wrath
+	46337, 52678, -- Cat
+	84660, 84661) -- PANDAS!
+
+function poles:Test(id)
+	return Test(self, id) and not incombat
+end

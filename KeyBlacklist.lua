@@ -14,6 +14,7 @@ local keys = {
 	"nobg",
 	"RaidLine",
 	"Scan",
+	"slot",
 	"spellname",
 	"spells",
 	"Test",
