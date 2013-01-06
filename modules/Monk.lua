@@ -50,7 +50,6 @@ end
 local function Test(unit)
 	if not Cork.dbpc[spellname.."-enabled"] then return end
 	if UnitAura("player", spellname) then return end
-	if (IsResting() and not Cork.db.debug) then return end
 
 	-- We only need to check the level 20 quest, they all return true if any one
 	-- has been completed.  It's like the fishing dailies, a random one each day.
