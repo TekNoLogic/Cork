@@ -1,21 +1,24 @@
 
 local myname, ns = ...
 
-ns.keyblist = {
-	CorkIt = true,
-	type = true,
-	Scan = true,
-	Init = true,
-	configframe = true,
-	RaidLine = true,
-	lowpriority = true,
-	tiptext = true,
-	tiplink = true,
-	nobg = true,
-	icon = true,
-	items = true,
-	spells = true,
-	name = true,
-	Test = true,
-	lasttarget = true,
+local keys = {
+	"configframe",
+	"CorkIt",
+	"icon",
+	"Init",
+	"items",
+	"lasttarget",
+	"lowpriority",
+	"name",
+	"nobg",
+	"RaidLine",
+	"Scan",
+	"spells",
+	"Test",
+	"tiplink",
+	"tiptext",
+	"type",
 }
+
+ns.keyblist = {}
+for i,key in pairs(keys) do ns.keyblist[key] = true end
