@@ -19,8 +19,7 @@ end
 local itemname = "Darkmoon EXP Buff"
 local spellname, _, icon = GetSpellInfo(46668)
 local dataobj = Cork:GenerateSelfBuffer(itemname, icon, spellname)
-local oldtest = dataobj.Test
-function dataobj.Test() return DarkmoonToday() and oldtest() end
+function dataobj:Test() return DarkmoonToday() and self:TestWithoutResting() end
 function dataobj:Init()
 	Cork.defaultspc[itemname.."-enabled"] = level < 90
 	if level < 90 then OpenCalendar() end

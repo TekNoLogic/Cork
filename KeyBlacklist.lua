@@ -5,6 +5,7 @@ local keys = {
 	"configframe",
 	"CorkIt",
 	"icon",
+	"iconline",
 	"Init",
 	"items",
 	"lasttarget",
@@ -13,11 +14,14 @@ local keys = {
 	"nobg",
 	"RaidLine",
 	"Scan",
+	"spellname",
 	"spells",
 	"Test",
+	"TestWithoutResting",
 	"tiplink",
 	"tiptext",
 	"type",
+	"UNIT_AURA",
 }
 
 ns.keyblist = {}

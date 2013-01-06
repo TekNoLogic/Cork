@@ -4,40 +4,57 @@ local UnitAura = Cork.UnitAura or UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
+local function HasBuff(spells)
+	for _,spell in pairs(spells) do
+		if UnitAura("player", spell) then return true end
+	end
+end
+
+local function Init(self)
+	local name = GetSpellInfo(self.spellname)
+	Cork.defaultspc[self.spellname.."-enabled"] = name ~= nil
+end
+
+local function TestWithoutResting(self)
+	if Cork.dbpc[self.spellname.."-enabled"] and not HasBuff(self.spells) then
+		return self.iconline
+	end
+end
+
+local function Test(self)
+	return not (IsResting() and not Cork.db.debug) and TestWithoutResting(self)
+end
+
+local function Scan(self, ...) self.player = self:Test() end
+
+local function CorkIt(self, frame)
+	if self.player then
+		return frame:SetManyAttributes("type1", "spell", "spell", self.spellname,
+			"unit", "player")
+	end
+end
+
+local function UNIT_AURA(self, event, unit)
+	if unit == "player" then self:Scan() end
+end
+
+
 function Cork:GenerateSelfBuffer(spellname, icon, ...)
-	local iconline = self.IconLine(icon, spellname)
+	local dataobj = ldb:NewDataObject("Cork "..spellname, {
+		type      = "cork",
+		tiplink   = GetSpellLink(spellname),
+		iconline  = self.IconLine(icon, spellname),
+		spells    = {spellname, ...},
+		spellname = spellname,
+		Init      = Init,
+		Test      = Test,
+		Scan      = Scan,
+		CorkIt    = CorkIt,
+		UNIT_AURA = UNIT_AURA,
+		TestWithoutResting = TestWithoutResting,
+	})
 
-	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork"})
-	dataobj.tiplink = GetSpellLink(spellname)
-
-	function dataobj:Init()
-		Cork.defaultspc[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil
-	end
-
-	local spells = {spellname, ...}
-	local function HasBuff()
-		for _,spell in pairs(spells) do
-			if UnitAura("player", spell) then return true end
-		end
-	end
-
-	function dataobj.Test(unit)
-		if Cork.dbpc[spellname.."-enabled"] and not HasBuff() and not (IsResting() and not Cork.db.debug) then
-			return iconline
-		end
-	end
-
-	function dataobj:Scan() self.player = self.Test() end
-
-	function dataobj:CorkIt(frame)
-		if self.player then
-			return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "player")
-		end
-	end
-
-	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit)
-		if unit == "player" then dataobj.player = dataobj.Test() end
-	end)
+	ae.RegisterEvent(dataobj, "UNIT_AURA")
 	ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
 
 	return dataobj
