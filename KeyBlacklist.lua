@@ -23,6 +23,7 @@ local keys = {
 	"tiptext",
 	"type",
 	"UNIT_AURA",
+	"UNIT_PET",
 }
 
 ns.keyblist = {}
