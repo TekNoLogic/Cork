@@ -15,7 +15,6 @@ local function Scan(self, event)
 	elseif event == "PLAYER_REGEN_ENABLED" then incombat = false end
 
 	local id = GetInventoryItemID("player", self.slot)
-	print("id", id)
 
 	if not Cork.dbpc[self.name.."-enabled"] or not self:Test(id) then
 		self.player = nil
@@ -45,6 +44,8 @@ function Cork:GenerateEquippedWarning(name, slot, ...)
 	ae.RegisterEvent(dataobj, "UNIT_INVENTORY_CHANGED", "Scan")
 	ae.RegisterEvent(dataobj, "PLAYER_REGEN_DISABLED", "Scan")
 	ae.RegisterEvent(dataobj, "PLAYER_REGEN_ENABLED", "Scan")
+
+	return dataobj
 end
 
 
