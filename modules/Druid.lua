@@ -21,7 +21,7 @@ end)
 
 -- Symbiosis
 local spellname, _, icon = GetSpellInfo(110309)
-local dataobj = Cork:GenerateLastBuffedBuffer(spellname, icon, true)
+local dataobj = Cork:GenerateLastBuffedBuffer(spellname, icon)
 function dataobj:CorkIt(frame)
 	if self.custom then
 		local macro = "/target ".. dataobj.lasttarget.. "\n/cast ".. spellname

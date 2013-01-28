@@ -20,7 +20,8 @@ Cork:GenerateSelfBuffer(spellname, icon)
 
 -- Fear Ward
 local spellname, _, icon = GetSpellInfo(6346)
-Cork:GenerateLastBuffedBuffer(spellname, icon)
+local dataobj = Cork:GenerateLastBuffedBuffer(spellname, icon)
+dataobj.onlyrebuffs = true
 
 
 -- Chakras

@@ -6,7 +6,7 @@ local blist = {npc = true, vehicle = true, focus = true, target = true}
 for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true end
 
 
-function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
+function Cork:GenerateLastBuffedBuffer(spellname, icon)
 	local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 
 
@@ -19,19 +19,26 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 	local endtime, elapsed
 	local function Test()
 		if (IsResting() and not Cork.db.debug) then return end
-		if not Cork.dbpc[spellname.."-enabled"] or not dataobj.lasttarget then
+		if not Cork.dbpc[spellname.."-enabled"]
+			or (dataobj.onlyrebuffs and not dataobj.lasttarget) then
+
+			dataobj.lasttarget, dataobj.custom = nil
 			f:Hide()
 			return
 		end
 
 		local start, duration = GetSpellCooldown(spellname)
 		if start == 0 then
-			if not UnitAura(dataobj.lasttarget, spellname) then
-				local _, class = UnitClass(dataobj.lasttarget)
-				return IconLine(icon, dataobj.lasttarget, class)
-			end
+			if dataobj.lasttarget then
+				if not UnitAura(dataobj.lasttarget, spellname) then
+					local _, class = UnitClass(dataobj.lasttarget)
+					return IconLine(icon, dataobj.lasttarget, class)
+				end
 
-			return
+				return
+			else
+				return IconLine(icon, spellname)
+			end
 		end
 		endtime = start + duration
 		f:Show()
@@ -64,7 +71,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 		local name, _, _, _, _, _, _, caster = UnitAura(unit, spellname)
 		local iscaster = name and caster and UnitIsUnit('player', caster)
 
-		if iscaster and (not ignoreself or not UnitIsUnit('player', unit)) then
+		if iscaster then
 			dataobj.lasttarget, dataobj.custom = UnitName(unit), nil
 		elseif not name and UnitName(unit) == dataobj.lasttarget then
 			dataobj.custom = Test()
@@ -77,6 +84,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 		local name, _, _, _, _, _, _, caster = UnitAura(unit, spellname)
 		if not name or not caster or not UnitIsUnit('player', caster) then return end
 		dataobj.lasttarget = UnitName(unit)
+		print("dataobj.lasttarget", dataobj.lasttarget)
 		return true
 	end
 	local function FindCurrent()
@@ -91,9 +99,7 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon, ignoreself)
 	end
 
 	function dataobj:Scan()
-		if not Cork.dbpc[spellname.."-enabled"] then
-			dataobj.lasttarget, dataobj.custom = nil
-		end
+		dataobj.custom = Test()
 	end
 
 	function dataobj:CorkIt(frame)
