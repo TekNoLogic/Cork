@@ -20,7 +20,8 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 	local function Test()
 		if (IsResting() and not Cork.db.debug) then return end
 		if not Cork.dbpc[spellname.."-enabled"]
-			or (dataobj.onlyrebuffs and not dataobj.lasttarget) then
+			or (dataobj.onlyrebuffs and not dataobj.lasttarget)
+			or (dataobj.partyonly and not IsInGroup()) then
 
 			dataobj.lasttarget, dataobj.custom = nil
 			f:Hide()

@@ -14,4 +14,5 @@ Cork:GenerateSelfBuffer(spellname, icon)
 
 -- Beacon of Light
 local spellname, _, icon = GetSpellInfo(53563)
-Cork:GenerateLastBuffedBuffer(spellname, icon)
+local dataobj = Cork:GenerateLastBuffedBuffer(spellname, icon)
+dataobj.partyonly = true
