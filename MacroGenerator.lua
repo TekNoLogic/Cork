@@ -31,7 +31,7 @@ function Cork.GenerateMacro()
 		else
 			body = "/click CorkFrame"
 		end
-		local id = CreateMacro("Cork", 1, body, true)
+		local id = CreateMacro("Cork", "INV_MISC_QUESTIONMARK", body, true)
 		PickupMacro(id)
 	end
 end
