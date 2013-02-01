@@ -50,11 +50,13 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 		dataobj.custom = Test()
 	end)
 
-	ae.RegisterEvent("Cork "..spellname, "GROUP_ROSTER_UPDATE", function()
+	function dataobj:GROUP_ROSTER_UPDATE()
 		if dataobj.lasttarget and not (UnitInRaid(dataobj.lasttarget) or UnitInParty(dataobj.lasttarget)) then
 			dataobj.lasttarget, dataobj.custom = nil
 		end
-	end)
+		dataobj:Scan()
+	end
+	ae.RegisterEvent(dataobj, "GROUP_ROSTER_UPDATE")
 
 	ae.RegisterEvent("Cork "..spellname, "UNIT_PET", function()
 		if dataobj.lasttarget and not (UnitInParty(dataobj.lasttarget) or UnitInRaid(dataobj.lasttarget)) then

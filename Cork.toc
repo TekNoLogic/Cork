@@ -52,7 +52,6 @@ modules\Shaman.lua
 modules\Warlock.lua
 modules\WarlockPets.lua
 modules\WarlockSoulLink.lua
-modules\WarlockSoulstone.lua
 modules\WarlockHealthstone.lua
 modules\Warrior.lua
 
