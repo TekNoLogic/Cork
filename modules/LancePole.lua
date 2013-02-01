@@ -16,7 +16,7 @@ local function Scan(self, event)
 
 	local id = GetInventoryItemID("player", self.slot)
 
-	if not Cork.dbpc[self.name.."-enabled"] or not self:Test(id) then
+	if not Cork.dbpc[self.name.."-enabled"] or not id or not self:Test(id) then
 		self.player = nil
 		return
 	end
@@ -32,7 +32,7 @@ function Cork:GenerateEquippedWarning(name, slot, ...)
 		slot  = slot,
 		Test  = Test,
 		Scan  = Scan,
-		items = {},
+		items = {...},
 		tiptext = "Warn when you have a ".. name:lower()..
 		          " equipped at a time you probably don't want it.",
 	})
