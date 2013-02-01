@@ -140,9 +140,9 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 		text:SetPoint("RIGHT", butt, "LEFT", -4, 0)
 
 		local function Refresh()
-			if lasttarget then
+			if dataobj.lasttarget then
 				butt:Show()
-				text:SetText(lasttarget)
+				text:SetText(dataobj.lasttarget)
 			else butt:Hide() end
 		end
 
