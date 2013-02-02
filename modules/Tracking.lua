@@ -42,7 +42,17 @@ function dataobj:Scan() dataobj.player = Test() end
 ae.RegisterEvent("Cork Tracking", "MINIMAP_UPDATE_TRACKING", dataobj.Scan)
 
 function dataobj:CorkIt(frame)
-	if self.player then return frame:SetManyAttributes("type1", "spell", "spell", Cork.dbpc["Tracking-spell"]) end
+	local spell = Cork.dbpc["Tracking-spell"]
+	local id
+	for i = 1, GetNumTrackingTypes() do
+		if GetTrackingInfo(i) == spell then
+			id = i
+			break
+		end
+	end
+	if id then
+		if self.player then return frame:SetManyAttributes("type1", "macro", "macrotext1", "/run SetTracking("..id..", true)") end
+	end
 end
 
 
