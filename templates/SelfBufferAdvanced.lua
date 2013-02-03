@@ -28,7 +28,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly, us
 		Cork.defaultspc[modulename.."-enabled"] = known[spellname] ~= nil
 	end
 
-	local function Test(enteringcombat)
+	function dataobj:Test(enteringcombat)
 		if Cork.dbpc[modulename.."-enabled"] and not (IsResting() and not Cork.db.debug) and (not combatonly or enteringcombat or InCombatLockdown()) then
 			local spell = Cork.dbpc[modulename.."-spell"]
 
@@ -49,7 +49,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly, us
 		end
 	end
 
-	function dataobj:Scan() self.player = Test() end
+	function dataobj:Scan() self.player = self:Test() end
 
 	function dataobj:CorkIt(frame)
 		RefreshKnownSpells()
@@ -61,12 +61,12 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly, us
 		ae.RegisterEvent(dataobj, "UPDATE_SHAPESHIFT_FORM", "Scan")
 	else
 		ae.RegisterEvent("Cork "..modulename, "UNIT_AURA", function(event, unit)
-			if unit == "player" then dataobj.player = Test() end
+			if unit == "player" then dataobj.player = dataobj:Test() end
 		end)
 	end
 	ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
 	if combatonly then
-		ae.RegisterEvent("Cork "..modulename, "PLAYER_REGEN_DISABLED", function() dataobj.player = Test(true) end)
+		ae.RegisterEvent("Cork "..modulename, "PLAYER_REGEN_DISABLED", function() dataobj.player = dataobj:Test(true) end)
 		ae.RegisterEvent("Cork "..modulename, "PLAYER_REGEN_ENABLED", function() dataobj.player = nil end)
 	end
 
