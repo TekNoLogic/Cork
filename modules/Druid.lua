@@ -23,6 +23,7 @@ end)
 local spellname, _, icon = GetSpellInfo(110309)
 local dataobj = Cork:GenerateLastBuffedBuffer(spellname, icon)
 dataobj.partyonly = true
+dataobj.ignoreplayer = true
 function dataobj:CorkIt(frame)
 	if self.custom then
 		if self.lasttarget then

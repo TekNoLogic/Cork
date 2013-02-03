@@ -73,9 +73,12 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 
 		local name, _, _, _, _, _, _, caster = UnitAura(unit, spellname)
 		local iscaster = name and caster and UnitIsUnit('player', caster)
+		local playertargetted = UnitIsUnit('player', unit)
 
 		if iscaster then
-			dataobj.lasttarget, dataobj.custom = UnitName(unit), nil
+			if not (self.ignoreplayer and playertargetted) then
+				dataobj.lasttarget, dataobj.custom = UnitName(unit), nil
+			end
 		elseif not name and UnitName(unit) == dataobj.lasttarget then
 			dataobj.custom = Test()
 		end

@@ -16,3 +16,4 @@ Cork:GenerateSelfBuffer(spellname, icon)
 local spellname, _, icon = GetSpellInfo(53563)
 local dataobj = Cork:GenerateLastBuffedBuffer(spellname, icon)
 dataobj.partyonly = true
+dataobj.ignoreplayer = true
