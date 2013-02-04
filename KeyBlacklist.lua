@@ -27,6 +27,8 @@ local keys = {
 	"GROUP_ROSTER_UPDATE",
 	"UNIT_INVENTORY_CHANGED",
 	"oldtest",
+	"partyonly",
+	"ignoreplayer",
 }
 
 ns.keyblist = {}
