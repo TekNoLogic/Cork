@@ -1,3 +1,20 @@
+5.1.0.51-Beta
+    Add Druid Symbiosis
+    Only warn about rogue poisons if a 1H weapon is equipped
+    Add Bag of Shiny Things to openables
+    Use SetTracking() to track things (Thanks eridius)
+    Fix the icon on the generated macro (Thanks eridius)
+    Stop using #showtooltip just for icon purposes (Thanks eridius)
+    Fix Soulstone (the spell works a bit differently now)
+    Restrict sybiosis and beacon of light to groups only
+    Make "last buffed" reminders work when the spell hasn't been cast yet
+    Add frost mage water elem module
+    Warn about tele cloaks
+    EXP buff reminders ignore resting state
+    Darkmoon EXP ignores resting
+    Drums are overwritten by almighty monk buff (Thanks ckaotik)
+    Forgot to exclude the new flask buffs
+
 5.1.0.50-Beta
     Hide tooltip during pet battles
     Add darkmoon exp buff
