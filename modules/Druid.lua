@@ -18,6 +18,9 @@ Cork:GenerateRaidBuffer(spellname, icon, nil, nil, function(unit)
 	end
 end)
 
+-- Symbiosis
+local spellname, _, icon = GetSpellInfo(110309)
+Cork:GenerateLastBuffedBuffer(spellname, icon, true)
 
 -- Symbiosis
 local spellname, _, icon = GetSpellInfo(110309)
