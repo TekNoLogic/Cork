@@ -249,7 +249,6 @@ function Cork.IsSpellInRange(spell, unit)
 end
 
 function Cork.SpellCastableOnUnit(spell, unit)
-	if Cork.keyblist[i] then return end
 	return UnitExists(unit) and UnitCanAssist("player", unit) and UnitIsVisible(unit) and UnitIsConnected(unit) and not UnitIsDeadOrGhost(unit) and Cork.IsSpellInRange(spell, unit)
 end
 
