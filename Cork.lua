@@ -5,13 +5,11 @@ local _
 
 _, Cork.MYCLASS = UnitClass("player")
 
-Cork.corks, Cork.db, Cork.dbpc, Cork.petmappings, Cork.petunits, Cork.defaultspc = {}, {}, {}, {player = "pet"}, {pet = true}, {}
+Cork.corks, Cork.db, Cork.dbpc, Cork.defaultspc = {}, {}, {}, {}
 
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, debug = false, bindwheel = false}
 local tooltip, anchor
 
-for i=1,4 do Cork.petmappings["party"..i], Cork.petunits["partypet"..i] = "partypet"..i, true end
-for i=1,40 do Cork.petmappings["raid"..i], Cork.petunits["raidpet"..i] = "raidpet"..i, true end
 for i=1,MAX_BOSS_FRAMES do Cork.keyblist["boss"..i] = true end
 
 
