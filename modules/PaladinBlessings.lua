@@ -13,7 +13,6 @@ for i=1,5 do blist["arena"..i], blist["arenapet"..i] = true, true end
 -- Mark of the Wild and Blessing or Kings are now the same buff
 -- Blessing of Might is the only other blessing
 -- Both of these hit the entire raid now
--- and pet are not buffable anymore
 
 -- So, this is the logic we need:
 -- If the unit has a buff from you, or has both kings/mark and might, skip them
