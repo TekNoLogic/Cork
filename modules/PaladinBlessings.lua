@@ -121,17 +121,17 @@ dataobj.RaidLine = KINGSRAIDLINE
 
 function dataobj:CorkIt(frame)
 	for unit in ldb:pairs(self) do
-		if Cork:ValidUnit(unit) and NeededBlessing(unit) == MIGHT and SpellCastableOnUnit(MIGHT, unit) then
+		if IsInGroup(unit) and NeededBlessing(unit) == MIGHT and SpellCastableOnUnit(MIGHT, unit) then
 			-- unit is in group and needs might, so everyone gets it
 			return frame:SetManyAttributes("type1", "spell", "spell", MIGHT, "unit", unit)
 		end
 	end
 	for unit in ldb:pairs(self) do
 		-- No one in group needed might
-		if Cork:ValidUnit(unit) and SpellCastableOnUnit(KINGS, unit) then
+		if IsInGroup(unit) and SpellCastableOnUnit(KINGS, unit) then
 			-- buff the group with kings
 			return frame:SetManyAttributes("type1", "spell", "spell", KINGS, "unit", unit)
-		elseif not Cork:ValidUnit(unit) then
+		elseif not IsInGroup(unit) then
 			-- Unit isn't in group, so give them whatever is needed
 			local spell = NeededBlessing(unit)
 			if SpellCastableOnUnit(spell, unit) then return frame:SetManyAttributes("type1", "spell", "spell", spell, "unit", unit) end
