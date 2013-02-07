@@ -53,14 +53,16 @@ function Cork:GenerateRaidBuffer(spellname, icon, altspellname, manausers_only, 
 	end
 end
 
-local raidunits = {}
+local raidunits, partyunits = {}, {}
 for i=1,40 do raidunits["raid"..i] = i end
+for i=1,4 do partyunits["party"..i] = i end
 function Cork:ValidUnit(unit)
 	if blist[unit] or Cork.petunits[unit] or not UnitExists(unit) or (UnitIsPlayer(unit) and (not UnitIsConnected(unit) or UnitIsDeadOrGhost(unit) or UnitInVehicle(unit)))
 		or (UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) -- No pets, ever
 		or (unit ~= "player" and UnitIsUnit(unit, "player"))
 		or (unit == "target" and (UnitIsUnit("target", "focus") or not UnitCanAssist("player", unit) or not UnitIsPlayer(unit) or UnitIsEnemy("player", unit)))
 		or (unit == "focus" and not UnitCanAssist("player", unit))
+		or (IsInRaid() and partyunits[unit])
 		or raidunits[unit] and select(3, GetRaidRosterInfo(raidunits[unit])) > Cork.RaidThresh() then return end
 
 	return true
