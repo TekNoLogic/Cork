@@ -149,63 +149,42 @@ local function GetTipAnchor(frame)
 	return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
 end
 
--- corkpairs returns each cork in order:
--- player, not lowpriority
--- not player, not lowpriority
--- if replayNotPlayer then not player, not lowpriority again
--- lowpriority
-local corkpairs
-do
-	local free = {}
-	local function nextcork(s, var)
-		if s.pass == 1 then
-			for name, dataobj in next, s.tbl, var do
-				if not dataobj.lowpriority and dataobj.player then
-					return name, dataobj
-				end
-			end
-			s.pass = 2
-			var = nil
-		end
-		while s.pass == 2 do
-			for name, dataobj in next, s.tbl, var do
-				if not dataobj.lowpriority and not dataobj.player then
-					return name, dataobj, s.replay
-				end
-			end
-			if s.replay then
-				s.replay = nil
-				var = nil
-			else
-				s.pass = 3
-				var = nil
-			end
-		end
-		if s.pass == 3 then
-			for name, dataobj in next, s.tbl, var do
-				if dataobj.lowpriority then
-					return name, dataobj
-				end
-			end
-		end
-		table.wipe(s)
-		table.insert(free, s)
-		return nil
-	end
-	function corkpairs(replayNotPlayer)
-		local s = table.remove(free) or {}
-		s.pass = 1
-		s.tbl = Cork.corks
-		s.replay = (replayNotPlayer and true or nil)
-		return nextcork, s, nil
-	end
-end
 
+local sortedcorks, usedcorks = {}, {}
 local raidunits = {player = true}
 for i=1,4 do raidunits["party"..i] = true end
 for i=1,40 do raidunits["raid"..i] = true end
 function Cork.Update(event, name, attr, value, dataobj)
 	if Cork.keyblist[attr] then return end
+
+	table.wipe(sortedcorks)
+	table.wipe(usedcorks)
+
+	for name,dataobj in pairs(Cork.corks) do
+		if dataobj.nobg and inbg then usedcorks[dataobj] = true end
+	end
+
+	for name,dataobj in pairs(Cork.corks) do
+		if not usedcorks[dataobj] and not dataobj.lowpriority and dataobj.player then
+			table.insert(sortedcorks, dataobj)
+			usedcorks[dataobj] = true
+		end
+	end
+
+	for name,dataobj in pairs(Cork.corks) do
+		if not usedcorks[dataobj] and not dataobj.lowpriority then
+			table.insert(sortedcorks, dataobj)
+			usedcorks[dataobj] = true
+	  end
+	end
+
+	for name,dataobj in pairs(Cork.corks) do
+		if not usedcorks[dataobj] then
+			table.insert(sortedcorks, dataobj)
+			usedcorks[dataobj] = true
+	  end
+	end
+
 
 	tooltip:ClearLines()
 	tooltip:SetOwner(anchor, "ANCHOR_NONE")
@@ -215,7 +194,7 @@ function Cork.Update(event, name, attr, value, dataobj)
 
 	if Cork.db.showbg or not inbg then
 		local count = 0
-		for name, dataobj in corkpairs(false) do
+		for i,dataobj in ipairs(sortedcorks) do
 			if not (dataobj.nobg and inbg) then
 				local inneed, numr = 0, GetNumGroupMembers()
 				for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
@@ -277,9 +256,8 @@ end
 
 secureframe:SetScript("PreClick", function(self)
 	if onTaxi or InCombatLockdown() or IsStealthed() then return end
-	local inbg = GetZonePVPInfo() == "combat" or select(2, IsInInstance()) == "pvp"
-	for name, dataobj, replay in corkpairs(true) do
-		if dataobj.CorkIt and not (dataobj.nobg and inbg) and dataobj:CorkIt(self, replay) then return end
+	for i,dataobj in ipairs(sortedcorks) do
+		if dataobj.CorkIt and dataobj:CorkIt(self) then return end
 	end
 end)
 
