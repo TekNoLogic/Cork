@@ -69,7 +69,7 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 
 
 	local raidneeds = {}
-	function dataobj:CorkIt(frame, playersonly)
+	function dataobj:CorkIt(frame)
 		if (GetItemCount(itemid) or 0) == 0 then return end
 
 		-- Only use our item if everyone in need is in range, online and alive
