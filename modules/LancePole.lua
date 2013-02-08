@@ -54,7 +54,7 @@ Cork:GenerateEquippedWarning("Teleport cloak", back,
 	63206, 63207, 65274, 65360, 83353, 83352)
 
 local mainhand = GetInventorySlotInfo("MainHandSlot")
-Cork:GenerateEquippedWarning("Lance", mainhand, 46069, 46106, 46070)
+Cork:GenerateEquippedWarning("Lance", mainhand, 46069, 46106, 46070, 52716)
 
 local poles = Cork:GenerateEquippedWarning("Fishing pole", mainhand,
 	6256, 6365, 6366, 6367, 12225, 19022, 19970, -- Classic
