@@ -148,64 +148,56 @@ local function GetTipAnchor(frame)
 end
 
 
-local sortedcorks, usedcorks = {}, {}
+local function tierCork(dataobj)
+	if not dataobj.lowpriority and dataobj.player then
+		return 1
+	elseif not dataobj.lowpriority then
+		return 2
+	else
+		return 3
+	end
+end
+local function sortCork(a, b)
+	local atier, btier = tierCork(a), tierCork(b)
+	if atier == btier then
+		return a.name < b.name
+	else return atier < btier end
+end
+local sortedcorks = {}
 local raidunits = {player = true}
 for i=1,4 do raidunits["party"..i] = true end
 for i=1,40 do raidunits["raid"..i] = true end
 function Cork.Update(event, name, attr, value, dataobj)
 	if Cork.keyblist[attr] then return end
 
+	local inbg = GetZonePVPInfo() == "combat" or select(2, IsInInstance()) == "pvp"
+
 	table.wipe(sortedcorks)
-	table.wipe(usedcorks)
 
 	for name,dataobj in pairs(Cork.corks) do
-		if dataobj.nobg and inbg then usedcorks[dataobj] = true end
+		if not (dataobj.nobg and inbg) then table.insert(sortedcorks, dataobj) end
 	end
 
-	for name,dataobj in pairs(Cork.corks) do
-		if not usedcorks[dataobj] and not dataobj.lowpriority and dataobj.player then
-			table.insert(sortedcorks, dataobj)
-			usedcorks[dataobj] = true
-		end
-	end
-
-	for name,dataobj in pairs(Cork.corks) do
-		if not usedcorks[dataobj] and not dataobj.lowpriority then
-			table.insert(sortedcorks, dataobj)
-			usedcorks[dataobj] = true
-	  end
-	end
-
-	for name,dataobj in pairs(Cork.corks) do
-		if not usedcorks[dataobj] then
-			table.insert(sortedcorks, dataobj)
-			usedcorks[dataobj] = true
-	  end
-	end
-
+	table.sort(sortedcorks, sortCork)
 
 	tooltip:ClearLines()
 	tooltip:SetOwner(anchor, "ANCHOR_NONE")
 	tooltip:SetPoint(GetTipAnchor(anchor))
 
-	local inbg = GetZonePVPInfo() == "combat" or select(2, IsInInstance()) == "pvp"
-
 	if Cork.db.showbg or not inbg then
 		local count = 0
 		for i,dataobj in ipairs(sortedcorks) do
-			if not (dataobj.nobg and inbg) then
-				local inneed, numr = 0, GetNumGroupMembers()
-				for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
-				if dataobj.RaidLine and numr > 0 and dataobj["player"] then inneed = inneed + 1 end
-				if inneed > 1 and count < 10 then -- Hard limit, show 10 lines at most
-					if Cork.db.debug then tooltip:AddDoubleLine(string.format(dataobj.RaidLine, inneed), "raid") else tooltip:AddLine(string.format(dataobj.RaidLine, inneed)) end
+			local inneed, numr = 0, GetNumGroupMembers()
+			for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
+			if dataobj.RaidLine and numr > 0 and dataobj["player"] then inneed = inneed + 1 end
+			if inneed > 1 and count < 10 then -- Hard limit, show 10 lines at most
+				if Cork.db.debug then tooltip:AddDoubleLine(string.format(dataobj.RaidLine, inneed), "raid") else tooltip:AddLine(string.format(dataobj.RaidLine, inneed)) end
+				count = count + 1
+			end
+			for i,v in ldb:pairs(dataobj) do
+				if v ~= false and not Cork.keyblist[i] and (inneed <= 1 or not raidunits[i]) and count < 10 then
+					if Cork.db.debug then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
 					count = count + 1
-				end
-				for i,v in ldb:pairs(dataobj) do
-					if v ~= false and not Cork.keyblist[i] and (inneed <= 1 or not raidunits[i]) and count < 10 then
-						if Cork.db.debug then tooltip:AddDoubleLine(v, i) else tooltip:AddLine(v) end
-						count = count + 1
-					end
 				end
 			end
 		end
