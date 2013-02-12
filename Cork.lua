@@ -299,3 +299,28 @@ ae.RegisterEvent("Cork Core", "PLAYER_DIFFICULTY_CHANGED", FlushThresh)
 ae.RegisterEvent("Cork Core", "UPDATE_INSTANCE_INFO", FlushThresh)
 -- ae.RegisterEvent("Cork Core", "GUILD_PARTY_STATE_UPDATED", FlushThresh)
 -- ae.RegisterEvent("Cork Core", "PLAYER_GUILD_UPDATE", FlushThresh)
+
+-- SortedPairs(t[, f]) returns a triple i, idx, value
+do
+	local heap = {}
+	local function step(t, idx)
+		if idx == nil then idx = 0 end
+		idx = idx + 1
+		local key = t[idx]
+		if key == nil then
+			table.wipe(t)
+			table.insert(heap, t)
+			return nil
+		end
+		return idx, key, t.tbl[key]
+	end
+	function Cork.SortedPairs(tbl, f)
+		local t = table.remove(heap) or {}
+		for i, _ in pairs(tbl) do
+			t[#t+1] = i
+		end
+		table.sort(t, f)
+		t.tbl = tbl
+		return step, t, nil
+	end
+end

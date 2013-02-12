@@ -103,11 +103,15 @@ frame:SetScript("OnShow", function()
 		return butt
 	end})
 
+	local function sortfood(id1, id2)
+		local name1, name2 = GetItemInfo(id1), GetItemInfo(id2)
+		return name1 < name2
+	end
 	function Update(self)
 		for _,f in pairs(buffbuttons) do f:Hide(); f:ClearAllPoints() end
 		local foods = GetFoods()
 		local lasticon
-		for id in pairs(foods) do
+		for _, id in Cork.SortedPairs(foods, sortfood) do
 			local butt = buffbuttons[id]
 			butt.icon:SetTexture(GetItemIcon(id))
 			butt:SetChecked(Cork.dbpc[spellname.."-item"] == id)
