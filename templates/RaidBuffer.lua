@@ -53,7 +53,7 @@ function Cork:GenerateRaidBuffer(spellname, icon, altspellname, manausers_only, 
 	end
 end
 
-local raidunits, partyunits = {}, {}
+local raidunits, partyunits, otherunits = {}, {}, { ["player"] = true, ["target"] = true, ["focus"] = true }
 for i=1,40 do raidunits["raid"..i] = i end
 for i=1,4 do partyunits["party"..i] = i end
 function Cork:ValidUnit(unit)
@@ -67,18 +67,21 @@ function Cork:ValidUnit(unit)
 
 	return true
 end
+local function isScanUnit(unit)
+	return not not (raidunits[unit] or partyunits[unit] or otherunits[unit])
+end
 
 
 function Cork:RegisterRaidEvents(spellname, dataobj, Test)
-	local function TestUnit(event, unit) dataobj[unit] = Test(unit) end
+	local function TestUnit(event, unit) if isScanUnit(unit) then dataobj[unit] = Test(unit) end end
 	ae.RegisterEvent("Cork "..spellname, "UNIT_AURA", TestUnit)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_DYNAMIC_FLAGS", TestUnit)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_ENTERED_VEHICLE", TestUnit)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_EXITED_VEHICLE", TestUnit)
 	ae.RegisterEvent("Cork "..spellname, "UNIT_FLAGS", TestUnit)
 	ae.RegisterEvent("Cork "..spellname, "GROUP_ROSTER_UPDATE", function()
-		for i=1,4 do dataobj["party"..i] = Test("party"..i) end
-		for i=1,40 do dataobj["raid"..i] = Test("raid"..i) end
+		for k, _ in pairs(partyunits) do dataobj[k] = Test(k) end
+		for k, _ in pairs(raidunits) do dataobj[k] = Test(k) end
 	end)
 	local function TestTargetandFocus() dataobj.target, dataobj.focus = Test("target"), Test("focus") end
 	ae.RegisterEvent("Cork "..spellname, "PLAYER_TARGET_CHANGED", TestTargetandFocus)
@@ -88,8 +91,8 @@ end
 
 function Cork:GenerateRaidScan(Test)
 	return function(self)
-		self.player, self.target, self.focus = Test("player"), Test("target"), Test("focus")
-		for i=1,GetNumSubgroupMembers() do self["party"..i] = Test("party"..i) end
-		for i=1,GetNumGroupMembers() do self["raid"..i] = Test("raid"..i) end
+		for k, _ in pairs(otherunits) do self[k] = Test(k) end
+		for k, _ in pairs(partyunits) do self[k] = Test(k) end
+		for k, _ in pairs(raidunits) do self[k] = Test(k) end
 	end
 end
