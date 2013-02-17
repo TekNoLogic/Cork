@@ -90,7 +90,6 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 		local name, _, _, _, _, _, _, caster = UnitAura(unit, spellname)
 		if not name or not caster or not UnitIsUnit('player', caster) then return end
 		dataobj.lasttarget = UnitName(unit)
-		print("dataobj.lasttarget", dataobj.lasttarget)
 		return true
 	end
 	local function FindCurrent()
