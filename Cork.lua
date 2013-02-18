@@ -6,6 +6,7 @@ local _
 _, Cork.MYCLASS = UnitClass("player")
 
 Cork.corks, Cork.db, Cork.dbpc, Cork.defaultspc = {}, {}, {}, {}
+Cork.sortedcorks = {}
 
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, debug = false, bindwheel = false}
 local tooltip, anchor
@@ -148,39 +149,39 @@ local function GetTipAnchor(frame)
 end
 
 
-local sortedcorks, usedcorks = {}, {}
+local activecorks, usedcorks = {}, {}
 local raidunits = {player = true}
 for i=1,4 do raidunits["party"..i] = true end
 for i=1,40 do raidunits["raid"..i] = true end
 function Cork.Update(event, name, attr, value, dataobj)
 	if Cork.keyblist[attr] then return end
 
-	table.wipe(sortedcorks)
+	table.wipe(activecorks)
 	table.wipe(usedcorks)
 
 	local inbg = GetZonePVPInfo() == "combat" or select(2, IsInInstance()) == "pvp"
 
-	for name,dataobj in pairs(Cork.corks) do
+	for i,dataobj in ipairs(Cork.sortedcorks) do
 		if dataobj.nobg and inbg then usedcorks[dataobj] = true end
 	end
 
-	for name,dataobj in pairs(Cork.corks) do
+	for i,dataobj in ipairs(Cork.sortedcorks) do
 		if not usedcorks[dataobj] and not dataobj.lowpriority and dataobj.player then
-			table.insert(sortedcorks, dataobj)
+			table.insert(activecorks, dataobj)
 			usedcorks[dataobj] = true
 		end
 	end
 
-	for name,dataobj in pairs(Cork.corks) do
+	for i,dataobj in ipairs(Cork.sortedcorks) do
 		if not usedcorks[dataobj] and not dataobj.lowpriority then
-			table.insert(sortedcorks, dataobj)
+			table.insert(activecorks, dataobj)
 			usedcorks[dataobj] = true
 	  end
 	end
 
-	for name,dataobj in pairs(Cork.corks) do
+	for i,dataobj in ipairs(Cork.sortedcorks) do
 		if not usedcorks[dataobj] then
-			table.insert(sortedcorks, dataobj)
+			table.insert(activecorks, dataobj)
 			usedcorks[dataobj] = true
 	  end
 	end
@@ -192,7 +193,7 @@ function Cork.Update(event, name, attr, value, dataobj)
 
 	if Cork.db.showbg or not inbg then
 		local count = 0
-		for i,dataobj in ipairs(sortedcorks) do
+		for i,dataobj in ipairs(activecorks) do
 			if not (dataobj.nobg and inbg) then
 				local inneed, numr = 0, GetNumGroupMembers()
 				for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
@@ -221,10 +222,17 @@ end
 --      LDB stuff      --
 -------------------------
 
+local function CorkSorter(a, b)
+	return a and b and a.name:lower() < b.name:lower()
+end
+
+
 local function NewDataobject(event, name, dataobj)
 	if dataobj.type ~= "cork" then return end
-	Cork.corks[name] = dataobj
 	if not dataobj.name then dataobj.name = name:gsub("Cork ", "") end
+	Cork.corks[name] = dataobj
+	table.insert(Cork.sortedcorks, dataobj)
+	table.sort(Cork.sortedcorks, CorkSorter)
 	ldb.RegisterCallback("Corker", "LibDataBroker_AttributeChanged_"..name, Cork.Update)
 end
 
@@ -254,7 +262,7 @@ end
 
 secureframe:SetScript("PreClick", function(self)
 	if onTaxi or InCombatLockdown() or IsStealthed() then return end
-	for i,dataobj in ipairs(sortedcorks) do
+	for i,dataobj in ipairs(actviecorks) do
 		if dataobj.CorkIt and dataobj:CorkIt(self) then return end
 	end
 end)
