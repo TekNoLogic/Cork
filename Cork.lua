@@ -158,6 +158,8 @@ function Cork.Update(event, name, attr, value, dataobj)
 	table.wipe(sortedcorks)
 	table.wipe(usedcorks)
 
+	local inbg = GetZonePVPInfo() == "combat" or select(2, IsInInstance()) == "pvp"
+
 	for name,dataobj in pairs(Cork.corks) do
 		if dataobj.nobg and inbg then usedcorks[dataobj] = true end
 	end
@@ -187,8 +189,6 @@ function Cork.Update(event, name, attr, value, dataobj)
 	tooltip:ClearLines()
 	tooltip:SetOwner(anchor, "ANCHOR_NONE")
 	tooltip:SetPoint(GetTipAnchor(anchor))
-
-	local inbg = GetZonePVPInfo() == "combat" or select(2, IsInInstance()) == "pvp"
 
 	if Cork.db.showbg or not inbg then
 		local count = 0
