@@ -20,7 +20,6 @@ local dataobj = Cork:GenerateLastBuffedBuffer(spellname, icon)
 local wasgrouped
 local oldGRU = dataobj.GROUP_ROSTER_UPDATE
 function dataobj:GROUP_ROSTER_UPDATE(...)
-	print("GROUP_ROSTER_UPDATE", wasgrouped, IsInGroup())
 	local nowgrouped = IsInGroup()
 	if wasgrouped and not nowgrouped then
 		dataobj.onlyrebuffs = false
