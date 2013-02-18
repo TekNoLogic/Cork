@@ -66,7 +66,10 @@ frame:SetScript("OnShow", function()
 			end
 		end
 
-		return t
+		local sorted = {}
+		for i in pairs(t) do table.insert(sorted, i) end
+		table.sort(sorted)
+		return sorted
 	end
 
 	local function OnClick(self)
@@ -107,7 +110,7 @@ frame:SetScript("OnShow", function()
 		for _,f in pairs(buffbuttons) do f:Hide(); f:ClearAllPoints() end
 		local foods = GetFoods()
 		local lasticon
-		for id in pairs(foods) do
+		for i,id in ipairs(foods) do
 			local butt = buffbuttons[id]
 			butt.icon:SetTexture(GetItemIcon(id))
 			butt:SetChecked(Cork.dbpc[spellname.."-item"] == id)
