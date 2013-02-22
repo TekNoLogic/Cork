@@ -12,6 +12,11 @@ local altspellname, spellname, _, icon = GetSpellInfo(61316), GetSpellInfo(1459)
 Cork:GenerateRaidBuffer(spellname, icon, altspellname, true)
 
 
+-- Ice Barrier
+local spellname, _, icon = GetSpellInfo(11426)
+Cork:GenerateSelfBuffer(spellname, icon)
+
+
 -- Water Elemental (frost pet)
 local UnitAura = Cork.UnitAura or UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
