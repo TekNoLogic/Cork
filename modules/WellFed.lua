@@ -11,7 +11,7 @@ local iconline = Cork.IconLine(icon, spellname)
 
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {
 	type = "cork",
-	lowpriority = true,
+	priority = 8,
 	tiptext = "Warn when you are not well fed.",
 	nobg = true,
 })

@@ -166,17 +166,10 @@ function Cork.Update(event, name, attr, value, dataobj)
 	end
 
 	for i,dataobj in ipairs(Cork.sortedcorks) do
-		if not usedcorks[dataobj] and not dataobj.lowpriority and dataobj.player then
+		if not usedcorks[dataobj] and dataobj.player then
 			table.insert(activecorks, dataobj)
 			usedcorks[dataobj] = true
 		end
-	end
-
-	for i,dataobj in ipairs(Cork.sortedcorks) do
-		if not usedcorks[dataobj] and not dataobj.lowpriority then
-			table.insert(activecorks, dataobj)
-			usedcorks[dataobj] = true
-	  end
 	end
 
 	for i,dataobj in ipairs(Cork.sortedcorks) do
@@ -223,13 +216,14 @@ end
 -------------------------
 
 local function CorkSorter(a, b)
-	return a and b and a.name:lower() < b.name:lower()
+	return a and b and a.sortname < b.sortname
 end
 
 
 local function NewDataobject(event, name, dataobj)
 	if dataobj.type ~= "cork" then return end
 	if not dataobj.name then dataobj.name = name:gsub("Cork ", "") end
+	dataobj.sortname = (dataobj.priority or 5).. dataobj.name:lower()
 	Cork.corks[name] = dataobj
 	table.insert(Cork.sortedcorks, dataobj)
 	table.sort(Cork.sortedcorks, CorkSorter)

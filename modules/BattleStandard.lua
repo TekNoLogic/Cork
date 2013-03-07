@@ -15,7 +15,7 @@ local coolingdown
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(name, {
 	type = "cork", tiplink = GetSpellLink(buffname),
 	tiplink = "item:"..ids[1],
-	lowpriority = true,
+	priority = 9,
 })
 
 
@@ -58,12 +58,12 @@ local function Test(unit)
 end
 
 
-function dataobj:Scan() self.player = Test() end
+function dataobj:Scan() self.custom = Test() end
 
 
 function dataobj:CorkIt(frame)
 	local itemowned = FindItem()
-	if self.player and itemowned then
+	if self.custom and itemowned then
 		return frame:SetManyAttributes("type1", "item", "item1", "item:"..itemowned)
 	end
 end
@@ -71,5 +71,5 @@ end
 
 ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
 ae.RegisterEvent(name, "UNIT_AURA", function(event, unit)
-	if unit == "player" then dataobj.player = Test() end
+	if unit == "player" then dataobj.custom = Test() end
 end)
