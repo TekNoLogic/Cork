@@ -8,6 +8,7 @@ Cork.defaultspc["Minipet-enabled"] = true
 
 local dataobj = ldb:NewDataObject("Cork Minipet", {
 	type = "cork",
+	priority = 8,
 	tiptext = "Warn when you don't have a minipet summoned."
 })
 
