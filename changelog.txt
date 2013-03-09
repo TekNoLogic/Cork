@@ -1,3 +1,16 @@
+5.2.0.52-Beta
+    Ice barrier!
+    Display corks in the same order they're fired (thanks @eridius)
+    Use consistant sorting, for @eridius
+    Use more refined sorting priorities
+    Sort the foods in the wellfed (by ID), again for @eridius
+    Filter out party units while in raids (thanks @eridius)
+    Don't show pets for raid buffs (thanks @eridius)
+    Kill the last bits of pet buffing, that's long dead
+    Fix inbg bug
+    Add a new lance
+    Helps to use the right thing to check for ingroupedness
+
 5.1.0.51-Beta
     Add Druid Symbiosis
     Only warn about rogue poisons if a 1H weapon is equipped
