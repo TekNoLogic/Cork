@@ -21,7 +21,8 @@ end
 function dataobj:Scan()
 	if not Cork.dbpc[spellname.."-enabled"]
 		or GetItemCount(ITEM, false, true) == 3
-		or GetItemCount(BRILLIANT, false, true) == 10 then
+		or GetItemCount(BRILLIANT, false, true) == 10
+		or (IsResting() and not Cork.db.debug) then
 
 		dataobj.player = nil
 		return
