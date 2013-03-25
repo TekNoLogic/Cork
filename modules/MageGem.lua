@@ -10,7 +10,7 @@ local ITEM, BRILLIANT = 36799, 81901
 local spellname, _, icon = GetSpellInfo(759)
 local IconLine = Cork.IconLine(icon, spellname)
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..spellname, {type = "cork"})
+local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork"})
 
 
 function dataobj:Init()
@@ -19,8 +19,13 @@ end
 
 
 function dataobj:Scan()
-	if not Cork.dbpc[spellname.."-enabled"] then dataobj.player = nil; return end
-	if GetItemCount(ITEM, false, true) == 3 or GetItemCount(BRILLIANT, false, true) == 10 then dataobj.player = nil; return end
+	if not Cork.dbpc[spellname.."-enabled"]
+		or GetItemCount(ITEM, false, true) == 3
+		or GetItemCount(BRILLIANT, false, true) == 10 then
+
+		dataobj.player = nil
+		return
+	end
 	dataobj.player = IconLine
 end
 ae.RegisterEvent("Cork "..spellname, "BAG_UPDATE", dataobj.Scan)
@@ -28,5 +33,7 @@ ae.RegisterEvent("Cork "..spellname, "BAG_UPDATE_COOLDOWN", dataobj.Scan)
 
 
 function dataobj:CorkIt(frame)
-	if self.player then return frame:SetManyAttributes("type1", "spell", "spell", spellname) end
+	if self.player then
+		return frame:SetManyAttributes("type1", "spell", "spell", spellname)
+	end
 end
