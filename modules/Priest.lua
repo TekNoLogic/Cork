@@ -4,8 +4,8 @@ if Cork.MYCLASS ~= "PRIEST" then return end
 
 
 -- Fort
-local spellname, _, icon = GetSpellInfo(21562)
-Cork:GenerateRaidBuffer(spellname, icon)
+local DARKINT, spellname, _, icon = GetSpellInfo(109773), GetSpellInfo(21562)
+Cork:GenerateRaidBuffer(spellname, icon, DARKINT)
 
 
 -- Inner Fire / Will
