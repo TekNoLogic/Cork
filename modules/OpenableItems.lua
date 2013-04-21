@@ -22,3 +22,9 @@ local bloated = ns:New("Bloated innards")
 bloated.Init = ns.InitItemOpener
 bloated.tiptext = "Warn when you have bloated innards that need opened."
 bloated.items = {67495, 72201}
+
+
+local holiday = ns:New("Holiday containers")
+holiday.Init = ns.InitItemOpener
+holiday.tiptext = "Warn when you have holiday stuff to open."
+holiday.items = {45072}
