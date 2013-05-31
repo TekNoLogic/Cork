@@ -188,8 +188,8 @@ function Cork.Update(event, name, attr, value, dataobj)
 		local count = 0
 		for i,dataobj in ipairs(activecorks) do
 			if not (dataobj.nobg and inbg) then
-				local inneed, numr = 0, GetNumGroupMembers()
-				for i=1,numr do if dataobj.RaidLine and dataobj["raid"..i] then inneed = inneed + 1 end end
+				local inneed, numr, prefix = 0, GetNumGroupMembers(), IsInRaid() and "raid" or "party"
+				for i=1,numr do if dataobj.RaidLine and dataobj[prefix..i] then inneed = inneed + 1 end end
 				if dataobj.RaidLine and numr > 0 and dataobj["player"] then inneed = inneed + 1 end
 				if inneed > 1 and count < 10 then -- Hard limit, show 10 lines at most
 					if Cork.db.debug then tooltip:AddDoubleLine(string.format(dataobj.RaidLine, inneed), "raid") else tooltip:AddLine(string.format(dataobj.RaidLine, inneed)) end
