@@ -20,7 +20,7 @@ local function scan(self)
 		end
 	end
 
-	if count > 0 then self.player = IconLine(lasticon, lastname.." ("..count..")")
+	if count > 0 then self.player = IconLine(lasticon, (lastname or "Unknown").." ("..count..")")
 	else self.player = nil end
 end
 
