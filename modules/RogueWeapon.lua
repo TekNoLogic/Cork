@@ -34,6 +34,7 @@ local dataobj = Cork:GenerateAdvancedSelfBuffer("Poison - Damage", {2823,8679})
 dataobj.oldtest = dataobj.Test
 dataobj.Test = Test
 dataobj.UNIT_INVENTORY_CHANGED = UNIT_INVENTORY_CHANGED
+dataobj.CanCorkStealthed = true
 ae.RegisterEvent(dataobj, "UNIT_INVENTORY_CHANGED")
 
 
@@ -42,4 +43,5 @@ local dataobj = Cork:GenerateAdvancedSelfBuffer("Poison - Utility", {3408,5761,1
 dataobj.oldtest = dataobj.Test
 dataobj.Test = Test
 dataobj.UNIT_INVENTORY_CHANGED = UNIT_INVENTORY_CHANGED
+dataobj.CanCorkStealthed = true
 ae.RegisterEvent(dataobj, "UNIT_INVENTORY_CHANGED")

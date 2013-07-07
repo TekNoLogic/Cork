@@ -3,6 +3,7 @@ local myname, ns = ...
 
 local keys = {
 	"configframe",
+	"CanCorkStealthed",
 	"CorkIt",
 	"icon",
 	"iconline",

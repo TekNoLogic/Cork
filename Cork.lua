@@ -255,9 +255,9 @@ end
 
 
 secureframe:SetScript("PreClick", function(self)
-	if onTaxi or InCombatLockdown() or IsStealthed() then return end
+	if onTaxi or InCombatLockdown() then return end
 	for i,dataobj in ipairs(activecorks) do
-		if dataobj.CorkIt and dataobj:CorkIt(self) then return end
+		if dataobj.CorkIt and (not IsStealthed() or dataobj.CanCorkStealthed) and dataobj:CorkIt(self) then return end
 	end
 end)
 
