@@ -84,6 +84,9 @@ frame:SetScript("OnShow", function()
 		PlaySound(Cork.dbpc[self.name.."-enabled"] and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 		Cork.corks["Cork ".. self.name]:Scan()
 	end
+	local function OnShow(self)
+		self:SetChecked(Cork.dbpc[self.name.."-enabled"])
+	end
 	for i=1,NUMROWS do
 		local name = corknames[i]
 		if name then
@@ -98,6 +101,7 @@ frame:SetScript("OnShow", function()
 
 			local check = tekcheck.new(row, ROWHEIGHT+4, nil, "LEFT")
 			check:SetScript("OnClick", OnClick)
+			check:SetScript('OnShow', OnShow)
 			check.name = name
 			check.tiptext = Cork.corks["Cork "..name].tiptext
 			check.tiplink = Cork.corks["Cork "..name].tiplink
