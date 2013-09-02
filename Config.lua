@@ -80,7 +80,7 @@ frame:SetScript("OnShow", function()
 	for name in pairs(Cork.corks) do table.insert(corknames, (name:gsub("Cork ", ""))) end
 	table.sort(corknames)
 	local function OnClick(self)
-		Cork.dbpc[self.name.."-enabled"] = not Cork.dbpc[self.name.."-enabled"]
+		Cork.dbpc[self.name.."-enabled"] = not not self:GetChecked()
 		PlaySound(Cork.dbpc[self.name.."-enabled"] and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 		Cork.corks["Cork ".. self.name]:Scan()
 	end
