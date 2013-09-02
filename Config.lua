@@ -74,7 +74,7 @@ frame:SetScript("OnShow", function()
 	macrobutt:SetScript("OnClick", Cork.GenerateMacro)
 
 
-	local corknames, anchor = {}
+	local corknames, checkboxes, anchor = {}, {}
 	local tekcheck = LibStub("tekKonfig-Checkbox")
 	local NUMROWS = math.floor((group:GetHeight()-EDGEGAP+ROWGAP + 2) / (ROWHEIGHT+ROWGAP))
 	for name in pairs(Cork.corks) do table.insert(corknames, (name:gsub("Cork ", ""))) end
@@ -106,6 +106,7 @@ frame:SetScript("OnShow", function()
 			check.tiptext = Cork.corks["Cork "..name].tiptext
 			check.tiplink = Cork.corks["Cork "..name].tiplink
 			check:SetChecked(Cork.dbpc[name.."-enabled"])
+			tinsert(checkboxes, check)
 
 
 			local title = row:CreateFontString(nil, "BACKGROUND", "GameFontHighlightSmall")
@@ -123,14 +124,15 @@ frame:SetScript("OnShow", function()
 	end
 
 
-	local function Update(self)
+	frame.Update = function(self)
 		showanchor:SetChecked(Cork.db.showanchor)
 		showbg:SetChecked(Cork.db.showbg)
 		bindwheel:SetChecked(Cork.db.bindwheel)
+		for i, check in pairs(checkboxes) do OnShow(check) end
 	end
 
-	frame:SetScript("OnShow", Update)
-	Update(frame)
+	frame:SetScript("OnShow", frame.Update)
+	frame:Update()
 end)
 
 InterfaceOptions_AddCategory(frame)

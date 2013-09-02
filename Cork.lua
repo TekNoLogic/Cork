@@ -51,6 +51,7 @@ ae.RegisterEvent("Cork", "PLAYER_LOGIN", function()
 		for i,v in pairs(Cork.defaultspc) do if Cork.dbpc[i] == v then Cork.dbpc[i] = nil end end
 		Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
 
+		if Cork.config.Update then Cork.config:Update() end
 		for name,dataobj in pairs(Cork.corks) do if dataobj.Init then dataobj:Init() end end
 		for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
 	end)
