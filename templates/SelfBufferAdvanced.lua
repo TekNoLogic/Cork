@@ -16,7 +16,10 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly, us
 
 	Cork.defaultspc[modulename.."-spell"] = buffnames[spellidlist[1]]
 
-	local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..modulename, {type = "cork"})
+	local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..modulename, {
+		type = "cork",
+		corktype = "buff",
+	})
 
 	local function RefreshKnownSpells() -- Refresh in case the player has learned this since login
 		for buff in pairs(icons) do if known[buff] == nil then known[buff] = GetSpellInfo(buff) end end

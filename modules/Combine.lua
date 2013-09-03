@@ -7,7 +7,11 @@ local ITEMS = {[37700] = 10, [37701] = 10, [37702] = 10, [37703] = 10, [37704] =
 
 Cork.defaultspc["Combine-enabled"] = true
 
-local dataobj = ldb:NewDataObject("Cork Combine", {type = "cork", tiptext = "Warn when you have items in your bags that can be condensed like essences and crystalized elements."})
+local dataobj = ldb:NewDataObject("Cork Combine", {
+	type = "cork",
+	corktype = "item",
+	tiptext = "Warn when you have items in your bags that can be condensed like essences and crystalized elements.",
+})
 
 function dataobj:Scan()
 	if not Cork.dbpc["Combine-enabled"] or InCombatLockdown() then

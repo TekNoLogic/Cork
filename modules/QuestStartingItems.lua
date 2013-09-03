@@ -7,7 +7,11 @@ local bags = {}
 
 Cork.defaultspc["Quest Starting Items-enabled"] = true
 
-local dataobj = ldb:NewDataObject("Cork Quest Starting Items", {type = "cork", tiptext = "Warn when you have available quests from items in your bags."})
+local dataobj = ldb:NewDataObject("Cork Quest Starting Items", {
+	type = "cork",
+	corktype = "item",
+	tiptext = "Warn when you have available quests from items in your bags.",
+})
 
 local function TestBag(bag)
 	for slot=0,GetContainerNumSlots(bag) do

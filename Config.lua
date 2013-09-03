@@ -75,27 +75,24 @@ frame:SetScript("OnShow", function()
 	macrobutt:SetScript("OnClick", Cork.GenerateMacro)
 
 
-	local tab1 = ns.NewTab(frame, "Buffs", "BOTTOMLEFT", group, "TOPLEFT", 0, -4)
-	local tab2 = ns.NewTab(frame, "Items", "LEFT", tab1, "RIGHT", -15, 0)
-	local tab3 = ns.NewTab(frame, "Other", "LEFT", tab2, "RIGHT", -15, 0)
-	tab2:Deactivate()
-	tab3:Deactivate()
-
-
-	local corknames, anchor = {}
+	local corknames, rows, anchor = {}, {}
 	local tekcheck = LibStub("tekKonfig-Checkbox")
 	local NUMROWS = math.floor((group:GetHeight()-EDGEGAP+ROWGAP + 2) / (ROWHEIGHT+ROWGAP))
 	for name in pairs(Cork.corks) do table.insert(corknames, (name:gsub("Cork ", ""))) end
 	table.sort(corknames)
+
 	local function OnClick(self)
 		Cork.dbpc[self.name.."-enabled"] = not Cork.dbpc[self.name.."-enabled"]
 		PlaySound(Cork.dbpc[self.name.."-enabled"] and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 		Cork.corks["Cork ".. self.name]:Scan()
 	end
+
 	for i=1,NUMROWS do
 		local name = corknames[i]
 		if name then
 			local row = CreateFrame("Button", nil, group)
+			table.insert(rows, row)
+
 			if anchor then row:SetPoint("TOP", anchor , "BOTTOM", 0, -ROWGAP)
 			else row:SetPoint("TOP", 0, -EDGEGAP/2) end
 			row:SetPoint("LEFT", EDGEGAP/2, 0)
@@ -106,31 +103,87 @@ frame:SetScript("OnShow", function()
 
 			local check = tekcheck.new(row, ROWHEIGHT+4, nil, "LEFT")
 			check:SetScript("OnClick", OnClick)
-			check.name = name
-			check.tiptext = Cork.corks["Cork "..name].tiptext
-			check.tiplink = Cork.corks["Cork "..name].tiplink
-			check:SetChecked(Cork.dbpc[name.."-enabled"])
+			row.check = check
 
 
 			local title = row:CreateFontString(nil, "BACKGROUND", "GameFontHighlightSmall")
 			title:SetPoint("LEFT", check, "RIGHT", 4, 0)
-			title:SetText(name)
+			row.title = title
+		end
+	end
 
+	local currenttab = 'buff'
+	local function UpdateRows()
+		for i,row in pairs(rows) do
+			row:Hide()
+			if row.configframe then row.configframe:Hide() end
+		end
 
-			local configframe = Cork.corks["Cork "..name].configframe
-			if configframe then
-				configframe:SetPoint("RIGHT", row)
-				configframe:SetFrameLevel(row:GetFrameLevel() + 1)
-				configframe:Show()
+		local i = 1
+		for j,name in ipairs(corknames) do
+			local cork = Cork.corks["Cork "..name]
+			if cork.corktype == currenttab then
+				local row = rows[i]
+				if not row then return end
+				i = i + 1
+
+				row.check.name = name
+				row.check.tiptext = cork.tiptext
+				row.check.tiplink = cork.tiplink
+				row.check:SetChecked(Cork.dbpc[name.."-enabled"])
+
+				row.title:SetText(name)
+
+				local configframe = cork.configframe
+				row.configframe = configframe
+				if configframe then
+					configframe:SetPoint("RIGHT", row)
+					configframe:SetFrameLevel(row:GetFrameLevel() + 1)
+					configframe:Show()
+				end
+
+				row:Show()
 			end
 		end
 	end
+
+
+	local tab1 = ns.NewTab(frame, "Buffs", "BOTTOMLEFT", group, "TOPLEFT", 0, -4)
+	local tab2 = ns.NewTab(frame, "Items", "LEFT", tab1, "RIGHT", -15, 0)
+	local tab3 = ns.NewTab(frame, "Other", "LEFT", tab2, "RIGHT", -15, 0)
+	tab2:Deactivate()
+	tab3:Deactivate()
+
+	tab1:SetScript("OnClick", function(self)
+		self:Activate()
+		tab2:Deactivate()
+		tab3:Deactivate()
+		currenttab = 'buff'
+		UpdateRows()
+	end)
+
+	tab2:SetScript("OnClick", function(self)
+		self:Activate()
+		tab1:Deactivate()
+		tab3:Deactivate()
+		currenttab = 'item'
+		UpdateRows()
+	end)
+
+	tab3:SetScript("OnClick", function(self)
+		self:Activate()
+		tab1:Deactivate()
+		tab2:Deactivate()
+		currenttab = nil
+		UpdateRows()
+	end)
 
 
 	local function Update(self)
 		showanchor:SetChecked(Cork.db.showanchor)
 		showbg:SetChecked(Cork.db.showbg)
 		bindwheel:SetChecked(Cork.db.bindwheel)
+		UpdateRows()
 	end
 
 	frame:SetScript("OnShow", Update)

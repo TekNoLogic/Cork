@@ -10,7 +10,11 @@ function Cork:GenerateLastBuffedBuffer(spellname, icon)
 	local SpellCastableOnUnit, IconLine = Cork.SpellCastableOnUnit, Cork.IconLine
 
 
-	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork", tiplink = GetSpellLink(spellname)})
+	local dataobj = ldb:NewDataObject("Cork "..spellname, {
+		type = "cork",
+		corktype = "buff",
+		tiplink = GetSpellLink(spellname),
+	})
 
 
 	local f = CreateFrame("Frame")

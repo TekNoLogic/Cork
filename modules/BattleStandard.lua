@@ -14,6 +14,7 @@ local coolingdown
 
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(name, {
 	type = "cork", tiplink = GetSpellLink(buffname),
+	corktype = "item",
 	tiplink = "item:"..ids[1],
 	priority = 9,
 })

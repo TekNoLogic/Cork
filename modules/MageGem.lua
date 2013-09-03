@@ -10,7 +10,10 @@ local ITEM, BRILLIANT = 36799, 81901
 local spellname, _, icon = GetSpellInfo(759)
 local IconLine = Cork.IconLine(icon, spellname)
 
-local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork"})
+local dataobj = ldb:NewDataObject("Cork "..spellname, {
+	type = "cork",
+	corktype = "item",
+})
 
 
 function dataobj:Init()

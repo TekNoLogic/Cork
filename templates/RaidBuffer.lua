@@ -23,7 +23,11 @@ local MagicClasses = {["DRUID"] = true, ["MAGE"] = true, ["PALADIN"] = true, ["P
 function Cork:GenerateRaidBuffer(spellname, icon, altspellname, manausers_only, extra_test)
 	local SpellCastableOnUnit, IconLine = self.SpellCastableOnUnit, self.IconLine
 
-	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork", tiplink = GetSpellLink(spellname)})
+	local dataobj = ldb:NewDataObject("Cork "..spellname, {
+		type = "cork",
+		corktype = "buff",
+		tiplink = GetSpellLink(spellname),
+	})
 
 	function dataobj:Init()
 		Cork.defaultspc[spellname.."-enabled"] = GetSpellInfo(spellname) ~= nil

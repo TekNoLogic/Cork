@@ -5,6 +5,7 @@ local keys = {
 	"configframe",
 	"CanCorkStealthed",
 	"CorkIt",
+	"corktype",
 	"icon",
 	"iconline",
 	"Init",

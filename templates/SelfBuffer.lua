@@ -42,6 +42,7 @@ end
 function Cork:GenerateSelfBuffer(spellname, icon, ...)
 	local dataobj = ldb:NewDataObject("Cork "..spellname, {
 		type      = "cork",
+		corktype  = "buff",
 		tiplink   = GetSpellLink(spellname),
 		iconline  = self.IconLine(icon, spellname),
 		spells    = {spellname, ...},

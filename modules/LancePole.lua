@@ -27,14 +27,15 @@ end
 
 function Cork:GenerateEquippedWarning(name, slot, ...)
 	local dataobj = ldb:NewDataObject("Cork "..name, {
-		type  = "cork",
-		name  = name,
-		slot  = slot,
-		Test  = Test,
-		Scan  = Scan,
-		items = {...},
-		tiptext = "Warn when you have a ".. name:lower()..
-		          " equipped at a time you probably don't want it.",
+		type     = "cork",
+		corktype = "item",
+		name     = name,
+		slot     = slot,
+		Test     = Test,
+		Scan     = Scan,
+		items    = {...},
+		tiptext  = "Warn when you have a ".. name:lower()..
+		           " equipped at a time you probably don't want it.",
 	})
 
 	for i=1,select("#", ...) do dataobj.items[select(i, ...)] = true end

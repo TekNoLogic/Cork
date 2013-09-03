@@ -29,7 +29,11 @@ function Cork:GenerateItemBuffer(class, itemid, spellid, classspellid)
 
 	local SpellCastableOnUnit, IconLine = self.SpellCastableOnUnit, self.IconLine
 
-	local dataobj = ldb:NewDataObject("Cork "..spellname, {type = "cork", tiplink = "item:"..itemid})
+	local dataobj = ldb:NewDataObject("Cork "..spellname, {
+		type = "cork",
+		corktype = "buff",
+		tiplink = "item:"..itemid,
+	})
 
 	Cork.defaultspc[spellname.."-enabled"] = true
 
