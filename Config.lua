@@ -179,15 +179,16 @@ frame:SetScript("OnShow", function()
 	end)
 
 
-	local function Update(self)
+	frame.Update = function(self)
+		if not self:IsVisible() then return end
 		showanchor:SetChecked(Cork.db.showanchor)
 		showbg:SetChecked(Cork.db.showbg)
 		bindwheel:SetChecked(Cork.db.bindwheel)
 		UpdateRows()
 	end
 
-	frame:SetScript("OnShow", Update)
-	Update(frame)
+	frame:SetScript("OnShow", frame.Update)
+	frame:Update()
 end)
 
 InterfaceOptions_AddCategory(frame)
