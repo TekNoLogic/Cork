@@ -29,13 +29,27 @@ function ns.StartTimer(endtime, func)
 	SetNextTime()
 end
 
+function ns.StartRepeatingTimer(period, func)
+	local t = {period = period, func = func, time = GetTime() + period}
+	funcs[t] = true
+	SetNextTime()
+	return t
+end
+
+function ns.StopRepeatingTimer(timer)
+	funcs[timer] = nil
+	SetNextTime()
+end
+
 
 f:SetScript("OnHide", function() nextup = nil end)
 f:SetScript("OnUpdate", function(self)
 	if not nextup then return f:Hide() end
 	if GetTime() >= nextup.time then
-		nextup.func()
-		funcs[nextup] = nil
+		local endloop = nextup.func()
+		if nextup.period and not endloop then
+			nextup.time = GetTime() + nextup.period
+		else funcs[nextup] = nil end
 		SetNextTime()
 	end
 end)
