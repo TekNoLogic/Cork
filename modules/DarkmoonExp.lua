@@ -18,7 +18,8 @@ end
 
 local itemname = "Darkmoon EXP Buff"
 local spellname, _, icon = GetSpellInfo(46668)
-local dataobj = Cork:GenerateSelfBuffer(itemname, icon, spellname)
+local hatspell = GetSpellInfo(136583)
+local dataobj = Cork:GenerateSelfBuffer(itemname, icon, spellname, hatspell)
 function dataobj:Test() return DarkmoonToday() and self:TestWithoutResting() end
 function dataobj:Init()
 	Cork.defaultspc[itemname.."-enabled"] = level < 90
