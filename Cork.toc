@@ -16,6 +16,7 @@
 ## OptionalDeps: tekErr
 
 externals\timer.lua
+externals\ui-tab.lua
 
 tekKonfig\tekKonfig.xml
 CallbackHandler-1.0.lua
