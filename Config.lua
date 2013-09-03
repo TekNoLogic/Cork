@@ -1,6 +1,7 @@
 
 
 local myname, Cork = ...
+local ns = Cork
 
 local GAP = 8
 local tekcheck = LibStub("tekKonfig-Checkbox")
@@ -62,7 +63,7 @@ frame:SetScript("OnShow", function()
 		end)
 	end
 
-	local group = LibStub("tekKonfig-Group").new(frame, "Modules", "TOP", subtitle, "BOTTOM", 0, -GAP-22)
+	local group = LibStub("tekKonfig-Group").new(frame, nil, "TOP", subtitle, "BOTTOM", 0, -GAP-22)
 	group:SetPoint("LEFT", frame, "CENTER", -40, 0)
 	group:SetPoint("BOTTOMRIGHT", -EDGEGAP, EDGEGAP)
 
@@ -72,6 +73,13 @@ frame:SetScript("OnShow", function()
 	macrobutt.tiptext = "Click to generate a macro, or pick it up if already generated."
 	macrobutt:SetText("Macro")
 	macrobutt:SetScript("OnClick", Cork.GenerateMacro)
+
+
+	local tab1 = ns.NewTab(frame, "Buffs", "BOTTOMLEFT", group, "TOPLEFT", 0, -4)
+	local tab2 = ns.NewTab(frame, "Items", "LEFT", tab1, "RIGHT", -15, 0)
+	local tab3 = ns.NewTab(frame, "Other", "LEFT", tab2, "RIGHT", -15, 0)
+	tab2:Deactivate()
+	tab3:Deactivate()
 
 
 	local corknames, anchor = {}
