@@ -29,7 +29,7 @@ function dataobj:CorkIt(frame)
 		if self.lasttarget then
 			local macro = "/target ".. dataobj.lasttarget.. "\n/cast ".. spellname
 			return frame:SetManyAttributes("type1", "macro", "macrotext1", macro)
-		elseif IsInGroup() and not IsInRaid() and GetNumSubgroupMembers() == 1 then
+		elseif IsInGroup() and not IsInRaid() and GetNumSubgroupMembers() == 1 and select(2, UnitClass("party1")) ~= "DRUID" then
 			local macro = "/target party1\n/cast ".. spellname
 			return frame:SetManyAttributes("type1", "macro", "macrotext1", macro)
 		end
