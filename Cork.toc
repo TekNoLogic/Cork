@@ -51,6 +51,7 @@ modules\Priest.lua
 modules\RogueWeapon.lua
 modules\Shaman.lua
 modules\Warlock.lua
+modules\WarlockGoSacrifice.lua
 modules\WarlockPets.lua
 modules\WarlockSoulLink.lua
 modules\WarlockHealthstone.lua
