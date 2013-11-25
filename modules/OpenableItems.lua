@@ -1,6 +1,11 @@
 
 local myname, ns = ...
 
+local scanning   = ns:New("Test Item Scanner")
+scanning.Init    = ns.InitItemScanner
+scanning.tiptext = "Experimental tooltip scanning based item interaction"
+scanning.match   = ITEM_OPENABLE
+
 
 local crates = ns:New("Crates")
 crates.Init = ns.InitItemOpener
