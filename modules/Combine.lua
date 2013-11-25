@@ -32,7 +32,7 @@ function dataobj:Scan()
 	dataobj.player = nil
 end
 
-ae.RegisterEvent("Cork Combine", "BAG_UPDATE", dataobj.Scan)
+ae.RegisterEvent("Cork Combine", "BAG_UPDATE_DELAYED", dataobj.Scan)
 
 function dataobj:CorkIt(frame)
 	if dataobj.player then
