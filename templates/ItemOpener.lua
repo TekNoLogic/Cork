@@ -39,5 +39,7 @@ function ns.InitItemOpener(self)
 	self.corktype = "item"
 	self.CorkIt = corkit
 	self.Scan = scan
-	ae.RegisterEvent(self, "BAG_UPDATE", "Scan")
+        -- register for the update event that fires after a complete batch of
+        -- changes, since we scan everything at once; reduces overscanning.
+	ae.RegisterEvent(self, "BAG_UPDATE_DELAYED", "Scan")
 end
