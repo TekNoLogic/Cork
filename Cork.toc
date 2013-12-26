@@ -32,8 +32,6 @@ Config.lua
 MacroGenerator.lua
 Mousewheel.lua
 
-templates\ItemOpener.lua
-templates\ItemScanner.lua
 templates\SelfBuffer.lua
 templates\SelfBufferAdvanced.lua
 templates\RaidBuffer.lua

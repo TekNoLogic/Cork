@@ -1,35 +1,69 @@
 
 local myname, ns = ...
 
-local scanning   = ns:New("Test Item Scanner")
-scanning.Init    = ns.InitItemScanner
-scanning.tiptext = "Experimental tooltip scanning based item interaction"
-scanning.match   = ITEM_OPENABLE
+
+local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
-local crates = ns:New("Crates")
-crates.Init = ns.InitItemOpener
-crates.tiptext = "Warn when you have fished-up crates that need opened."
-crates.items = {
-	6351, 6352, 6353, 6355, 6356, 6357, 13874, 13875, 20708, 21113, 21150, 21228,
-	27513, 27446, 27481, 34863, 35348, 44475, 46007, 67414, 67597, 68798, 68799,
-	68800, 68801, 68801, 68803, 68804, 68805, 78930, 88496
-}
+local dataobj    = ns:New("Openable items")
+dataobj.tiptext  = "Notify you when there are openable containers in your bags"
+dataobj.corktype = "item"
+dataobj.priority = 8
 
 
-local clams = ns:New("Clams")
-clams.Init = ns.InitItemOpener
-clams.tiptext = "Warn when you have clams in your bags that need shucked."
-clams.items = {7973, 24476, 5523, 15874, 5524, 32724, 36781, 45909, 52340, 65513}
+function dataobj:Init()
+	ns.defaultspc[self.name.."-enabled"] = true
+end
 
 
-local bloated = ns:New("Bloated innards")
-bloated.Init = ns.InitItemOpener
-bloated.tiptext = "Warn when you have bloated innards that need opened."
-bloated.items = {67495, 72201}
+local openable_ids = {}
+local function IsOpenable(bag, slot, id)
+	if openable_ids[id] ~= nil then return openable_ids[id] end
+
+	ns.scantip:SetBagItem(bag, slot)
+	for i=1,5 do
+		if ns.scantip.L[i] == ITEM_OPENABLE then
+			openable_ids[id] = true
+			return true
+		end
+	end
+	openable_ids[id] = false
+	return false
+end
 
 
-local holiday = ns:New("Holiday containers")
-holiday.Init = ns.InitItemOpener
-holiday.tiptext = "Warn when you have holiday stuff to open."
-holiday.items = {45072}
+local function Test()
+	for bag=0,4 do
+		for slot=1,GetContainerNumSlots(bag) do
+			local itemid = GetContainerItemID(bag, slot)
+			if itemid and IsOpenable(bag, slot, itemid) then return itemid end
+		end
+	end
+end
+
+
+local lastid
+function dataobj:Scan()
+	if not ns.dbpc[self.name.."-enabled"] then
+		self.player = nil
+		return
+	end
+
+	lastid = Test()
+	if lastid then
+		local num = GetItemCount(lastid)
+		local itemname, _, _, _, _, _, _, _, _, texture = GetItemInfo(lastid)
+		self.player = ns.IconLine(texture, itemname.. " (".. num.. ")")
+	else
+		self.player = nil
+	end
+end
+
+ae.RegisterEvent(dataobj, "BAG_UPDATE_DELAYED", "Scan")
+
+
+function dataobj:CorkIt(frame)
+	if lastid then
+		return frame:SetManyAttributes("type1", "item", "item1", "item:"..lastid)
+	end
+end
