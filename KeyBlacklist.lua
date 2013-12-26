@@ -32,8 +32,6 @@ local keys = {
 	"UNIT_AURA",
 	"UNIT_INVENTORY_CHANGED",
 	"UNIT_PET",
-	"generation",
-	"match",
 }
 
 ns.keyblist = {}
