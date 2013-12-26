@@ -22,6 +22,7 @@ local function IsOpenable(bag, slot, id)
 
 	ns.scantip:SetBagItem(bag, slot)
 	for i=1,5 do
+		if ns.scantip.L[i] == RETRIEVING_ITEM_INFO then return false end
 		if ns.scantip.L[i] == ITEM_OPENABLE then
 			openable_ids[id] = true
 			return true
