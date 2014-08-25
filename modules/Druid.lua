@@ -19,24 +19,6 @@ Cork:GenerateRaidBuffer(spellname, icon, nil, nil, function(unit)
 end)
 
 
--- Symbiosis
-local spellname, _, icon = GetSpellInfo(110309)
-local dataobj = Cork:GenerateLastBuffedBuffer(spellname, icon)
-dataobj.partyonly = true
-dataobj.ignoreplayer = true
-function dataobj:CorkIt(frame)
-	if self.custom then
-		if self.lasttarget then
-			local macro = "/target ".. dataobj.lasttarget.. "\n/cast ".. spellname
-			return frame:SetManyAttributes("type1", "macro", "macrotext1", macro)
-		elseif IsInGroup() and not IsInRaid() and GetNumSubgroupMembers() == 1 then
-			local macro = "/target party1\n/cast ".. spellname
-			return frame:SetManyAttributes("type1", "macro", "macrotext1", macro)
-		end
-	end
-end
-
-
 -- Shapeshifts
 local dobj, ref = Cork:GenerateAdvancedSelfBuffer("Fursuit", {768, 5487, 24858})
 function dobj:CorkIt(frame)
