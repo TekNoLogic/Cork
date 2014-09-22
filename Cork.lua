@@ -157,6 +157,8 @@ for i=1,40 do raidunits["raid"..i] = true end
 function Cork.Update(event, name, attr, value, dataobj)
 	if Cork.keyblist[attr] then return end
 
+	tooltip:Hide()
+	
 	table.wipe(activecorks)
 	table.wipe(usedcorks)
 
