@@ -14,6 +14,7 @@ local SUC,  _, SUCICON  = GetSpellInfo(712)
 local FELH, _, FELHICON = GetSpellInfo(691)
 local FELG, _, FELGICON = GetSpellInfo(30146)
 local soulburn = GetSpellInfo(74434)
+local gos = GetSpellInfo(108503) -- Grimoire of Sacrifice
 
 local defaultspell = IMP
 
@@ -33,21 +34,15 @@ local function RefreshKnownSpells() -- Refresh in case the player has learned th
 	for buff in pairs(icons) do if known[buff] == nil then known[buff] = GetSpellInfo(buff) end end
 end
 
-local function IsMountSummoned()
-	for i=1,GetNumCompanions("MOUNT") do
-		if select(5,GetCompanionInfo("MOUNT", i) ) then return true end
-	end
-end
-
 function dataobj:Init() RefreshKnownSpells() Cork.defaultspc["Summon demon-enabled"] = known[buffnames[spellidlist[1]]] ~= nil end
 function dataobj:Scan()
-	if IsMountSummoned() or not Cork.dbpc["Summon demon-enabled"] or UnitExists("pet") then dataobj.player = nil
+	if IsMounted() or not Cork.dbpc["Summon demon-enabled"] or (UnitExists("pet") and not UnitIsDead("pet")) or UnitAura("player", gos) then dataobj.player = nil
 	else dataobj.player = IconLine(icons[Cork.dbpc["Summon demon-spell"]], Cork.dbpc["Summon demon-spell"]) end
 
 end
 
 ae.RegisterEvent("Cork Summon demon", "UNIT_PET", function(event, unit) if unit == "player" then dataobj:Scan() end end)
-ae.RegisterEvent("Cork mount check", "COMPANION_UPDATE", function(event, type) if type == "MOUNT" then dataobj:Scan() end end)
+ae.RegisterEvent("Cork Summon demon", "UNIT_AURA", function(event, unit) if unit == "player" then dataobj:Scan() end end)
 function dataobj:CorkIt(frame)
 	if self.player then
 		knowssoulburn = knowssoulburn or GetSpellInfo(soulburn)
