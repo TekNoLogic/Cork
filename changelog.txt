@@ -1,3 +1,26 @@
+6.0.0.53-Beta
+    Fix tooltip scanning on initial login
+    Something on wod broke the empty tip
+    Simplify down the item scanner
+    Implement tooltip scanning based item opener (Thanks Daniel Pittman)
+    Better handling of maxlevel in darkmoon module
+    Don't warn about darkmoon if player has the hat buff
+    Config refresh on spec change, thanks @Adirelle
+    Add some tabs to the config panel
+    Update the configuration panel when switching spec.
+    Properly update checkboxes when showing the config panel.
+    Have the db values match the state of the checkboxes.
+    Allow poison application while stealthed
+    Avoid errors when item names are unknown (thanks Kevin Ballard)
+    Combine Sparkling Shards to make Serpent's Eye (thanks Craig R. Hughes)
+    Display party member buffs like raid member buffs (thanks Kevin Ballard)
+    Dark intent now overwrites Fort... bastards
+    Fix Priest Fort buffer (thanks Kevin Ballard)
+    Combine motes into spirits of harmony (thanks Craig R. Hughes)
+    Eggs are openable too!
+    Fix macro generation for Paladins (thanks Kevin Ballard)
+    Don't show mage gem when resting
+
 5.2.0.52-Beta
     Ice barrier!
     Display corks in the same order they're fired (thanks @eridius)
