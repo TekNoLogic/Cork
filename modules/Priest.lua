@@ -10,11 +10,6 @@ Cork:GenerateRaidBuffer(spellname, icon, nil, nil, function(unit)
 end)
 
 
--- Inner Fire / Will
-local spellname, _, icon = GetSpellInfo(588)
-Cork:GenerateAdvancedSelfBuffer(spellname, {588,73413})
-
-
 -- Shadowform
 local spellname, _, icon = GetSpellInfo(15473)
 Cork:GenerateSelfBuffer(spellname, icon)
