@@ -7,7 +7,7 @@ local UnitAura = UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
-local soul_link_enabled = select(5, GetTalentInfo(7))
+local soul_link_enabled = select(5, GetTalentInfo(3,1,GetActiveSpecGroup()))
 if soul_link_enabled then
 	local spellname, _, icon = GetSpellInfo(108415)
 	local IconLine = Cork.IconLine(icon, spellname)
