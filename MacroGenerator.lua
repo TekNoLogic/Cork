@@ -21,6 +21,7 @@ function Cork.GenerateMacro()
 		elseif c == "WARLOCK" then ooc = 6201
 		elseif c == "WARRIOR" then ooc = 6673
 		elseif c == "MONK"    then ooc = 115921
+		elseif c == "ROGUE"   then ooc = 2823
 		elseif c == "DRUID"   then ic, ooc = 22812, 1126
 		elseif c == "MAGE"    then ic, ooc = 30482, 1459
 		elseif c == "PALADIN" then ic, ooc = 20165, 19740

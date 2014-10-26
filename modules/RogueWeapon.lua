@@ -30,7 +30,7 @@ end
 
 
 -- Damage poisons
-local dataobj = Cork:GenerateAdvancedSelfBuffer("Poison - Damage", {2823,8679})
+local dataobj = Cork:GenerateAdvancedSelfBuffer("Lethal Poison", {2823,8679})
 dataobj.oldtest = dataobj.Test
 dataobj.Test = Test
 dataobj.UNIT_INVENTORY_CHANGED = UNIT_INVENTORY_CHANGED
@@ -39,7 +39,7 @@ ae.RegisterEvent(dataobj, "UNIT_INVENTORY_CHANGED")
 
 
 -- Utility poisons
-local dataobj = Cork:GenerateAdvancedSelfBuffer("Poison - Utility", {3408,5761,108211,108215})
+local dataobj = Cork:GenerateAdvancedSelfBuffer("Non-Lethal Poison", {3408,108211})
 dataobj.oldtest = dataobj.Test
 dataobj.Test = Test
 dataobj.UNIT_INVENTORY_CHANGED = UNIT_INVENTORY_CHANGED
