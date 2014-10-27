@@ -1,3 +1,6 @@
+6.0.0.54-Beta
+    6.0 fixes (thanks @hughescr for Soul Link fix)
+
 6.0.0.53-Beta
     Fix tooltip scanning on initial login
     Something on wod broke the empty tip
