@@ -33,15 +33,9 @@ local function RefreshKnownSpells() -- Refresh in case the player has learned th
 	for buff in pairs(icons) do if known[buff] == nil then known[buff] = GetSpellInfo(buff) end end
 end
 
-local function IsMountSummoned()
-	for i=1,GetNumCompanions("MOUNT") do
-		if select(5,GetCompanionInfo("MOUNT", i) ) then return true end
-	end
-end
-
 function dataobj:Init() RefreshKnownSpells() Cork.defaultspc["Summon demon-enabled"] = known[buffnames[spellidlist[1]]] ~= nil end
 function dataobj:Scan()
-	if IsMountSummoned() or not Cork.dbpc["Summon demon-enabled"] or UnitExists("pet") then dataobj.player = nil
+	if IsMounted() or not Cork.dbpc["Summon demon-enabled"] or UnitExists("pet") then dataobj.player = nil
 	else dataobj.player = IconLine(icons[Cork.dbpc["Summon demon-spell"]], Cork.dbpc["Summon demon-spell"]) end
 
 end
