@@ -16,6 +16,7 @@ function dataobj:Init()
 end
 
 
+local OPEN_CLAM = "Use: Open the clam!"
 local openable_ids = {}
 local function IsOpenable(bag, slot, id)
 	if openable_ids[id] ~= nil then return openable_ids[id] end
@@ -23,7 +24,7 @@ local function IsOpenable(bag, slot, id)
 	ns.scantip:SetBagItem(bag, slot)
 	for i=1,5 do
 		if ns.scantip.L[i] == RETRIEVING_ITEM_INFO then return false end
-		if ns.scantip.L[i] == ITEM_OPENABLE then
+		if ns.scantip.L[i] == ITEM_OPENABLE or ns.scantip.L[i] == OPEN_CLAM then
 			openable_ids[id] = true
 			return true
 		end
