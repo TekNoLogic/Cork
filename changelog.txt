@@ -1,3 +1,8 @@
+6.0.0.55-Beta
+    Account for actual start and end time of darkmoon
+    Fix clam opening
+    Fix warlock pet mount detection
+
 6.0.0.54-Beta
     6.0 fixes (thanks @hughescr for Soul Link fix)
 
