@@ -13,11 +13,19 @@ Cork.defaultspc[itemname.."-enabled"] = true
 
 local function DarkmoonToday()
 	local _, _, day = CalendarGetDate()
-	local title, _, _, calendarType, sequenceType, eventType, texture
+	local title, hour, sequenceType
 	local i = 1
 	repeat
-		title, _, _, calendarType, sequenceType, eventType, texture = CalendarGetDayEvent(0, day, i)
-		if title == "Darkmoon Faire" then return true end
+		title, hour, _, _, sequenceType = CalendarGetDayEvent(0, day, i)
+		if title == "Darkmoon Faire" then
+			if sequenceType == "Start" then
+				return GetGameTime() >= hour
+			elseif sequenceType == "END" then
+				return GetGameTime() < hour
+			else
+				return true
+			end
+		end
 		i = i + 1
 	until not title
 end
