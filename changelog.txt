@@ -1,3 +1,6 @@
+6.0.0.56-Beta
+    Add WoD combinable items (thanks Daniel Pittman)
+
 6.0.0.55-Beta
     Account for actual start and end time of darkmoon
     Fix clam opening
