@@ -59,8 +59,8 @@ local ITEMS = {
   [118566] = 5,
 }
 
-for i = 108318, 108365 do ITEMS[i] = 10 end -- herbalism
-for i = 108294, 108309 do ITEMS[i] = 10 end -- mining
+for i=108318,108365 do ITEMS[i] = 10 end -- herbalism
+for i=108294,108309 do ITEMS[i] = 10 end -- mining
 
 
 Cork.defaultspc["Combine-enabled"] = true
