@@ -15,6 +15,12 @@ function dataobj:Init()
 	ns.defaultspc[self.name.."-enabled"] = true
 end
 
+local salvage = {
+   [118473] = true, -- Small Sack of Salvaged Goods
+   [114116] = true, -- Bag of Salvaged Goods
+   [114119] = true, -- Crate of Salvage
+   [114120] = true, -- Big Crate of Salvage
+}
 
 local OPEN_CLAM = "Use: Open the clam!"
 local openable_ids = {}
@@ -38,7 +44,10 @@ local function Test()
 	for bag=0,4 do
 		for slot=1,GetContainerNumSlots(bag) do
 			local itemid = GetContainerItemID(bag, slot)
-			if itemid and IsOpenable(bag, slot, itemid) then return itemid end
+			if itemid then
+                                if IsOpenable(bag, slot, itemid) then return itemid end
+                                if C_Garrison.IsOnGarrisonMap() and salvage[itemid] then return itemid end
+                        end
 		end
 	end
 end
