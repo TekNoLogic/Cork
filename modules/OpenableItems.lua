@@ -58,7 +58,12 @@ function dataobj:Scan()
 	if lastid then
 		local num = GetItemCount(lastid)
 		local itemname, _, _, _, _, _, _, _, _, texture = GetItemInfo(lastid)
-		self.player = ns.IconLine(texture, itemname.. " (".. num.. ")")
+		if itemname ~= nil then
+			self.player = ns.IconLine(texture, itemname.. " (".. num.. ")")
+		else
+			-- we probably haven't seen the item yet so it's not cached
+			self.player = nil
+		end
 	else
 		self.player = nil
 	end
