@@ -17,7 +17,10 @@ end
 
 
 local OPEN_CLAM = "Use: Open the clam!"
-local openable_ids = {}
+local openable_ids = {
+	[120301] = true, -- Armor Enhancement Token
+	[120302] = true, -- Weapon Enhancement Token
+}
 local function IsOpenable(bag, slot, id)
 	if openable_ids[id] ~= nil then return openable_ids[id] end
 
