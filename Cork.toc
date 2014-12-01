@@ -62,6 +62,7 @@ modules\Repairs.lua
 modules\Talents.lua
 modules\Tracking.lua
 modules\Combine.lua
+modules\GarrisonMineItems.lua
 modules\Glyphs.lua
 modules\OpenableItems.lua
 modules\LancePole.lua
