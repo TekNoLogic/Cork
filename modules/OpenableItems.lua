@@ -21,8 +21,15 @@ local openable_ids = {
 	[120301] = true, -- Armor Enhancement Token
 	[120302] = true, -- Weapon Enhancement Token
 }
+local salvage = {
+	[118473] = true, -- Small Sack of Salvaged Goods
+	[114116] = true, -- Bag of Salvaged Goods
+	[114119] = true, -- Crate of Salvage
+	[114120] = true, -- Big Crate of Salvage
+}
 local function IsOpenable(bag, slot, id)
 	if openable_ids[id] ~= nil then return openable_ids[id] end
+	if salvage[itemid] and C_Garrison.IsOnGarrisonMap() then return itemid end
 
 	ns.scantip:SetBagItem(bag, slot)
 	for i=1,5 do
