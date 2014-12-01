@@ -28,8 +28,8 @@ local salvage = {
 	[114120] = true, -- Big Crate of Salvage
 }
 local function IsOpenable(bag, slot, id)
+	if salvage[id] then return C_Garrison.IsOnGarrisonMap() end
 	if openable_ids[id] ~= nil then return openable_ids[id] end
-	if salvage[itemid] and C_Garrison.IsOnGarrisonMap() then return itemid end
 
 	ns.scantip:SetBagItem(bag, slot)
 	for i=1,5 do
@@ -77,6 +77,7 @@ function dataobj:Scan()
 end
 
 ae.RegisterEvent(dataobj, "BAG_UPDATE_DELAYED", "Scan")
+ae.RegisterEvent(dataobj, "GARRISON_UPDATE", "Scan")
 
 
 function dataobj:CorkIt(frame)
