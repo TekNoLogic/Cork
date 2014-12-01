@@ -10,13 +10,21 @@ local function HasBuff(spells)
 	end
 end
 
+local function CheckCooldown(self)
+	local start, duration = GetSpellCooldown(self.spellname)
+	if start == 0 then return true end
+
+	Cork.StartTimer(start + duration, self.Scan)
+	return false
+end
+
 local function Init(self)
 	local name = GetSpellInfo(self.spellname)
 	Cork.defaultspc[self.spellname.."-enabled"] = name ~= nil
 end
 
 local function TestWithoutResting(self)
-	if Cork.dbpc[self.spellname.."-enabled"] and not HasBuff(self.spells) then
+	if Cork.dbpc[self.spellname.."-enabled"] and not HasBuff(self.spells) and CheckCooldown(self) then
 		return self.iconline
 	end
 end
@@ -24,8 +32,6 @@ end
 local function Test(self)
 	return not (IsResting() and not Cork.db.debug) and TestWithoutResting(self)
 end
-
-local function Scan(self, ...) self.player = self:Test() end
 
 local function CorkIt(self, frame)
 	if self.player then
@@ -49,11 +55,15 @@ function Cork:GenerateSelfBuffer(spellname, icon, ...)
 		spellname = spellname,
 		Init      = Init,
 		Test      = Test,
-		Scan      = Scan,
 		CorkIt    = CorkIt,
 		UNIT_AURA = UNIT_AURA,
 		TestWithoutResting = TestWithoutResting,
+		HasBuff = HasBuff,
 	})
+
+	function dataobj.Scan()
+		dataobj.player = dataobj:Test()
+	end
 
 	ae.RegisterEvent(dataobj, "UNIT_AURA")
 	ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
