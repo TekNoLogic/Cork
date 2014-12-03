@@ -67,6 +67,7 @@ modules\Minipet.lua
 modules\OpenableItems.lua
 modules\QuestStartingItems.lua
 modules\Repairs.lua
+modules\Salvage.lua
 modules\Talents.lua
 modules\Tracking.lua
 modules\WellFed.lua

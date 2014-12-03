@@ -21,14 +21,7 @@ local openable_ids = {
 	[120301] = true, -- Armor Enhancement Token
 	[120302] = true, -- Weapon Enhancement Token
 }
-local salvage = {
-	[118473] = true, -- Small Sack of Salvaged Goods
-	[114116] = true, -- Bag of Salvaged Goods
-	[114119] = true, -- Crate of Salvage
-	[114120] = true, -- Big Crate of Salvage
-}
 local function IsOpenable(bag, slot, id)
-	if salvage[id] then return C_Garrison.IsOnGarrisonMap() end
 	if openable_ids[id] ~= nil then return openable_ids[id] end
 
 	ns.scantip:SetBagItem(bag, slot)
@@ -77,7 +70,6 @@ function dataobj:Scan()
 end
 
 ae.RegisterEvent(dataobj, "BAG_UPDATE_DELAYED", "Scan")
-ae.RegisterEvent(dataobj, "GARRISON_UPDATE", "Scan")
 
 
 function dataobj:CorkIt(frame)
