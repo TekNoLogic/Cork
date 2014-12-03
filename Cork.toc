@@ -32,11 +32,11 @@ Config.lua
 MacroGenerator.lua
 Mousewheel.lua
 
+templates\LastBuffedBuffer.lua
+templates\RaidBuffer.lua
+templates\RaidBuffingItems.lua
 templates\SelfBuffer.lua
 templates\SelfBufferAdvanced.lua
-templates\RaidBuffer.lua
-templates\LastBuffedBuffer.lua
-templates\RaidBuffingItems.lua
 templates\TempEnchant.lua
 
 modules\DeathKnight.lua
@@ -50,23 +50,23 @@ modules\Priest.lua
 modules\RogueWeapon.lua
 modules\Shaman.lua
 modules\Warlock.lua
+modules\WarlockHealthstone.lua
 modules\WarlockPets.lua
 modules\WarlockSoulLink.lua
-modules\WarlockHealthstone.lua
 modules\Warrior.lua
 
-modules\BuffItems.lua
 modules\BattleStandard.lua
-modules\WellFed.lua
+modules\BuffItems.lua
+modules\Combine.lua
+modules\DarkmoonExp.lua
+modules\Dig.lua
+modules\GarrisonMineItems.lua
+modules\Glyphs.lua
+modules\LancePole.lua
+modules\Minipet.lua
+modules\OpenableItems.lua
+modules\QuestStartingItems.lua
 modules\Repairs.lua
 modules\Talents.lua
 modules\Tracking.lua
-modules\Combine.lua
-modules\GarrisonMineItems.lua
-modules\Glyphs.lua
-modules\OpenableItems.lua
-modules\LancePole.lua
-modules\QuestStartingItems.lua
-modules\Dig.lua
-modules\Minipet.lua
-modules\DarkmoonExp.lua
+modules\WellFed.lua
