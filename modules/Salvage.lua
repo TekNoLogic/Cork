@@ -31,7 +31,6 @@ local function Test()
 end
 
 
-local lastid
 function dataobj:Scan()
 	if not ns.dbpc[self.name.."-enabled"] then
 		self.player = nil
@@ -57,5 +56,8 @@ ae.RegisterEvent(dataobj, "GARRISON_UPDATE", "Scan")
 
 
 function dataobj:CorkIt(frame)
-	-- We don't have an easy way to detect if the user is at their incinerator
+	local id = Test()
+	if id then
+		return frame:SetManyAttributes("type1", "item", "item1", "item:"..id)
+	end
 end
