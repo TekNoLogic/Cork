@@ -10,7 +10,8 @@ Cork:GenerateRaidBuffer(spellname, icon, altspellname, true)
 
 -- Ice Barrier
 local spellname, _, icon = GetSpellInfo(11426)
-Cork:GenerateSelfBuffer(spellname, icon)
+local dataobj = Cork:GenerateSelfBuffer(spellname, icon)
+dataobj.checkcooldown = true
 
 
 -- Water Elemental (frost pet)
