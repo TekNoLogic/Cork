@@ -12,7 +12,7 @@ end
 
 local function CheckCooldown(self)
 	local start, duration = GetSpellCooldown(self.spellname)
-	if start == 0 then return true end
+	if not start or start == 0 then return true end
 
 	Cork.StartTimer(start + duration, self.Scan)
 	return false
