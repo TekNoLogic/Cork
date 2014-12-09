@@ -34,6 +34,7 @@ function Cork:GenerateEquippedWarning(name, slot, ...)
 		Test     = Test,
 		Scan     = Scan,
 		items    = {...},
+		priority = 9,
 		tiptext  = "Warn when you have a ".. name:lower()..
 		           " equipped at a time you probably don't want it.",
 	})
