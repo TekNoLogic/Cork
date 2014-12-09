@@ -63,6 +63,7 @@ modules\Dig.lua
 modules\GarrisonMineItems.lua
 modules\Glyphs.lua
 modules\LancePole.lua
+modules\Lures.lua
 modules\Minipet.lua
 modules\OpenableItems.lua
 modules\QuestStartingItems.lua
