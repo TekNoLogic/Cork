@@ -60,6 +60,7 @@ modules\BuffItems.lua
 modules\Combine.lua
 modules\DarkmoonExp.lua
 modules\Dig.lua
+modules\FishingHat.lua
 modules\GarrisonMineItems.lua
 modules\Glyphs.lua
 modules\LancePole.lua
