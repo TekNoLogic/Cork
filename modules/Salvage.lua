@@ -8,7 +8,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 local dataobj    = ns:New("Salvage")
 dataobj.tiptext  = "Notify you when you have openable salvage containers and are in your garrison"
 dataobj.corktype = "item"
-dataobj.priority = 9
+dataobj.priority = 10
 
 
 function dataobj:Init()
