@@ -148,11 +148,27 @@ local function GetTipAnchor(frame)
 end
 
 
+local function CorkSorter(a, b)
+	return a and b and a.sortname < b.sortname
+end
+
+
+local function SetSort(dataobj)
+	local downcase = dataobj.name:lower()
+	dataobj.sortname = string.format("%02d %s", (dataobj.priority or 5), downcase)
+end
+
+
 local activecorks, usedcorks = {}, {}
 local raidunits = {player = true}
 for i=1,4 do raidunits["party"..i] = true end
 for i=1,40 do raidunits["raid"..i] = true end
 function Cork.Update(event, name, attr, value, dataobj)
+	if attr == "priority" then
+		SetSort(dataobj)
+		table.sort(Cork.sortedcorks, CorkSorter)
+	end
+
 	if Cork.keyblist[attr] then return end
 
 	tooltip:Hide()
@@ -216,15 +232,10 @@ end
 --      LDB stuff      --
 -------------------------
 
-local function CorkSorter(a, b)
-	return a and b and a.sortname < b.sortname
-end
-
-
 local function NewDataobject(event, name, dataobj)
 	if dataobj.type ~= "cork" then return end
 	if not dataobj.name then dataobj.name = name:gsub("Cork ", "") end
-	dataobj.sortname = (dataobj.priority or 5).. dataobj.name:lower()
+	SetSort(dataobj)
 	Cork.corks[name] = dataobj
 	table.insert(Cork.sortedcorks, dataobj)
 	table.sort(Cork.sortedcorks, CorkSorter)
