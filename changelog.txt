@@ -1,3 +1,15 @@
+6.0.0.57-Beta
+    Add follower equipment tokens to openables
+    Add garrison mine buff items
+    Add fishing hat module
+    Add fishing lures module
+    Make self buffer check cooldown when needed
+    Add salvage items (thanks Daniel Pittman and Kevin Ballard)
+    Add missing "Nagrand Arrowbloom Petal" to combine (thanks Daniel Pittman)
+    Handle nil results from GetItemInfo for openables (thanks Kevin Ballard))
+    Add some Pandaria plant parts to the Combine module (thanks Adirelle)
+    Add Small Ethereal Shard to the combine module (thanks Adirelle)
+
 6.0.0.56-Beta
     Add WoD combinable items (thanks Daniel Pittman)
 
