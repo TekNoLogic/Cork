@@ -11,6 +11,7 @@ local keys = {
 	"Init",
 	"GROUP_ROSTER_UPDATE",
 	"ignoreplayer",
+	"itemid",
 	"items",
 	"lasttarget",
 	"name",

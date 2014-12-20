@@ -20,7 +20,7 @@ end
 
 
 local function TestWithoutResting(self)
-	if Cork.dbpc[self.spellname.."-enabled"] and not self.HasBuff(self.spells) then
+	if Cork.dbpc[self.spellname.."-enabled"] and not self.HasBuff(self.spells) and GetItemCount(self.itemid) > 0 then
 		return self.iconline
 	end
 end
@@ -37,6 +37,7 @@ local dataobj = Cork:GenerateSelfBuffer(itemname, icon, buffname)
 dataobj.Init = Init
 dataobj.Test = Test
 dataobj.TestWithoutResting = TestWithoutResting
+dataobj.itemid = 118897
 dataobj.tiplink = "item:118897"
 ae.RegisterEvent(dataobj, "ZONE_CHANGED", "Scan")
 function dataobj:CorkIt(frame)
@@ -50,6 +51,7 @@ local dataobj = Cork:GenerateSelfBuffer(itemname, icon, buffname)
 dataobj.Init = Init
 dataobj.Test = Test
 dataobj.TestWithoutResting = TestWithoutResting
+dataobj.itemid = 118903
 dataobj.tiplink = "item:118903"
 ae.RegisterEvent(dataobj, "ZONE_CHANGED", "Scan")
 function dataobj:CorkIt(frame)
