@@ -22,7 +22,7 @@ function Cork:GenerateAdvancedSelfBuffer(modulename, spellidlist, combatonly, us
 	})
 
 	local function RefreshKnownSpells() -- Refresh in case the player has learned this since login
-		for buff in pairs(icons) do if known[buff] == nil then known[buff] = GetSpellInfo(buff) end end
+		for buff in pairs(icons) do known[buff] = GetSpellInfo(buff) end
 	end
 
 	function dataobj:Init()
