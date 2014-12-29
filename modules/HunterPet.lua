@@ -8,6 +8,7 @@ local IconLine = Cork.IconLine
 local spellidlist = {883,83242,83243,83244,83245,2641}
 local dismissSpell, _, dismissIcon = GetSpellInfo(2641)
 local reviveSpell, _, reviveIcon = GetSpellInfo(982)
+local loneWolfSpell = GetSpellInfo(164273)
 
 local known, names = {}, {}
 
@@ -45,7 +46,7 @@ local function DoTest()
 		return
 	end
 
-	if not UnitExists("pet") then
+	if not UnitExists("pet") and not UnitBuff("player", loneWolfSpell) then
 		return spell
 	end
 end
