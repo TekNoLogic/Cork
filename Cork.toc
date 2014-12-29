@@ -63,6 +63,7 @@ modules\Dig.lua
 modules\FishingHat.lua
 modules\GarrisonFreeFood.lua
 modules\GarrisonMineItems.lua
+modules\GarrisonMissions.lua
 modules\GarrisonWorkOrders.lua
 modules\Glyphs.lua
 modules\LancePole.lua
