@@ -18,6 +18,7 @@ local dataobj    = ns:New(name)
 dataobj.tiptext  = "Notify you when you do not have free herb garden food in your bag"
 dataobj.corktype = "item"
 dataobj.priority = 15
+ns.defaultspc[name.."-enabled"] = true
 
 
 local function ScanPlots()
@@ -34,11 +35,6 @@ local hastree = false
 local function HasTree()
 	if not hastree then hastree = ScanPlots() end
 	return hastree
-end
-
-
-local function Init(self)
-	Cork.defaultspc[name.."-enabled"] = true
 end
 
 
