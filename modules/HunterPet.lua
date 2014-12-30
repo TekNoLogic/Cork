@@ -33,6 +33,10 @@ function dataobj:Init()
 end
 
 local function DoTest()
+	if UnitBuff("player", loneWolfSpell) then
+		return
+	end
+
 	if UnitExists("pet") and UnitIsDead("pet") then
 		return reviveSpell
 	end
@@ -46,7 +50,7 @@ local function DoTest()
 		return
 	end
 
-	if not UnitExists("pet") and not UnitBuff("player", loneWolfSpell) then
+	if not UnitExists("pet") then
 		return spell
 	end
 end
@@ -60,16 +64,17 @@ function dataobj:Test()
 	end
 end
 
-function dataobj:Scan() self.player = self:Test() end
+function dataobj:Scan(event, unit)
+	if not unit or unit == "player" then self.player = self:Test() end
+end
 
 function dataobj:CorkIt(frame)
 	RefreshKnownPets()
 	if self.player then return frame:SetManyAttributes("type1", "spell", "spell", DoTest()) end
 end
 
-ae.RegisterEvent("Cork Hunter Pet", "UNIT_PET", function(event, unit)
-	if unit == "player" then dataobj.player = dataobj:Test() end
-end)
+ae.RegisterEvent(dataobj, "UNIT_PET", "Scan")
+ae.RegisterEvent(dataobj, "UNIT_AURA", "Scan")
 ae.RegisterEvent(dataobj, "PLAYER_UPDATE_RESTING", "Scan")
 
 -- PET_ATTACK_STOP happens when the pet dies
