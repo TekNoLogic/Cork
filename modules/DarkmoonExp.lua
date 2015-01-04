@@ -18,7 +18,7 @@ local function DarkmoonToday()
 	repeat
 		title, hour, _, _, sequenceType = CalendarGetDayEvent(0, day, i)
 		if title == "Darkmoon Faire" then
-			if sequenceType == "Start" then
+			if sequenceType == "START" then
 				return GetGameTime() >= hour
 			elseif sequenceType == "END" then
 				return GetGameTime() < hour
