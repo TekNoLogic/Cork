@@ -22,8 +22,8 @@ local function Test(self)
 	if not C_Garrison.IsOnGarrisonMap() then return end
 
 	local items = C_Garrison.GetLandingPageItems()
-	for i,mission in ipairs(items) do
-		if mission.isComplete then return true end
+	for i,item in ipairs(items) do
+		if item.isComplete and not item.isBuilding then return true end
 	end
 end
 
