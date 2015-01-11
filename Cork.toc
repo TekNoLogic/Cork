@@ -61,6 +61,7 @@ modules\Combine.lua
 modules\DarkmoonExp.lua
 modules\Dig.lua
 modules\FishingHat.lua
+modules\GarrisonCache.lua
 modules\GarrisonFreeFood.lua
 modules\GarrisonMineItems.lua
 modules\GarrisonMissions.lua
