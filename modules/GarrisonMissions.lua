@@ -18,8 +18,10 @@ dataobj.priority = 20
 ns.defaultspc[name.."-enabled"] = true
 
 
-local function Test(self)
+local function Test(force)
 	if not C_Garrison.IsOnGarrisonMap() then return end
+
+	if force then return true end
 
 	local items = C_Garrison.GetLandingPageItems()
 	for i,item in ipairs(items) do
@@ -28,8 +30,10 @@ local function Test(self)
 end
 
 
-function dataobj:Scan(...)
-	if ns.dbpc[self.name.."-enabled"] and Test() then
+function dataobj:Scan(event, ...)
+	local force = event == "GARRISON_MISSION_FINISHED"
+
+	if ns.dbpc[self.name.."-enabled"] and Test(force) then
 		self.player = iconline
 	else
 		self.player = nil
@@ -38,5 +42,5 @@ end
 
 
 ae.RegisterEvent(dataobj, "ZONE_CHANGED", "Scan")
-ae.RegisterEvent(dataobj, "GARRISON_MISSION_FINISHED", "Scan")
 ae.RegisterEvent(dataobj, "GARRISON_MISSION_NPC_CLOSED", "Scan")
+ae.RegisterEvent(dataobj, "GARRISON_MISSION_FINISHED", "Scan")
