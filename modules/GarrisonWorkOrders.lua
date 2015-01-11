@@ -4,12 +4,11 @@ local level = UnitLevel("player")
 local ae = LibStub("AceEvent-3.0")
 
 
--- Items only available when you have a lvl3 garrison
+-- Items only available when you have a garrison
 if level < 90 then return end
 
 
 local name = "Completed work orders"
-local iconline = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", name)
 
 
 local dataobj    = ns:New(name)
@@ -25,8 +24,12 @@ local function Test(self)
 	for i,building in pairs(buildings) do
 		local id = building.buildingID
 		if id then
-			local _, _, _, shipmentsReady = C_Garrison.GetLandingPageShipmentInfo(id)
-			if (shipmentsReady or 0) >= 4 then return true end
+			local _, _, _, shipmentsReady, shipmentsTotal = C_Garrison.GetLandingPageShipmentInfo(id)
+			shipmentsReady = shipmentsReady or 0
+			shipmentsTotal = shipmentsTotal or 0
+
+			if shipmentsReady >= 6 then return id end
+			if shipmentsTotal > 0 and (shipmentsTotal - shipmentsReady) < 6 then return id end
 		end
 	end
 end
@@ -39,8 +42,15 @@ end
 
 
 function dataobj:Scan(...)
-	if ns.dbpc[self.name.."-enabled"] and Test() then
-		self.player = iconline
+	if not ns.dbpc[self.name.."-enabled"] then
+		self.player = nil
+		return
+	end
+
+	local buildingID = Test()
+	if buildingID then
+		local _, name, _, icon = C_Garrison.GetBuildingInfo(buildingID)
+		self.player = ns.IconLine(icon, name)
 	else
 		self.player = nil
 	end
@@ -50,3 +60,4 @@ end
 ae.RegisterEvent(dataobj, "GARRISON_LANDINGPAGE_SHIPMENTS", "Scan")
 ae.RegisterEvent("Cork"..name, "ZONE_CHANGED", RequestRefresh)
 ae.RegisterEvent("Cork"..name, "BAG_UPDATE_DELAYED", RequestRefresh)
+ae.RegisterEvent("Cork"..name, "SHIPMENT_CRAFTER_INFO", RequestRefresh)
