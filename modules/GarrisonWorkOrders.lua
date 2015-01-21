@@ -17,6 +17,11 @@ dataobj.priority = 20
 ns.defaultspc[name.."-enabled"] = true
 
 
+local blacklist = {
+	[29] = true,
+	[136] = true,
+	[137] = true,
+}
 local function Test(self)
 	if not C_Garrison.IsOnGarrisonMap() then return end
 
@@ -24,12 +29,14 @@ local function Test(self)
 	for i,building in pairs(buildings) do
 		local id = building.buildingID
 		if id then
-			local _, _, _, shipmentsReady, shipmentsTotal = C_Garrison.GetLandingPageShipmentInfo(id)
-			shipmentsReady = shipmentsReady or 0
-			shipmentsTotal = shipmentsTotal or 0
+			local _, _, _, numready, total = C_Garrison.GetLandingPageShipmentInfo(id)
+			numready = numready or 0
+			total = total or 0
 
-			if shipmentsReady >= 6 then return id end
-			if shipmentsTotal > 0 and (shipmentsTotal - shipmentsReady) < 6 then return id end
+			if numready >= 6 then return id end
+			if not blacklist[id] and total > 0 and (total - numready) < 6 then
+				return id 
+			end
 		end
 	end
 end
