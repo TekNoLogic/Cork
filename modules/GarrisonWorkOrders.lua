@@ -22,21 +22,18 @@ local blacklist = {
 	[136] = true,
 	[137] = true,
 }
-local function Test(self)
+local function Test(self, building)
 	if not C_Garrison.IsOnGarrisonMap() then return end
 
-	local buildings = C_Garrison.GetBuildings()
-	for i,building in pairs(buildings) do
-		local id = building.buildingID
-		if id then
-			local _, _, _, numready, total = C_Garrison.GetLandingPageShipmentInfo(id)
-			numready = numready or 0
-			total = total or 0
+	local id = building.buildingID
+	if id then
+		local _, _, _, numready, total = C_Garrison.GetLandingPageShipmentInfo(id)
+		numready = numready or 0
+		total = total or 0
 
-			if numready >= 6 then return id end
-			if not blacklist[id] and total > 0 and (total - numready) < 6 then
-				return id 
-			end
+		if total > 0 and numready == total then return true end
+		if not blacklist[id] and total > 0 and (total - numready) < 6 then
+			return true
 		end
 	end
 end
@@ -54,12 +51,22 @@ function dataobj:Scan(...)
 		return
 	end
 
-	local buildingID = Test()
-	if buildingID then
-		local _, name, _, icon = C_Garrison.GetBuildingInfo(buildingID)
-		self.player = ns.IconLine(icon, name)
-	else
-		self.player = nil
+	local buildings = C_Garrison.GetBuildings()
+	for i,building in pairs(buildings) do
+		if Test(self, building) then
+			local _, name, _, icon = C_Garrison.GetBuildingInfo(building.buildingID)
+			local _, _, _, numready, total, started = C_Garrison.GetLandingPageShipmentInfo(building.buildingID)
+
+			if numready == total then
+				self["building"..building.buildingID] = ns.IconLine(icon, name)
+			else
+				local timeleft = (total - numready) * 4 - (time() - started) /60/60
+				local title = string.format("%s (%dhr)", name, timeleft)
+				self["building"..building.buildingID] = ns.IconLine(icon, title)
+			end
+		else
+			self["building"..building.buildingID] = nil
+		end
 	end
 end
 
