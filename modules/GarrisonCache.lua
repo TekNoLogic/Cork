@@ -9,7 +9,6 @@ if level < 90 then return end
 
 
 local name = "Garrison cache"
-local iconline = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", name)
 
 
 local dataobj    = ns:New(name)
@@ -18,17 +17,29 @@ dataobj.priority = 20
 ns.defaultspc[name.."-enabled"] = true
 
 
-local function Test(force)
-	if not C_Garrison.IsOnGarrisonMap() then return end
-
+local function SecondsSinceLastOpened()
 	local lasttime = ns.dbpc[name.."-lastopen"] or 0
-	return (time() - (60*60*16)) > lasttime
+	return time() - lasttime
+end
+
+
+local function Test()
+	if not C_Garrison.IsOnGarrisonMap() then return end
+	return SecondsSinceLastOpened() > (60*60*16)
 end
 
 
 function dataobj:Scan()
 	if ns.dbpc[self.name.."-enabled"] and Test() then
-		self.player = iconline
+		local size = SecondsSinceLastOpened() / 60 / 10
+		if not ns.dbpc[name.."-lastopen"] then
+			self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", name)
+			return
+		end
+
+		if size > 500 then size = 500 end
+		local title = string.format("%s (%d)", name, size)
+		self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", title)
 	else
 		self.player = nil
 	end
