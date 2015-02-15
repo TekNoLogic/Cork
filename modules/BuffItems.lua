@@ -42,3 +42,19 @@ function dataobj:Init() Cork.defaultspc[itemname.."-enabled"] = GetItemCount(755
 function dataobj:CorkIt(frame)
 	if self.player then return frame:SetManyAttributes("type1", "item", "item1", "item:75525") end
 end
+
+
+if not ns.is_six_one then return end
+
+-- Bodyguard Miniaturization Device
+local itemname = GetItemInfo(122298) or "Bodyguard Miniaturization Device"
+local dataobj = Cork:GenerateSelfBuffer(itemname, (GetItemIcon(122298)))
+dataobj.Test = dataobj.TestWithoutResting
+dataobj.tiplink = "item:122298"
+dataobj.corktype = "item"
+
+function dataobj:Init() Cork.defaultspc[itemname.."-enabled"] = GetItemCount(122298) > 0 end
+
+function dataobj:CorkIt(frame)
+	if self.player then return frame:SetManyAttributes("type1", "item", "item1", "item:122298") end
+end
