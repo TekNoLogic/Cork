@@ -18,7 +18,6 @@ for i=1,MAX_BOSS_FRAMES do Cork.keyblist["boss"..i] = true end
 --      Initialization      --
 ------------------------------
 
-local meta = {__index = Cork.defaultspc}
 ae.RegisterEvent("Cork", "ADDON_LOADED", function(event, addon)
 	if addon:lower() ~= "cork" then return end
 
@@ -34,12 +33,13 @@ ae.RegisterEvent("Cork", "ADDON_LOADED", function(event, addon)
 end)
 
 
+local meta = {__index = Cork.defaultspc}
 ae.RegisterEvent("Cork", "PLAYER_LOGIN", function()
 	local lastgroup = GetActiveSpecGroup()
 	Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
 
-	for name,dataobj in pairs(Cork.corks) do if dataobj.Init then dataobj:Init() end end
-	for name,dataobj in pairs(Cork.corks) do dataobj:Scan() end
+	for _,dataobj in pairs(Cork.sortedcorks) do if dataobj.Init then dataobj:Init() end end
+	for _,dataobj in pairs(Cork.sortedcorks) do dataobj:Scan() end
 
 	ae.RegisterEvent("Cork", "ZONE_CHANGED_NEW_AREA", Cork.Update)
 	ae.RegisterEvent("Cork", "PLAYER_TALENT_UPDATE", function()
@@ -164,7 +164,11 @@ local raidunits = {player = true}
 for i=1,4 do raidunits["party"..i] = true end
 for i=1,40 do raidunits["raid"..i] = true end
 function Cork.Update(event, name, attr, value, dataobj)
-	if attr == "priority" then
+	if attr == "name" then
+		Cork.corks[value] = dataobj
+	end
+
+	if attr == "priority" or attr == "name" then
 		SetSort(dataobj)
 		table.sort(Cork.sortedcorks, CorkSorter)
 	end

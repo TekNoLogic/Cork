@@ -78,13 +78,13 @@ frame:SetScript("OnShow", function()
 	local corknames, rows, anchor = {}, {}
 	local tekcheck = LibStub("tekKonfig-Checkbox")
 	local NUMROWS = math.floor((group:GetHeight()-EDGEGAP+ROWGAP + 2) / (ROWHEIGHT+ROWGAP))
-	for name in pairs(Cork.corks) do table.insert(corknames, (name:gsub("Cork ", ""))) end
+	for _,cork in pairs(Cork.corks) do table.insert(corknames, (cork.name:gsub("Cork ", ""))) end
 	table.sort(corknames)
 
 	local function OnClick(self)
 		Cork.dbpc[self.name.."-enabled"] = not Cork.dbpc[self.name.."-enabled"]
 		PlaySound(Cork.dbpc[self.name.."-enabled"] and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
-		Cork.corks["Cork ".. self.name]:Scan()
+		self.cork:Scan()
 	end
 
 	for i=1,NUMROWS do
@@ -120,19 +120,19 @@ frame:SetScript("OnShow", function()
 		end
 
 		local i = 1
-		for j,name in ipairs(corknames) do
-			local cork = Cork.corks["Cork "..name]
+		for j,cork in ipairs(Cork.sortedcorks) do
 			if cork.corktype == currenttab then
 				local row = rows[i]
 				if not row then return end
 				i = i + 1
 
-				row.check.name = name
+				row.check.cork = cork
+				row.check.name = cork.name
 				row.check.tiptext = cork.tiptext
 				row.check.tiplink = cork.tiplink
-				row.check:SetChecked(Cork.dbpc[name.."-enabled"])
+				row.check:SetChecked(Cork.dbpc[cork.name.."-enabled"])
 
-				row.title:SetText(name)
+				row.title:SetText(cork.name)
 
 				local configframe = cork.configframe
 				row.configframe = configframe

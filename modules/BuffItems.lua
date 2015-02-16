@@ -47,32 +47,14 @@ end
 if level < 91 then return end
 
 -- Excess Potion of Accelerated Learning
-local itemname = GetItemInfo(120182) or "Excess Potion of Accelerated Learning"
-local buff = GetSpellInfo(178119)
-local dataobj = Cork:GenerateSelfBuffer(itemname, GetItemIcon(120182), buff)
-dataobj.tiplink = "item:120182"
-dataobj.corktype = "item"
-
+local dataobj = Cork:GenerateItemSelfBuffer(120182, 178119)
 function dataobj:Init()
-	Cork.defaultspc[itemname.."-enabled"] = level < 100 and GetItemCount(120182) > 0
-end
-
-function dataobj:CorkIt(frame)
-	if self.player then return frame:SetManyAttributes("type1", "item", "item1", "item:120182") end
+	Cork.defaultspc[self.name.."-enabled"] = level < 100 and GetItemCount(120182) > 0
 end
 
 
 if not Cork.is_six_one then return end
 
 -- Bodyguard Miniaturization Device
-local itemname = GetItemInfo(122298) or "Bodyguard Miniaturization Device"
-local dataobj = Cork:GenerateSelfBuffer(itemname, (GetItemIcon(122298)))
+local dataobj = Cork:GenerateItemSelfBuffer(122298)
 dataobj.Test = dataobj.TestWithoutResting
-dataobj.tiplink = "item:122298"
-dataobj.corktype = "item"
-
-function dataobj:Init() Cork.defaultspc[itemname.."-enabled"] = GetItemCount(122298) > 0 end
-
-function dataobj:CorkIt(frame)
-	if self.player then return frame:SetManyAttributes("type1", "item", "item1", "item:122298") end
-end

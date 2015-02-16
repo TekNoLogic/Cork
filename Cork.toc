@@ -33,6 +33,7 @@ Config.lua
 MacroGenerator.lua
 Mousewheel.lua
 
+templates\ItemSelfBuffer.lua
 templates\LastBuffedBuffer.lua
 templates\RaidBuffer.lua
 templates\RaidBuffingItems.lua
