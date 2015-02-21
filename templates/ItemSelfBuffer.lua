@@ -7,6 +7,7 @@ local ae = LibStub("AceEvent-3.0")
 local function Init(self)
 	self.name = GetItemInfo(self.itemid)
 	self.spellname = self.name
+	self.spells = {self.name}
 	self.iconline  = ns.IconLine(GetItemIcon(self.itemid), self.name)
 	ns.defaultspc[self.name.."-enabled"] = GetItemCount(self.itemid) > 0
 end
