@@ -1,7 +1,6 @@
 Cork is a reminder addon, aimed primarily at buffs.  Cork was inspired long ago
 by NeedyList, and has been Alpha quality for years.  Wrath introduces new buff
-query APIs that let me finally make Cork as small as I'd prefer, so I'm finally
-pushing out a beta-quality version.
+query APIs that let me finally make Cork as small as I'd prefer, so I'm finally pushing out a beta-quality version.
 
 Cork provides, at it's heart, one-click buff casting.  Some non-buff reminders
 are included as well:
