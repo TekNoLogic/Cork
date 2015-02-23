@@ -26,5 +26,4 @@ Simple!  Make a macro: `/click CorkFrame`.  You might wish to add a
 
 You can also use the keybinding in the default k2eybind UI.
 
-Be warned, Cork will only cast out of combat.  If you want to apply buffs in
-combat, you'll have to do it manually.
+Be warned, Cork will only cast out of combat.  If you want to apply buffs in combat, you'll have to do it manually.
