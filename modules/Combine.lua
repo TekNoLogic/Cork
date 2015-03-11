@@ -46,9 +46,8 @@ for i=97619,97624 do ITEMS[i] = 10 end   -- panda herbs
 for i=108318,108365 do ITEMS[i] = 10 end -- herbalism
 for i=109624,109629 do ITEMS[i] = 10 end -- draenor herbs
 for i=108294,108309 do ITEMS[i] = 10 end -- mining
-for i=111650,111659 do ITEMS[i] = 20 end -- small draenor fish
-for i=111663,111669 do ITEMS[i] = 10 end -- medium draenor fish
-for i=111670,111676 do ITEMS[i] = 5 end  -- large draenor fish
+for i=111650,111659 do ITEMS[i] = 5 end -- small draenor fish
+for i=111663,111676 do ITEMS[i] = 5 end -- medium and large draenor fish
 
 
 Cork.defaultspc["Combine-enabled"] = true
