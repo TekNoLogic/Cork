@@ -27,7 +27,10 @@ local ITEMS = {
 	[118565] = 10,
 	[111601] = 5,
 	[118566] = 5,
+}
 
+-- Receipts can combine from the bank
+local receipts = {
 	[118592] = 2,
 	[119094] = 2,
 	[119095] = 2,
@@ -39,6 +42,7 @@ local ITEMS = {
 	[119101] = 2,
 	[119102] = 2,
 }
+for i,v in pairs(receipts) do ITEMS[i] = v end
 
 for i=37700,37705 do ITEMS[i] = 10 end   -- crystallized elements
 for i=97619,97624 do ITEMS[i] = 10 end   -- panda herbs
@@ -64,7 +68,8 @@ function dataobj:Scan()
 	end
 
 	for id,threshold in pairs(ITEMS) do
-		local count = GetItemCount(id) or 0
+		local bank = not not receipts[id]
+		local count = GetItemCount(id, bank) or 0
 		if count >= threshold then
 			local itemName, _, _, _, _, _, _, _, _, itemTexture = GetItemInfo(id)
 			if itemName then
@@ -81,7 +86,8 @@ ae.RegisterEvent("Cork Combine", "BAG_UPDATE", dataobj.Scan)
 function dataobj:CorkIt(frame)
 	if dataobj.player then
 		for id,threshold in pairs(ITEMS) do
-			if (GetItemCount(id) or 0) >= threshold then
+			local bank = not not receipts[id]
+			if (GetItemCount(id, bank) or 0) >= threshold then
 				return frame:SetManyAttributes("type1", "item", "item1", "item:"..id)
 			end
 		end
