@@ -38,7 +38,6 @@ local ITEMS = {
 	[119100] = 2,
 	[119101] = 2,
 	[119102] = 2,
-	[119185] = 4,
 }
 
 for i=37700,37705 do ITEMS[i] = 10 end   -- crystallized elements
