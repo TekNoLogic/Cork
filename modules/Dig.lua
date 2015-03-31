@@ -23,10 +23,12 @@ function dataobj2:Scan()
     local raceCount = GetNumArchaeologyRaces()
 
     for race = 1, raceCount do
-        local name,icon,id,have,need,max=GetArchaeologyRaceInfo(race)
+        local name,_,_,have,need,max=GetArchaeologyRaceInfo(race)
 
         if(have>need) then
-            dataobj2.player = IconLine(icon, name.."Artifact")
+            SetSelectedArtifact(race)
+            local _1,_2,_3,_4,_5,_6,_7 = GetSelectedArtifactInfo()
+            dataobj2.player = IconLine(_4, name.."Artifact ("..have.."/"..need..")")
             solveRace = race
             return
         end
