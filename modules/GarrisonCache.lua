@@ -11,12 +11,6 @@ local cacheSizeQuestId = {
    { questId=37485, size=1000 },
 }
 
-for _, cacheSize in pairs(cacheSizeQuestId) do
-    if(_G.IsQuestFlaggedCompleted(cacheSize[1])) then
-        myCacheSize = cacheSize[2];
-    end
-end
-
 local name = "Garrison cache"
 
 
@@ -40,6 +34,12 @@ end
 
 function dataobj:Scan()
     if ns.dbpc[self.name.."-enabled"] and Test() then
+        local myCacheSize = 500
+        for _, cacheSize in pairs(cacheSizeQuestId) do
+            if(_G.IsQuestFlaggedCompleted(cacheSize.questId)) then
+                myCacheSize = cacheSize.size;
+            end
+        end
         local size = math.min(myCacheSize, math.floor(SecondsSinceLastOpened() / 60 / 10))
         if not ns.crossspec[name.."-lastopen"] then
             self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", name)
