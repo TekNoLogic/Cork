@@ -7,11 +7,9 @@ local ae = LibStub("AceEvent-3.0")
 -- Items only available when you have a garrison
 if level < 90 then return end
 
-
-function ns.InGarrison()
-	return C_Garrison.IsOnGarrisonMap() or C_Garrison.IsOnShipyardMap()
-end
-
+local cacheSizeQuestId = {
+   { questId=37485, size=1000 },
+}
 
 local name = "Garrison cache"
 
@@ -28,36 +26,31 @@ local function SecondsSinceLastOpened()
 end
 
 
-local function MaxSize()
-	return IsQuestFlaggedCompleted(37485) and 1000 or 500
-end
-
-
-local function AmountPending()
-	local size = SecondsSinceLastOpened() / 60 / 10
-	return math.min(size, MaxSize())
-end
-
-
 local function Test()
-	if not ns.InGarrison() then return end
-	return AmountPending() >= (MaxSize() - (24*60/10))
+    if not C_Garrison.IsOnGarrisonMap() then return end
+    return SecondsSinceLastOpened() > (60*10*5)
 end
 
 
 function dataobj:Scan()
-	if ns.dbpc[self.name.."-enabled"] and Test() then
-		if not ns.dbpc[name.."-lastopen"] then
-			self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", name)
-			return
-		end
+    if ns.dbpc[self.name.."-enabled"] and Test() then
+        local myCacheSize = 500
+        for _, cacheSize in pairs(cacheSizeQuestId) do
+            if(_G.IsQuestFlaggedCompleted(cacheSize.questId)) then
+                myCacheSize = cacheSize.size;
+            end
+        end
+        local size = math.min(myCacheSize, math.floor(SecondsSinceLastOpened() / 60 / 10))
+        if not ns.dbpc[name.."-lastopen"] then
+            self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", name)
+            return
+        end
 
-		local size = AmountPending()
-		local title = string.format("%s (%d)", name, size)
-		self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", title)
-	else
-		self.player = nil
-	end
+        local title = string.format("%s (%d/%d)", name, size, myCacheSize)
+        self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", title)
+    else
+        self.player = nil
+    end
 end
 
 
