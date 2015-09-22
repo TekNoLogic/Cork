@@ -38,11 +38,11 @@ function dataobj2:Scan()
     solveRace = nil
 end
 
-
 ae.RegisterEvent("Cork Archaeology Solving", "ARCHAEOLOGY_FIND_COMPLETE", dataobj2.Scan)
 ae.RegisterEvent("Cork Archaeology Solving", "ARTIFACT_COMPLETE", dataobj2.Scan)
 ae.RegisterEvent("Cork Archaeology Solving", "ARTIFACT_UPDATE", dataobj2.Scan)
 ae.RegisterEvent("Cork Archaeology Solving", "BAG_UPDATE_DELAYED", dataobj2.Scan)
+ae.RegisterEvent("Cork Archaeology Solving", "LOOT_CLOSED", dataobj2.Scan)
 
 function dataobj2:CorkIt(frame)
     if dataobj2.player and solveRace then
