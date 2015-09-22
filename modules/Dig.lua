@@ -38,7 +38,6 @@ function dataobj2:Scan()
     solveRace = nil
 end
 
-
 ae.RegisterEvent("Cork Archaeology Solving", "ARCHAEOLOGY_FIND_COMPLETE", dataobj2.Scan)
 ae.RegisterEvent("Cork Archaeology Solving", "ARTIFACT_COMPLETE", dataobj2.Scan)
 ae.RegisterEvent("Cork Archaeology Solving", "ARTIFACT_UPDATE", dataobj2.Scan)
