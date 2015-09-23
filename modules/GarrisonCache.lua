@@ -21,7 +21,7 @@ ns.defaultspc[name.."-enabled"] = true
 
 
 local function SecondsSinceLastOpened()
-    local lasttime = ns.dbpc[name.."-lastopen"] or 0
+    local lasttime = ns.dbcrossspec[name.."-lastopen"] or 0
     return time() - lasttime
 end
 
@@ -41,7 +41,7 @@ function dataobj:Scan()
             end
         end
         local size = math.min(myCacheSize, math.floor(SecondsSinceLastOpened() / 60 / 10))
-        if not ns.dbpc[name.."-lastopen"] then
+        if not ns.dbcrossspec[name.."-lastopen"] then
             self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", name)
             return
         end
@@ -58,7 +58,7 @@ ae.RegisterEvent(dataobj, "ZONE_CHANGED", "Scan")
 ae.RegisterEvent("Cork "..name, "SHOW_LOOT_TOAST", function(event, ...)
     local _, _, _, _, _, _, lootSource = ...
     if lootSource == 10 then
-        ns.dbpc[name.."-lastopen"] = time()
+        ns.dbcrossspec[name.."-lastopen"] = time()
     end
 
     dataobj:Scan()

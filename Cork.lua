@@ -5,7 +5,7 @@ local _
 
 _, Cork.MYCLASS = UnitClass("player")
 
-Cork.corks, Cork.db, Cork.dbpc, Cork.defaultspc = {}, {}, {}, {}
+Cork.corks, Cork.db, Cork.dbpc, Cork.dbcrossspec, Cork.defaultspc = {}, {}, {}, {}, {}
 Cork.sortedcorks = {}
 
 local defaults = {point = "TOP", x = 0, y = -100, showanchor = true, debug = false, bindwheel = false}
@@ -22,11 +22,15 @@ ae.RegisterEvent("Cork", "ADDON_LOADED", function(event, addon)
 	if addon:lower() ~= "cork" then return end
 
 	CorkDB = setmetatable(CorkDB or {}, {__index = defaults})
-	CorkDBPC = CorkDBPC or {{},{},{},{}}
-	if not CorkDBPC[1] then CorkDBPC = {CorkDBPC, {}, {}, {}} end
-	for _, i in ipairs({2,3,4}) do
-		if not CorkDBPC[i] then CorkDBPC[i] = {} end
-	end
+	CorkDBPC = CorkDBPC or {{},{},{}} -- Third group is cross-spec
+	if not CorkDBPC[1] then CorkDBPC = {CorkDBPC, {}, {}} end
+    if not CorkDBPC[3] then
+        CorkDBPC[3] = { ['Garrison cache-lastopen'] = math.max(CorkDBPC[1]['Garrison cache-lastopen'] or 0,
+                                                             CorkDBPC[2]['Garrison cache-lastopen'] or 0) }
+        CorkDBPC[1]['Garrison cache-lastopen'] = nil
+        CorkDBPC[2]['Garrison cache-lastopen'] = nil
+        Cork.dbcrossspec = CorkDBPC[3]
+    end
 	Cork.db = CorkDB
 
 	anchor:SetPoint(Cork.db.point, Cork.db.x, Cork.db.y)
@@ -38,19 +42,19 @@ end)
 
 local meta = {__index = Cork.defaultspc}
 ae.RegisterEvent("Cork", "PLAYER_LOGIN", function()
-	local lastspec = GetSpecialization()
-	Cork.dbpc = setmetatable(CorkDBPC[lastspec], meta)
+	local lastgroup = GetActiveSpecGroup()
+	Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
 
 	for _,dataobj in pairs(Cork.sortedcorks) do if dataobj.Init then dataobj:Init() end end
 	for _,dataobj in pairs(Cork.sortedcorks) do dataobj:Scan() end
 
 	ae.RegisterEvent("Cork", "ZONE_CHANGED_NEW_AREA", Cork.Update)
 	ae.RegisterEvent("Cork", "PLAYER_TALENT_UPDATE", function()
-		if lastspec == GetSpecialization() then return end
+		if lastgroup == GetActiveSpecGroup() then return end
 
-		lastspec = GetSpecialization()
+		lastgroup = GetActiveSpecGroup()
 		for i,v in pairs(Cork.defaultspc) do if Cork.dbpc[i] == v then Cork.dbpc[i] = nil end end
-		Cork.dbpc = setmetatable(CorkDBPC[lastspec], meta)
+		Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
 
 		if Cork.config.Update then Cork.config:Update() end
 		for name,dataobj in pairs(Cork.corks) do if dataobj.Init then dataobj:Init() end end
