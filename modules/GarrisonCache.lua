@@ -41,7 +41,7 @@ function dataobj:Scan()
             end
         end
         local size = math.min(myCacheSize, math.floor(SecondsSinceLastOpened() / 60 / 10))
-        if not ns.crossspec[name.."-lastopen"] then
+        if not ns.dbcrossspec[name.."-lastopen"] then
             self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", name)
             return
         end

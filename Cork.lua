@@ -29,9 +29,9 @@ ae.RegisterEvent("Cork", "ADDON_LOADED", function(event, addon)
                                                              CorkDBPC[2]['Garrison cache-lastopen'] or 0) }
         CorkDBPC[1]['Garrison cache-lastopen'] = nil
         CorkDBPC[2]['Garrison cache-lastopen'] = nil
+        Cork.dbcrossspec = CorkDBPC[3]
     end
 	Cork.db = CorkDB
-    Cork.dbcrossspec = CorkDBPC[3]
 
 	anchor:SetPoint(Cork.db.point, Cork.db.x, Cork.db.y)
 	if not Cork.db.showanchor then anchor:Hide() end
