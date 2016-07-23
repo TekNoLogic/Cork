@@ -68,7 +68,6 @@ modules\GarrisonFreeFood.lua
 modules\GarrisonMineItems.lua
 modules\GarrisonMissions.lua
 modules\GarrisonWorkOrders.lua
-modules\Glyphs.lua
 modules\LancePole.lua
 modules\Lures.lua
 modules\Minipet.lua
