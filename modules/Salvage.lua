@@ -24,7 +24,7 @@ local openable_ids = {
 }
 
 local function Test()
-	if not C_Garrison.IsOnGarrisonMap() then return end
+	if not ns.InGarrison() then return end
 	for id in pairs(openable_ids) do
 		if GetItemCount(id) > 0 then return id end
 	end

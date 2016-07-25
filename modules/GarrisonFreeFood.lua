@@ -22,7 +22,7 @@ ns.defaultspc[name.."-enabled"] = true
 
 
 local function ScanPlots()
-	local plots = C_Garrison.GetPlots()
+	local plots = C_Garrison.GetPlots(LE_FOLLOWER_TYPE_GARRISON_6_0)
 	for i,plot in ipairs(plots) do
 		local id, _, _, _, rank = C_Garrison.GetOwnedBuildingInfoAbbrev(plot.id)
 		if id == 137 and rank == 3 then return true end
@@ -39,7 +39,7 @@ end
 
 
 local function Test(self)
-	if not C_Garrison.IsOnGarrisonMap() or not HasTree() then return end
+	if not ns.InGarrison() or not HasTree() then return end
 
 	for id in pairs(foods) do
 		if GetItemCount(id) > 0 then return end

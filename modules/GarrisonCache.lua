@@ -8,6 +8,11 @@ local ae = LibStub("AceEvent-3.0")
 if level < 90 then return end
 
 
+function ns.InGarrison()
+	return C_Garrison.IsOnGarrisonMap() or C_Garrison.IsOnShipyardMap()
+end
+
+
 local name = "Garrison cache"
 
 
@@ -24,7 +29,7 @@ end
 
 
 local function Test()
-	if not C_Garrison.IsOnGarrisonMap() then return end
+	if not ns.InGarrison() then return end
 	return SecondsSinceLastOpened() > (60*60*16)
 end
 

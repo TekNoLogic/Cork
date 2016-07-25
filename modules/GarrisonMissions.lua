@@ -19,11 +19,11 @@ ns.defaultspc[name.."-enabled"] = true
 
 
 local function Test(force)
-	if not C_Garrison.IsOnGarrisonMap() then return end
+	if not ns.InGarrison() then return end
 
 	if force then return true end
 
-	local items = C_Garrison.GetLandingPageItems()
+	local items = C_Garrison.GetLandingPageItems(LE_GARRISON_TYPE_6_0)
 	for i,item in ipairs(items) do
 		if item.isComplete and not item.isBuilding then return true end
 	end

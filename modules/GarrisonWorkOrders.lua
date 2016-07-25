@@ -23,7 +23,7 @@ local blacklist = {
 	[137] = true,
 }
 local function Test(self, building)
-	if not C_Garrison.IsOnGarrisonMap() then return end
+	if not ns.InGarrison() then return end
 
 	local id = building.buildingID
 	if id then
@@ -40,7 +40,7 @@ end
 
 
 local function RequestRefresh()
-	if not C_Garrison.IsOnGarrisonMap() then return end
+	if not ns.InGarrison() then return end
 	C_Garrison.RequestLandingPageShipmentInfo()
 end
 
@@ -51,7 +51,7 @@ function dataobj:Scan(...)
 		return
 	end
 
-	local buildings = C_Garrison.GetBuildings()
+	local buildings = C_Garrison.GetBuildings(LE_GARRISON_TYPE_6_0)
 	for i,building in pairs(buildings) do
 		if Test(self, building) then
 			local _, name, _, icon = C_Garrison.GetBuildingInfo(building.buildingID)
