@@ -7,7 +7,6 @@ if Cork.MYCLASS ~= "WARLOCK" then return end
 local spellname, _, icon = GetSpellInfo(108503)
 Cork:GenerateSelfBuffer(spellname, icon)
 
-
 -- Soulstone
 local spellname, _, icon = GetSpellInfo(20707)
 local dataobj = Cork:GenerateLastBuffedBuffer(spellname, icon)
