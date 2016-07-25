@@ -8,15 +8,6 @@ local ae = LibStub("AceEvent-3.0")
 if level < 80 then return end
 
 
--- Drums of Forgotten Kings
-Cork:GenerateItemBuffer({PALADIN = true, DRUID = true, MONK = true}, 49633, 69378, 20217)
-
-
--- Runescroll of Fortitude
-local id = level < 85 and 49632 or level < 90 and 62251 or 79257
-Cork:GenerateItemBuffer("PRIEST", id, 69377, 21562)
-
-
 -- Only available to alchys
 local itemname = GetItemInfo(75525) or "Alchemist's Flask"
 local dataobj = Cork:GenerateSelfBuffer(itemname, GetItemIcon(75525),
