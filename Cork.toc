@@ -50,7 +50,6 @@ modules\Shaman.lua
 modules\Warlock.lua
 modules\WarlockHealthstone.lua
 modules\WarlockPets.lua
-modules\WarlockSoulLink.lua
 modules\Warrior.lua
 
 modules\ArtifactPowerItems.lua
