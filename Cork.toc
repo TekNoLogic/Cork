@@ -15,7 +15,6 @@
 
 ## OptionalDeps: tekErr
 
-externals\ptr.lua
 externals\timer.lua
 externals\tooltip_scanner.lua
 externals\ui-tab.lua
@@ -46,14 +45,10 @@ modules\Druid.lua
 modules\Mage.lua
 modules\Monk.lua
 modules\Paladin.lua
-modules\PaladinBlessings.lua
-modules\Priest.lua
 modules\RogueWeapon.lua
-modules\Shaman.lua
 modules\Warlock.lua
 modules\WarlockHealthstone.lua
 modules\WarlockPets.lua
-modules\Warrior.lua
 
 modules\BattleStandard.lua
 modules\BuffItems.lua

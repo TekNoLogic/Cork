@@ -1,3 +1,0 @@
-
-local myname, Cork = ...
-if Cork.MYCLASS ~= "WARRIOR" then return end
