@@ -51,8 +51,3 @@ local dataobj = Cork:GenerateItemSelfBuffer(120182, 178119)
 function dataobj:Init()
 	Cork.defaultspc[self.name.."-enabled"] = level < 100 and GetItemCount(120182) > 0
 end
-
-
--- Bodyguard Miniaturization Device
-local dataobj = Cork:GenerateItemSelfBuffer(122298)
-dataobj.Test = dataobj.TestWithoutResting
