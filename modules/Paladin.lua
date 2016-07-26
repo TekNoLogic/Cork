@@ -3,6 +3,7 @@ local myname, Cork = ...
 if Cork.MYCLASS ~= "PALADIN" then return end
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
+
 -- Righteous Fury
 local spellname, _, icon = GetSpellInfo(25780)
 Cork:GenerateSelfBuffer(spellname, icon)
