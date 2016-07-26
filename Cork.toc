@@ -56,7 +56,6 @@ modules\WarlockPets.lua
 modules\Warrior.lua
 
 modules\BattleStandard.lua
-modules\Bodyguard.lua
 modules\BuffItems.lua
 modules\Combine.lua
 modules\DarkmoonExp.lua
