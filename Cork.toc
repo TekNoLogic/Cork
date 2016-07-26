@@ -41,7 +41,6 @@ templates\TempEnchant.lua
 
 modules\DeathKnight.lua
 modules\Druid.lua
-modules\Hunter.lua
 modules\Mage.lua
 modules\Monk.lua
 modules\Paladin.lua
