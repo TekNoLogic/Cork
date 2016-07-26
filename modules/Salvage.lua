@@ -21,6 +21,8 @@ local openable_ids = {
 	[114116] = true, -- Bag of Salvaged Goods
 	[114119] = true, -- Crate of Salvage
 	[114120] = true, -- Big Crate of Salvage
+	[139593] = true, -- Sack of Salvaged Goods
+	[140590] = true, -- Large Crate of Salvage
 }
 
 local function Test()
