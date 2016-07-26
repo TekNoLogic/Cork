@@ -15,7 +15,6 @@
 
 ## OptionalDeps: tekErr
 
-externals\ptr.lua
 externals\timer.lua
 externals\tooltip_scanner.lua
 externals\ui-tab.lua

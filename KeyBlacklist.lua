@@ -29,6 +29,7 @@ local keys = {
 	"TestWithoutResting",
 	"tiplink",
 	"tiptext",
+	"toyname",
 	"type",
 	"UNIT_AURA",
 	"UNIT_INVENTORY_CHANGED",

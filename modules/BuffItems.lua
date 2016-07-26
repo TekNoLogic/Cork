@@ -44,8 +44,6 @@ function dataobj:Init()
 end
 
 
-if not Cork.is_six_one then return end
-
 -- Bodyguard Miniaturization Device
 local dataobj = Cork:GenerateItemSelfBuffer(122298)
 dataobj.Test = dataobj.TestWithoutResting

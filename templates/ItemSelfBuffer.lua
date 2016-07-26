@@ -9,13 +9,15 @@ local function Init(self)
 	self.spellname = self.name
 	self.spells = {self.name}
 	self.iconline  = ns.IconLine(GetItemIcon(self.itemid), self.name)
-	ns.defaultspc[self.name.."-enabled"] = GetItemCount(self.itemid) > 0
+	local itemID, name, texture, collected = C_ToyBox.GetToyInfo(self.itemid)
+	self.toyname = name
+	ns.defaultspc[self.name.."-enabled"] = collected or (GetItemCount(self.itemid) > 0)
 end
 
 
 local function CorkIt(self, frame)
 	if self.player then
-		local item = "item:".. self.itemid
+		local item = self.toyname or ("item:".. self.itemid)
 		return frame:SetManyAttributes("type1", "item", "item1", item)
 	end
 end
