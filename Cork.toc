@@ -1,8 +1,11 @@
-## Interface: 70100
+## Interface: 60000
 
 ## Title: Cork
 ## Notes: Buff reminders and more
 ## Author: Tekkub Stoutwrithe
+## Version: Alpha
+## X-Website: http://www.tekkub.net/
+## X-Email: tekkub-wow@googlegroups.com
 ## X-Credits: Thiana (Warlock modules), Gnancy (Soullink module)
 ## X-Category: Buffs
 ## X-Icon: Interface\Icons\INV_Drink_11
@@ -12,6 +15,7 @@
 
 ## OptionalDeps: tekErr
 
+externals\ptr.lua
 externals\timer.lua
 externals\tooltip_scanner.lua
 externals\ui-tab.lua
@@ -20,8 +24,6 @@ tekKonfig\tekKonfig.xml
 CallbackHandler-1.0.lua
 LibDataBroker-1.1\LibDataBroker-1.1.lua
 AceEvent-3.0\AceEvent-3.0.xml
-
-services\holiday_active.lua
 
 Locale.lua
 KeyBlacklist.lua
@@ -44,6 +46,7 @@ modules\Druid.lua
 modules\Mage.lua
 modules\Monk.lua
 modules\Paladin.lua
+modules\PaladinBlessings.lua
 modules\Priest.lua
 modules\RogueWeapon.lua
 modules\Shaman.lua
@@ -52,17 +55,13 @@ modules\WarlockHealthstone.lua
 modules\WarlockPets.lua
 modules\Warrior.lua
 
-modules\ArtifactPowerItems.lua
 modules\BattleStandard.lua
-modules\BonusEvents.lua
+modules\Bodyguard.lua
 modules\BuffItems.lua
-modules\ClassHallWorkOrders.lua
-modules\Capsules.lua
 modules\Combine.lua
 modules\DarkmoonExp.lua
+modules\Dig.lua
 modules\FishingHat.lua
-modules\GarrisonBodyguardMinifier.lua
-modules\GarrisonBuildings.lua
 modules\GarrisonCache.lua
 modules\GarrisonFreeFood.lua
 modules\GarrisonMineItems.lua
@@ -72,7 +71,6 @@ modules\LancePole.lua
 modules\Lures.lua
 modules\Minipet.lua
 modules\OpenableItems.lua
-modules\PilgrimsBountyRep.lua
 modules\QuestStartingItems.lua
 modules\Repairs.lua
 modules\Salvage.lua
