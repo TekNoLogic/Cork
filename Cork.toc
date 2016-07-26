@@ -46,7 +46,6 @@ modules\Hunter.lua
 modules\Mage.lua
 modules\Monk.lua
 modules\Paladin.lua
-modules\PaladinBlessings.lua
 modules\Priest.lua
 modules\RogueWeapon.lua
 modules\Shaman.lua
