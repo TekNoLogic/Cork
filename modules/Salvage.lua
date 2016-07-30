@@ -4,6 +4,8 @@ local myname, ns = ...
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
+if UnitLevel("player") < 90 then return end
+
 
 local dataobj    = ns:New("Salvage")
 dataobj.tiptext  = "Notify you when you have openable salvage containers and are in your garrison"
