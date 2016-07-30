@@ -23,6 +23,7 @@ ns.defaultspc[name.."-enabled"] = true
 
 local function ScanPlots()
 	local plots = C_Garrison.GetPlots(LE_FOLLOWER_TYPE_GARRISON_6_0)
+	if not plots then return end
 	for i,plot in ipairs(plots) do
 		local id, _, _, _, rank = C_Garrison.GetOwnedBuildingInfoAbbrev(plot.id)
 		if id == 137 and rank == 3 then return true end
