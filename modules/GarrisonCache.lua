@@ -28,21 +28,31 @@ local function SecondsSinceLastOpened()
 end
 
 
+local function MaxSize()
+	return IsQuestFlaggedCompleted(37485) and 1000 or 500
+end
+
+
+local function AmountPending()
+	local size = SecondsSinceLastOpened() / 60 / 10
+	return math.min(size, MaxSize())
+end
+
+
 local function Test()
 	if not ns.InGarrison() then return end
-	return SecondsSinceLastOpened() > (60*60*16)
+	return AmountPending() >= (MaxSize() - (24*60/10))
 end
 
 
 function dataobj:Scan()
 	if ns.dbpc[self.name.."-enabled"] and Test() then
-		local size = SecondsSinceLastOpened() / 60 / 10
 		if not ns.dbpc[name.."-lastopen"] then
 			self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", name)
 			return
 		end
 
-		if size > 500 then size = 500 end
+		local size = AmountPending()
 		local title = string.format("%s (%d)", name, size)
 		self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", title)
 	else
