@@ -32,7 +32,7 @@ local function Test(self, building)
 		total = total or 0
 
 		if total > 0 and numready == total then return true end
-		if not blacklist[id] and total > 0 and (total - numready) < 6 then
+		if not blacklist[id] and total > 0 and (total - numready) <= 9 then
 			return true
 		end
 	end
