@@ -49,13 +49,14 @@ function dataobj:Scan(enteringcombat)
       count = count + self:Test(k)
       if count >= 3 then break end
     end
-  elseif IsInGroup() then
-    for k, _ in pairs(partyunits) do
-      count = count + self:Test(k)
-      if count >= 3 then break end
-    end
   else
     count = self:Test("player")
+    if IsInGroup() then
+      for k, _ in pairs(partyunits) do
+        count = count + self:Test(k)
+        if count >= 3 then break end
+      end
+    end
   end
   if count < 3 then
     self.player = Cork.IconLine(icon, string.format("Greater Blessings (%d)", 3 - count))
