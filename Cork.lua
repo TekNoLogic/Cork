@@ -22,8 +22,11 @@ ae.RegisterEvent("Cork", "ADDON_LOADED", function(event, addon)
 	if addon:lower() ~= "cork" then return end
 
 	CorkDB = setmetatable(CorkDB or {}, {__index = defaults})
-	CorkDBPC = CorkDBPC or {{},{}}
-	if not CorkDBPC[1] then CorkDBPC = {CorkDBPC, {}} end
+	CorkDBPC = CorkDBPC or {{},{},{},{}}
+	if not CorkDBPC[1] then CorkDBPC = {CorkDBPC, {}, {}, {}} end
+	for _, i in ipairs({2,3,4}) do
+		if not CorkDBPC[i] then CorkDBPC[i] = {} end
+	end
 	Cork.db = CorkDB
 
 	anchor:SetPoint(Cork.db.point, Cork.db.x, Cork.db.y)
@@ -35,19 +38,19 @@ end)
 
 local meta = {__index = Cork.defaultspc}
 ae.RegisterEvent("Cork", "PLAYER_LOGIN", function()
-	local lastgroup = GetActiveSpecGroup()
-	Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
+	local lastspec = GetSpecialization()
+	Cork.dbpc = setmetatable(CorkDBPC[lastspec], meta)
 
 	for _,dataobj in pairs(Cork.sortedcorks) do if dataobj.Init then dataobj:Init() end end
 	for _,dataobj in pairs(Cork.sortedcorks) do dataobj:Scan() end
 
 	ae.RegisterEvent("Cork", "ZONE_CHANGED_NEW_AREA", Cork.Update)
 	ae.RegisterEvent("Cork", "PLAYER_TALENT_UPDATE", function()
-		if lastgroup == GetActiveSpecGroup() then return end
+		if lastspec == GetSpecialization() then return end
 
-		lastgroup = GetActiveSpecGroup()
+		lastspec = GetSpecialization()
 		for i,v in pairs(Cork.defaultspc) do if Cork.dbpc[i] == v then Cork.dbpc[i] = nil end end
-		Cork.dbpc = setmetatable(CorkDBPC[lastgroup], meta)
+		Cork.dbpc = setmetatable(CorkDBPC[lastspec], meta)
 
 		if Cork.config.Update then Cork.config:Update() end
 		for name,dataobj in pairs(Cork.corks) do if dataobj.Init then dataobj:Init() end end
