@@ -30,7 +30,7 @@ end
 
 
 -- Damage poisons
-local dataobj = Cork:GenerateAdvancedSelfBuffer("Lethal Poison", {2823,8679,157584})
+local dataobj = Cork:GenerateAdvancedSelfBuffer("Lethal Poison", {2823,8679,200802})
 dataobj.oldtest = dataobj.Test
 dataobj.Test = Test
 dataobj.UNIT_INVENTORY_CHANGED = UNIT_INVENTORY_CHANGED
