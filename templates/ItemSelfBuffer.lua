@@ -5,10 +5,13 @@ local ae = LibStub("AceEvent-3.0")
 
 
 local function Init(self)
-	self.name = GetItemInfo(self.itemid)
-	self.spellname = self.name
-	self.spells = {self.name}
-	self.iconline  = ns.IconLine(GetItemIcon(self.itemid), self.name)
+	local itemname = GetItemInfo(self.itemid)
+	if itemname ~= nil then
+		self.name = GetItemInfo(self.itemid)
+		self.spellname = self.name
+		self.spells = {self.name}
+		self.iconline  = ns.IconLine(GetItemIcon(self.itemid), self.name)
+	end
 	local itemID, name, texture, collected = C_ToyBox.GetToyInfo(self.itemid)
 	self.toyname = name
 	ns.defaultspc[self.name.."-enabled"] = collected or (GetItemCount(self.itemid) > 0)
