@@ -1,4 +1,4 @@
-## Interface: 60000
+## Interface: 70000
 
 ## Title: Cork
 ## Notes: Buff reminders and more
