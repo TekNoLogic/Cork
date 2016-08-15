@@ -1,3 +1,16 @@
+### 7.0.0.59-Beta
+
+All changes this version thanks to Kevin Ballard
+
+* Add Demon Hunter to the colors list
+* Fix the macro button
+* Get rid of Monk buffs/stances
+* Don't throw error if we can't fetch item info
+* Dead shaman buffs
+* Update rogue poisons
+* Fix Death Knights
+
+
 ### 7.0.0.58-Beta
 
 * Legion garrison fixes
