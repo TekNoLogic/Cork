@@ -14,6 +14,7 @@ ns.classnames = {
 	["ROGUE"] = "Rogue",
 	["DEATHKNIGHT"] = "Death Knight",
 	["MONK"] = "Monk",
+	["DEMONHUNTER"] = "Demon Hunter",
 }
 
 ns.colors = {}
