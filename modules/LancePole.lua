@@ -69,6 +69,7 @@ local back = GetInventorySlotInfo("BackSlot")
 Cork:GenerateEquippedWarning("Teleport cloak", back,
 	63206, 63207, 65274, 65360, 83353, 83352)
 
+
 local mainhand = GetInventorySlotInfo("MainHandSlot")
 Cork:GenerateEquippedWarning("Lance", mainhand, 46069, 46106, 46070, 52716)
 
