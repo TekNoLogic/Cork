@@ -59,6 +59,7 @@ modules/DarkmoonExp.lua
 modules/Dig.lua
 modules/FishingHat.lua
 modules/GarrisonBodyguardMinifier.lua
+modules/GarrisonBuildings.lua
 modules/GarrisonCache.lua
 modules/GarrisonFreeFood.lua
 modules/GarrisonMineItems.lua
