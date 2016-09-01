@@ -10,11 +10,15 @@ end
 
 
 local incombat
+local lastitems = {}
 local function Scan(self, event)
 	if event == "PLAYER_REGEN_DISABLED" then incombat = true
 	elseif event == "PLAYER_REGEN_ENABLED" then incombat = false end
 
 	local id = GetInventoryItemID("player", self.slot)
+	if id and not self:Test(id) then
+		lastitems[self] = GetInventoryItemLink("player", self.slot)
+	end
 
 	if not Cork.dbpc[self.name.."-enabled"] or not id or not self:Test(id) then
 		self.player = nil
@@ -22,6 +26,15 @@ local function Scan(self, event)
 	end
 
 	self.player = IconLine(GetItemIcon(id), (GetItemInfo(id)))
+end
+
+
+local function CorkIt(self)
+	local id = GetInventoryItemID("player", self.slot)
+	if id and not self:Test(id) then return end
+
+	local link = lastitems[self]
+	if link then EquipItemByName(link); return true end
 end
 
 
@@ -33,6 +46,7 @@ function Cork:GenerateEquippedWarning(name, slot, ...)
 		slot     = slot,
 		Test     = Test,
 		Scan     = Scan,
+		CorkIt   = CorkIt,
 		items    = {...},
 		priority = 9,
 		tiptext  = "Warn when you have a ".. name:lower()..
