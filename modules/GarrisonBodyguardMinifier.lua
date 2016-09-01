@@ -38,8 +38,13 @@ end
 
 
 local zoneids = {}
+local function ParseSubzones(id, name, ...)
+	zoneids[name] = true
+	if select("#", ...) > 0 then return ParseSubzones(...) end
+end
 local function ParseZones(id, name, ...)
-	zoneids[id] = name
+	zoneids[name] = true
+	ParseSubzones(GetMapSubzones(id))
 	if select("#", ...) > 0 then return ParseZones(...) end
 end
 ParseZones(GetMapZones(7))
@@ -47,7 +52,7 @@ ParseZones(GetMapZones(7))
 
 local orig2 = dataobj.TestWithoutResting
 function dataobj:Test()
-	if not zoneids[GetCurrentMapAreaID()] then return end
+	if not zoneids[GetRealZoneText()] then return end
 	return orig2(self)
 end
 
