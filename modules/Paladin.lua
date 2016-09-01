@@ -19,7 +19,6 @@ local dataobj = ldb:NewDataObject("Cork Greater Blessings", {
 
 function dataobj:Init()
   Cork.defaultspc["Greater Blessings-enabled"] = GetSpellInfo(spellnames[1]) ~= nil
-  print("Blessings init: "..(Cork.defaultspc["Greater Blessings-enabled"] and "enabled" or "disabled"))
 end
 
 local raidunits, partyunits, otherunits = {}, {}, { ["player"] = true }
