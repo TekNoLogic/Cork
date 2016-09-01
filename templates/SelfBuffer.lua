@@ -32,7 +32,7 @@ local function TestWithoutResting(self)
 end
 
 local function Test(self)
-	return not (IsResting() and not Cork.db.debug) and TestWithoutResting(self)
+	return not (IsResting() and not Cork.db.debug) and self:TestWithoutResting()
 end
 
 local function CorkIt(self, frame)

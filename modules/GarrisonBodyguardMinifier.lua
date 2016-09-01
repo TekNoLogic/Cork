@@ -9,22 +9,47 @@ if level < 90 then return end
 
 
 local dataobj = Cork:GenerateItemSelfBuffer(122298)
-dataobj.Test = dataobj.TestWithoutResting
 
-local function HasBodyguard()
-	local buildings = C_Garrison.GetBuildings(2)
+
+local function CheckForBodyguard()
+	local buildings = C_Garrison.GetBuildings(LE_GARRISON_TYPE_6_0)
+
+	if not next(buildings) then
+		C_Garrison.RequestLandingPageShipmentInfo()
+		C_Timer.After(0.25, CheckForBodyguard)
+	end
+
 	for i,building in pairs(buildings) do
 		if building.buildingID == 27 or building.buildingID == 28 then
-			return not not C_Garrison.GetFollowerInfoForBuilding(building.plotID)
+			local bg = not not C_Garrison.GetFollowerInfoForBuilding(building.plotID)
+			Cork.defaultspc[dataobj.name.."-enabled"] = bg
+			return
 		end
 	end
 end
 
+
 local orig = dataobj.Init
 function dataobj:Init()
 	orig(self)
-	if Cork.defaultspc[self.name.."-enabled"] then
-		Cork.defaultspc[self.name.."-enabled"] = HasBodyguard()
-	end
+	if Cork.defaultspc[self.name.."-enabled"] then CheckForBodyguard() end
 	self.Init = nil
 end
+
+
+local zoneids = {}
+local function ParseZones(id, name, ...)
+	zoneids[id] = name
+	if select("#", ...) > 0 then return ParseZones(...) end
+end
+ParseZones(GetMapZones(7))
+
+
+local orig2 = dataobj.TestWithoutResting
+function dataobj:Test()
+	if not zoneids[GetCurrentMapAreaID()] then return end
+	return orig2(self)
+end
+
+
+ae.RegisterEvent(dataobj, "ZONE_CHANGED", "Scan")
