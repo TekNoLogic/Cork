@@ -8,17 +8,10 @@ local IconLine = Cork.IconLine
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
-local IMP,  _, IMPICON  = GetSpellInfo(688)
-local VOID, _, VOIDICON = GetSpellInfo(697)
-local SUC,  _, SUCICON  = GetSpellInfo(712)
-local FELH, _, FELHICON = GetSpellInfo(691)
-local FELG, _, FELGICON = GetSpellInfo(30146)
 local soulburn = GetSpellInfo(74434)
 
-local defaultspell = IMP
-
 local knowssoulburn
-local spellidlist = {688, 697, 712, 691, 30146}
+local spellidlist = {688, 697, 712, 691, 30146, 157757, 1122}
 local buffnames, icons, known = {}, {}, {}
 for _,id in pairs(spellidlist) do
 	local spellname, _, icon = GetSpellInfo(id)
