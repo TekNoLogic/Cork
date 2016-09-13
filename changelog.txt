@@ -1,3 +1,14 @@
+### 7.0.0.60-Beta
+
+* Add new "permanent" warlock pets
+* Buhbye arcint
+* SPAAAAAAAAAAAAAAAAACE
+* Make LancePole re-equip last item on CorkIt
+* Add garrison building module... A little late to this, I know, whatever :P
+* Fix issues with bodyguard minifier on first login
+* Dead warlock spell
+
+
 ### 7.0.0.59-Beta
 
 All changes this version thanks to Kevin Ballard
