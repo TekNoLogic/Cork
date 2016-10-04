@@ -44,6 +44,14 @@ frame:SetWidth(1) frame:SetHeight(1)
 dataobj.configframe = frame
 frame:Hide()
 
+local FOOD_TYPE, FOOD_SUBTYPE = 0, 5
+local function IsFood(id)
+	if not id then return end
+
+	local _, _, _, _, _, _, _, _, _, _, _, type, subtype = GetItemInfo(id)
+	return type == FOOD_TYPE and subtype == FOOD_SUBTYPE
+end
+
 frame:SetScript("OnShow", function()
 	local EDGEGAP, ROWHEIGHT, ROWGAP, GAP = 16, 18, 2, 4
 	local Update
@@ -60,10 +68,7 @@ frame:SetScript("OnShow", function()
 		for bag=0,4 do
 			for slot=1,GetContainerNumSlots(bag) do
 				local id = GetContainerItemID(bag, slot)
-				if id then
-					local _, _, _, _, reqlevel, _, subtype = GetItemInfo(id)
-					if subtype == FOOD and reqlevel <= mylevel then t[id] = true end
-				end
+				if IsFood(id) then t[id] = true end
 			end
 		end
 
