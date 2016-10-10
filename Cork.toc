@@ -54,6 +54,7 @@ modules\Warrior.lua
 
 modules\BattleStandard.lua
 modules\BuffItems.lua
+modules\ClassHallWorkOrders.lua
 modules\Combine.lua
 modules\DarkmoonExp.lua
 modules\Dig.lua
