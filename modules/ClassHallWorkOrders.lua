@@ -56,4 +56,7 @@ ae.RegisterEvent(dataobj, "GARRISON_LANDINGPAGE_SHIPMENTS", "Scan")
 ae.RegisterEvent(dataobj, "GARRISON_TALENT_UPDATE", "Scan")
 ae.RegisterEvent(dataobj, "GARRISON_TALENT_COMPLETE", "Scan")
 ae.RegisterEvent(dataobj, "GARRISON_SHIPMENT_RECEIVED", RequestRefresh)
+ae.RegisterEvent(dataobj, "SHIPMENT_UPDATE", RequestRefresh)
 ae.RegisterEvent(dataobj, "ZONE_CHANGED", RequestRefresh)
+
+C_Timer.NewTicker(60*5, RequestRefresh)
