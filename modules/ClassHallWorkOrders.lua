@@ -38,10 +38,12 @@ end
 
 
 function dataobj:Scan(...)
-	if not ns.dbpc[self.name.."-enabled"] or not IsResting() then
-		for id in pairs(shipment_ids) do self["shipment"..id] = nil end
-		return
+	for id in pairs(shipment_ids) do
+		self["shipment"..id] = nil
+		shipment_ids[id] = nil 
 	end
+
+	if not ns.dbpc[self.name.."-enabled"] or not IsResting() then return end
 
 	local shipments = C_Garrison.GetLooseShipments(LE_GARRISON_TYPE_7_0)
 	for i,shipment_id in pairs(shipments) do
