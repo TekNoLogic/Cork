@@ -1,5 +1,14 @@
 
 local myname, ns = ...
+local empoweringlocals = {
+	["Empowering"] = true,
+	["Stärkungszauber"] = true,
+	["Mejora"] = true,
+	["Buff"] = true,
+	["Beneficio"] = true,
+	["Bônus"] = true,
+	["Аура"] = true,
+	}
 
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
@@ -21,7 +30,7 @@ local function Test()
 	for bag=0,4 do
 		for slot=1,GetContainerNumSlots(bag) do
 			local itemid = GetContainerItemID(bag, slot)
-			if itemid and GetItemSpell(itemid) == "Empowering" then return itemid end
+			if itemid and empoweringlocals[GetItemSpell(itemid)] then return itemid end
 		end
 	end
 end
