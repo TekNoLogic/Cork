@@ -2,6 +2,9 @@
 local myname, ns = ...
 
 
+local EMPOWERING = GetSpellInfo(228647)
+
+
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 
@@ -21,7 +24,7 @@ local function Test()
 	for bag=0,4 do
 		for slot=1,GetContainerNumSlots(bag) do
 			local itemid = GetContainerItemID(bag, slot)
-			if itemid and GetItemSpell(itemid) == "Empowering" then return itemid end
+			if itemid and GetItemSpell(itemid) == EMPOWERING then return itemid end
 		end
 	end
 end
