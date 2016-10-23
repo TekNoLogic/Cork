@@ -52,6 +52,7 @@ modules\WarlockPets.lua
 modules\WarlockSoulLink.lua
 modules\Warrior.lua
 
+modules\ArtifactPowerItems.lua
 modules\BattleStandard.lua
 modules\BuffItems.lua
 modules\ClassHallWorkOrders.lua
