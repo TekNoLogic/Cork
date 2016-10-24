@@ -1,3 +1,11 @@
+### 7.0.0.61-Beta
+
+* Artifact Power Items support (thanks @Tarkumi)
+* Add class hall shipments module
+* So long MotW, you will be missed
+* Fix well fed config
+
+
 ### 7.0.0.60-Beta
 
 * Add new "permanent" warlock pets
