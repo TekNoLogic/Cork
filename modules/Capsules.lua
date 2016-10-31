@@ -18,6 +18,7 @@ end
 
 local OPENABLE_IDS = {
 	[139020] = true, -- Valarjar Insignia
+	[139021] = true, -- Dreamweaver Insignia
 	[139023] = true, -- Court of Farondis Insignia
 	[139024] = true, -- Highmountain Tribe Insignia
 	[139025] = true, -- Wardens Insignia
