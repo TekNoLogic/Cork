@@ -1,3 +1,9 @@
+### 7.1.0.62-Beta
+
+* Add module for artifact research and rep tokens
+* Drop artifact power items to a lower priority
+
+
 ### 7.0.0.61-Beta
 
 * Artifact Power Items support (thanks @Tarkumi)
