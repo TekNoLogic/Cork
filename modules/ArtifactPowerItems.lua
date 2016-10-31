@@ -11,7 +11,7 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 local dataobj    = ns:New("Artifact Power Items")
 dataobj.tiptext  = "Notify you when there are items with artifact power in your bags"
 dataobj.corktype = "item"
-dataobj.priority = 8
+dataobj.priority = 12
 
 
 function dataobj:Init()
