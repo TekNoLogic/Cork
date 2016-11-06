@@ -19,7 +19,13 @@ local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("Cork "..s
 
 Cork.defaultspc[spellname.."-enabled"] = UnitLevel("player") >= 10
 
-local function Test(unit) if Cork.dbpc[spellname.."-enabled"] and not (UnitAura("player", spellname) or UnitAura("player", spellname2)) and not (IsResting() and not Cork.db.debug) then return iconline end end
+local function Test(unit)
+	if not Cork.dbpc[spellname.."-enabled"] then return end
+	if not IsInInstance() then return end
+	if UnitAura("player", spellname) then return end
+	if UnitAura("player", spellname2) then return end
+	return iconline
+end
 
 LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "UNIT_AURA", function(event, unit) if unit == "player" then dataobj.custom = Test() end end)
 LibStub("AceEvent-3.0").RegisterEvent("Cork "..spellname, "PLAYER_UPDATE_RESTING", function() dataobj.custom = Test() end)
