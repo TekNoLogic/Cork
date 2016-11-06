@@ -59,7 +59,6 @@ modules\ClassHallWorkOrders.lua
 modules\Capsules.lua
 modules\Combine.lua
 modules\DarkmoonExp.lua
-modules\Dig.lua
 modules\FishingHat.lua
 modules\GarrisonBodyguardMinifier.lua
 modules\GarrisonBuildings.lua
