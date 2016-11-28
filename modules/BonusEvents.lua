@@ -24,10 +24,17 @@ function dataobj:Init()
 end
 
 
+local completed
+local function IsCompleted()
+	completed = completed or GetQuestsCompleted()[WQ_QUEST_ID]
+	return completed
+end
+
+
 local function Test()
 	if not UnitAura("player", WQ_BUFF) then return end
-	if IsQuestComplete(WQ_QUEST_ID) then return end
 	if GetQuestLogIndexByID(WQ_QUEST_ID) ~= 0 then return end
+	if IsCompleted() then return end
 	return WQ_ICONLINE
 end
 
