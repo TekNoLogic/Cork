@@ -7,9 +7,11 @@ local ae = LibStub("AceEvent-3.0")
 -- Items only available when you have a garrison
 if level < 90 then return end
 
-local cacheSizeQuestId = {
-   { questId=37485, size=1000 },
-}
+
+function ns.InGarrison()
+	return C_Garrison.IsOnGarrisonMap() or C_Garrison.IsOnShipyardMap()
+end
+
 
 local name = "Garrison cache"
 
@@ -21,45 +23,50 @@ ns.defaultspc[name.."-enabled"] = true
 
 
 local function SecondsSinceLastOpened()
-    local lasttime = ns.dbcrossspec[name.."-lastopen"] or 0
-    return time() - lasttime
+	local lasttime = ns.dbpc[name.."-lastopen"] or 0
+	return time() - lasttime
+end
+
+
+local function MaxSize()
+	return IsQuestFlaggedCompleted(37485) and 1000 or 500
+end
+
+
+local function AmountPending()
+	local size = SecondsSinceLastOpened() / 60 / 10
+	return math.min(size, MaxSize())
 end
 
 
 local function Test()
-    if not C_Garrison.IsOnGarrisonMap() then return end
-    return SecondsSinceLastOpened() > (60*10*5)
+	if not ns.InGarrison() then return end
+	return AmountPending() >= (MaxSize() - (24*60/10))
 end
 
 
 function dataobj:Scan()
-    if ns.dbpc[self.name.."-enabled"] and Test() then
-        local myCacheSize = 500
-        for _, cacheSize in pairs(cacheSizeQuestId) do
-            if(_G.IsQuestFlaggedCompleted(cacheSize.questId)) then
-                myCacheSize = cacheSize.size;
-            end
-        end
-        local size = math.min(myCacheSize, math.floor(SecondsSinceLastOpened() / 60 / 10))
-        if not ns.dbcrossspec[name.."-lastopen"] then
-            self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", name)
-            return
-        end
+	if ns.dbpc[self.name.."-enabled"] and Test() then
+		if not ns.dbpc[name.."-lastopen"] then
+			self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", name)
+			return
+		end
 
-        local title = string.format("%s (%d/%d)", name, size, myCacheSize)
-        self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", title)
-    else
-        self.player = nil
-    end
+		local size = AmountPending()
+		local title = string.format("%s (%d)", name, size)
+		self.player = ns.IconLine("Interface\\ICONS\\inv_garrison_resource", title)
+	else
+		self.player = nil
+	end
 end
 
 
 ae.RegisterEvent(dataobj, "ZONE_CHANGED", "Scan")
 ae.RegisterEvent("Cork "..name, "SHOW_LOOT_TOAST", function(event, ...)
-    local _, _, _, _, _, _, lootSource = ...
-    if lootSource == 10 then
-        ns.dbcrossspec[name.."-lastopen"] = time()
-    end
+	local _, _, _, _, _, _, lootSource = ...
+	if lootSource == 10 then
+		ns.dbpc[name.."-lastopen"] = time()
+	end
 
-    dataobj:Scan()
+	dataobj:Scan()
 end)
