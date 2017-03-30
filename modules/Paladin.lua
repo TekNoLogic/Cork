@@ -7,8 +7,8 @@ local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 local spellname, _, icon = GetSpellInfo(25780)
 Cork:GenerateSelfBuffer(spellname, icon)
 
--- Greater Blessings are any combination of 3 blessings across the whole raid.
-local spellnames = {(GetSpellInfo(203538)), (GetSpellInfo(203528)), (GetSpellInfo(203539))}
+-- Greater Blessings are any combination of 2 blessings across the whole raid.
+local spellnames = {(GetSpellInfo(203538)), (GetSpellInfo(203539))}
 local _, _, icon = GetSpellInfo(203538)
 local rolespells = {TANK=1, DAMAGER=2, HEALER=3}
 local dataobj = ldb:NewDataObject("Cork Greater Blessings", {
@@ -46,16 +46,16 @@ function dataobj:Scan(enteringcombat)
   if IsInRaid() then
     for k, _ in pairs(raidunits) do
       count = count + self:Test(k)
-      if count >= 3 then break end
+      if count >= 2 then break end
     end
   elseif IsInGroup() then
     for k, _ in pairs(partyunits) do
       count = count + self:Test(k)
-      if count >= 3 then break end
+      if count >= 2 then break end
     end
   end
-  if count < 3 then
-    self.player = Cork.IconLine(icon, string.format("Greater Blessings (%d)", 3 - count))
+  if count < 2 then
+    self.player = Cork.IconLine(icon, string.format("Greater Blessings (%d)", 2 - count))
   else
     self.player = nil
   end
