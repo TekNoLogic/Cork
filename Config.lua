@@ -83,7 +83,7 @@ frame:SetScript("OnShow", function()
 
 	local function OnClick(self)
 		Cork.dbpc[self.name.."-enabled"] = not Cork.dbpc[self.name.."-enabled"]
-		PlaySound(Cork.dbpc[self.name.."-enabled"] and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
+		PlaySound(Cork.dbpc[self.name.."-enabled"] and SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON or SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
 		self.cork:Scan()
 	end
 
