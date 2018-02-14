@@ -4,7 +4,7 @@ local ae = LibStub("AceEvent-3.0")
 
 
 local maxlevel = GetMaxPlayerLevel()
-local itemname = "Darkmoon EXP Buff"
+local itemname = UnitLevel("player") < maxlevel and "Darkmoon EXP Buff" or "Darkmoon Rep Buff"
 local spellname, _, icon = GetSpellInfo(46668)
 local hatspell = GetSpellInfo(136583)
 local dataobj = ns:GenerateSelfBuffer(itemname, icon, spellname, hatspell)
@@ -17,13 +17,11 @@ end
 
 
 function dataobj:Test()
-	if UnitLevel("player") == maxlevel then return false end
 	return DarkmoonToday() and self:TestWithoutResting()
 end
 
 
 function dataobj:Init()
-	if UnitLevel("player") < maxlevel then OpenCalendar() end
 end
 
 
