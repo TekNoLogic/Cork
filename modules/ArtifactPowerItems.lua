@@ -3,6 +3,7 @@ local myname, ns = ...
 
 
 local EMPOWERING = GetSpellInfo(228647)
+local THROWBACK = GetSpellInfo(221474)
 
 
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
@@ -21,10 +22,12 @@ end
 
 
 local function Test()
+	local fishingrelic = GetItemCount(133755, true) > 0
 	for bag=0,4 do
 		for slot=1,GetContainerNumSlots(bag) do
 			local itemid = GetContainerItemID(bag, slot)
-			if itemid and GetItemSpell(itemid) == EMPOWERING then return itemid end
+			local spellname = itemid and GetItemSpell(itemid)
+			if spellname == EMPOWERING or (fishingrelic and spellname == THROWBACK) then return itemid end
 		end
 	end
 end
