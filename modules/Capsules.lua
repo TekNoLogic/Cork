@@ -32,6 +32,17 @@ local OPENABLE_IDS = {
 	[141990] = true, -- Greater Highmountain Tribe Insignia
 	[141991] = true, -- Greater Wardens Insignia
 	[141992] = true, -- Greater Nightfallen Insignia
+	[129036] = true, -- Ancient Mana Fragment
+	[129097] = true, -- Ancient Mana Gem
+	[129098] = true, -- Ancient Mana Stone
+	[139786] = true, -- Ancient Mana Crystal
+	[139884] = true, -- Ancient Mana Fragments
+	[139890] = true, -- Ancient Mana Gem
+	[141655] = true, -- Shimmering Ancient Mana Cluster
+	[143733] = true, -- Ancient Mana Shards
+	[143734] = true, -- Ancient Mana Crystal Cluster
+	[143735] = true, -- Ancient Mana Shards
+	[143748] = true, -- Leyscale Koi
 }
 
 
