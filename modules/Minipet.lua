@@ -13,7 +13,7 @@ local dataobj = ldb:NewDataObject("Cork Minipet", {
 })
 
 function dataobj:Scan()
-	if Cork.dbpc["Minipet-enabled"] and not C_PetJournal.GetSummonedPetGUID() then
+	if Cork.dbpc["Minipet-enabled"] and not C_PetJournal.GetSummonedPetGUID() and not IsMounted() then
 		dataobj.player = IconLine
 		return
 	end
