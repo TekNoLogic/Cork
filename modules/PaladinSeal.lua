@@ -4,7 +4,7 @@ if Cork.MYCLASS ~= "PALADIN" then return end
 
 
 local myname, Cork = ...
-local UnitAura = UnitAura
+local UnitAura = Cork.UnitAura or UnitAura
 local SpellCastableOnUnit = Cork.SpellCastableOnUnit
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 

@@ -10,7 +10,7 @@ local WQ_ICONLINE = ns.IconLine(WQ_BUFF_ICON, "Bonus event quest")
 -- You have to be 110 to get the weekly bonus events
 if UnitLevel("player") < 110 then return end
 
-
+local UnitAura = ns.UnitAura or UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 

@@ -23,7 +23,7 @@ end
 
 
 function dataobj:Init()
-	if UnitLevel("player") < maxlevel then OpenCalendar() end
+	if UnitLevel("player") < maxlevel then C_Calendar.OpenCalendar() end
 end
 
 
