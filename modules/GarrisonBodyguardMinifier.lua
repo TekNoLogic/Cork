@@ -38,16 +38,15 @@ end
 
 
 local zoneids = {}
-local function ParseSubzones(id, name, ...)
-	zoneids[name] = true
-	if select("#", ...) > 0 then return ParseSubzones(...) end
+-- Get all Draenor (sub)zones where we might use the follower.
+local zones = C_Map.GetMapChildrenInfo(572, Enum.UIMapType.Zone, true)
+for _, zone in ipairs(zones) do
+	zoneids[zone.name] = true
+	local subzones = C_Map.GetMapChildrenInfo(zone.mapID, Enum.UIMapType.Micro, true)
+	for _, subzone in ipairs(subzones) do
+		zoneids[subzone.name] = true
+	end
 end
-local function ParseZones(id, name, ...)
-	zoneids[name] = true
-	ParseSubzones(GetMapSubzones(id))
-	if select("#", ...) > 0 then return ParseZones(...) end
-end
-ParseZones(GetMapZones(7))
 
 
 local orig2 = dataobj.TestWithoutResting

@@ -3,11 +3,11 @@ local myname, ns = ...
 
 
 function ns.IsHolidayActive(name)
-	local _, _, day = CalendarGetDate()
+	local day = C_Calendar.GetDate().monthDay
 	local title, hour, sequenceType
 	local i = 1
 	repeat
-		title, hour, _, _, sequenceType = CalendarGetDayEvent(0, day, i)
+		title, hour, _, _, sequenceType = C_Calendar.GetDayEvent(0, day, i)
 		if title == name then
 			if sequenceType == "START" then
 				return GetGameTime() >= hour

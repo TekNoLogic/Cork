@@ -291,6 +291,10 @@ end)
 --      Shared functions      --
 --------------------------------
 
+function Cork.UnitAura(unit, spellname, filter)
+	return AuraUtil.FindAuraByName(spellname, unit, filter)
+end
+
 function Cork.IsSpellInRange(spell, unit)
 	return IsSpellInRange(spell, unit) == 1
 end

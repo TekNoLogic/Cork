@@ -3,7 +3,7 @@ local myname, Cork = ...
 if Cork.MYCLASS ~= "WARLOCK" then return end
 
 local myname, Cork = ...
-local UnitAura = UnitAura
+local UnitAura = Cork.UnitAura or UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 

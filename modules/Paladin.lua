@@ -1,6 +1,7 @@
 
 local myname, Cork = ...
 if Cork.MYCLASS ~= "PALADIN" then return end
+local UnitAura = Cork.UnitAura or UnitAura
 local ldb, ae = LibStub:GetLibrary("LibDataBroker-1.1"), LibStub("AceEvent-3.0")
 
 -- Righteous Fury
@@ -30,7 +31,7 @@ function dataobj:Test(unit)
     or (not raidunits[unit] and not partyunits[unit] and not otherunits[unit]) then return 0 end
   local count = 0
   for _, spellname in ipairs(spellnames) do
-    if UnitAura(unit, spellname, nil, "PLAYER") then
+    if UnitAura(unit, spellname, "PLAYER") then
       count = count + 1
     end
   end
@@ -66,12 +67,12 @@ function dataobj:CorkIt(frame)
     -- prioritize the first spell based on our role
     local role = GetSpecializationRole(GetSpecialization())
     local rolespell = rolespells[role]
-    if role and not UnitAura("player", spellnames[rolespell], nil, "PLAYER") then -- should this be player-only?
+    if role and not UnitAura("player", spellnames[rolespell], "PLAYER") then -- should this be player-only?
       return frame:SetManyAttributes("type1", "spell", "spell", spellnames[rolespell], "unit", "player")
     end
     -- otherwise just do the spells in order
     for _, spellname in ipairs(spellnames) do
-      if not UnitAura("player", spellname, nil, "PLAYER") then -- should this be player-only?
+      if not UnitAura("player", spellname, "PLAYER") then -- should this be player-only?
         return frame:SetManyAttributes("type1", "spell", "spell", spellname, "unit", "player")
       end
     end

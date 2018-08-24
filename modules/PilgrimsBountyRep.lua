@@ -9,9 +9,22 @@ local spellname, _, icon = GetSpellInfo(61849)
 local dataobj = ns:GenerateSelfBuffer(itemname, icon, spellname)
 ns.defaultspc[itemname.."-enabled"] = true
 
+local localizedNames = {
+	["deDE"] = "Pilgerfreudenfest",
+	["esES"] = "Generosidad del Peregrino",
+	["esMX"] = "Generosidad del Peregrino",
+	["frFR"] = "Les Bienfaits du pèlerin",
+	["itIT"] = "Ringraziamento del Pellegrino",
+	["koKR"] = "순례자의 감사절",
+	["ptBR"] = "Festa da Fartura",
+	["ruRU"] = "Пиршество странников",
+	["zhCN"] = "感恩节",
+	["zhTW"] = "感恩节",
+}
+local holidayName = localizedNames[GetLocale()] or "Pilgrim's Bounty"
 
 local function BountyToday()
-	return ns.IsHolidayActive("Pilgrim's Bounty")
+	return ns.IsHolidayActive(holidayName)
 end
 
 
@@ -22,7 +35,7 @@ end
 
 
 function dataobj:Init()
-	if UnitLevel("player") == maxlevel then OpenCalendar() end
+	if UnitLevel("player") == maxlevel then C_Calendar.OpenCalendar() end
 end
 
 
